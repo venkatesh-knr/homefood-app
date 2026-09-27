@@ -45,7 +45,159 @@
     "body": "HomeFood isn't connected to its database yet. Add the Supabase Project URL and anon key to a file called .env.local, then restart the app.",
     "stepsLink": "See README.md for the steps."
   },
+  "onboarding": {
+    "step1": {
+      "stepLabel": "Step 1 of 2",
+      "title": "Set up your home",
+      "subtitle": "You're the Admin. You can change all of this later.",
+      "homeNameLabel": "Home name",
+      "homeNamePlaceholder": "Our Home",
+      "yourNameLabel": "Your name",
+      "yourNamePlaceholder": "e.g. Amma",
+      "you": "(you)",
+      "language": "Language",
+      "weekStartsOn": "Week starts on",
+      "monday": "Monday",
+      "snacks": "Plan evening snacks",
+      "whoLivesHere": "Who lives here",
+      "peopleCount": "{{count}} in this home",
+      "loginsCount": "{{count}} with login",
+      "whoLivesHereHint": "Add everyone who eats at home. Only people who want to vote, comment or plan need a login.",
+      "addPerson": "Add a person",
+      "addPersonHint": "For each person: name and birth year. Sex, activity level and allergies are optional and used only for nutrition tips and allergy warnings.",
+      "next": "Next: invite family",
+      "errors": {
+        "homeName": "Enter a home name (up to 60 characters).",
+        "yourName": "Enter your name (up to 40 characters)."
+      }
+    }
+  },
+  "people": {
+    "admin": "Admin",
+    "signedIn": "Signed in",
+    "willLogIn": "Will log in",
+    "noLogin": "No login",
+    "cookOnly": "Cook only",
+    "joined": "Joined",
+    "invited": "Invited",
+    "familyMember": "Family member",
+    "helperDetail": "Helper · not counted in servings",
+    "allergyLabel": "allergy: {{list}}",
+    "ageBand": {
+      "child": "Child",
+      "teen": "Teen",
+      "adult": "Adult",
+      "senior": "Senior"
+    },
+    "form": {
+      "titleAdd": "Add a person",
+      "titleEdit": "Edit person",
+      "name": "Name",
+      "namePlaceholder": "Their name",
+      "kind": "Family or helper",
+      "kindFamily": "Family",
+      "kindHelper": "Helper (cook only)",
+      "usesApp": "Uses the app",
+      "birthYear": "Birth year (optional)",
+      "sex": "Sex (optional)",
+      "sexUnspecified": "Prefer not to say",
+      "sexFemale": "Female",
+      "sexMale": "Male",
+      "sexOther": "Other",
+      "activity": "Activity level (optional)",
+      "activityUnspecified": "Not set",
+      "activityLight": "Light",
+      "activityModerate": "Moderate",
+      "activityActive": "Active",
+      "allergies": "Allergies (optional)",
+      "allergiesPlaceholder": "Type an allergy and press Enter",
+      "save": "Save",
+      "cancel": "Cancel",
+      "errors": {
+        "name": "Enter a name (up to 40 characters).",
+        "birthYear": "Enter a 4-digit year between 1900 and {{year}}."
+      }
+    },
+    "removeConfirm": "Remove {{name}}?",
+    "removeYes": "Yes, remove",
+    "removeNo": "Cancel",
+    "removeAction": "Remove",
+    "editAction": "Edit"
+  },
+  "invite": {
+    "stepLabel": "Step 2 of 2",
+    "title": "Invite your family",
+    "subtitle": "Send one link to the family group. Each person taps it and picks their name.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy — long-press the link to copy it.",
+    "shareWhatsApp": "Share on WhatsApp",
+    "shareText": "Join {{home}} on HomeFood: {{url}}",
+    "showQr": "Show QR code",
+    "hideQr": "Hide QR code",
+    "qrHint": "Family members scan this with their phone camera",
+    "footer": "Works only for {{home}} · expires in {{days}} days · you can cancel it anytime",
+    "expiredFooter": "This link has expired.",
+    "revokedFooter": "This link was cancelled.",
+    "createNew": "Create a new invite link",
+    "cancelLink": "Cancel this link",
+    "whoHasJoined": "Who has joined",
+    "noLoginFootnote": "{{names}} don't need a login. You can plan and record meals for them.",
+    "gettingStarted": "Getting started · {{done}} of {{total}}",
+    "steps": {
+      "people": "Add who lives here",
+      "invite": "Invite family members",
+      "plan": "Plan your first meal",
+      "publish": "Publish the week",
+      "poster": "Open the Week at a glance poster"
+    },
+    "cta": "Plan your first week"
+  },
+  "join": {
+    "invitedBy": "{{name}} invited you to join",
+    "invitedByFallback": "You've been invited to join",
+    "onHomeFood": "on HomeFood · {{count}} in the family",
+    "whichOneIsYou": "Which one is you?",
+    "alreadyJoined": "Already joined",
+    "member": "Member",
+    "notListed": "Not listed? Ask {{name}} to add you first.",
+    "notListedFallback": "Not listed? Ask whoever invited you to add you first.",
+    "privacyNotice": "Only {{home}}'s members see what you share here. We store your email for sign-in and nothing from social media.",
+    "pickToContinue": "Pick your name to continue",
+    "continueAs": "Continue as {{name}}",
+    "emailHint": "We'll email you a 6-digit code. No password.",
+    "nameTaken": "That name was just taken. Pick another, or ask the Admin to add you.",
+    "expired": "This invite link has expired or was cancelled.",
+    "askForNew": "Ask whoever invited you for a new link.",
+    "everyoneJoined": "Everyone has already joined. Ask an Admin for a new invite link.",
+    "alreadyInHome": "You already belong to a home.",
+    "goToApp": "Go to your home",
+    "loading": "Loading the invite…"
+  },
+  "shell": {
+    "nav": {
+      "today": "Today",
+      "week": "Week",
+      "dishes": "Dishes",
+      "home": "Home"
+    }
+  },
+  "placeholder": {
+    "today": "Today's meals will show up here soon.",
+    "week": "The week planner is coming in the next build step.",
+    "dishes": "The dish catalogue is coming in the next build step."
+  },
+  "home": {
+    "household": "Household",
+    "people": "People",
+    "invite": "Invite family",
+    "addAnotherPerson": "Add a person"
+  },
   "common": {
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "add": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "error": "Something went wrong. Please try again."
   }
 }
