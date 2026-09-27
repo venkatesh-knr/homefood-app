@@ -1,0 +1,51 @@
+{
+  "app": {
+    "name": "HomeFood",
+    "tagline": "Plan your family's meals together"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "ta": "தமிழ்"
+  },
+  "signIn": {
+    "emailLabel": "Your email",
+    "emailPlaceholder": "name@example.com",
+    "sendCode": "Send me a code",
+    "sending": "Sending…",
+    "noPassword": "No password needed. We email you a 6-digit code the first time you sign in on a phone or computer.",
+    "sentTo": "We sent a 6-digit code to {{email}}",
+    "codeLabel": "Enter the code",
+    "continue": "Continue",
+    "checking": "Checking…",
+    "changeEmail": "Change email",
+    "resend": "Send a new code",
+    "resendIn": "New code in {{seconds}}s",
+    "expires": "The code expires in 10 minutes.",
+    "joiningHint": "Joining your family? Open the invite link they sent you.",
+    "errors": {
+      "invalidEmail": "Please enter a valid email address.",
+      "invalidCode": "The code should be 6 digits.",
+      "wrongCode": "That code didn't work. Check it, or send a new one.",
+      "tooMany": "Too many tries. Please wait a few minutes and try again.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "welcome": {
+    "title": "You're signed in",
+    "signedInAs": "Signed in as {{email}}",
+    "noHomeYet": "You're not part of a home yet.",
+    "createHome": "Set up a new home",
+    "joinHint": "If your family already uses HomeFood, open the invite link they sent you instead.",
+    "comingNext": "Home setup is the next build step.",
+    "signOut": "Sign out"
+  },
+  "setup": {
+    "title": "Almost ready",
+    "body": "HomeFood isn't connected to its database yet. Add the Supabase Project URL and anon key to a file called .env.local, then restart the app.",
+    "stepsLink": "See README.md for the steps."
+  },
+  "common": {
+    "loading": "Loading…"
+  }
+}

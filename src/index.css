@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* HomeFood design tokens — match the mockups on the design canvas */
+@theme {
+  --color-cream: #fff8ee;
+  --color-sand: #f4ecdf;
+  --color-line: #eadfcb;
+  --color-line-strong: #cdbfa8;
+  --color-ink: #2b2622;
+  --color-ink-soft: #4a3f37;
+  --color-muted: #6e6259;
+  --color-saffron: #e08a00;
+  --color-saffron-ink: #8a4b00;
+  --color-saffron-tint: #fff1db;
+  --color-leaf: #2f7a3e;
+  --color-leaf-tint: #e7f1e8;
+  --color-alert: #b3261e;
+  --color-alert-tint: #fdecea;
+
+  --color-meal-breakfast: #f2b705;
+  --color-meal-lunch: #2f7a3e;
+  --color-meal-snacks: #e8742a;
+  --color-meal-dinner: #3b4a9c;
+
+  --font-sans: "Noto Sans", "Noto Sans Tamil", system-ui, sans-serif;
+  --font-display: "Poppins", "Noto Sans Tamil", system-ui, sans-serif;
+  --font-tamil: "Noto Sans Tamil", "Noto Sans", sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:lang(ta) {
+  font-family: var(--font-tamil);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-saffron);
+  outline-offset: 2px;
+}

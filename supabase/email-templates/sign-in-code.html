@@ -1,0 +1,11 @@
+<!-- Paste into Supabase › Authentication › Emails › "Magic Link" template.
+     Subject: Your HomeFood code: {{ .Token }} -->
+<div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; color: #2b2622; background: #fff8ee;">
+  <h2 style="margin: 0 0 8px;">HomeFood</h2>
+  <p style="margin: 0 0 16px;">Your sign-in code is:</p>
+  <p style="font-size: 32px; font-weight: bold; letter-spacing: 8px; margin: 0 0 16px;">{{ .Token }}</p>
+  <p style="margin: 0 0 16px;">It expires in 10 minutes. If you didn't ask for it, you can ignore this email.</p>
+  <hr style="border: none; border-top: 1px solid #eadfcb; margin: 16px 0;">
+  <p style="margin: 0 0 8px;">உங்கள் உள்நுழைவு குறியீடு: <strong>{{ .Token }}</strong></p>
+  <p style="margin: 0; color: #6e6259;">இது 10 நிமிடங்களில் காலாவதியாகும்.</p>
+</div>
