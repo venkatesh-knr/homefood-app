@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recipe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1650px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 16px 6px 8px">
+<a href="DishDetail.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">Ven Pongal recipe</span>
+<span style="font-size: 12px; color: #6E6259">Prep 10 min · cook 20 min · family version by Amma</span>
+</div>
+</div>
+
+<div style="margin: 10px 16px 0; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14.5px; font-weight: 600">Servings</span>
+<span style="font-size: 12.5px; color: #6E6259">{{servingNote}}</span>
+</span>
+<span style="display: flex; align-items: center; gap: 4px">
+<button type="button" aria-label="Fewer servings" onClick="{{less}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 22px; cursor: pointer">−</button>
+<span aria-live="polite" style="width: 40px; text-align: center; font-family: Poppins, sans-serif; font-weight: 700; font-size: 22px">{{servings}}</span>
+<button type="button" aria-label="More servings" onClick="{{more}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 22px; cursor: pointer">+</button>
+</span>
+</div>
+
+<div style="margin: 10px 16px 0; padding: 10px 14px; border-radius: 14px; background: {{cookBg}}; display: flex; align-items: center; justify-content: space-between; font-size: 14px">
+<span style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-weight: 600">Cook mode</span>
+<span style="font-size: 12.5px; color: #4A3F37">Keeps the screen on and makes text bigger</span>
+</span>
+<button type="button" role="switch" aria-checked="{{cookOn}}" aria-label="Cook mode" onClick="{{toggleCook}}" style="width: 52px; height: 32px; border-radius: 999px; border: none; background: {{switchBg}}; position: relative; cursor: pointer; padding: 0">
+<span style="position: absolute; top: 3px; left: {{knob}}; width: 26px; height: 26px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span>
+</button>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px; padding: 20px 20px 8px">Ingredients</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 4px 14px">
+<sc-for list="{{ingredients}}" as="i" hint-placeholder-count="10">
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: {{i.divider}}; font-size: {{textSize}}">
+<span style="display: flex; flex-direction: column; gap: 1px">
+<span>{{i.name}}</span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12px; color: #6E6259">{{i.ta}}</span>
+</span>
+<span style="font-weight: 600; white-space: nowrap">{{i.qty}}</span>
+</div>
+</sc-for>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px; padding: 20px 20px 8px">Steps · {{doneText}}</span>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="6">
+<button type="button" role="checkbox" aria-checked="{{s.checked}}" onClick="{{s.toggle}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: {{s.bg}}; border: 1px solid #EADFCB; color: #2B2622">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: {{s.numBg}}; color: {{s.numInk}}; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0">{{s.mark}}</span>
+<span style="font-size: {{textSize}}; line-height: 1.45; color: {{s.ink}}">{{s.text}}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="margin: 16px 16px 0; padding: 12px 14px; border-radius: 14px; background: #F4ECDF; font-size: 13px; color: #4A3F37; line-height: 1.5">
+Serve with sambar and coconut chutney. Recipe drafted by Claude and edited by Amma for Our Home. Other homes see the standard version.
+</div>
+
+<div style="margin-top: auto; padding: 16px 16px 24px; border-top: 1px solid #EADFCB; display: flex; gap: 10px">
+<a href="https://www.youtube.com/results?search_query=ven+pongal+recipe" style="height: 50px; padding: 0 16px; border-radius: 14px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 14.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; text-decoration: none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"></rect><path d="M10 9l5 3-5 3z" fill="#B3261E"></path></svg>Watch</a>
+<button type="button" style="flex-grow: 1; height: 50px; border-radius: 14px; border: none; background: #2B2622; color: #FFF8EE; font-size: 15px; font-weight: 600; cursor: pointer">Edit our version</button>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1650}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { servings: 5, cook: false, done: { 0: true } };
+  }
+  renderVals() {
+    const s = this.state;
+    const f = s.servings / 4;
+    const fmt = (n) => {
+      const r = Math.round(n * 4) / 4;
+      const whole = Math.floor(r), frac = r - whole;
+      const fr = frac === 0.25 ? '¼' : frac === 0.5 ? '½' : frac === 0.75 ? '¾' : '';
+      return whole === 0 ? (fr || '¼') : whole + fr;
+    };
+    const base = [
+      ['Raw rice', 'பச்சரிசி', 1, 'cup'], ['Moong dal (split yellow)', 'பாசிப்பருப்பு', 0.5, 'cup'],
+      ['Water', 'தண்ணீர்', 4.5, 'cups'], ['Ghee', 'நெய்', 3, 'tbsp'], ['Black pepper, whole', 'மிளகு', 1, 'tsp'],
+      ['Cumin seeds', 'சீரகம்', 1, 'tsp'], ['Ginger, grated', 'இஞ்சி', 1, 'tsp'], ['Cashews', 'முந்திரி', 10, ''],
+      ['Curry leaves', 'கறிவேப்பிலை', 1, 'sprig'], ['Salt', 'உப்பு', null, 'to taste']
+    ];
+    const ingredients = base.map(([name, ta, q, unit], idx) => ({
+      name, ta, divider: idx === 0 ? 'none' : '1px solid #F1E7D6',
+      qty: q === null ? unit : (name === 'Cashews' ? Math.round(q * f) : fmt(q * f)) + (unit ? ' ' + unit : '')
+    }));
+    const texts = [
+      'Dry roast the moong dal on low heat until it smells nutty, about 3 minutes.',
+      'Wash the rice and dal together. Pressure cook with the water and salt for 4 to 5 whistles.',
+      'Let the pressure drop, open and mash lightly with a ladle.',
+      'Heat the ghee. Fry the cashews golden, then add pepper, cumin, ginger and curry leaves.',
+      'Pour the tempering over the pongal and mix well. Add a little hot water if it is too thick.',
+      'Serve hot with sambar and coconut chutney.'
+    ];
+    const steps = texts.map((text, i) => {
+      const d = !!s.done[i];
+      return { text, checked: d ? 'true' : 'false', mark: d ? '✓' : String(i + 1),
+        bg: d ? '#F4ECDF' : '#FFFFFF', numBg: d ? '#2F7A3E' : '#F1E7D6', numInk: d ? '#FFFFFF' : '#2B2622', ink: d ? '#6E6259' : '#2B2622',
+        toggle: () => this.setState({ done: { ...s.done, [i]: !d } }) };
+    });
+    const doneCount = Object.values(s.done).filter(Boolean).length;
+    return {
+      servings: s.servings, ingredients, steps,
+      servingNote: s.servings === 5 ? 'Everyone eating this meal' : 'Scaled from 4',
+      less: () => this.setState({ servings: Math.max(1, s.servings - 1) }),
+      more: () => this.setState({ servings: Math.min(20, s.servings + 1) }),
+      cookOn: s.cook ? 'true' : 'false', switchBg: s.cook ? '#2F7A3E' : '#CDBFA8', knob: s.cook ? '23px' : '3px',
+      cookBg: s.cook ? '#E7F1E8' : '#FFFFFF', toggleCook: () => this.setState({ cook: !s.cook }),
+      textSize: s.cook ? '17px' : '14.5px',
+      doneText: doneCount + ' of ' + texts.length + ' done'
+    };
+  }
+}
+</script>
+</body>
+</html>

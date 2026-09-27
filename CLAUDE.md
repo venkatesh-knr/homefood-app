@@ -5,7 +5,8 @@ Web app first (installable PWA), wrapped for Android/iOS with Capacitor later.
 Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase dashboard steps himself.
 
 - Spec & design doc: "HomeFood — Spec & Design" (Claude Docs) — the source of truth for features.
-- Mockups: "HomeFood Mockups" canvas, 16 screens — follow their layout and colours.
+- **Mockups: `design/mockups/`** — 16 screens as PNGs (visual reference) plus their `.dc.html` source; index in `design/mockups/README.md`.
+  Follow their layout, spacing, colours and copy. Step 2 screens: `SetupHome.png`, `Invite.png`, `Join.png`.
 - Requirements (28 points) and decisions live in the claude.ai Project "HomeFood".
 
 ## Decisions that must not be changed without asking
@@ -84,6 +85,10 @@ src/App.tsx             chooses page by isConfigured / loading / session
 - [ ] Step 7 · Family trial (2 weeks)
 
 ### Step 2 · Home setup — scope
+
+Mockups: `design/mockups/png/SetupHome.png` (Step 1 of 2: home name, language, week starts Monday, plan-snacks toggle, "Who lives here" list),
+`Invite.png` (Step 2 of 2: link, WhatsApp, QR, who has joined, getting-started checklist), `Join.png` (pick "which one is you").
+First run is this 2-step flow; afterwards the Admin reaches the same People + Invite sections from the Home tab.
 
 1. **Routing:** start using react-router-dom. Signed-in user with no profile → setup/join; with a profile → app shell.
    Load "my profile + household" once (react-query) and share it.

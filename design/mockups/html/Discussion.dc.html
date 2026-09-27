@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meal discussion</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 16px 6px 8px">
+<a href="Today.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px">Wednesday snacks</span>
+<span style="font-size: 12px; color: #6E6259">30 Sep · சிற்றுண்டி</span>
+</div>
+</div>
+
+<div style="margin: 10px 16px 0; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 14px; align-items: center">
+<span style="width: 72px; height: 72px; border-radius: 50%; background: #F3D27A; color: #2B2622; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 26px; flex-shrink: 0; box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px #E8742A">B</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px">Bajji + tea</span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 13px; color: #6E6259">பஜ்ஜி</span>
+<span style="font-size: 13px; color: #4A3F37">Cooked by Paati · planned by Amma</span>
+</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: #F1E7D6">
+<span style="width: {{upPct}}; background: #2F7A3E"></span>
+<span style="width: {{downPct}}; background: #B3261E"></span>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 12.5px; color: #4A3F37">
+<span>{{upText}}</span>
+<span>{{downText}}</span>
+</div>
+</div>
+<div style="display: flex; gap: 8px">
+<button type="button" aria-pressed="{{agreePressed}}" onClick="{{agree}}" style="flex-grow: 1; height: 44px; border-radius: 12px; border: {{agreeBorder}}; background: {{agreeBg}}; color: {{agreeInk}}; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4V10h3zM7 10l4-7a2 2 0 0 1 3 2l-1 5h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"></path></svg>Agree</button>
+<button type="button" aria-pressed="{{disPressed}}" onClick="{{disagree}}" style="flex-grow: 1; height: 44px; border-radius: 12px; border: {{disBorder}}; background: {{disBg}}; color: {{disInk}}; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(180 12 12)"><path d="M7 10v11H4V10h3zM7 10l4-7a2 2 0 0 1 3 2l-1 5h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"></path></g></svg>Disagree</button>
+</div>
+</div>
+
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259; padding: 20px 20px 8px">Suggestion</span>
+<div style="margin: 0 16px; background: #EEF0FA; border: 1px solid #C9CEEB; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 12px; align-items: center">
+<span style="width: 48px; height: 48px; border-radius: 50%; background: #A9C98F; color: #2B2622; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px; flex-shrink: 0">S</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 600">Sundal instead</span>
+<span style="font-size: 12.5px; color: #2C3777">Suggested by Arun · fried dishes are already 4 this week</span>
+</span>
+</div>
+<sc-if value="{{pending}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 12.5px; color: #2C3777; flex-grow: 1">Amma (Planner) decides</span>
+<button type="button" onClick="{{swap}}" style="height: 36px; padding: 0 12px; border-radius: 10px; border: none; background: #3B4A9C; color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer">Swap in sundal</button>
+<button type="button" onClick="{{keep}}" style="height: 36px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #9AA3D6; background: transparent; color: #2C3777; font-size: 13px; font-weight: 600; cursor: pointer">Keep bajji</button>
+</div>
+</sc-if>
+<sc-if value="{{decided}}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 13px; font-weight: 600; color: #2C3777">{{decisionText}}</span>
+</sc-if>
+</div>
+
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259; padding: 20px 20px 8px">Comments</span>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 0 16px">
+<sc-for list="{{comments}}" as="c" hint-placeholder-count="3">
+<div style="display: flex; gap: 10px; align-items: flex-start">
+<span style="width: 34px; height: 34px; border-radius: 50%; background: {{c.bg}}; color: #FFFFFF; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">{{c.ini}}</span>
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 4px 16px 16px 16px; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; flex-grow: 1">
+<span style="display: flex; justify-content: space-between; font-size: 12.5px"><span style="font-weight: 600">{{c.name}}</span><span style="color: #6E6259">{{c.time}}</span></span>
+<span style="font-size: 14px; line-height: 1.4">{{c.text}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top: auto; padding: 12px 16px 22px; border-top: 1px solid #EADFCB; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 8px; align-items: center">
+<label for="comment" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Add a comment</label>
+<input id="comment" type="text" value="{{draft}}" onChange="{{type}}" placeholder="Add a comment (English or தமிழ்)" style="flex-grow: 1; min-width: 0; height: 46px; padding: 0 14px; border-radius: 14px; border: 1px solid #CDBFA8; background: #FFF8EE; font-size: 14.5px; color: #2B2622">
+<button type="button" aria-label="Post comment" onClick="{{post}}" style="width: 46px; height: 46px; border-radius: 14px; border: none; background: #2B2622; color: #FFF8EE; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l16-8-6 16-2-7-8-1z"></path></svg>
+</button>
+</div>
+<a href="DishPicker.dc.html" style="height: 44px; border-radius: 14px; border: 1.5px dashed #B98A4A; color: #8A4B00; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Suggest a different dish</a>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      vote: 'down', decision: null, draft: '',
+      comments: [
+        { name:'Paati', ini:'P', bg:'#2F7A3E', time:'8:10 am', text:'மழை நாளுக்கு பஜ்ஜி நல்லது. Raw banana is ready.' },
+        { name:'Arun', ini:'A', bg:'#4A3F37', time:'8:32 am', text:'Can we have sundal? We already have samosa on Friday.' },
+        { name:'Appa', ini:'A', bg:'#3B4A9C', time:'9:05 am', text:'Either is fine for me. Less oil please.' }
+      ]
+    };
+  }
+  renderVals() {
+    const v = this.state.vote;
+    const up = 2 + (v === 'up' ? 1 : 0), down = 1 + (v === 'down' ? 1 : 0), total = up + down;
+    const d = this.state.decision;
+    const off = '1px solid #CDBFA8';
+    return {
+      upPct: Math.round(up / total * 100) + '%', downPct: Math.round(down / total * 100) + '%',
+      upText: up + ' agree', downText: down + ' disagree' + (v === 'down' ? ' (you)' : ''),
+      agreePressed: v === 'up' ? 'true' : 'false', disPressed: v === 'down' ? 'true' : 'false',
+      agreeBorder: v === 'up' ? '2px solid #2F7A3E' : off, agreeBg: v === 'up' ? '#E7F1E8' : '#FFFFFF', agreeInk: v === 'up' ? '#1F5A2C' : '#2B2622',
+      disBorder: v === 'down' ? '2px solid #B3261E' : off, disBg: v === 'down' ? '#FDECEA' : '#FFFFFF', disInk: v === 'down' ? '#8C1D18' : '#2B2622',
+      agree: () => this.setState({ vote: v === 'up' ? null : 'up' }),
+      disagree: () => this.setState({ vote: v === 'down' ? null : 'down' }),
+      pending: !d, decided: !!d,
+      decisionText: d === 'swap' ? 'Amma swapped in sundal · everyone notified' : 'Amma kept bajji · everyone notified',
+      swap: () => this.setState({ decision: 'swap' }), keep: () => this.setState({ decision: 'keep' }),
+      comments: this.state.comments, draft: this.state.draft,
+      type: (e) => this.setState({ draft: e.target.value }),
+      post: () => {
+        const t = this.state.draft.trim();
+        if (!t) return;
+        this.setState({ draft: '', comments: [...this.state.comments, { name:'Kavi (you)', ini:'K', bg:'#B3261E', time:'now', text:t }] });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

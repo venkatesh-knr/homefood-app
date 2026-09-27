@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pick a dish</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 16px 6px 8px">
+<a href="SlotEditor.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px">Pick a main dish</span>
+<span style="font-size: 12px; color: #6E6259">Wednesday dinner · 30 Sep</span>
+</div>
+</div>
+
+<div style="padding: 8px 16px 0">
+<label for="search" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search dishes</label>
+<div style="display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #CDBFA8; color: #6E6259">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+<input id="search" type="search" placeholder="Search in English or தமிழ்" style="border: none; outline: none; background: transparent; font-size: 15px; color: #2B2622; flex-grow: 1; min-width: 0">
+</div>
+</div>
+
+<div style="display: flex; gap: 10px; padding: 12px 16px 0">
+<button type="button" style="flex-grow: 1; height: 46px; border-radius: 14px; border: 1.5px dashed #B98A4A; background: transparent; color: #8A4B00; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add new dish</button>
+<button type="button" style="flex-grow: 1; height: 46px; border-radius: 14px; border: 1.5px dashed #B98A4A; background: transparent; color: #8A4B00; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v12H4z"></path><circle cx="12" cy="14" r="4"></circle></svg>Snap a dish</button>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 16px 0">
+<sc-for list="{{cuisines}}" as="c" hint-placeholder-count="6">
+<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="height: 36px; padding: 0 14px; border-radius: 999px; border: {{c.border}}; background: {{c.bg}}; color: {{c.ink}}; font-size: 13.5px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 16px 0">
+<span style="height: 32px; padding: 0 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #EADFCB; font-size: 13px; display: flex; align-items: center; gap: 6px">Main <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6E6259" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+<span style="height: 32px; padding: 0 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #EADFCB; font-size: 13px; display: flex; align-items: center; gap: 6px">Any diet <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6E6259" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+<span style="height: 32px; padding: 0 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #EADFCB; font-size: 13px; display: flex; align-items: center; gap: 6px">Dinner <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6E6259" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+<span style="height: 32px; padding: 0 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #EADFCB; font-size: 13px; display: flex; align-items: center; gap: 6px">Safe for everyone eating</span>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 18px 20px 8px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px">{{countText}}</span>
+<span style="font-size: 12.5px; color: #6E6259">Sorted by family favourites</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px">
+<sc-for list="{{dishes}}" as="d" hint-placeholder-count="7">
+<button type="button" aria-pressed="{{d.pressed}}" onClick="{{d.pick}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 16px; background: #FFFFFF; border: {{d.border}}; color: #2B2622">
+<span style="width: 56px; height: 56px; border-radius: 50%; background: {{d.tone}}; color: {{d.iniInk}}; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px; flex-shrink: 0">{{d.ini}}</span>
+<span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; flex-grow: 1">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 2px; border: 1.5px solid {{d.dietColor}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><span style="width: 5px; height: 5px; border-radius: 50%; background: {{d.dietColor}}"></span></span><span style="font-size: 15.5px; font-weight: 600">{{d.name}}</span></span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12.5px; color: #6E6259">{{d.ta}}</span>
+<span style="font-size: 12.5px; color: #6E6259">{{d.meta}}</span>
+<sc-if value="{{d.hasNote}}" hint-placeholder-val="{{ false }}">
+<span style="align-self: flex-start; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{d.noteBg}}; color: {{d.noteInk}}">{{d.note}}</span>
+</sc-if>
+</span>
+<sc-if value="{{d.selected}}" hint-placeholder-val="{{ false }}">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: #E08A00; color: #2B2622; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+</sc-if>
+</button>
+</sc-for>
+</div>
+
+<div style="margin-top: auto; padding: 16px 16px 24px; border-top: 1px solid #EADFCB; display: flex; flex-direction: column; gap: 8px">
+<a href="SlotEditor.dc.html" style="height: 50px; border-radius: 14px; background: #2B2622; color: #FFF8EE; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-decoration: none">{{useText}}</a>
+<span style="font-size: 12px; color: #6E6259; text-align: center">Diet mark: green = veg, brown = egg, red = non-veg</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { cuisine: 'all', picked: 'teriyaki' };
+  }
+  renderVals() {
+    const T = {rice:'#EFE3C8', gold:'#F3D27A', red:'#D9643A', brown:'#C08A5B', dark:'#6B4A3A'};
+    const DARK = {red:true, brown:true, dark:true};
+    const DIET = {veg:'#2F7A3E', egg:'#8A5A00', non:'#B3261E'};
+    const ALL = [
+      {id:'dosa', name:'Dosa', ta:'தோசை', cuisine:'south', cuisineLabel:'South Indian', diet:'veg', tone:'gold', note:'Family favourite', kind:'fav'},
+      {id:'teriyaki', name:'Chicken teriyaki', ta:'சிக்கன் தெரியாக்கி', cuisine:'japanese', cuisineLabel:'Japanese', diet:'non', tone:'dark', note:'Contains soy · affects Paati', kind:'allergy'},
+      {id:'chapati', name:'Chapati with kurma', ta:'சப்பாத்தி குருமா', cuisine:'north', cuisineLabel:'North Indian', diet:'veg', tone:'brown', note:'', kind:''},
+      {id:'paneer', name:'Paneer butter masala', ta:'பனீர் பட்டர் மசாலா', cuisine:'north', cuisineLabel:'North Indian', diet:'veg', tone:'red', note:'Had last Saturday', kind:'recent'},
+      {id:'idiyappam', name:'Idiyappam with stew', ta:'இடியாப்பம்', cuisine:'south', cuisineLabel:'South Indian', diet:'veg', tone:'rice', note:'', kind:''},
+      {id:'pasta', name:'Pasta aglio e olio', ta:'பாஸ்தா', cuisine:'european', cuisineLabel:'European', diet:'veg', tone:'gold', note:'', kind:''},
+      {id:'katsu', name:'Katsu curry', ta:'கட்சு கறி', cuisine:'japanese', cuisineLabel:'Japanese', diet:'non', tone:'brown', note:'Contains egg, wheat', kind:'info'},
+      {id:'omelette', name:'Masala omelette', ta:'மசாலா ஆம்லெட்', cuisine:'my', cuisineLabel:'My dishes', diet:'egg', tone:'gold', note:'Added by Amma', kind:'mine'}
+    ];
+    const NOTE = {fav:['#E7F1E8','#1F5A2C'], allergy:['#FDECEA','#8C1D18'], recent:['#F4ECDF','#4A3F37'], info:['#F4ECDF','#4A3F37'], mine:['#EEF0FA','#2C3777']};
+    const cf = this.state.cuisine;
+    const cuisines = [['all','All'],['south','South Indian'],['north','North Indian'],['european','European'],['japanese','Japanese'],['my','My dishes']].map(([id, label]) => {
+      const on = cf === id;
+      return { label, pressed: on ? 'true' : 'false', bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622',
+        border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8', pick: () => this.setState({ cuisine: id }) };
+    });
+    const list = ALL.filter(d => cf === 'all' || d.cuisine === cf);
+    const dishes = list.map(d => {
+      const sel = this.state.picked === d.id;
+      const dietWord = d.diet === 'veg' ? 'Veg' : d.diet === 'egg' ? 'Egg' : 'Non-veg';
+      return { ...d, ini: d.name.charAt(0), tone: T[d.tone], iniInk: DARK[d.tone] ? '#FFF8EE' : '#2B2622',
+        dietColor: DIET[d.diet], meta: d.cuisineLabel + ' · ' + dietWord,
+        hasNote: !!d.note, noteBg: d.kind ? NOTE[d.kind][0] : '#FFFFFF', noteInk: d.kind ? NOTE[d.kind][1] : '#2B2622',
+        selected: sel, pressed: sel ? 'true' : 'false', border: sel ? '2px solid #E08A00' : '1px solid #EADFCB',
+        pick: () => this.setState({ picked: d.id }) };
+    });
+    const picked = ALL.find(d => d.id === this.state.picked);
+    return { cuisines, dishes,
+      countText: list.length + (list.length === 1 ? ' dish' : ' dishes'),
+      useText: picked ? 'Use ' + picked.name : 'Pick a dish' };
+  }
+}
+</script>
+</body>
+</html>

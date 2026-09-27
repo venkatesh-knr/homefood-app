@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Today</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 12px 4px 20px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; color: #6E6259">Wednesday 30 Sep · புதன்</span>
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 24px">Good morning, Kavi</span>
+</div>
+<button type="button" aria-label="Notifications, 1 new" style="position: relative; width: 44px; height: 44px; border: none; background: transparent; color: #2B2622; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg>
+<span style="position: absolute; top: 9px; right: 10px; width: 9px; height: 9px; border-radius: 50%; background: #C2410C; border: 2px solid #FFF8EE"></span>
+</button>
+</div>
+
+<section aria-label="Next meal" style="margin: 14px 16px 0; background: #FFFFFF; border: 2px solid #E08A00; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A4B00"><span style="width: 10px; height: 10px; border-radius: 50%; background: #2F7A3E"></span>Next up · Lunch</span>
+<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: #F4ECDF; color: #4A3F37">Home</span>
+</div>
+<div style="display: flex; gap: 16px; align-items: center">
+<button type="button" aria-label="See curd rice photo" style="width: 92px; height: 92px; border-radius: 50%; border: none; background: #EFE3C8; color: #2B2622; font-family: Poppins, sans-serif; font-weight: 600; font-size: 34px; flex-shrink: 0; cursor: pointer; box-shadow: 0 0 0 4px #FFFFFF, 0 0 0 6px #2F7A3E">C</button>
+<div style="display: flex; flex-direction: column; gap: 3px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 21px">Curd rice</span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 13.5px; color: #6E6259">தயிர் சாதம்</span>
+<span style="font-size: 13.5px; color: #4A3F37">+ mango pickle · cooked by Helper</span>
+</div>
+</div>
+<div style="display: flex; gap: 8px">
+<button type="button" aria-pressed="{{lunch.agreePressed}}" onClick="{{lunch.agree}}" style="flex-grow: 1; height: 46px; border-radius: 14px; border: {{lunch.agreeBorder}}; background: {{lunch.agreeBg}}; color: {{lunch.agreeInk}}; font-size: 14.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4V10h3zM7 10l4-7a2 2 0 0 1 3 2l-1 5h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"></path></svg>Agree · {{lunch.up}}</button>
+<button type="button" aria-pressed="{{lunch.disPressed}}" onClick="{{lunch.disagree}}" style="flex-grow: 1; height: 46px; border-radius: 14px; border: {{lunch.disBorder}}; background: {{lunch.disBg}}; color: {{lunch.disInk}}; font-size: 14.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(180 12 12)"><path d="M7 10v11H4V10h3zM7 10l4-7a2 2 0 0 1 3 2l-1 5h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"></path></g></svg>Disagree · {{lunch.down}}</button>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 13px">
+<a href="Discussion.dc.html" style="font-weight: 600">1 comment · Suggest a dish</a>
+<a href="#recipe" style="font-weight: 600">Recipe</a>
+</div>
+</section>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px; padding: 22px 20px 10px">Rest of today</span>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 0 16px">
+<sc-for list="{{meals}}" as="m" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px; opacity: {{m.opacity}}">
+<div style="display: flex; gap: 12px; align-items: center">
+<span style="width: 52px; height: 52px; border-radius: 50%; background: {{m.tone}}; color: {{m.iniInk}}; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px; flex-shrink: 0; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px {{m.band}}">{{m.ini}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1; min-width: 0">
+<span style="font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259">{{m.meal}}</span>
+<span style="font-size: 15.5px; font-weight: 600">{{m.main}}</span>
+<span style="font-size: 12.5px; color: #6E6259">{{m.detail}}</span>
+</span>
+<sc-if value="{{m.done}}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C">You ate this</span>
+</sc-if>
+</div>
+<sc-if value="{{m.open}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 8px; border-top: 1px solid #F1E7D6; padding-top: 10px">
+<button type="button" aria-label="{{m.agreeLabel}}" aria-pressed="{{m.agreePressed}}" onClick="{{m.agree}}" style="height: 36px; padding: 0 12px; border-radius: 10px; border: {{m.agreeBorder}}; background: {{m.agreeBg}}; color: {{m.agreeInk}}; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4V10h3zM7 10l4-7a2 2 0 0 1 3 2l-1 5h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"></path></svg>{{m.up}}</button>
+<button type="button" aria-label="{{m.disLabel}}" aria-pressed="{{m.disPressed}}" onClick="{{m.disagree}}" style="height: 36px; padding: 0 12px; border-radius: 10px; border: {{m.disBorder}}; background: {{m.disBg}}; color: {{m.disInk}}; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(180 12 12)"><path d="M7 10v11H4V10h3zM7 10l4-7a2 2 0 0 1 3 2l-1 5h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"></path></g></svg>{{m.down}}</button>
+<a href="Discussion.dc.html" style="margin-left: auto; font-size: 13px; font-weight: 600">{{m.talk}}</a>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+<a href="Phone.dc.html" style="margin: 18px 16px 0; padding: 14px 16px; border-radius: 16px; background: #2B2622; color: #FFF8EE; display: flex; align-items: center; justify-content: space-between; text-decoration: none">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px">This week at a glance</span>
+<span style="font-size: 12.5px; color: #E6D8C0">Planned by Amma · 26 of 28 meals</span>
+</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+
+<nav aria-label="Main" style="margin-top: auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 8px 6px 18px; border-top: 1px solid #EADFCB; background: #FFFFFF">
+<a href="Today.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; font-size: 11.5px; font-weight: 600; text-decoration: none; color: #8A4B00">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>Today</a>
+<a href="Planner.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; font-size: 11.5px; text-decoration: none; color: #6E6259">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Week</a>
+<a href="DishPicker.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; font-size: 11.5px; text-decoration: none; color: #6E6259">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18a9 9 0 0 1-18 0z"></path><path d="M12 3c-1 2 1 3 0 5M8 5c-1 2 1 3 0 5M16 5c-1 2 1 3 0 5"></path></svg>Dishes</a>
+<a href="#health" style="display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; font-size: 11.5px; text-decoration: none; color: #6E6259">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-8-5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 6-8 11-8 11z"></path></svg>Health</a>
+<a href="#family" style="display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; font-size: 11.5px; text-decoration: none; color: #6E6259">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20a6 6 0 0 1 12 0M14 20a4 4 0 0 1 7 0"></path></svg>Family</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { votes: { lunch: null, snacks: 'down', dinner: 'up' } };
+  }
+  vote(key, dir) {
+    const cur = this.state.votes[key];
+    this.setState({ votes: { ...this.state.votes, [key]: cur === dir ? null : dir } });
+  }
+  voteVals(key, baseUp, baseDown, name) {
+    const v = this.state.votes[key];
+    const on = '2px solid #2F7A3E', onBg = '#E7F1E8', onInk = '#1F5A2C';
+    const onR = '2px solid #B3261E', onRBg = '#FDECEA', onRInk = '#8C1D18';
+    const off = '1px solid #CDBFA8';
+    return {
+      up: baseUp + (v === 'up' ? 1 : 0), down: baseDown + (v === 'down' ? 1 : 0),
+      agree: () => this.vote(key, 'up'), disagree: () => this.vote(key, 'down'),
+      agreePressed: v === 'up' ? 'true' : 'false', disPressed: v === 'down' ? 'true' : 'false',
+      agreeBorder: v === 'up' ? on : off, agreeBg: v === 'up' ? onBg : '#FFFFFF', agreeInk: v === 'up' ? onInk : '#2B2622',
+      disBorder: v === 'down' ? onR : off, disBg: v === 'down' ? onRBg : '#FFFFFF', disInk: v === 'down' ? onRInk : '#2B2622',
+      agreeLabel: 'Agree with ' + name, disLabel: 'Disagree with ' + name
+    };
+  }
+  renderVals() {
+    const lunch = this.voteVals('lunch', 3, 1, 'curd rice');
+    const meals = [
+      { meal:'Breakfast', band:'#F2B705', main:'Pongal', detail:'+ sambar, coconut chutney · Amma', tone:'#F3D27A', iniInk:'#2B2622', ini:'P', done:true, open:false, opacity:0.75 },
+      { meal:'Snacks', band:'#E8742A', main:'Bajji', detail:'+ tea · Paati · 1 suggestion open', tone:'#F3D27A', iniInk:'#2B2622', ini:'B', done:false, open:true, opacity:1, talk:'2 comments', ...this.voteVals('snacks', 2, 1, 'bajji') },
+      { meal:'Dinner', band:'#3B4A9C', main:'Chicken teriyaki', detail:'+ rice, miso soup · Appa + Amma', tone:'#6B4A3A', iniInk:'#FFF8EE', ini:'C', done:false, open:true, opacity:1, talk:'1 comment', ...this.voteVals('dinner', 3, 0, 'chicken teriyaki') }
+    ];
+    return { lunch, meals };
+  }
+}
+</script>
+</body>
+</html>

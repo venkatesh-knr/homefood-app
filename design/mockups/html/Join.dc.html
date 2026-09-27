@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Join your family</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column; padding: 0 20px">
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 52px 0 26px; text-align: center">
+<span style="width: 64px; height: 64px; border-radius: 20px; background: #E08A00; color: #2B2622; display: flex; align-items: center; justify-content: center">
+<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M9 16c1 1.5 5 1.5 6 0"></path></svg>
+</span>
+<span style="font-size: 14.5px; color: #4A3F37">Amma invited you to join</span>
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 26px">Our Home</span>
+<span style="font-size: 13.5px; color: #6E6259">on HomeFood · 5 family members</span>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px; padding-bottom: 10px">Which one is you?</span>
+<div role="radiogroup" aria-label="Pick your name" style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="3">
+<button type="button" role="radio" aria-checked="{{p.checked}}" onClick="{{p.pick}}" disabled="{{p.taken}}" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: {{p.border}}; background: {{p.bg}}; color: #2B2622; cursor: {{p.cursor}}; opacity: {{p.opacity}}; text-align: left">
+<span style="width: 40px; height: 40px; border-radius: 50%; background: {{p.dot}}; color: #FFFFFF; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{p.ini}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<span style="font-size: 15.5px; font-weight: 600">{{p.name}}</span>
+<span style="font-size: 12.5px; color: #6E6259">{{p.note}}</span>
+</span>
+<span style="width: 22px; height: 22px; border-radius: 50%; border: {{p.ring}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center"><span style="width: 10px; height: 10px; border-radius: 50%; background: {{p.fill}}"></span></span>
+</button>
+</sc-for>
+</div>
+<span style="font-size: 12.5px; color: #6E6259; padding-top: 10px; line-height: 1.45">Not listed? Ask Amma to add you first.</span>
+
+<div style="margin-top: 18px; padding: 12px 14px; border-radius: 14px; background: #F4ECDF; font-size: 13px; color: #4A3F37; line-height: 1.5">
+Only Our Home's members see what you share here. We store your email for sign-in and nothing from social media. <a href="#privacy" style="font-weight: 600">Privacy notice</a>
+</div>
+
+<div style="margin-top: auto; padding: 20px 0 26px; display: flex; flex-direction: column; gap: 8px">
+<a href="SignIn.dc.html" aria-disabled="{{noPick}}" style="height: 52px; border-radius: 14px; background: {{ctaBg}}; color: {{ctaInk}}; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-decoration: none">{{ctaText}}</a>
+<span style="font-size: 12.5px; color: #6E6259; text-align: center">We'll email you a 6-digit code. No password.</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: null };
+  }
+  renderVals() {
+    const picked = this.state.picked;
+    const people = [
+      { key:'Appa', name:'Appa', ini:'A', dot:'#3B4A9C', note:'Already joined', taken:true },
+      { key:'Kavi', name:'Kavi', ini:'K', dot:'#B3261E', note:'Teen · Member' },
+      { key:'Arun', name:'Arun', ini:'A', dot:'#4A3F37', note:'Adult · Member' }
+    ].map(p => {
+      const on = picked === p.key;
+      return { ...p, taken: !!p.taken, checked: on ? 'true' : 'false',
+        border: on ? '2px solid #E08A00' : '1px solid #EADFCB', bg: on ? '#FFF1DB' : '#FFFFFF',
+        ring: on ? '2px solid #E08A00' : '2px solid #CDBFA8', fill: on ? '#E08A00' : 'transparent',
+        cursor: p.taken ? 'default' : 'pointer', opacity: p.taken ? 0.55 : 1,
+        pick: () => { if (!p.taken) this.setState({ picked: p.key }); } };
+    });
+    return {
+      people, noPick: picked ? 'false' : 'true',
+      ctaText: picked ? 'Continue as ' + picked : 'Pick your name to continue',
+      ctaBg: picked ? '#2B2622' : '#E6D8C0', ctaInk: picked ? '#FFF8EE' : '#6E6259'
+    };
+  }
+}
+</script>
+</body>
+</html>

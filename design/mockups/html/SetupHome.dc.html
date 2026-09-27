@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Set up your home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1200px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="padding: 20px 20px 4px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #8A4B00">Step 1 of 2</span>
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 24px">Set up your home</span>
+<span style="font-size: 14px; color: #4A3F37">You're the Admin. You can change all of this later.</span>
+</div>
+
+<div style="padding: 16px 16px 0; display: flex; flex-direction: column; gap: 8px">
+<label for="home" style="font-size: 13.5px; font-weight: 600; padding: 0 4px">Home name</label>
+<input id="home" type="text" value="Our Home" style="height: 50px; padding: 0 14px; border-radius: 14px; border: 1px solid #CDBFA8; background: #FFFFFF; font-size: 16px; color: #2B2622">
+</div>
+
+<div style="margin: 14px 16px 0; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border-bottom: 1px solid #F1E7D6; font-size: 14.5px">
+<span>Language</span>
+<span style="display: flex; gap: 4px; padding: 3px; border-radius: 10px; background: #F1E7D6">
+<span style="padding: 6px 12px; border-radius: 8px; background: #FFFFFF; font-weight: 600; font-size: 13.5px">English</span>
+<span style="padding: 6px 12px; border-radius: 8px; font-family: 'Noto Sans Tamil', sans-serif; font-size: 13.5px">தமிழ்</span>
+</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border-bottom: 1px solid #F1E7D6; font-size: 14.5px">
+<span>Week starts on</span><span style="font-weight: 600">Monday</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; font-size: 14.5px">
+<label for="snacks">Plan evening snacks</label>
+<button id="snacks" type="button" role="switch" aria-checked="{{snacksOn}}" onClick="{{toggleSnacks}}" style="width: 52px; height: 32px; border-radius: 999px; border: none; background: {{snacksBg}}; position: relative; cursor: pointer; padding: 0">
+<span style="position: absolute; top: 3px; left: {{snacksKnob}}; width: 26px; height: 26px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span>
+</button>
+</div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 22px 20px 8px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px">Who lives here</span>
+<span style="font-size: 13px; color: #6E6259">{{countText}}</span>
+</div>
+<span style="font-size: 13px; color: #4A3F37; padding: 0 20px 10px; line-height: 1.45">Add everyone who eats at home. Only people who want to vote, comment or plan need a login.</span>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="6">
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 12px">
+<span style="width: 42px; height: 42px; border-radius: 50%; background: {{p.bg}}; color: #FFFFFF; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">{{p.ini}}</span>
+<span style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1; min-width: 0">
+<span style="font-size: 15px; font-weight: 600">{{p.name}}</span>
+<span style="font-size: 12.5px; color: #6E6259">{{p.detail}}</span>
+</span>
+<sc-if value="{{p.canLogin}}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-pressed="{{p.loginPressed}}" onClick="{{p.toggle}}" style="height: 34px; padding: 0 12px; border-radius: 999px; border: {{p.border}}; background: {{p.btnBg}}; color: {{p.btnInk}}; font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap">{{p.loginText}}</button>
+</sc-if>
+<sc-if value="{{p.isHelper}}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #F4ECDF; color: #4A3F37">Cook only</span>
+</sc-if>
+</div>
+</sc-for>
+<button type="button" style="height: 48px; border-radius: 14px; border: 1.5px dashed #B98A4A; background: transparent; color: #8A4B00; font-size: 14.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add a person</button>
+<span style="font-size: 12.5px; color: #6E6259; padding: 4px 4px 0; line-height: 1.45">For each person: name and birth year. Sex, activity level and allergies are optional and used only for nutrition tips and allergy warnings.</span>
+</div>
+
+<div style="margin-top: auto; padding: 16px 16px 24px; border-top: 1px solid #EADFCB">
+<a href="Invite.dc.html" style="height: 52px; border-radius: 14px; background: #2B2622; color: #FFF8EE; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-decoration: none">Next: invite family</a>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { snacks: true, login: { Appa: true, Kavi: true, Arun: true, Paati: false } };
+  }
+  renderVals() {
+    const s = this.state;
+    const base = [
+      { name:'Amma (you)', key:'Amma', ini:'A', bg:'#8A4B00', detail:'Adult · Admin', fixed:true },
+      { name:'Appa', key:'Appa', ini:'A', bg:'#3B4A9C', detail:'Adult' },
+      { name:'Paati', key:'Paati', ini:'P', bg:'#2F7A3E', detail:'Senior · allergy: soy' },
+      { name:'Kavi', key:'Kavi', ini:'K', bg:'#B3261E', detail:'Teen' },
+      { name:'Arun', key:'Arun', ini:'A', bg:'#4A3F37', detail:'Adult' },
+      { name:'Helper', key:'Helper', ini:'H', bg:'#6B4A3A', detail:'Maid · not counted in servings', helper:true }
+    ];
+    const people = base.map(p => {
+      const on = p.fixed ? true : !!s.login[p.key];
+      return { ...p, isHelper: !!p.helper, canLogin: !p.helper,
+        loginPressed: on ? 'true' : 'false', loginText: p.fixed ? 'Signed in' : on ? 'Will log in' : 'No login',
+        border: on ? '1.5px solid #2F7A3E' : '1px solid #CDBFA8', btnBg: on ? '#E7F1E8' : '#FFFFFF', btnInk: on ? '#1F5A2C' : '#4A3F37',
+        toggle: () => { if (!p.fixed) this.setState({ login: { ...s.login, [p.key]: !on } }); } };
+    });
+    const logins = people.filter(p => p.canLogin && p.loginPressed === 'true').length;
+    return {
+      people, countText: '5 family + helper · ' + logins + ' with login',
+      snacksOn: s.snacks ? 'true' : 'false', snacksBg: s.snacks ? '#2F7A3E' : '#CDBFA8', snacksKnob: s.snacks ? '23px' : '3px',
+      toggleSnacks: () => this.setState({ snacks: !s.snacks })
+    };
+  }
+}
+</script>
+</body>
+</html>

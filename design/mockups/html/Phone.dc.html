@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Week at a glance on phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#A35C00}a:hover{color:#7A4400}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1200px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 8px 4px">
+<button type="button" aria-label="Back" style="width: 44px; height: 44px; border: none; background: transparent; color: #2B2622; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</button>
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px">Week at a glance</span>
+<button type="button" aria-label="Share" style="width: 44px; height: 44px; border: none; background: transparent; color: #2B2622; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 12px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"></path></svg>
+</button>
+</div>
+
+<div style="padding: 4px 20px 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 24px">28 Sep – 4 Oct</span>
+<sc-if value="{{showTamil}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 13px; color: #6E6259">இந்த வார உணவு</span>
+</sc-if>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; padding: 16px 16px 10px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<button type="button" aria-label="{{d.full}}" style="all: unset; box-sizing: border-box; cursor: pointer; height: 60px; border-radius: 14px; background: {{d.bg}}; border: {{d.border}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #2B2622">
+<span style="font-size: 11px; color: {{d.sub}}">{{d.letter}}</span>
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px">{{d.num}}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display: flex; gap: 14px; padding: 0 20px 14px; font-size: 11.5px; color: #4A3F37">
+<sc-for list="{{legend}}" as="l" hint-placeholder-count="4">
+<span style="display: flex; align-items: center; gap: 5px"><span style="width: 10px; height: 10px; border-radius: 50%; background: {{l.band}}"></span>{{l.en}}</span>
+</sc-for>
+</div>
+
+<section style="margin: 0 16px; background: #FFFFFF; border: 2px solid #E08A00; border-radius: 20px; padding: 16px; display: flex; flex-direction: column">
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A4B00">Today</span>
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">Wednesday 30 Sep</span>
+</div>
+<sc-if value="{{showTamil}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 13px; color: #6E6259">புதன்</span>
+</sc-if>
+</div>
+<sc-for list="{{todayMeals}}" as="t" hint-placeholder-count="4">
+<button type="button" aria-label="{{t.label}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid #F1E7D6; color: #2B2622">
+<sc-if value="{{t.home}}" hint-placeholder-val="{{ true }}">
+<span style="width: 54px; height: 54px; border-radius: 50%; background: {{t.tone}}; color: {{t.iniInk}}; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px {{t.band}}; flex-shrink: 0">{{t.ini}}</span>
+</sc-if>
+<sc-if value="{{t.out}}" hint-placeholder-val="{{ false }}">
+<span style="width: 54px; height: 54px; border-radius: 50%; background: #FFFFFF; border: 1.5px dashed #B98A4A; color: #8A4B00; display: flex; align-items: center; justify-content: center; box-sizing: border-box; flex-shrink: 0">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 1.5-3 4-3 7h3v11"></path></svg>
+</span>
+</sc-if>
+<sc-if value="{{t.none}}" hint-placeholder-val="{{ false }}">
+<span style="width: 54px; height: 54px; border-radius: 50%; background: #F6EFE3; flex-shrink: 0"></span>
+</sc-if>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259">{{t.meal}}</span>
+<span style="font-size: 15.5px; font-weight: 600; line-height: 1.25">{{t.main}}</span>
+<sc-if value="{{showTamil}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12.5px; color: #6E6259">{{t.ta}}</span>
+</sc-if>
+<span style="font-size: 12.5px; color: #6E6259">{{t.sides}}</span>
+</span>
+</button>
+</sc-for>
+</section>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px; padding: 22px 20px 10px">Coming up</span>
+
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 0 16px">
+<sc-for list="{{upcoming}}" as="u" hint-placeholder-count="4">
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 12px 10px; display: grid; grid-template-columns: 52px repeat(4, minmax(0, 1fr)); gap: 6px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 1px; padding-top: 8px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px">{{u.en}}</span>
+<span style="font-size: 11.5px; color: #6E6259">{{u.num}}</span>
+</div>
+<sc-for list="{{u.minis}}" as="x" hint-placeholder-count="4">
+<button type="button" aria-label="{{x.label}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; color: #2B2622">
+<sc-if value="{{x.home}}" hint-placeholder-val="{{ true }}">
+<span style="width: 40px; height: 40px; border-radius: 50%; background: {{x.tone}}; color: {{x.iniInk}}; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px {{x.band}}">{{x.ini}}</span>
+</sc-if>
+<sc-if value="{{x.dine}}" hint-placeholder-val="{{ false }}">
+<span style="width: 40px; height: 40px; border-radius: 50%; background: #FFFFFF; border: 1.5px dashed #B98A4A; color: #8A4B00; display: flex; align-items: center; justify-content: center; box-sizing: border-box">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 1.5-3 4-3 7h3v11"></path></svg>
+</span>
+</sc-if>
+<sc-if value="{{x.order}}" hint-placeholder-val="{{ false }}">
+<span style="width: 40px; height: 40px; border-radius: 50%; background: #FFFFFF; border: 1.5px dashed #B98A4A; color: #8A4B00; display: flex; align-items: center; justify-content: center; box-sizing: border-box">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 13H7L6 8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>
+</span>
+</sc-if>
+<sc-if value="{{x.none}}" hint-placeholder-val="{{ false }}">
+<span style="width: 40px; height: 40px; border-radius: 50%; background: #F6EFE3"></span>
+</sc-if>
+<span style="font-size: 11px; line-height: 1.25">{{x.short}}</span>
+</button>
+</sc-for>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; gap: 10px; padding: 20px 16px 24px; margin-top: auto">
+<button type="button" style="flex-grow: 1; height: 48px; border-radius: 14px; border: none; background: #2B2622; color: #FFF8EE; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"></path></svg>
+Save as image</button>
+<button type="button" style="height: 48px; padding: 0 18px; border-radius: 14px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"></path></svg>
+Print</button>
+</div>
+
+</div>
+<div style="display: grid; grid-template-columns: 140px repeat(4, minmax(0, 1fr)); gap: 12px; position: absolute; left: -223px; top: 222px; width: 968px; height: 1131px">
+<div></div>
+<sc-for list="{{heads}}" as="h" hint-placeholder-count="4">
+<div style="border-radius: 14px; background: {{h.band}}; color: {{h.ink}}; padding: 12px 14px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px">{{h.en}}</span>
+<sc-if value="{{true}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 14px">{{h.ta}}</span>
+</sc-if>
+</div>
+</sc-for>
+
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+<div style="display: flex; flex-direction: column; justify-content: center; gap: 2px; padding-left: 4px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 22px">{{r.en}}</span>
+<sc-if value="{{true}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 15px; color: #6E6259">{{r.ta}}</span>
+</sc-if>
+<span style="font-size: 15px; color: #6E6259">{{r.date}}</span>
+</div>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="4">
+<div style="border-radius: 18px; background: {{c.bg}}; border: {{c.border}}; padding: 12px 14px; display: flex; align-items: center; gap: 12px; min-height: 132px; box-sizing: border-box">
+<sc-if value="{{c.home}}" hint-placeholder-val="{{ true }}">
+<span style="width: 56px; height: 56px; border-radius: 50%; background: {{c.tone}}; color: {{c.iniInk}}; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 22px; box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px {{c.band}}; flex-shrink: 0">{{c.ini}}</span>
+<span style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
+<span style="font-size: 17px; font-weight: 600; line-height: 1.2">{{c.main}}</span>
+<sc-if value="{{true}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 13.5px; color: #6E6259; line-height: 1.3">{{c.ta}}</span>
+</sc-if>
+<span style="font-size: 13.5px; color: #6E6259; line-height: 1.3">{{c.sides}}</span>
+</span>
+</sc-if>
+<sc-if value="{{c.out}}" hint-placeholder-val="{{ false }}">
+<span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; border: 1.5px dashed #B98A4A; color: #8A4B00; display: flex; align-items: center; justify-content: center; box-sizing: border-box; flex-shrink: 0">
+<sc-if value="{{c.dine}}" hint-placeholder-val="{{ false }}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 1.5-3 4-3 7h3v11"></path></svg>
+</sc-if>
+<sc-if value="{{c.order}}" hint-placeholder-val="{{ false }}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 13H7L6 8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>
+</sc-if>
+</span>
+<span style="display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A4B00">{{c.outLabel}}</span>
+<span style="font-size: 17px; font-weight: 600; line-height: 1.2">{{c.main}}</span>
+<sc-if value="{{true}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 13.5px; color: #6E6259">{{c.ta}}</span>
+</sc-if>
+</span>
+</sc-if>
+<sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}">
+<span style="width: 100%; text-align: center; font-size: 15px; color: #6E6259">No snacks</span>
+</sc-if>
+</div>
+</sc-for>
+</sc-for>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"showTamil":{"editor":"boolean","default":true},"$preview":{"width":390,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const showTamil = this.props.showTamil ?? true;
+    const T = {rice:'#EFE3C8', gold:'#F3D27A', red:'#D9643A', green:'#A9C98F', brown:'#C08A5B', dark:'#6B4A3A', pale:'#F6EBDD'};
+    const DARK = {red:true, brown:true, dark:true};
+    const TODAY = 2;
+    const DAYS = [
+      ['Mon','Monday','M','28'],['Tue','Tuesday','T','29'],['Wed','Wednesday','W','30'],['Thu','Thursday','T','1 Oct'],
+      ['Fri','Friday','F','2 Oct'],['Sat','Saturday','S','3 Oct'],['Sun','Sunday','S','4 Oct']
+    ];
+    const MEALS = [
+      {en:'Breakfast', band:'#F2B705', cells:[
+        ['Idli','இட்லி','+ sambar, coconut chutney','rice'],['Poha','போஹா','+ masala chai','gold'],
+        ['Pongal','பொங்கல்','+ sambar, chutney','gold'],['Upma','உப்புமா','+ coconut chutney','rice'],
+        ['Aloo paratha','ஆலு பராத்தா','+ curd, pickle','brown'],['Pesarattu','பெசரட்டு','+ ginger chutney','green'],
+        ['Pancakes','பான்கேக்','+ fruit','brown']]},
+      {en:'Lunch', band:'#2F7A3E', cells:[
+        ['Sambar rice','சாம்பார் சாதம்','+ beans poriyal, appalam','gold'],['Rajma chawal','ராஜ்மா சாவல்','+ raita','red'],
+        ['Curd rice','தயிர் சாதம்','+ mango pickle','rice'],['Dal tadka','தால் தட்கா','+ jeera rice, salad','gold'],
+        ['Bisi bele bath','பிசிபேளாபாத்','+ appalam','red'],['Paneer butter masala','பனீர் பட்டர் மசாலா','+ roti','red'],
+        ['Idiyappam','இடியாப்பம்','+ veg stew','rice']]},
+      {en:'Snacks', band:'#E8742A', cells:[
+        ['Sundal','சுண்டல்','+ filter coffee','green'],['Medu vada','மெது வடை','+ coconut chutney','brown'],
+        ['Bajji','பஜ்ஜி','+ tea','gold'],null,['Samosa','சமோசா','+ tea','brown'],
+        ['Crêpes','க்ரேப்ஸ்','+ fruit','pale'],['Murukku','முறுக்கு','+ filter coffee','brown']]},
+      {en:'Dinner', band:'#3B4A9C', cells:[
+        ['Chapati','சப்பாத்தி','+ veg kurma','brown'],['Dosa','தோசை','+ tomato chutney','gold'],
+        ['Chicken teriyaki','சிக்கன் தெரியாக்கி','+ rice, miso soup','dark'],['Pasta aglio e olio','பாஸ்தா','+ garlic bread','gold'],
+        {out:'order', main:'Biryani', short:'Biryani', ta:'பிரியாணி', place:'Order-in from [restaurant]'},
+        {out:'dine', main:'Family dinner out', short:'Dine-out', ta:'வெளியே உணவு', place:'[Restaurant name]'},
+        ['Katsu curry','கட்சு கறி','+ pickles','brown']]}
+    ];
+    const mk = (c, meal, band) => {
+      const base = {home:false, out:false, dine:false, order:false, none:false, meal, band};
+      if (!c) return {...base, none:true, main:'No snacks planned', short:'None', ta:'', sides:'', label: meal + ': nothing planned'};
+      if (!Array.isArray(c)) return {...base, out:true, dine:c.out === 'dine', order:c.out === 'order', main:c.main, short:c.short, ta:c.ta, sides:c.place, label: meal + ': ' + c.main};
+      const shortName = c[0].length > 14 ? c[0].split(' ').slice(0, 2).join(' ') : c[0];
+      return {...base, home:true, main:c[0], short:shortName, ta:c[1], sides:c[2], tone:T[c[3]], ini:c[0].charAt(0), iniInk: DARK[c[3]] ? '#FFF8EE' : '#2B2622', label: meal + ': ' + c[0] + ' ' + c[2]};
+    };
+    const days = DAYS.map((d, i) => ({full: d[1] + ' ' + d[3], letter:d[2], num:d[3].split(' ')[0], bg: i === TODAY ? '#E08A00' : '#FFFFFF', border: i === TODAY ? '2px solid #E08A00' : '1px solid #EADFCB', sub: i === TODAY ? '#2B2622' : '#6E6259'}));
+    const legend = MEALS.map(m => ({en:m.en, band:m.band}));
+    const todayMeals = MEALS.map(m => mk(m.cells[TODAY], m.en, m.band));
+    const upcoming = [3, 4, 5, 6].map(i => ({en:DAYS[i][0], num:DAYS[i][3], minis: MEALS.map(m => mk(m.cells[i], m.en, m.band))}));
+    return { showTamil, days, legend, todayMeals, upcoming };
+  }
+}
+</script>
+</body>
+</html>

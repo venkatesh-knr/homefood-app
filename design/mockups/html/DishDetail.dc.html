@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dish detail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<button type="button" onClick="{{openZoom}}" aria-label="Show Ven Pongal photo full screen" style="all: unset; cursor: zoom-in; position: relative; height: 290px; background: #F3D27A; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<span style="width: 190px; height: 190px; border-radius: 50%; background: #FBEBC0; box-shadow: 0 0 0 10px #F7DE9A; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 700; font-size: 72px; color: #8A5A00">P</span>
+<span style="position: absolute; right: 14px; bottom: 14px; display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: rgba(43,38,34,0.72); color: #FFF8EE; font-size: 12px; font-weight: 600">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>Tap to enlarge</span>
+<span style="position: absolute; left: 14px; bottom: 14px; font-size: 11px; color: #5E3E00">Photo: stock image</span>
+</button>
+<a href="Today.dc.html" aria-label="Back" style="position: absolute; top: 14px; left: 12px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,248,238,0.92); display: flex; align-items: center; justify-content: center; color: #2B2622">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+
+<div style="padding: 18px 20px 0; display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 26px">Ven Pongal</span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 15px; color: #6E6259">வெண் பொங்கல்</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 20px 0">
+<span style="padding: 4px 10px; border-radius: 999px; background: #F4ECDF; font-size: 12.5px">South Indian</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: #F4ECDF; font-size: 12.5px">Breakfast · Main</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C; font-size: 12.5px; font-weight: 600">Veg</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: #F4ECDF; font-size: 12.5px">About 30 min</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 16px 16px 0">
+<a href="Recipe.dc.html" style="height: 64px; border-radius: 14px; background: #2B2622; color: #FFF8EE; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 13px; font-weight: 600; text-decoration: none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"></path><path d="M8 8h6M8 12h6"></path></svg>Recipe</a>
+<a href="https://www.youtube.com/results?search_query=ven+pongal+recipe" style="height: 64px; border-radius: 14px; background: #FFFFFF; border: 1px solid #EADFCB; color: #2B2622; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 13px; font-weight: 600; text-decoration: none">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"></rect><path d="M10 9l5 3-5 3z" fill="#B3261E"></path></svg>YouTube</a>
+<a href="https://www.instagram.com/explore/tags/venpongal/" style="height: 64px; border-radius: 14px; background: #FFFFFF; border: 1px solid #EADFCB; color: #2B2622; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 13px; font-weight: 600; text-decoration: none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9C2A6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg>Instagram</a>
+</div>
+
+<div style="margin: 14px 16px 0; padding: 12px 14px; border-radius: 14px; background: #FFF1DB; border: 1px solid #F0CF94; display: flex; flex-direction: column; gap: 4px; font-size: 13.5px">
+<span style="font-weight: 600">Allergens: milk (ghee), cashew (tree nut)</span>
+<span style="color: #4A3F37">No one in Our Home has these allergies.</span>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 20px 20px 8px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px">Nutrition per serving</span>
+<span style="font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #F4ECDF; color: #4A3F37">Sample values</span>
+</div>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 6px"><span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 26px">320</span><span style="font-size: 13px; color: #6E6259">kcal · about 16% of an adult's day</span></div>
+<sc-for list="{{nutrients}}" as="n" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 78px minmax(0, 1fr) 54px; gap: 10px; align-items: center; font-size: 13px">
+<span>{{n.label}}</span>
+<span style="height: 8px; border-radius: 999px; background: #F1E7D6; display: flex"><span style="width: {{n.pct}}; border-radius: 999px; background: {{n.color}}"></span></span>
+<span style="text-align: right; font-weight: 600">{{n.value}}</span>
+</div>
+</sc-for>
+<span style="font-size: 11.5px; color: #6E6259">Bars show share of an adult's daily need. Estimates for planning, not medical advice.</span>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px; padding: 20px 20px 8px">For your family</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 4px 14px">
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #F1E7D6; font-size: 13.5px">
+<span style="width: 8px; height: 8px; border-radius: 50%; background: #2F7A3E; margin-top: 6px; flex-shrink: 0"></span>
+<span>Soft and easy to chew: good for Paati.</span>
+</div>
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #F1E7D6; font-size: 13.5px">
+<span style="width: 8px; height: 8px; border-radius: 50%; background: #E08A00; margin-top: 6px; flex-shrink: 0"></span>
+<span>Ghee-rich. Use a spoon less, or pair with a vegetable side.</span>
+</div>
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; font-size: 13.5px">
+<span style="width: 8px; height: 8px; border-radius: 50%; background: #6E6259; margin-top: 6px; flex-shrink: 0"></span>
+<span>Cooked 3 times in September · last on Wed 30 Sep by Amma.</span>
+</div>
+</div>
+
+<div style="margin-top: auto; padding: 16px 16px 24px; display: flex; gap: 10px; border-top: 1px solid #EADFCB">
+<button type="button" style="height: 50px; padding: 0 14px; border-radius: 14px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 14.5px; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v12H4z"></path><circle cx="12" cy="14" r="4"></circle></svg>Replace photo</button>
+<a href="Planner.dc.html" style="flex-grow: 1; height: 50px; border-radius: 14px; background: #E08A00; color: #2B2622; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-decoration: none">Add to a meal</a>
+</div>
+
+<sc-if value="{{zoom}}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="Ven Pongal photo" style="position: absolute; inset: 0; background: rgba(20,17,15,0.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px">
+<button type="button" onClick="{{closeZoom}}" aria-label="Close photo" style="position: absolute; top: 14px; right: 12px; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255,248,238,0.15); color: #FFF8EE; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+<span style="width: 340px; height: 340px; border-radius: 20px; background: #F3D27A; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 700; font-size: 110px; color: #8A5A00">P</span>
+<span style="color: #FFF8EE; font-size: 15px; font-weight: 600">Ven Pongal</span>
+<span style="color: #CDBFA8; font-size: 12.5px">Pinch to zoom · swipe for more photos</span>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { zoom: false };
+  }
+  renderVals() {
+    const nutrients = [
+      { label:'Protein', value:'9 g', pct:'18%', color:'#2F7A3E' },
+      { label:'Carbs', value:'48 g', pct:'17%', color:'#E08A00' },
+      { label:'Fat', value:'11 g', pct:'16%', color:'#E8742A' },
+      { label:'Fibre', value:'3 g', pct:'10%', color:'#3B4A9C' },
+      { label:'Sodium', value:'400 mg', pct:'20%', color:'#B3261E' }
+    ];
+    return { nutrients, zoom: this.state.zoom,
+      openZoom: () => this.setState({ zoom: true }), closeZoom: () => this.setState({ zoom: false }) };
+  }
+}
+</script>
+</body>
+</html>
