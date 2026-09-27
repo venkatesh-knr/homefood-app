@@ -11,4 +11,5 @@ trap 'dropdb --if-exists "$DB"' EXIT
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/tests/local_stubs.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0001_core_schema.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0003_seed_cuisines.sql
+psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0004_invite_details.sql
 psql -v ON_ERROR_STOP=1 -o /dev/null -d "$DB" -f supabase/tests/rls_test.sql 2>&1 | sed -E "s/^psql:[^ ]+ NOTICE:  //"

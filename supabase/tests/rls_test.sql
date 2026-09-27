@@ -36,7 +36,8 @@ insert into auth.users (id) values
 -- ── Amma creates home A and adds her family ──
 set role authenticated;
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
-select public.create_household('Our Home', 'Amma', 'ta') as hh_a \gset
+select public.create_household('Our Home', 'Amma', 'ta', false) as hh_a \gset
+select tests.ok((select snacks_enabled from public.households where id = :'hh_a') = false, 'create_household saves the snacks choice');
 insert into public.profiles (household_id, display_name, can_login) values (:'hh_a', 'Appa', true) returning id as appa \gset
 insert into public.profiles (household_id, display_name, can_login, birth_year) values (:'hh_a', 'Paati', false, 1950) returning id as paati \gset
 insert into public.profiles (household_id, display_name, kind) values (:'hh_a', 'Helper', 'helper') returning id as helper \gset
@@ -50,6 +51,7 @@ select tests.refused($$ insert into public.profiles (household_id, display_name,
 -- ── Ravi creates a separate home C ──
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select public.create_household('Other Home', 'Ravi') as hh_c \gset
+select tests.ok((select snacks_enabled from public.households where id = :'hh_c') = true, 'snacks_enabled defaults to true');
 select tests.ok((select count(*) from public.profiles) = 1, 'Ravi sees only his own profile');
 select tests.ok((select count(*) from public.households) = 1, 'Ravi sees only his own home');
 select tests.ok((select count(*) from public.profile_allergies) = 0, 'Ravi cannot see home A allergies');
@@ -62,8 +64,11 @@ select tests.refused($$ delete from public.profiles where id = '$$ || :'paati' |
 -- ── Appa joins home A through the invite link ──
 select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
 select tests.ok((select household_name from public.get_invite(:'tok')) = 'Our Home', 'invite shows the home name');
-select tests.ok((select jsonb_array_length(claimable) from public.get_invite(:'tok')) = 1, 'only Appa is claimable (Paati and Helper have no login)');
+select tests.ok((select member_count from public.get_invite(:'tok')) = 3, 'member_count counts family, not the helper');
+select tests.ok((select jsonb_array_length(people) from public.get_invite(:'tok')) = 1, 'only Appa can be picked (Amma made the link, Paati and Helper have no login)');
+select tests.ok((select (people->0->>'joined')::boolean from public.get_invite(:'tok')) = false, 'Appa is not joined yet');
 select public.claim_profile(:'tok', :'appa') is not null as joined \gset
+select tests.ok((select (people->0->>'joined')::boolean from public.get_invite(:'tok')) = true, 'the invite now shows Appa as already joined');
 select tests.ok((select count(*) from public.profiles) = 4, 'Appa now sees home A');
 select tests.ok((select count(*) from public.profile_allergies) = 1, 'Appa sees Paati''s allergy (for warnings)');
 select tests.refused($$ update public.profiles set role = 'admin' where user_id = auth.uid() $$, 'Appa cannot make himself Admin');

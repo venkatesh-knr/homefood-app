@@ -37,6 +37,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
    1. `supabase/migrations/0001_core_schema.sql`
    2. `supabase/migrations/0002_storage.sql`
    3. `supabase/migrations/0003_seed_cuisines.sql`
+   4. `supabase/migrations/0004_invite_details.sql`
 3. **Turn on email codes:** Authentication › **Sign In / Providers** › Email: enabled, "Confirm email" on.
    Authentication › **Emails**: paste `supabase/email-templates/sign-in-code.html` into **both** the "Confirm signup" template (used the very first time someone signs in) and the "Magic Link" template (used after that), each with the subject `Your HomeFood code: {{ .Token }}`. Set the email OTP expiry to **600** seconds.
 4. **Email sending:** Supabase's built-in email is for testing only and sends just a few emails an hour. Before the family trial, add a custom SMTP sender (Authentication › Emails › SMTP settings) from a transactional email service.
@@ -64,22 +65,25 @@ npm run build     # production build
 npm run test:db   # database rule tests; needs PostgreSQL installed locally
 ```
 
-`npm run test:db` creates a throwaway local database, loads the migrations with small stand-ins for Supabase's `auth` schema, and runs `supabase/tests/rls_test.sql`: 37 checks that one home can never see or change another's data, that only Admins manage people and invites, and that Planners can only plan their own turns.
+`npm run test:db` creates a throwaway local database, loads the migrations with small stand-ins for Supabase's `auth` schema, and runs `supabase/tests/rls_test.sql`: 44 checks that one home can never see or change another's data, that only Admins manage people and invites, and that Planners can only plan their own turns. Needs PostgreSQL installed locally; if it isn't, `supabase/tests/live_check_0004.sql` is an optional one-off you can run in the Supabase SQL Editor instead (it cleans up after itself).
 
 ## Project layout
 
 ```
 src/
-  components/ui.tsx     shared buttons, logo, language switch
-  i18n/                 English and Tamil strings (+ test that both match)
-  lib/supabase.ts       Supabase client (public URL + anon key only)
-  lib/auth.tsx          email-code sign-in, stays signed in per device
-  pages/                SignInPage, WelcomePage (temporary), SetupNeededPage
+  components/            shared UI (ui.tsx) and home-setup pieces (PersonForm, PeopleSection, InviteCard, SignInForm…)
+  i18n/                  English and Tamil strings (+ test that both match)
+  lib/supabase.ts        Supabase client (public URL + anon key only)
+  lib/auth.tsx           email-code sign-in, stays signed in per device
+  lib/people.ts          shared types + pure helpers (age bands, avatar colours, invite state…) (+ tests)
+  lib/queries.ts         react-query reads; lib/mutations.ts — writes
+  pages/                 SignInPage, SetupNeededPage, the setup wizard, JoinPage, AppShell + its tabs
 supabase/
-  migrations/           tables, access rules, storage, seed cuisines
-  tests/                database rule tests
-  email-templates/      sign-in code email (English + Tamil)
-public/icons/           app icons (placeholder until the Canva icon is ready)
+  migrations/            tables, access rules, storage, seed cuisines
+  tests/                 database rule tests (+ an optional live one-off, see Checks below)
+  email-templates/       sign-in code email (English + Tamil)
+design/mockups/          reference screens (PNGs) for layout, spacing, colours and copy
+public/icons/            app icons (placeholder until the Canva icon is ready)
 ```
 
 ## Security notes

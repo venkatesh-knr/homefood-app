@@ -27,7 +27,8 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
 ## Stack
 
 React 19 + TypeScript + Vite · Tailwind CSS v4 (tokens in `src/index.css` `@theme`) · i18next · vite-plugin-pwa ·
-Supabase (Postgres + RLS, email OTP, storage) · Vitest · oxlint. Installed but not used yet: react-router-dom, @tanstack/react-query.
+Supabase (Postgres + RLS, email OTP, storage) · react-router-dom · @tanstack/react-query · qrcode (client-side QR for the invite
+link — no network call, the link never leaves the device to generate it) · Vitest · oxlint.
 UI components are our own (`src/components/ui.tsx`); shadcn/ui is not installed — ask before adding it.
 
 Design tokens: cream `#FFF8EE` background, ink `#2B2622`, saffron `#E08A00` accent;
@@ -51,14 +52,19 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 ## Database
 
 - Migrations in `supabase/migrations/`. **0001–0003 are already applied** to the live project `homefood-prod` (Mumbai).
-  Never edit an applied migration; add a new numbered file (`0004_….sql`). Venkatesh runs it in Supabase › SQL Editor — tell him when one needs running.
+  **0004 is new (Step 2) and still needs running** — Dashboard › SQL Editor › paste `supabase/migrations/0004_invite_details.sql` › Run.
+  Never edit an applied migration; add a new numbered file (`0005_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
 - Helpers: `my_profile_id()`, `my_household_id()`, `is_admin()`, `can_plan(household, date)`, `can_plan_week(household, week_start)`.
-- RPCs: `create_household(p_name, p_display_name, p_language)` → household id (caller becomes Admin);
-  `get_invite(p_token)` → household_name, invited_by, claimable [{id,name}] (works signed out);
+- RPCs: `create_household(p_name, p_display_name, p_language default 'en', p_snacks_enabled default true)` → household id (caller becomes Admin);
+  `get_invite(p_token)` → household_name, invited_by, member_count, people [{id,name,birth_year,joined}] — `people` excludes whoever created the
+  link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 37 checks, all passing).
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 44 checks). Local PostgreSQL isn't available on this machine, so these
+  haven't been run since Step 2's changes — `npm run test:db` needs WSL/Git Bash + PostgreSQL. There's also `supabase/tests/live_check_0004.sql`,
+  an optional one-off check you can paste into the SQL Editor after running 0004 (it makes two throwaway demo users, checks the new `get_invite`
+  shape, then has a cleanup block at the bottom — run that too so no demo data is left behind).
 
 Auth/email (already configured in the dashboard, no code needed): custom SMTP via Brevo (free, 300 emails/day),
 templates "Confirm sign up" + "Magic link" send `{{ .Token }}` (`supabase/email-templates/sign-in-code.html`),
@@ -69,9 +75,18 @@ OTP expiry 600 s, minimum interval per user 60 s (the sign-in page resend timer 
 ```
 src/lib/supabase.ts     client (persistSession, autoRefreshToken, detectSessionInUrl: false)
 src/lib/auth.tsx        AuthProvider/useAuth: session, sendCode, verifyCode, signOut; AuthError kinds wrongCode/tooMany/generic
-src/lib/validation.ts   email/code helpers (+ tests)
-src/pages/              SignInPage, WelcomePage (temporary), SetupNeededPage
-src/App.tsx             chooses page by isConfigured / loading / session
+src/lib/validation.ts   email/code/name/allergy helpers (+ tests)
+src/lib/people.ts       Household/Profile/Invite types + pure helpers (ageBand, avatarColor, personDetailText…) (+ tests)
+src/lib/queries.ts      react-query reads: useMyProfile, useHousehold, useMembers, useAllergies, useInvites, useInvitePreview
+src/lib/mutations.ts    plain async writes (createHousehold, addPerson, createInvite, claimProfile…) that invalidate the query cache
+src/lib/homeContext.tsx useHome(): {profile, household} loaded once by <AppShell> and shared with every tab
+src/lib/onboarding.ts   per-device "seen the invite-your-family screen" flag (localStorage, not a DB column)
+src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill, TogglePill, ChipInput
+src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm
+src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
+                        AppShell (+ TodayPage/WeekPage/DishesPage placeholders, HomeTabPage)
+src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
+                        wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
 ```
 
 ## Build plan (phase 1)
@@ -85,6 +100,10 @@ src/App.tsx             chooses page by isConfigured / loading / session
 - [ ] Step 7 · Family trial (2 weeks)
 
 ### Step 2 · Home setup — scope
+
+**Status: built, not yet tested live.** Needs migration `0004_invite_details.sql` run in Supabase (see Database section above),
+then a real click-through: sign in → set up a home → invite screen → open the link in another browser/incognito → join.
+Once that works end to end, check this off and update README.md's status table too.
 
 Mockups: `design/mockups/png/SetupHome.png` (Step 1 of 2: home name, language, week starts Monday, plan-snacks toggle, "Who lives here" list),
 `Invite.png` (Step 2 of 2: link, WhatsApp, QR, who has joined, getting-started checklist), `Join.png` (pick "which one is you").
