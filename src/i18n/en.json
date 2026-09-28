@@ -184,8 +184,84 @@
   },
   "placeholder": {
     "today": "Today's meals will show up here soon.",
-    "week": "The week planner is coming in the next build step.",
-    "dishes": "The dish catalogue is coming in the next build step."
+    "week": "The week planner is coming in the next build step."
+  },
+  "meal": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "snacks": "Snacks",
+    "dinner": "Dinner"
+  },
+  "dishes": {
+    "searchPlaceholder": "Search in English or தமிழ்",
+    "addNew": "Add new dish",
+    "snap": "Snap a dish",
+    "cuisineAll": "All",
+    "myDishes": "My dishes",
+    "countOne": "{{count}} dish",
+    "countOther": "{{count}} dishes",
+    "empty": "No dishes match. Try clearing a filter, or add one.",
+    "dietMarkHint": "Diet mark: green = veg, brown = egg, red = non-veg",
+    "rowAllergyNote": "Contains {{list}}",
+    "rowAddedBy": "Added by {{name}}",
+    "filters": {
+      "course": "Course",
+      "courseAny": "Any course",
+      "courseMain": "Main",
+      "courseSide": "Side",
+      "courseBoth": "Main or side",
+      "diet": "Diet",
+      "dietAny": "Any diet",
+      "dietVeg": "Veg",
+      "dietEgg": "Egg",
+      "dietNonVeg": "Non-veg",
+      "mealType": "Meal",
+      "mealAny": "Any meal",
+      "safeOnly": "Safe for everyone eating"
+    },
+    "detail": {
+      "stockPhoto": "Photo: stock image",
+      "tapEnlarge": "Tap to enlarge",
+      "replacePhoto": "Replace photo",
+      "allergensLabel": "Allergens: {{list}}",
+      "allergensNone": "No known allergens.",
+      "allergensSafe": "No one in {{home}} has these allergies.",
+      "allergensAffects": "This affects {{names}} in your home.",
+      "youtube": "YouTube",
+      "instagram": "Instagram",
+      "prepMinutes": "About {{count}} min",
+      "addedByStock": "From the shared catalogue",
+      "addedBy": "Added by {{name}}",
+      "edit": "Edit dish",
+      "remove": "Remove dish",
+      "removeConfirm": "Remove {{name}} from your dishes?",
+      "removeYes": "Yes, remove",
+      "removeNo": "Cancel"
+    },
+    "form": {
+      "titleAdd": "Add a dish",
+      "titleEdit": "Edit dish",
+      "nameEn": "Name (English)",
+      "nameTa": "Name (Tamil, optional)",
+      "cuisine": "Cuisine",
+      "cuisineNone": "Not set",
+      "mealTypes": "When is this eaten?",
+      "course": "Course",
+      "diet": "Diet",
+      "tags": "Tags (optional)",
+      "tagsPlaceholder": "e.g. fried, spicy — press Enter",
+      "allergens": "Allergens (optional)",
+      "allergensPlaceholder": "e.g. milk, wheat — press Enter",
+      "prepMinutes": "Prep time in minutes (optional)",
+      "photoHint": "Add a photo now, or later from the dish page.",
+      "addPhoto": "Add a photo",
+      "save": "Save dish",
+      "cancel": "Cancel",
+      "errors": {
+        "nameEn": "Enter a name (up to 80 characters).",
+        "mealTypes": "Pick at least one meal."
+      }
+    }
   },
   "home": {
     "household": "Household",
@@ -195,6 +271,7 @@
   },
   "common": {
     "loading": "Loading…",
+    "back": "Back",
     "add": "Add",
     "save": "Save",
     "cancel": "Cancel",
