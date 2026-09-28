@@ -44,6 +44,9 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
   const [removing, setRemoving] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // Adding someone (or turning "Uses the app" on for them) doesn't invite them by
+  // itself — nothing else prompted the Admin to actually share the link, so this does.
+  const [needsInvite, setNeedsInvite] = useState<string | null>(null)
 
   const allergiesFor = (profileId: string) => (allergyRows ?? []).filter((a) => a.profile_id === profileId).map((a) => a.allergen)
 
@@ -53,6 +56,7 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
     try {
       await addPerson(householdId, values)
       setEditing(null)
+      if (values.kind === 'family' && values.can_login) setNeedsInvite(values.display_name)
     } catch (err) {
       setError(err instanceof Error ? err.message : t('common.error'))
     } finally {
@@ -61,11 +65,14 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
   }
 
   async function onUpdate(profileId: string, values: PersonFormValues) {
+    const before = members?.find((m) => m.id === profileId)
     setBusy(true)
     setError(null)
     try {
       await updatePerson(profileId, householdId, values)
       setEditing(null)
+      // Only newly-eligible-and-not-yet-joined people need this — not everyone who was edited.
+      if (values.kind === 'family' && values.can_login && !before?.user_id) setNeedsInvite(values.display_name)
     } catch (err) {
       setError(err instanceof Error ? err.message : t('common.error'))
     } finally {
@@ -89,6 +96,14 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
   return (
     <div className="flex flex-col gap-2">
       <span className="font-display text-[17px] font-semibold">{t('home.people')}</span>
+      {needsInvite && (
+        <div className="flex items-start gap-2.5 rounded-2xl bg-saffron-tint px-3.5 py-3 text-[13.5px] text-saffron-ink">
+          <span className="flex-1">{t('home.needsInvite', { name: needsInvite })}</span>
+          <button type="button" onClick={() => setNeedsInvite(null)} aria-label={t('people.form.cancel')} className="shrink-0 font-semibold">
+            ×
+          </button>
+        </div>
+      )}
       {(members ?? []).map((m, i) =>
         editing === m.id ? (
           <PersonForm

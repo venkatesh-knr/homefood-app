@@ -360,7 +360,8 @@
     "household": "Household",
     "people": "People",
     "invite": "Invite family",
-    "addAnotherPerson": "Add a person"
+    "addAnotherPerson": "Add a person",
+    "needsInvite": "{{name}} can now use the app — share the invite link below so they can join."
   },
   "common": {
     "loading": "Loading…",
