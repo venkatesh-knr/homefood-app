@@ -89,12 +89,15 @@ insert into public.dishes (household_id, name, created_by, meal_types) values (:
 insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk1', :'hh_a', '2026-09-30', 'breakfast', :'pongal') returning id as slot1 \gset
 insert into public.meal_slot_cooks (slot_id, profile_id) values (:'slot1', :'helper');
 select tests.ok((select count(*) from public.meal_slot_cooks) = 1, 'Admin plans a meal and sets the helper as cook');
+insert into public.meal_slot_eaters (slot_id, profile_id) values (:'slot1', :'paati');
+select tests.ok((select count(*) from public.meal_slot_eaters) = 1, 'Admin marks Paati as eating this meal');
 select tests.refused($$ insert into public.meal_slots (week_plan_id, household_id, date, meal) values ('$$ || :'wk1' || $$', '$$ || :'hh_a' || $$', '2026-10-09', 'lunch') $$, 'a slot must fall inside its week');
 select tests.refused($$ insert into public.week_plans (household_id, week_start) values ('$$ || :'hh_a' || $$', '2026-10-01') $$, 'weeks start on Monday');
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select public.my_profile_id() as ravi \gset
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 select tests.refused($$ insert into public.meal_slot_cooks (slot_id, profile_id) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$') $$, 'a cook must be from the same home');
+select tests.refused($$ insert into public.meal_slot_eaters (slot_id, profile_id) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$') $$, 'an eater must be from the same home');
 insert into public.planner_turns (household_id, profile_id, scope, start_date, end_date) values (:'hh_a', :'appa', 'week', '2026-10-05', '2026-10-11');
 
 select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
@@ -107,6 +110,7 @@ select tests.refused($$ insert into public.planner_turns (household_id, profile_
 
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
+select tests.ok((select count(*) from public.meal_slot_eaters) = 0, 'Ravi sees none of home A''s eaters');
 select tests.ok(not exists (select 1 from public.dishes where name = 'Pongal'), 'Ravi cannot see home A''s own dish (Pongal) — the shared catalogue is visible to everyone, home dishes are not');
 select tests.refused($$ update public.profiles set role = 'member' where user_id = auth.uid() $$, 'the last Admin cannot step down');
 
