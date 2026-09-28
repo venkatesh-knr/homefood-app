@@ -93,8 +93,9 @@ export function ageBand(birthYear: number | null, atYear: number = new Date().ge
   return 'adult'
 }
 
+/** import.meta.env.BASE_URL is "/" on most hosts, "/homefood-app/" on GitHub Pages (see vite.config.ts). */
 export function invitePath(token: string): string {
-  return `/join/${token}`
+  return `${import.meta.env.BASE_URL}join/${token}`.replace(/\/{2,}/g, '/')
 }
 
 export function inviteUrl(token: string): string {

@@ -27,7 +27,7 @@ export default function App() {
   if (loading) return <FullPageMessage><p className="text-muted">{t('common.loading')}</p></FullPageMessage>
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/join/:token" element={<JoinPage />} />
         <Route path="/*" element={<AuthedArea />} />
