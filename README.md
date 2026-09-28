@@ -26,7 +26,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [ ] Step 2 · Home setup: create a home, add profiles, invite link, join flow — built, pending a live click-through
 - [ ] Step 3 · Dish catalogue: seed data, search and filters, add a dish, Snap a dish, photos — built, pending migrations + a live click-through
 - [ ] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota — built, pending migration + a live click-through
-- [ ] Step 5 · Everyday view: Today, Week at a glance poster, history
+- [ ] Step 5 · Everyday view: Today, Week at a glance poster, history — built, pending a live click-through
 - [ ] Step 6 · Polish: Tamil throughout, welcome tour, checklist, installable app, accessibility
 - [ ] Step 7 · Family trial (2 weeks)
 
@@ -88,7 +88,7 @@ src/
   lib/queries.ts, lib/dishQueries.ts, lib/plannerQueries.ts       react-query reads
   lib/mutations.ts, lib/dishMutations.ts, lib/plannerMutations.ts   writes
   pages/                 SignInPage, SetupNeededPage, the setup wizard, JoinPage,
-                         AppShell + its tabs (Today, Week + SlotEditor + Rota, Dishes + AddDish + DishDetail, Home)
+                         AppShell + its tabs (Today, Week + SlotEditor + Rota + WeekGlance, Dishes + AddDish + DishDetail, Home)
 supabase/
   migrations/            tables, access rules, storage, seed cuisines, seed dishes, meal_slot_eaters
   tests/                 database rule tests (+ an optional live one-off, see Checks below)

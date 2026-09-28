@@ -10,7 +10,11 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
   `DishPicker.png`, `DishDetail.png` (the Dishes tab is the picker without its meal-slot context — no "Wednesday dinner" header
   or "Use X" button, tapping a dish opens Dish Detail instead); `Recipe.png` and the nutrition panel on `DishDetail.png` are
   **not built** — no schema for either yet, deferred (see Step 3 scope below). Step 4 screens: `Planner.png`, `SlotEditor.png`,
-  `Rota.png`; `Discussion.png` (votes/suggestions/comments) is **not built** — deferred, see Step 4 scope below.
+  `Rota.png`; `Discussion.png` (votes/suggestions/comments) is **not built** — deferred, see Step 4 scope below. Step 5
+  screens: `Today.png` (minus its votes/comments/notification bell — same Discussion deferral as Step 4), `Phone.png` +
+  `Main.png` (Week at a glance, mobile and tablet/laptop — one responsive page, not two), `Share.png` (what "Save as
+  image" produces). `Today.png`'s 5-tab nav (Today/Week/Dishes/**Health**/Family) is a different iteration from the
+  4-tab shell already built in Step 2 (Today/Week/Dishes/**Home**) — kept the existing 4 tabs, no Health tab.
 - Requirements (28 points) and decisions live in the claude.ai Project "HomeFood".
 - **Live at https://venkatesh-knr.github.io/homefood-app/** — GitHub Pages, redeploys automatically on every push to `main`
   (`.github/workflows/deploy.yml`). The repo is **public** (GitHub Pages needs that or a paid plan for a private repo).
@@ -34,7 +38,8 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
 
 React 19 + TypeScript + Vite · Tailwind CSS v4 (tokens in `src/index.css` `@theme`) · i18next · vite-plugin-pwa ·
 Supabase (Postgres + RLS, email OTP, storage) · react-router-dom · @tanstack/react-query · qrcode (client-side QR for the invite
-link — no network call, the link never leaves the device to generate it) · Vitest · oxlint.
+link — no network call, the link never leaves the device to generate it) · html-to-image (renders the Week-at-a-glance
+poster to a PNG client-side for Save-as-image/Share) · Vitest · oxlint.
 UI components are our own (`src/components/ui.tsx`); shadcn/ui is not installed — ask before adding it.
 
 Design tokens: cream `#FFF8EE` background, ink `#2B2622`, saffron `#E08A00` accent;
@@ -105,8 +110,8 @@ src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill
 src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm,
                         DishRow (+ DishThumb, DietMark), DishPickerSheet (full-screen dish picker, reused by the slot editor)
 src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
-                        AppShell (+ TodayPage placeholder, WeekPage, SlotEditorPage, RotaPage, DishesPage, AddDishPage,
-                        DishDetailPage, HomeTabPage)
+                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, DishesPage,
+                        AddDishPage, DishDetailPage, HomeTabPage)
 src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
                         wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
 ```
@@ -117,7 +122,7 @@ src/App.tsx             routes: /join/:token is public; everything else needs a 
 - [ ] Step 2 · Home setup — built, pending a live click-through (see scope below)
 - [ ] Step 3 · Dish catalogue — built, pending migrations + a live click-through (see scope below)
 - [ ] Step 4 · Planning — built, pending migration + a live click-through (see scope below)
-- [ ] Step 5 · Everyday view: Today, Week at a glance poster, history (year/month/week)
+- [ ] Step 5 · Everyday view — built, pending a live click-through (see scope below)
 - [ ] Step 6 · Polish: Tamil everywhere, welcome tour + demo home, getting-started checklist, installable app, accessibility
 - [ ] Step 7 · Family trial (2 weeks)
 
@@ -221,6 +226,39 @@ Trims, flagged rather than silently done — ask before expanding any of these:
    "Assign a turn" form (person + day/week/month + start date) per week.
 5. All new strings in en + ta; unit tests for the pure date/scaling/allergy logic in `lib/planner.ts`; `rls_test.sql` +3
    checks (47 total) for `meal_slot_eaters`' read/write isolation.
+
+### Step 5 · Everyday view — scope
+
+**Status: built, not yet tested live.** No new migration — this step is pure frontend, reusing Step 4's `week_plans`/
+`meal_slots` tables and query hooks as-is. Click-through: Today tab (next-up card, rest of today, the glance card at the
+bottom) → Week at a glance (day strip, today card, coming up; on a wide window, the full grid) → Save as image / Print /
+Share → prev/next arrows next to the date range to browse past or future weeks.
+
+Trims, flagged rather than silently done:
+- **No votes/comments/notification bell on Today** (`Today.png` shows Agree/Disagree, a comment count and a bell) — same
+  Discussion deferral as Step 4; nothing to wire them to yet.
+- **No "You ate this" consumption tracking** (`Today.png`) — `meal_slots.status` has room for it (`proposed`/`confirmed`/
+  `done`) but nothing sets it yet; needs its own small UI (a per-meal "mark as eaten" action), not just a label.
+- **History is prev/next week navigation only**, not a year/month picker. Works for any week, arbitrarily far back or
+  forward (reuses the same `useWeekPlan`/`useWeekSlots` hooks Step 4 built for the current week), but there's no "jump to
+  March" shortcut yet.
+- **Today's 5-tab nav** (`Today.png`: Today/Week/Dishes/Health/Family) **wasn't adopted** — kept the 4-tab shell from
+  Step 2 (Today/Week/Dishes/Home). No Health tab exists in this build plan.
+
+1. **Today tab** (`TodayPage`, replaces the placeholder): greeting (time-of-day band, via `greetingPeriod()`), a "next up"
+   card picked by `nextMealType()` (current time band, skipping ahead over any meal type the household has off, e.g. no
+   snacks), the rest of today's meals, a card linking to Week at a glance with a live planned-count.
+2. **Week at a glance** (`WeekGlancePage`, `/week/glance`, `Phone.png` + `Main.png` as one responsive page — a Tailwind
+   breakpoint switch between the mobile "today card + coming up list" layout and the tablet/laptop full grid, not two
+   separate pages): breaks out of `AppShell`'s mobile-width column with a full-bleed wrapper so the desktop grid actually
+   gets to be wide. Dishes only — no cook or eater names anywhere on this page, per this file's own "Week at a glance…
+   saved image shows dishes only" decision, so there was nothing to strip out for privacy.
+3. **Save as image**: `html-to-image` renders the poster container to a PNG client-side (no server round trip) and
+   triggers a download. **Share**: same PNG, handed to `navigator.share` as a file when the device supports file-sharing
+   (falls back to a "try Save as image instead" message otherwise) — no public link exists to share instead, per decision.
+4. **Print**: `window.print()` plus `print:hidden` on `AppShell`'s header/bottom-nav and this page's own buttons, so the
+   printout is just the poster.
+5. All new strings in en + ta; unit tests for `nextMealType`/`greetingPeriod` in `lib/planner.ts`. No schema/RLS changes.
 
 ## Working agreements
 
