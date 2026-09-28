@@ -44,6 +44,16 @@ export function cuisineLabel(cuisine: Cuisine, language: 'en' | 'ta'): string {
   return (language === 'ta' && cuisine.name_ta) || cuisine.name
 }
 
+/** Cuisines a dish can actually be tagged with — leaves of the tree, not pure grouping
+ * parents. "European"/"Japanese" have no parent_id (same as "Indian") but aren't
+ * themselves anyone's parent, so they're assignable; "Indian" is, so it's excluded even
+ * though nothing in its own row marks it as a group. Filtering on parent_id alone (only
+ * cuisines that have one) would wrongly hide European/Japanese too. */
+export function assignableCuisines(cuisines: Cuisine[]): Cuisine[] {
+  const parentIds = new Set(cuisines.map((c) => c.parent_id).filter((id): id is string => id !== null))
+  return cuisines.filter((c) => !parentIds.has(c.id))
+}
+
 const DISH_TONE_PALETTE = ['#F3D27A', '#D9643A', '#C08A5B', '#6B4A3A', '#EFE3C8']
 /** These tones are dark enough that the initial letter needs to be light, not ink-coloured. */
 const DARK_TONES = new Set(['#D9643A', '#C08A5B', '#6B4A3A'])

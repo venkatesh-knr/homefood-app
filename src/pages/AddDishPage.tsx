@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useCuisines, useDish } from '../lib/dishQueries'
 import { addDish, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
-import { cuisineLabel, dishDisplayName, type DishCourse, type DietType, type MealType } from '../lib/dishes'
+import { assignableCuisines, cuisineLabel, dishDisplayName, type DishCourse, type DietType, type MealType } from '../lib/dishes'
 import { isValidAllergen, isValidDisplayName, normaliseAllergen } from '../lib/validation'
 import { Button, ChipInput } from '../components/ui'
 
@@ -48,7 +48,7 @@ export default function AddDishPage() {
 
   const nameValid = isValidDisplayName(values.name_en) && values.name_en.trim().length <= 80
   const mealTypesValid = values.meal_types.length > 0
-  const leafCuisines = (cuisines ?? []).filter((c) => c.parent_id !== null)
+  const leafCuisines = assignableCuisines(cuisines ?? [])
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   useEffect(() => {

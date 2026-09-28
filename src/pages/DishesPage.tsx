@@ -6,6 +6,7 @@ import { useAllergies, useMembers } from '../lib/queries'
 import { useCuisines, useDishes, useDishPhotoOverrides } from '../lib/dishQueries'
 import {
   DEFAULT_DISH_FILTERS,
+  assignableCuisines,
   cuisineLabel as cuisineLabelOf,
   dishDisplayName,
   matchesQuery,
@@ -29,7 +30,7 @@ export default function DishesPage() {
 
   const [filters, setFilters] = useState<DishFilters>(DEFAULT_DISH_FILTERS)
 
-  const leafCuisines = useMemo(() => (cuisines ?? []).filter((c) => c.parent_id !== null), [cuisines])
+  const leafCuisines = useMemo(() => assignableCuisines(cuisines ?? []), [cuisines])
   const householdAllergens = useMemo(() => [...new Set((allergyRows ?? []).map((a) => a.allergen))], [allergyRows])
   const overrideByDish = useMemo(() => new Map((overrides ?? []).map((o) => [o.dish_id, o.photo_path])), [overrides])
   const memberById = useMemo(() => new Map((members ?? []).map((m) => [m.id, m.display_name])), [members])

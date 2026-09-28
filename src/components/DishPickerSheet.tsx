@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCuisines, useDishes } from '../lib/dishQueries'
-import { cuisineLabel as cuisineLabelOf, dishDisplayName, matchesQuery } from '../lib/dishes'
+import { assignableCuisines, cuisineLabel as cuisineLabelOf, dishDisplayName, matchesQuery } from '../lib/dishes'
 import type { DishWithNames } from '../lib/dishQueries'
 import { DishRow } from './DishRow'
 
@@ -26,7 +26,7 @@ export function DishPickerSheet({
   const [query, setQuery] = useState('')
   const [cuisineId, setCuisineId] = useState<'all' | string>('all')
 
-  const leafCuisines = useMemo(() => (cuisines ?? []).filter((c) => c.parent_id !== null), [cuisines])
+  const leafCuisines = useMemo(() => assignableCuisines(cuisines ?? []), [cuisines])
   const cuisineById = useMemo(() => new Map((cuisines ?? []).map((c) => [c.id, c])), [cuisines])
 
   const visible = useMemo(() => {

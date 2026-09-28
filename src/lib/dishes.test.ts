@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   DEFAULT_DISH_FILTERS,
+  assignableCuisines,
   cuisineLabel,
   dietColor,
   dishConflictsWith,
@@ -53,6 +54,22 @@ describe('cuisineLabel', () => {
   })
   it('falls back to the English name if Tamil is missing', () => {
     expect(cuisineLabel({ ...c, name_ta: null }, 'ta')).toBe('South Indian')
+  })
+})
+
+describe('assignableCuisines', () => {
+  // Mirrors supabase/migrations/0003_seed_cuisines.sql: "Indian" groups two children,
+  // "European"/"Japanese" stand alone with no parent_id of their own either.
+  const mk = (id: string, parent_id: string | null): Cuisine => ({ id, household_id: null, parent_id, name: id, name_ta: null, sort_order: 1 })
+  const cuisines = [mk('indian', null), mk('south', 'indian'), mk('north', 'indian'), mk('european', null), mk('japanese', null)]
+
+  it('excludes a pure grouping parent even though its own parent_id is also null', () => {
+    const ids = assignableCuisines(cuisines).map((c) => c.id)
+    expect(ids).not.toContain('indian')
+  })
+  it('includes parentless cuisines that are not themselves a parent of anything', () => {
+    const ids = assignableCuisines(cuisines).map((c) => c.id)
+    expect(ids).toEqual(expect.arrayContaining(['south', 'north', 'european', 'japanese']))
   })
 })
 
