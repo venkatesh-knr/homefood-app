@@ -107,7 +107,7 @@ select tests.refused($$ insert into public.planner_turns (household_id, profile_
 
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
-select tests.ok((select count(*) from public.dishes) = 0, 'Ravi sees none of home A''s dishes');
+select tests.ok(not exists (select 1 from public.dishes where name = 'Pongal'), 'Ravi cannot see home A''s own dish (Pongal) — the shared catalogue is visible to everyone, home dishes are not');
 select tests.refused($$ update public.profiles set role = 'member' where user_id = auth.uid() $$, 'the last Admin cannot step down');
 
 -- ── Not signed in ──
