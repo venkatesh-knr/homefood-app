@@ -32,7 +32,7 @@ function toFormValues(p: Profile, allergies: string[]): PersonFormValues {
 function statusPill(t: (k: string) => string, p: Profile) {
   if (p.kind === 'helper') return <Pill>{t('people.cookOnly')}</Pill>
   if (!p.can_login) return <Pill>{t('people.noLogin')}</Pill>
-  return <Pill tone={p.user_id ? 'success' : 'neutral'}>{p.user_id ? t('people.joined') : t('people.invited')}</Pill>
+  return <Pill tone={p.user_id ? 'success' : 'neutral'}>{p.user_id ? t('people.joined') : t('people.notJoinedYet')}</Pill>
 }
 
 export function PeopleSection({ householdId, myProfileId, isAdmin }: { householdId: string; myProfileId: string; isAdmin: boolean }) {

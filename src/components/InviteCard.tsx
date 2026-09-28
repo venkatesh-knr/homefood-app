@@ -123,7 +123,7 @@ export function InviteCard({ household, myProfileId }: { household: Household; m
               <div key={m.id} className="flex items-center gap-3 px-3.5 py-3">
                 <Avatar name={m.display_name} color={avatarColor(i + 1, m.kind)} size={36} />
                 <span className="flex-1 text-[14.5px] font-semibold">{m.display_name}</span>
-                <Pill tone={m.user_id ? 'success' : 'neutral'}>{m.user_id ? t('people.joined') : t('people.invited')}</Pill>
+                <Pill tone={m.user_id ? 'success' : 'neutral'}>{m.user_id ? t('people.joined') : t('people.notJoinedYet')}</Pill>
               </div>
             ))}
           </div>

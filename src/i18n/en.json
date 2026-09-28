@@ -79,7 +79,7 @@
     "noLogin": "No login",
     "cookOnly": "Cook only",
     "joined": "Joined",
-    "invited": "Invited",
+    "notJoinedYet": "Not joined yet",
     "familyMember": "Family member",
     "helperDetail": "Helper · not counted in servings",
     "allergyLabel": "allergy: {{list}}",
