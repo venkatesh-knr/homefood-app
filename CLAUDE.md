@@ -6,7 +6,10 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
 
 - Spec & design doc: "HomeFood — Spec & Design" (Claude Docs) — the source of truth for features.
 - **Mockups: `design/mockups/`** — 16 screens as PNGs (visual reference) plus their `.dc.html` source; index in `design/mockups/README.md`.
-  Follow their layout, spacing, colours and copy. Step 2 screens: `SetupHome.png`, `Invite.png`, `Join.png`.
+  Follow their layout, spacing, colours and copy. Step 2 screens: `SetupHome.png`, `Invite.png`, `Join.png`. Step 3 screens:
+  `DishPicker.png`, `DishDetail.png` (the Dishes tab is the picker without its meal-slot context — no "Wednesday dinner" header
+  or "Use X" button, tapping a dish opens Dish Detail instead); `Recipe.png` and the nutrition panel on `DishDetail.png` are
+  **not built** — no schema for either yet, deferred (see Step 3 scope below).
 - Requirements (28 points) and decisions live in the claude.ai Project "HomeFood".
 
 ## Decisions that must not be changed without asking
@@ -52,8 +55,11 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 ## Database
 
 - Migrations in `supabase/migrations/`. **0001–0003 are already applied** to the live project `homefood-prod` (Mumbai).
-  **0004 is new (Step 2) and still needs running** — Dashboard › SQL Editor › paste `supabase/migrations/0004_invite_details.sql` › Run.
-  Never edit an applied migration; add a new numbered file (`0005_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  **0004 (Step 2) and 0005 (Step 3) are new and still need running**, in order — Dashboard › SQL Editor › paste each file's
+  contents › Run. Never edit an applied migration; add a new numbered file (`0006_….sql`) for the next change. Venkatesh runs
+  these in Supabase › SQL Editor — tell him when one needs running.
+  `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
+  per cuisine" from the Step 3 scope below, see that section for why.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
 - Helpers: `my_profile_id()`, `my_household_id()`, `is_admin()`, `can_plan(household, date)`, `can_plan_week(household, week_start)`.
 - RPCs: `create_household(p_name, p_display_name, p_language default 'en', p_snacks_enabled default true)` → household id (caller becomes Admin);
@@ -81,10 +87,14 @@ src/lib/queries.ts      react-query reads: useMyProfile, useHousehold, useMember
 src/lib/mutations.ts    plain async writes (createHousehold, addPerson, createInvite, claimProfile…) that invalidate the query cache
 src/lib/homeContext.tsx useHome(): {profile, household} loaded once by <AppShell> and shared with every tab
 src/lib/onboarding.ts   per-device "seen the invite-your-family screen" flag (localStorage, not a DB column)
+src/lib/dishes.ts       Cuisine/Dish types + pure helpers (dishDisplayName, dietColor, passesFilters…) (+ tests)
+src/lib/dishQueries.ts  react-query reads: useCuisines, useDishes, useDish, useDishPhotoOverrides, useSignedPhotoUrl
+src/lib/dishMutations.ts addDish/updateDish/removeDish, uploadDishPhoto (strips EXIF/GPS via lib/photo.ts first)
 src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill, TogglePill, ChipInput
-src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm
+src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm,
+                        DishRow (+ DishThumb, DietMark)
 src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
-                        AppShell (+ TodayPage/WeekPage/DishesPage placeholders, HomeTabPage)
+                        AppShell (+ TodayPage/WeekPage placeholders, DishesPage, AddDishPage, DishDetailPage, HomeTabPage)
 src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
                         wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
 ```
@@ -92,8 +102,8 @@ src/App.tsx             routes: /join/:token is public; everything else needs a 
 ## Build plan (phase 1)
 
 - [x] Step 1 · Setup, design tokens, English/Tamil, email-code sign-in, schema + RLS + tests (tested live 28 Sep 2026)
-- [ ] **Step 2 · Home setup** (next — details below)
-- [ ] Step 3 · Dish catalogue: seed dishes per cuisine (incl. ~10–12 snacks each), search/filters, add a dish, Snap a dish (camera), photos
+- [ ] Step 2 · Home setup — built, pending a live click-through (see scope below)
+- [ ] Step 3 · Dish catalogue — built, pending migrations + a live click-through (see scope below)
 - [ ] Step 4 · Planning: week planner, meal editor (main + sides), cooks, dine-out/order-in, allergy warnings, publish, planner rota
 - [ ] Step 5 · Everyday view: Today, Week at a glance poster, history (year/month/week)
 - [ ] Step 6 · Polish: Tamil everywhere, welcome tour + demo home, getting-started checklist, installable app, accessibility
@@ -124,6 +134,43 @@ First run is this 2-step flow; afterwards the Admin reaches the same People + In
 6. **App shell:** bottom navigation Today · Week · Dishes · Home (placeholders except Home), language switch, sign out.
 7. All new strings in en + ta; add unit tests where logic exists; extend rls_test.sql if schema/policies change.
    Check at 375px wide in both languages before calling it done.
+
+### Step 3 · Dish catalogue — scope
+
+**Status: built, not yet tested live.** Needs migration `0005_seed_dishes.sql` run in Supabase (0004 too, if that's still
+pending), then a click-through: Dishes tab → search/filter/cuisine chips → open a dish → Add new dish → Snap a dish (opens
+the phone's camera app, not a custom viewfinder — see below) → Replace photo.
+
+Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — ask before expanding any of these:
+- **Seed set is ~30 dishes** (6 per cuisine, mixed meals/diets), not the full "10-12 snacks per cuisine". Full depth is a
+  content-authoring task, easy to add later as more `dishes`/`dish_names` rows — no code changes needed for that.
+- **No real stock photos.** Seeded dishes show the same colour+initial placeholder as `DishPicker.png` shows in its list rows;
+  "Replace photo" (upload to the household's private bucket, see Database below) works fully.
+- **No Recipe screen or nutrition panel** (`Recipe.png`, and the "Nutrition per serving" / "For your family" sections on
+  `DishDetail.png`). No schema for nutrition facts or recipe ingredients/steps exists — that's a data-modelling decision
+  (where does nutrition data come from? who authors recipe steps?) bigger than this pass. Dish Detail shows name, cuisine,
+  meal/course, diet, prep time, a real allergy check against the household's own members (using `profile_allergies` — not
+  the "sample values" the mockup shows), and working YouTube/Instagram search links (built from the dish name).
+- **"Snap a dish" uses `<input type="file" capture="environment">`**, which opens the phone's own camera app, instead of a
+  custom full-screen viewfinder with a plate-shaped frame like `SnapDish.png`. Same result (attach a photo to a new dish),
+  much less code/risk.
+- Dish rows aren't "sorted by family favourites" (mockup) — no meal history exists yet to sort by. Alphabetical for now;
+  revisit once Step 4/5 planning data exists.
+
+1. **Catalogue:** `dishes` + `dish_names` (already in migration 0001) hold the shared catalogue (`household_id` null) and each
+   home's own additions. `lib/dishes.ts` has the search/filter logic (cuisine, course, diet, meal type, "safe for everyone
+   eating" — cross-checked against real `profile_allergies`), all unit-tested.
+2. **Dishes tab:** search (matches English or Tamil), cuisine chips (+ "My dishes"), course/diet/meal filters, dish list.
+   Tapping a row opens Dish Detail.
+3. **Add a dish** (`/dishes/new`): name (en + optional ta), cuisine, meal types, course, diet, tags, allergens, prep time,
+   optional photo. Editing is limited to the household's own dishes (creator or Admin) — the shared catalogue is read-only
+   except for photo replacement, which any member can do.
+4. **Snap a dish:** camera capture → straight into the add-dish form with the photo pre-attached.
+5. **Photos:** private `dish-photos` bucket (from migration 0002), one override per household per dish. Uploads go through
+   `lib/photo.ts`'s `stripPhotoMetadata()` first — re-encodes via `<canvas>`, which drops all EXIF including GPS, satisfying
+   the "strips location data" comment in migration 0002 without an EXIF-parsing library.
+6. All new strings in en + ta; unit tests for the pure filter/display logic; no RLS/schema changes beyond the seed data, so
+   `rls_test.sql`'s 44 checks are unaffected.
 
 ## Working agreements
 

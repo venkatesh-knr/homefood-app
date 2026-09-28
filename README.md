@@ -20,8 +20,8 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 ## Build status (phase 1)
 
 - [x] **Step 1 · Setup:** project, design tokens, English/Tamil, email-code sign-in, database schema with access rules and tests
-- [ ] Step 2 · Home setup: create a home, add profiles, invite link, join flow
-- [ ] Step 3 · Dish catalogue: seed data, search and filters, add a dish, Snap a dish, photos
+- [ ] Step 2 · Home setup: create a home, add profiles, invite link, join flow — built, pending a live click-through
+- [ ] Step 3 · Dish catalogue: seed data, search and filters, add a dish, Snap a dish, photos — built, pending migrations + a live click-through
 - [ ] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota
 - [ ] Step 5 · Everyday view: Today, Week at a glance poster, history
 - [ ] Step 6 · Polish: Tamil throughout, welcome tour, checklist, installable app, accessibility
@@ -38,6 +38,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
    2. `supabase/migrations/0002_storage.sql`
    3. `supabase/migrations/0003_seed_cuisines.sql`
    4. `supabase/migrations/0004_invite_details.sql`
+   5. `supabase/migrations/0005_seed_dishes.sql`
 3. **Turn on email codes:** Authentication › **Sign In / Providers** › Email: enabled, "Confirm email" on.
    Authentication › **Emails**: paste `supabase/email-templates/sign-in-code.html` into **both** the "Confirm signup" template (used the very first time someone signs in) and the "Magic Link" template (used after that), each with the subject `Your HomeFood code: {{ .Token }}`. Set the email OTP expiry to **600** seconds.
 4. **Email sending:** Supabase's built-in email is for testing only and sends just a few emails an hour. Before the family trial, add a custom SMTP sender (Authentication › Emails › SMTP settings) from a transactional email service.
@@ -71,15 +72,19 @@ npm run test:db   # database rule tests; needs PostgreSQL installed locally
 
 ```
 src/
-  components/            shared UI (ui.tsx) and home-setup pieces (PersonForm, PeopleSection, InviteCard, SignInForm…)
+  components/            shared UI (ui.tsx), home-setup pieces (PersonForm, PeopleSection, InviteCard, SignInForm…)
+                         and dish pieces (DishRow)
   i18n/                  English and Tamil strings (+ test that both match)
   lib/supabase.ts        Supabase client (public URL + anon key only)
   lib/auth.tsx           email-code sign-in, stays signed in per device
   lib/people.ts          shared types + pure helpers (age bands, avatar colours, invite state…) (+ tests)
-  lib/queries.ts         react-query reads; lib/mutations.ts — writes
-  pages/                 SignInPage, SetupNeededPage, the setup wizard, JoinPage, AppShell + its tabs
+  lib/dishes.ts          dish types + pure helpers (search/filter logic, diet colours…) (+ tests)
+  lib/photo.ts           strips EXIF/GPS from a photo (canvas re-encode) before it's uploaded
+  lib/queries.ts, lib/dishQueries.ts   react-query reads; lib/mutations.ts, lib/dishMutations.ts — writes
+  pages/                 SignInPage, SetupNeededPage, the setup wizard, JoinPage,
+                         AppShell + its tabs (Today, Week, Dishes, AddDish, DishDetail, Home)
 supabase/
-  migrations/            tables, access rules, storage, seed cuisines
+  migrations/            tables, access rules, storage, seed cuisines, seed dishes
   tests/                 database rule tests (+ an optional live one-off, see Checks below)
   email-templates/       sign-in code email (English + Tamil)
 design/mockups/          reference screens (PNGs) for layout, spacing, colours and copy
