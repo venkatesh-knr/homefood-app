@@ -38,6 +38,7 @@ export function DishRow({
   tone,
   photoPath,
   note,
+  onSelect,
 }: {
   dishId: string
   name: string
@@ -47,6 +48,8 @@ export function DishRow({
   tone: number
   photoPath?: string | null
   note?: { text: string; kind: 'favourite' | 'allergy' | 'info' | 'mine' }
+  /** When given, picking the row calls this instead of navigating to Dish Detail (used by DishPickerSheet). */
+  onSelect?: () => void
 }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -61,7 +64,7 @@ export function DishRow({
   return (
     <button
       type="button"
-      onClick={() => navigate(`/dishes/${dishId}`)}
+      onClick={onSelect ?? (() => navigate(`/dishes/${dishId}`))}
       className="flex items-center gap-3 rounded-2xl border border-line bg-white p-3 text-left"
     >
       <DishThumb name={name} tone={tone} photoPath={photoPath} />

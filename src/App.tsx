@@ -14,6 +14,8 @@ import SetupHomeStep2Page from './pages/SetupHomeStep2Page'
 import AppShell from './pages/AppShell'
 import TodayPage from './pages/TodayPage'
 import WeekPage from './pages/WeekPage'
+import SlotEditorPage from './pages/SlotEditorPage'
+import RotaPage from './pages/RotaPage'
 import DishesPage from './pages/DishesPage'
 import AddDishPage from './pages/AddDishPage'
 import DishDetailPage from './pages/DishDetailPage'
@@ -57,6 +59,8 @@ function OnboardingGate({ profile }: { profile: Profile }) {
       <Route element={<AppShell />}>
         <Route path="today" element={<TodayPage />} />
         <Route path="week" element={<WeekPage />} />
+        <Route path="week/rota" element={<RotaPage />} />
+        <Route path="week/:date/:meal" element={<SlotEditorPage />} />
         <Route path="dishes" element={<DishesPage />} />
         <Route path="dishes/new" element={<AddDishPage />} />
         <Route path="dishes/:dishId/edit" element={<AddDishPage />} />
