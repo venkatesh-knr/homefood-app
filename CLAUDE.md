@@ -9,8 +9,11 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
   Follow their layout, spacing, colours and copy. Step 2 screens: `SetupHome.png`, `Invite.png`, `Join.png`. Step 3 screens:
   `DishPicker.png`, `DishDetail.png` (the Dishes tab is the picker without its meal-slot context — no "Wednesday dinner" header
   or "Use X" button, tapping a dish opens Dish Detail instead); `Recipe.png` and the nutrition panel on `DishDetail.png` are
-  **not built** — no schema for either yet, deferred (see Step 3 scope below).
+  **not built** — no schema for either yet, deferred (see Step 3 scope below). Step 4 screens: `Planner.png`, `SlotEditor.png`,
+  `Rota.png`; `Discussion.png` (votes/suggestions/comments) is **not built** — deferred, see Step 4 scope below.
 - Requirements (28 points) and decisions live in the claude.ai Project "HomeFood".
+- **Live at https://venkatesh-knr.github.io/homefood-app/** — GitHub Pages, redeploys automatically on every push to `main`
+  (`.github/workflows/deploy.yml`). The repo is **public** (GitHub Pages needs that or a paid plan for a private repo).
 
 ## Decisions that must not be changed without asking
 
@@ -55,11 +58,11 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 ## Database
 
 - Migrations in `supabase/migrations/`. **0001–0003 are already applied** to the live project `homefood-prod` (Mumbai).
-  **0004 (Step 2) and 0005 (Step 3) are new and still need running**, in order — Dashboard › SQL Editor › paste each file's
-  contents › Run. Never edit an applied migration; add a new numbered file (`0006_….sql`) for the next change. Venkatesh runs
-  these in Supabase › SQL Editor — tell him when one needs running.
+  **0004 (Step 2), 0005 (Step 3) and 0006 (Step 4) are new and still need running**, in order — Dashboard › SQL Editor ›
+  paste each file's contents › Run. Never edit an applied migration; add a new numbered file (`0007_….sql`) for the next
+  change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
-  per cuisine" from the Step 3 scope below, see that section for why.
+  per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
 - Helpers: `my_profile_id()`, `my_household_id()`, `is_admin()`, `can_plan(household, date)`, `can_plan_week(household, week_start)`.
 - RPCs: `create_household(p_name, p_display_name, p_language default 'en', p_snacks_enabled default true)` → household id (caller becomes Admin);
@@ -67,10 +70,14 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 44 checks). Local PostgreSQL isn't available on this machine, so these
-  haven't been run since Step 2's changes — `npm run test:db` needs WSL/Git Bash + PostgreSQL. There's also `supabase/tests/live_check_0004.sql`,
-  an optional one-off check you can paste into the SQL Editor after running 0004 (it makes two throwaway demo users, checks the new `get_invite`
-  shape, then has a cleanup block at the bottom — run that too so no demo data is left behind).
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 47 checks — all passing in CI, see below). There's also
+  `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
+  two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
+  data is left behind).
+- **CI runs `rls_test.sql` automatically** on every push to `main` (`.github/workflows/ci.yml`, job "Database rule tests" —
+  spins up a real ephemeral Postgres). Local PostgreSQL still isn't available on this dev machine, so `npm run test:db` hasn't
+  been run here directly, but the same checks run in CI every push — check the Actions tab (or ask Claude Code) if unsure a
+  migration passed them.
 
 Auth/email (already configured in the dashboard, no code needed): custom SMTP via Brevo (free, 300 emails/day),
 templates "Confirm sign up" + "Magic link" send `{{ .Token }}` (`supabase/email-templates/sign-in-code.html`),
@@ -90,11 +97,16 @@ src/lib/onboarding.ts   per-device "seen the invite-your-family screen" flag (lo
 src/lib/dishes.ts       Cuisine/Dish types + pure helpers (dishDisplayName, dietColor, passesFilters…) (+ tests)
 src/lib/dishQueries.ts  react-query reads: useCuisines, useDishes, useDish, useDishPhotoOverrides, useSignedPhotoUrl
 src/lib/dishMutations.ts addDish/updateDish/removeDish, uploadDishPhoto (strips EXIF/GPS via lib/photo.ts first)
+src/lib/planner.ts      week/meal types + pure helpers (weekStartOf, weekDates, mealAllergyConflicts, turnCoversDate…) (+ tests)
+src/lib/plannerQueries.ts react-query reads: useWeekPlan, useWeekSlots (one call, embeds dish/sides/cooks/eaters), usePlannerTurns
+src/lib/plannerMutations.ts getOrCreateWeekPlan, saveSlot (upserts a slot + replaces sides/cooks/eaters), clearSlot,
+                        publishWeek, copyDay/copyWeek (client-orchestrated, never overwrites an existing slot), assignPlannerTurn
 src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill, TogglePill, ChipInput
 src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm,
-                        DishRow (+ DishThumb, DietMark)
+                        DishRow (+ DishThumb, DietMark), DishPickerSheet (full-screen dish picker, reused by the slot editor)
 src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
-                        AppShell (+ TodayPage/WeekPage placeholders, DishesPage, AddDishPage, DishDetailPage, HomeTabPage)
+                        AppShell (+ TodayPage placeholder, WeekPage, SlotEditorPage, RotaPage, DishesPage, AddDishPage,
+                        DishDetailPage, HomeTabPage)
 src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
                         wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
 ```
@@ -104,7 +116,7 @@ src/App.tsx             routes: /join/:token is public; everything else needs a 
 - [x] Step 1 · Setup, design tokens, English/Tamil, email-code sign-in, schema + RLS + tests (tested live 28 Sep 2026)
 - [ ] Step 2 · Home setup — built, pending a live click-through (see scope below)
 - [ ] Step 3 · Dish catalogue — built, pending migrations + a live click-through (see scope below)
-- [ ] Step 4 · Planning: week planner, meal editor (main + sides), cooks, dine-out/order-in, allergy warnings, publish, planner rota
+- [ ] Step 4 · Planning — built, pending migration + a live click-through (see scope below)
 - [ ] Step 5 · Everyday view: Today, Week at a glance poster, history (year/month/week)
 - [ ] Step 6 · Polish: Tamil everywhere, welcome tour + demo home, getting-started checklist, installable app, accessibility
 - [ ] Step 7 · Family trial (2 weeks)
@@ -171,6 +183,44 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
    the "strips location data" comment in migration 0002 without an EXIF-parsing library.
 6. All new strings in en + ta; unit tests for the pure filter/display logic; no RLS/schema changes beyond the seed data, so
    `rls_test.sql`'s 44 checks are unaffected.
+
+### Step 4 · Planning — scope
+
+**Status: built, not yet tested live.** Needs migration `0006_meal_slot_eaters.sql` run in Supabase, then a click-through:
+Week tab → tap an empty meal → pick a main dish + sides → who cooks/eats → Save → back on Week, tap Publish week → Rota
+(as Admin, assign a turn to someone; as a member, confirm you only see it read-only).
+
+Trims, flagged rather than silently done — ask before expanding any of these:
+- **The whole Discussion screen is deferred** (`Discussion.png`: agree/disagree votes, a suggestion-swap flow, comments).
+  Needs 3 new tables and isn't in this section's original bullet list (only in README's screen-mapping table) — sizeable
+  enough to be its own pass.
+- **No "fried dishes this week" balance banner** (`Planner.png`) — needs a per-household limit that hasn't been decided
+  (configurable? fixed?).
+- **No real notifications.** "Everyone is notified when you publish" (mockup copy) doesn't happen — no push infrastructure
+  exists yet. Publish just flips the week to published.
+- **Rota is Admin-assigns-only, no member self-claim.** The mockup shows members tapping "I'll plan this week" on a free
+  slot, but this section's own decision says *"phase 1: Admin assigns turns"* — and the DB already enforces exactly that
+  (`rls_test.sql`: "members cannot assign turns themselves"). Members see the schedule read-only with an "ask your Admin"
+  note instead of a claim button.
+- **Copy last day / Copy last week never overwrite an existing slot** — only fills empty ones. Simpler and safer than the
+  mockup's implied "start fresh from last week", at the cost of not being able to bulk-replace a week that's partly planned.
+
+1. **New table:** `meal_slot_eaters` (migration 0006) — who's eating each meal, needed for recipe scaling ("Recipe scaled to
+   5 · helper not counted") and the allergy-warning cross-check. Everything else fits the existing schema (`week_plans`,
+   `meal_slots`, `meal_slot_sides`, `meal_slot_cooks`, `planner_turns`, all from migration 0001).
+2. **Week tab** (`WeekPage`, replaces the placeholder): 7-day strip with per-day planned/possible counts, prev/next week,
+   the selected day's meal cards (empty → "tap to plan"; filled → dish + sides + source badge + cooks + a real allergy
+   check against the household's `profile_allergies`), Copy last day/week, Publish week — all three only shown to whoever
+   can actually plan that day/week (Admin, or has an approved `planner_turns` row covering it).
+3. **Slot editor** (`/week/:date/:meal`): Home/Dine-out/Order-in tabs. Home: main dish + up to 3 sides (both via
+   `DishPickerSheet`, a full-screen overlay reusing the dish search/filter logic so in-progress edits never get lost to a
+   page navigation), the real per-eater allergy warning (`mealAllergyConflicts` in `lib/planner.ts`, unit-tested), who
+   cooks (anyone, including the helper), who's eating (family members only — the helper is never counted, per this file's
+   own decision), a note, YouTube/Instagram search links. Dine-out/Order-in: just a place name.
+4. **Rota** (`/week/rota`): next 6 weeks, each day coloured by whoever's `planner_turns` covers it. Admin sees an inline
+   "Assign a turn" form (person + day/week/month + start date) per week.
+5. All new strings in en + ta; unit tests for the pure date/scaling/allergy logic in `lib/planner.ts`; `rls_test.sql` +3
+   checks (47 total) for `meal_slot_eaters`' read/write isolation.
 
 ## Working agreements
 

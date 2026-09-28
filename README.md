@@ -3,8 +3,10 @@
 A family meal planner: plan breakfast, lunch, evening snacks and dinner for the week, together.
 Web app first (installable on phones), later wrapped for Android and iOS with Capacitor.
 
+**Live:** https://venkatesh-knr.github.io/homefood-app/ (redeploys automatically on every push to `main`)
+
 - **Spec & design doc:** HomeFood — Spec & Design (Claude Docs)
-- **Mockups:** HomeFood Mockups canvas (16 clickable screens)
+- **Mockups:** HomeFood Mockups canvas (16 clickable screens) — also snapshotted under `design/mockups/`
 
 ## Tech stack
 
@@ -15,14 +17,15 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 | Languages | English and Tamil via i18next (`src/i18n/en.json`, `src/i18n/ta.json`) |
 | Backend | Supabase: Postgres with row-level security, email-code sign-in, private photo storage |
 | Installable app | PWA (vite-plugin-pwa) |
-| Tests | Vitest (app) and SQL rule tests on a local PostgreSQL (`npm run test:db`) |
+| Tests | Vitest (app) + SQL rule tests (`npm run test:db` locally, or automatically in CI against a real Postgres) |
+| CI/CD | GitHub Actions: build/test/lint + DB rule tests on every push (`ci.yml`); auto-deploy to GitHub Pages (`deploy.yml`) |
 
 ## Build status (phase 1)
 
 - [x] **Step 1 · Setup:** project, design tokens, English/Tamil, email-code sign-in, database schema with access rules and tests
 - [ ] Step 2 · Home setup: create a home, add profiles, invite link, join flow — built, pending a live click-through
 - [ ] Step 3 · Dish catalogue: seed data, search and filters, add a dish, Snap a dish, photos — built, pending migrations + a live click-through
-- [ ] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota
+- [ ] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota — built, pending migration + a live click-through
 - [ ] Step 5 · Everyday view: Today, Week at a glance poster, history
 - [ ] Step 6 · Polish: Tamil throughout, welcome tour, checklist, installable app, accessibility
 - [ ] Step 7 · Family trial (2 weeks)
@@ -39,6 +42,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
    3. `supabase/migrations/0003_seed_cuisines.sql`
    4. `supabase/migrations/0004_invite_details.sql`
    5. `supabase/migrations/0005_seed_dishes.sql`
+   6. `supabase/migrations/0006_meal_slot_eaters.sql`
 3. **Turn on email codes:** Authentication › **Sign In / Providers** › Email: enabled, "Confirm email" on.
    Authentication › **Emails**: paste `supabase/email-templates/sign-in-code.html` into **both** the "Confirm signup" template (used the very first time someone signs in) and the "Magic Link" template (used after that), each with the subject `Your HomeFood code: {{ .Token }}`. Set the email OTP expiry to **600** seconds.
 4. **Email sending:** Supabase's built-in email is for testing only and sends just a few emails an hour. Before the family trial, add a custom SMTP sender (Authentication › Emails › SMTP settings) from a transactional email service.
@@ -66,29 +70,33 @@ npm run build     # production build
 npm run test:db   # database rule tests; needs PostgreSQL installed locally
 ```
 
-`npm run test:db` creates a throwaway local database, loads the migrations with small stand-ins for Supabase's `auth` schema, and runs `supabase/tests/rls_test.sql`: 44 checks that one home can never see or change another's data, that only Admins manage people and invites, and that Planners can only plan their own turns. Needs PostgreSQL installed locally; if it isn't, `supabase/tests/live_check_0004.sql` is an optional one-off you can run in the Supabase SQL Editor instead (it cleans up after itself).
+`npm run test:db` creates a throwaway local database, loads the migrations with small stand-ins for Supabase's `auth` schema, and runs `supabase/tests/rls_test.sql`: 47 checks that one home can never see or change another's data, that only Admins manage people and invites, and that Planners can only plan their own turns. Needs PostgreSQL installed locally; if it isn't (nobody on this project has it), the same 47 checks run automatically in GitHub Actions on every push — see the "Database rule tests" job. `supabase/tests/live_check_0004.sql` is also an optional one-off you can run in the Supabase SQL Editor instead (it cleans up after itself).
 
 ## Project layout
 
 ```
 src/
-  components/            shared UI (ui.tsx), home-setup pieces (PersonForm, PeopleSection, InviteCard, SignInForm…)
-                         and dish pieces (DishRow)
+  components/            shared UI (ui.tsx), home-setup pieces (PersonForm, PeopleSection, InviteCard, SignInForm…),
+                         dish pieces (DishRow, DishPickerSheet)
   i18n/                  English and Tamil strings (+ test that both match)
   lib/supabase.ts        Supabase client (public URL + anon key only)
   lib/auth.tsx           email-code sign-in, stays signed in per device
   lib/people.ts          shared types + pure helpers (age bands, avatar colours, invite state…) (+ tests)
   lib/dishes.ts          dish types + pure helpers (search/filter logic, diet colours…) (+ tests)
+  lib/planner.ts         week/meal types + pure helpers (week dates, allergy cross-check…) (+ tests)
   lib/photo.ts           strips EXIF/GPS from a photo (canvas re-encode) before it's uploaded
-  lib/queries.ts, lib/dishQueries.ts   react-query reads; lib/mutations.ts, lib/dishMutations.ts — writes
+  lib/queries.ts, lib/dishQueries.ts, lib/plannerQueries.ts       react-query reads
+  lib/mutations.ts, lib/dishMutations.ts, lib/plannerMutations.ts   writes
   pages/                 SignInPage, SetupNeededPage, the setup wizard, JoinPage,
-                         AppShell + its tabs (Today, Week, Dishes, AddDish, DishDetail, Home)
+                         AppShell + its tabs (Today, Week + SlotEditor + Rota, Dishes + AddDish + DishDetail, Home)
 supabase/
-  migrations/            tables, access rules, storage, seed cuisines, seed dishes
+  migrations/            tables, access rules, storage, seed cuisines, seed dishes, meal_slot_eaters
   tests/                 database rule tests (+ an optional live one-off, see Checks below)
   email-templates/       sign-in code email (English + Tamil)
 design/mockups/          reference screens (PNGs) for layout, spacing, colours and copy
 public/icons/            app icons (placeholder until the Canva icon is ready)
+public/404.html          GitHub Pages SPA redirect (so a shared /join/<token> link works when opened directly)
+.github/workflows/       ci.yml (build/test/lint + DB tests), deploy.yml (GitHub Pages)
 ```
 
 ## Security notes
