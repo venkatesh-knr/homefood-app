@@ -182,9 +182,6 @@
       "home": "Home"
     }
   },
-  "placeholder": {
-    "today": "Today's meals will show up here soon."
-  },
   "meal": {
     "breakfast": "Breakfast",
     "lunch": "Lunch",
@@ -261,6 +258,32 @@
     "startDate": "Starting",
     "save": "Save turn",
     "noUpcoming": "No turns assigned yet."
+  },
+  "today": {
+    "greetingMorning": "Good morning, {{name}}",
+    "greetingAfternoon": "Good afternoon, {{name}}",
+    "greetingEvening": "Good evening, {{name}}",
+    "nextUp": "Next up · {{meal}}",
+    "restOfToday": "Rest of today",
+    "nothingNextUp": "Nothing planned yet — tap to plan it",
+    "nothingPlanned": "Nothing planned for {{meal}} yet",
+    "glanceTitle": "This week at a glance",
+    "glanceCta": "See the whole week"
+  },
+  "glance": {
+    "title": "Week at a glance",
+    "today": "Today",
+    "comingUp": "Coming up",
+    "saveImage": "Save as image",
+    "saving": "Saving…",
+    "print": "Print",
+    "share": "Share",
+    "shareText": "{{home}}'s menu, {{range}}",
+    "shareUnavailable": "Sharing isn't available on this device — try Save as image instead.",
+    "notPlanned": "Not planned",
+    "noSnacksPlanned": "No snacks planned",
+    "dishesOnly": "Dishes only · no names or health details",
+    "plannedTogether": "Planned together with {{app}}"
   },
   "dishes": {
     "searchPlaceholder": "Search in English or தமிழ்",

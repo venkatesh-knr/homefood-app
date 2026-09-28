@@ -118,3 +118,31 @@ export function mealAllergyConflicts(
 export function sourceLabelKey(source: MealSource): string {
   return { home: 'planner.source.home', dine_out: 'planner.source.dineOut', order_in: 'planner.source.orderIn' }[source]
 }
+
+/** Rough meal band for the hour of day — breakfast <11, lunch <15, snacks <19, else dinner. */
+function mealBandAt(hour: number): MealType {
+  if (hour < 11) return 'breakfast'
+  if (hour < 15) return 'lunch'
+  if (hour < 19) return 'snacks'
+  return 'dinner'
+}
+
+/** Today's "next up" meal card on the Today page: the current time band, or the next active
+ * meal after it if this household has that one turned off (e.g. no snacks) or skips ahead of
+ * it in the day. Falls back to the last active meal once the day's meals are all behind us. */
+export function nextMealType(now: Date, active: MealType[]): MealType {
+  const order: MealType[] = ['breakfast', 'lunch', 'snacks', 'dinner']
+  const from = order.indexOf(mealBandAt(now.getHours()))
+  for (let i = from; i < order.length; i++) {
+    const m = order[i]!
+    if (active.includes(m)) return m
+  }
+  return active[active.length - 1] ?? 'dinner'
+}
+
+export function greetingPeriod(now: Date): 'morning' | 'afternoon' | 'evening' {
+  const h = now.getHours()
+  if (h < 12) return 'morning'
+  if (h < 17) return 'afternoon'
+  return 'evening'
+}
