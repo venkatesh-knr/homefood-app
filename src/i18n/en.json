@@ -169,7 +169,7 @@
     "nameTaken": "That name was just taken. Pick another, or ask the Admin to add you.",
     "expired": "This invite link has expired or was cancelled.",
     "askForNew": "Ask whoever invited you for a new link.",
-    "everyoneJoined": "Everyone has already joined. Ask an Admin for a new invite link.",
+    "noOneToJoin": "No one else here has app access yet. Ask your Admin to turn on \"Uses the app\" for someone in People, then share this link again.",
     "alreadyInHome": "You already belong to a home.",
     "goToApp": "Go to your home",
     "loading": "Loading the invite…"

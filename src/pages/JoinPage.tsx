@@ -82,7 +82,7 @@ export default function JoinPage() {
       </div>
 
       {preview.people.length === 0 ? (
-        <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('join.everyoneJoined')}</p>
+        <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('join.noOneToJoin')}</p>
       ) : (
         <>
           <span className="pb-2.5 font-display text-[17px] font-semibold">{t('join.whichOneIsYou')}</span>
