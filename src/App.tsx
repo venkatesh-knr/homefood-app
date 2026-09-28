@@ -15,6 +15,8 @@ import AppShell from './pages/AppShell'
 import TodayPage from './pages/TodayPage'
 import WeekPage from './pages/WeekPage'
 import DishesPage from './pages/DishesPage'
+import AddDishPage from './pages/AddDishPage'
+import DishDetailPage from './pages/DishDetailPage'
 import HomeTabPage from './pages/HomeTabPage'
 
 export default function App() {
@@ -56,6 +58,9 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="today" element={<TodayPage />} />
         <Route path="week" element={<WeekPage />} />
         <Route path="dishes" element={<DishesPage />} />
+        <Route path="dishes/new" element={<AddDishPage />} />
+        <Route path="dishes/:dishId/edit" element={<AddDishPage />} />
+        <Route path="dishes/:dishId" element={<DishDetailPage />} />
         <Route path="home" element={<HomeTabPage />} />
         <Route path="*" element={<Navigate to="/today" replace />} />
       </Route>
