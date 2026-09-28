@@ -16,6 +16,7 @@ import TodayPage from './pages/TodayPage'
 import WeekPage from './pages/WeekPage'
 import SlotEditorPage from './pages/SlotEditorPage'
 import RotaPage from './pages/RotaPage'
+import WeekGlancePage from './pages/WeekGlancePage'
 import DishesPage from './pages/DishesPage'
 import AddDishPage from './pages/AddDishPage'
 import DishDetailPage from './pages/DishDetailPage'
@@ -60,6 +61,7 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="today" element={<TodayPage />} />
         <Route path="week" element={<WeekPage />} />
         <Route path="week/rota" element={<RotaPage />} />
+        <Route path="week/glance" element={<WeekGlancePage />} />
         <Route path="week/:date/:meal" element={<SlotEditorPage />} />
         <Route path="dishes" element={<DishesPage />} />
         <Route path="dishes/new" element={<AddDishPage />} />

@@ -27,7 +27,7 @@ export default function AppShell() {
   return (
     <HomeProvider value={{ profile, household }}>
       <div className="mx-auto flex min-h-screen max-w-md flex-col">
-        <header className="flex items-center justify-between gap-3 px-5 py-3">
+        <header className="flex items-center justify-between gap-3 px-5 py-3 print:hidden">
           <div className="flex min-w-0 items-center gap-2.5">
             <Logo size={32} />
             <span className="truncate font-display text-[16px] font-semibold">{household.name}</span>
@@ -39,7 +39,7 @@ export default function AppShell() {
           <Outlet />
         </div>
 
-        <nav className="fixed inset-x-0 bottom-0 mx-auto flex max-w-md border-t border-line bg-white">
+        <nav className="fixed inset-x-0 bottom-0 mx-auto flex max-w-md border-t border-line bg-white print:hidden">
           {TABS.map(({ to, labelKey, icon: Icon }) => (
             <NavLink
               key={to}
