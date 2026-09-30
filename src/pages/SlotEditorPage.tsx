@@ -358,6 +358,7 @@ export default function SlotEditorPage() {
         <DishPickerSheet
           householdId={household.id}
           title={picking === 'main' ? t('planner.changeMainTitle') : t('planner.addSideTitle')}
+          course={picking}
           excludeIds={picking === 'side' ? [...sideDishes.map((d) => d.id), ...(mainDish ? [mainDish.id] : [])] : []}
           onClose={() => setPicking(null)}
           onPick={(dish) => {

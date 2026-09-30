@@ -5,16 +5,20 @@ import { assignableCuisines, cuisineLabel as cuisineLabelOf, dishDisplayName, ma
 import type { DishWithNames } from '../lib/dishQueries'
 import { DishRow } from './DishRow'
 
-/** Full-screen overlay for picking a dish (main or side) inside the slot editor — search + cuisine chips, tap to pick. */
+/** Full-screen overlay for picking a dish (main or side) inside the slot editor — search + cuisine chips, tap to pick.
+ * Restricted to dishes whose course matches (a 'both' dish, e.g. a side that also works as a light main, shows for
+ * either) so picking a side doesn't list the whole catalogue again, mains included. */
 export function DishPickerSheet({
   householdId,
   title,
+  course,
   excludeIds = [],
   onPick,
   onClose,
 }: {
   householdId: string
   title: string
+  course: 'main' | 'side'
   excludeIds?: string[]
   onPick: (dish: DishWithNames) => void
   onClose: () => void
@@ -32,6 +36,7 @@ export function DishPickerSheet({
   const visible = useMemo(() => {
     return (dishes ?? [])
       .filter((d) => !excludeIds.includes(d.id))
+      .filter((d) => d.course === 'both' || d.course === course)
       .filter((d) => cuisineId === 'all' || d.cuisine_id === cuisineId)
       .filter((d) => {
         const name = dishDisplayName(d, d.dish_names, lang)
@@ -39,7 +44,7 @@ export function DishPickerSheet({
         return matchesQuery(name, nameTa, query)
       })
       .sort((a, b) => dishDisplayName(a, a.dish_names, lang).localeCompare(dishDisplayName(b, b.dish_names, lang)))
-  }, [dishes, excludeIds, cuisineId, query, lang])
+  }, [dishes, excludeIds, course, cuisineId, query, lang])
 
   return (
     <div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-50 flex flex-col bg-cream">
