@@ -142,7 +142,8 @@
     "createNew": "Create a new invite link",
     "cancelLink": "Cancel this link",
     "whoHasJoined": "Who has joined",
-    "noLoginFootnote": "{{names}} don't need a login. You can plan and record meals for them.",
+    "noLoginFootnote_one": "{{names}} doesn't need a login. You can plan and record meals for them.",
+    "noLoginFootnote_other": "{{names}} don't need a login. You can plan and record meals for them.",
     "gettingStarted": "Getting started · {{done}} of {{total}}",
     "steps": {
       "people": "Add who lives here",

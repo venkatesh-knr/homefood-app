@@ -15,6 +15,7 @@ import {
   weekDates,
   weekStartOf,
   weekdayLetter,
+  weekdayShort,
   type MealType,
 } from '../lib/planner'
 import { avatarColor } from '../lib/people'
@@ -176,7 +177,7 @@ export default function WeekPage() {
         <span className="font-display text-[17px] font-semibold">{selectedLabel}</span>
         {canPlanSelected && (
           <button type="button" onClick={onCopyDay} disabled={busy !== null} className="text-[13px] font-semibold text-saffron-ink">
-            {busy === 'copy-day' ? t('planner.copying') : t('planner.copyLastDay', { day: weekdayLetter(selectedDate) })}
+            {busy === 'copy-day' ? t('planner.copying') : t('planner.copyLastDay', { day: weekdayShort(selectedDate, lang) })}
           </button>
         )}
       </div>

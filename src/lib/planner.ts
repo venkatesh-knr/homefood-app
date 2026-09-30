@@ -87,6 +87,12 @@ export function weekdayLetter(isoDate: string): string {
   return ONE_LETTER[new Date(y!, m! - 1, d!).getDay()]!
 }
 
+/** Short localized weekday name ("Wed", "செவ்") for copy like "Copy last Wed". */
+export function weekdayShort(isoDate: string, lang: 'en' | 'ta'): string {
+  const fmt = new Intl.DateTimeFormat(lang === 'ta' ? 'ta-IN' : 'en-IN', { weekday: 'short' })
+  return fmt.format(new Date(`${isoDate}T00:00:00`))
+}
+
 export function dayOfMonth(isoDate: string): number {
   return Number(isoDate.split('-')[2])
 }

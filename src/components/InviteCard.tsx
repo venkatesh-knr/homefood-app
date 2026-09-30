@@ -130,7 +130,7 @@ export function InviteCard({ household, myProfileId }: { household: Household; m
         </>
       )}
       {noLoginNames.length > 0 && (
-        <p className="text-[12.5px] text-muted">{t('invite.noLoginFootnote', { names: joinNames(noLoginNames) })}</p>
+        <p className="text-[12.5px] text-muted">{t('invite.noLoginFootnote', { names: joinNames(noLoginNames), count: noLoginNames.length })}</p>
       )}
     </Card>
   )

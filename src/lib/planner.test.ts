@@ -11,6 +11,7 @@ import {
   weekDates,
   weekStartOf,
   weekdayLetter,
+  weekdayShort,
   type PlannerTurn,
 } from './planner'
 
@@ -50,6 +51,12 @@ describe('weekdayLetter / dayOfMonth', () => {
   it('reads the right weekday letter and day number', () => {
     expect(weekdayLetter('2026-09-30')).toBe('W') // Wednesday
     expect(dayOfMonth('2026-09-30')).toBe(30)
+  })
+})
+
+describe('weekdayShort', () => {
+  it('names the weekday, not just its initial, so "Copy last Wed" is unambiguous', () => {
+    expect(weekdayShort('2026-09-30', 'en')).toBe('Wed')
   })
 })
 
