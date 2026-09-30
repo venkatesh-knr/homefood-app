@@ -5,6 +5,7 @@ Web app first (installable PWA), wrapped for Android/iOS with Capacitor later.
 Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase dashboard steps himself.
 
 - Spec & design doc: "HomeFood — Spec & Design" (Claude Docs) — the source of truth for features.
+  **Read it in `docs/spec.md`** (exported copy, 30 Sep 2026; three diagrams not included). Deviations are recorded here.
 - **Mockups: `design/mockups/`** — 16 screens as PNGs (visual reference) plus their `.dc.html` source; index in `design/mockups/README.md`.
   Follow their layout, spacing, colours and copy. Step 2 screens: `SetupHome.png`, `Invite.png`, `Join.png`. Step 3 screens:
   `DishPicker.png`, `DishDetail.png` (the Dishes tab is the picker without its meal-slot context — no "Wednesday dinner" header
