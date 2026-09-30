@@ -182,6 +182,13 @@
       "home": "Home"
     }
   },
+  "install": {
+    "title": "Install HomeFood",
+    "body": "Add it to your home screen for quick access, like any other app.",
+    "iosBody": "Add it to your home screen: tap Share, then \"Add to Home Screen\".",
+    "installAction": "Install",
+    "dismiss": "Not now"
+  },
   "meal": {
     "breakfast": "Breakfast",
     "lunch": "Lunch",

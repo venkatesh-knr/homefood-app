@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useMyProfile, useHousehold } from '../lib/queries'
 import { HomeProvider } from '../lib/homeContext'
 import { FullPageMessage, LanguageSwitch, Logo } from '../components/ui'
+import { InstallBanner } from '../components/InstallBanner'
 
 const TABS = [
   { to: '/today', labelKey: 'shell.nav.today', icon: IconToday },
@@ -34,6 +35,8 @@ export default function AppShell() {
           </div>
           <LanguageSwitch />
         </header>
+
+        <InstallBanner />
 
         <div className="flex-1 pb-20">
           <Outlet />

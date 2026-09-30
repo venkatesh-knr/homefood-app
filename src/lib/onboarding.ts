@@ -11,7 +11,7 @@ function readFlag(key: string): boolean {
   }
 }
 
-function useDeviceFlag(key: string) {
+export function useDeviceFlag(key: string) {
   const [on, setOn] = useState(() => readFlag(key))
   const markDone = useCallback(() => {
     try {
