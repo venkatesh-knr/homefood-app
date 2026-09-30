@@ -5,6 +5,7 @@ import { Button } from '../components/ui'
 import { PeopleSection } from '../components/PeopleSection'
 import { InviteCard } from '../components/InviteCard'
 import { GettingStartedChecklist } from '../components/GettingStartedChecklist'
+import { HomeSettingsCard } from '../components/HomeSettingsCard'
 
 export default function HomeTabPage() {
   const { t } = useTranslation()
@@ -24,6 +25,8 @@ export default function HomeTabPage() {
       )}
 
       {isAdmin && <GettingStartedChecklist householdId={household.id} />}
+
+      {isAdmin && <HomeSettingsCard household={household} />}
 
       <Button variant="secondary" className="w-full" onClick={() => void signOut()}>
         {t('welcome.signOut')}

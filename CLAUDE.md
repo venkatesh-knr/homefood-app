@@ -137,7 +137,10 @@ Check this off and update README.md's status table too.
 
 Mockups: `design/mockups/png/SetupHome.png` (Step 1 of 2: home name, language, week starts Monday, plan-snacks toggle, "Who lives here" list),
 `Invite.png` (Step 2 of 2: link, WhatsApp, QR, who has joined, getting-started checklist), `Join.png` (pick "which one is you").
-First run is this 2-step flow; afterwards the Admin reaches the same People + Invite sections from the Home tab.
+First run is this 2-step flow; afterwards the Admin reaches the same People + Invite sections from the Home tab, plus a
+**Home settings** card (`HomeSettingsCard.tsx`, added 30 Sep after auditing the app against `docs/spec.md`) to rename the
+home, change its default language for new members, and toggle snacks on/off — set once at first-run setup before, now
+actually editable per the setup screen's own "you can change all of this later" copy.
 
 1. **Routing:** start using react-router-dom. Signed-in user with no profile → setup/join; with a profile → app shell.
    Load "my profile + household" once (react-query) and share it.

@@ -369,7 +369,10 @@
     "people": "People",
     "invite": "Invite family",
     "addAnotherPerson": "Add a person",
-    "needsInvite": "{{name}} can now use the app — share the invite link below so they can join."
+    "needsInvite": "{{name}} can now use the app — share the invite link below so they can join.",
+    "settings": "Home settings",
+    "homeName": "Home name",
+    "defaultLanguage": "Default language for new members"
   },
   "common": {
     "loading": "Loading…",
