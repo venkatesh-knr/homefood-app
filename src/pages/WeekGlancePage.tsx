@@ -32,6 +32,7 @@ export default function WeekGlancePage() {
 
   const mealTypes = activeMealTypes(household.snacks_enabled)
   const dates = weekDates(weekStart)
+  const todayInWeek = dates.includes(today)
   const slotsByDate = useMemo(() => {
     const map = new Map<string, SlotWithDetails[]>()
     for (const d of dates) map.set(d, [])
@@ -187,18 +188,23 @@ export default function WeekGlancePage() {
             ))}
           </div>
 
-          <div className="flex flex-col gap-1 rounded-[20px] border-2 border-saffron bg-white p-4">
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-saffron-ink">{t('glance.today')}</span>
-            <span className="pb-1 font-display text-[17px] font-semibold">{dayFmt.format(new Date(`${today}T00:00:00`))}</span>
-            {mealTypes.map((meal) => (
-              <TodayRow key={meal} meal={meal} slot={slotsByDate.get(today)?.find((s) => s.meal === meal)} lang={lang} onClick={() => navigate(`/week/${today}/${meal}`)} />
-            ))}
-          </div>
+          {todayInWeek && (
+            <div className="flex flex-col gap-1 rounded-[20px] border-2 border-saffron bg-white p-4">
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-saffron-ink">{t('glance.today')}</span>
+              <span className="pb-1 font-display text-[17px] font-semibold">{dayFmt.format(new Date(`${today}T00:00:00`))}</span>
+              {mealTypes.map((meal) => (
+                <TodayRow key={meal} meal={meal} slot={slotsByDate.get(today)?.find((s) => s.meal === meal)} lang={lang} onClick={() => navigate(`/week/${today}/${meal}`)} />
+              ))}
+            </div>
+          )}
 
           <span className="pt-1 font-display text-[16px] font-semibold">{t('glance.comingUp')}</span>
           <div className="flex flex-col gap-2.5">
             {dates
-              .filter((d) => d !== today)
+              // Viewing the current week: only days strictly after today belong under "coming
+              // up" (today has its own card above, yesterday isn't "coming up"). Viewing a past
+              // or future week, there's no "today" in range at all, so show every day of it.
+              .filter((d) => (todayInWeek ? d > today : true))
               .map((d) => (
                 <div key={d} className="grid grid-cols-[52px_repeat(4,minmax(0,1fr))] items-start gap-1.5 rounded-2xl border border-line bg-white p-2.5">
                   <div className="flex flex-col gap-0.5 pt-2">
