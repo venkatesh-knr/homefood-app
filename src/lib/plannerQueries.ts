@@ -62,3 +62,33 @@ export function usePlannerTurns(householdId: string | undefined) {
     },
   })
 }
+
+/** Has this household planned any meal, ever (not just the current week)? For the getting-started checklist. */
+export function useHasPlannedMeals(householdId: string | undefined) {
+  return useQuery({
+    queryKey: ['has-planned-meals', householdId],
+    enabled: Boolean(supabase && householdId),
+    queryFn: async (): Promise<boolean> => {
+      const { count, error } = await supabase!.from('meal_slots').select('id', { count: 'exact', head: true }).eq('household_id', householdId)
+      if (error) throw error
+      return (count ?? 0) > 0
+    },
+  })
+}
+
+/** Has this household published any week, ever? For the getting-started checklist. */
+export function useHasPublishedWeek(householdId: string | undefined) {
+  return useQuery({
+    queryKey: ['has-published-week', householdId],
+    enabled: Boolean(supabase && householdId),
+    queryFn: async (): Promise<boolean> => {
+      const { count, error } = await supabase!
+        .from('week_plans')
+        .select('id', { count: 'exact', head: true })
+        .eq('household_id', householdId)
+        .eq('status', 'published')
+      if (error) throw error
+      return (count ?? 0) > 0
+    },
+  })
+}

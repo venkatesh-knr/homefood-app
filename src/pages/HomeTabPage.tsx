@@ -4,6 +4,7 @@ import { useAuth } from '../lib/auth'
 import { Button } from '../components/ui'
 import { PeopleSection } from '../components/PeopleSection'
 import { InviteCard } from '../components/InviteCard'
+import { GettingStartedChecklist } from '../components/GettingStartedChecklist'
 
 export default function HomeTabPage() {
   const { t } = useTranslation()
@@ -21,6 +22,8 @@ export default function HomeTabPage() {
           <InviteCard household={household} myProfileId={profile.id} />
         </div>
       )}
+
+      {isAdmin && <GettingStartedChecklist householdId={household.id} />}
 
       <Button variant="secondary" className="w-full" onClick={() => void signOut()}>
         {t('welcome.signOut')}

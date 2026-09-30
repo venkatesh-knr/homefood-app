@@ -26,7 +26,7 @@ export default function SetupHomeStep2Page({ profile, onDone }: { profile: Profi
       </div>
 
       <InviteCard household={household} myProfileId={profile.id} />
-      <GettingStartedChecklist />
+      <GettingStartedChecklist householdId={household.id} />
 
       <div className="mt-auto border-t border-line pt-4">
         <Button variant="accent" className="w-full" onClick={onDone}>

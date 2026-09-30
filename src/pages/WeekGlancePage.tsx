@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { toPng } from 'html-to-image'
@@ -6,6 +6,7 @@ import { useHome } from '../lib/homeContext'
 import { useWeekPlan, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
 import { activeMealTypes, addDays, dayOfMonth, toISODate, weekDates, weekStartOf, weekdayLetter, type MealType } from '../lib/planner'
 import { dishTone } from '../lib/dishes'
+import { usePosterOpened } from '../lib/onboarding'
 
 const MEAL_BAND: Record<MealType, string> = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }
 const today = toISODate(new Date())
@@ -41,6 +42,12 @@ export default function WeekGlancePage() {
   const posterRef = useRef<HTMLDivElement>(null)
   const [busy, setBusy] = useState<'save' | 'share' | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+
+  const [, markPosterOpened] = usePosterOpened(household.id)
+  useEffect(() => {
+    markPosterOpened()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const dayFmt = new Intl.DateTimeFormat(lang === 'ta' ? 'ta-IN' : 'en-IN', { weekday: 'short', day: 'numeric', month: 'short' })
   const rangeFmt = new Intl.DateTimeFormat(lang === 'ta' ? 'ta-IN' : 'en-IN', { day: 'numeric', month: 'short' })
