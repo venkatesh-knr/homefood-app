@@ -119,20 +119,20 @@ src/App.tsx             routes: /join/:token is public; everything else needs a 
 ## Build plan (phase 1)
 
 - [x] Step 1 · Setup, design tokens, English/Tamil, email-code sign-in, schema + RLS + tests (tested live 28 Sep 2026)
-- [ ] Step 2 · Home setup — built, pending a live click-through (see scope below)
-- [ ] Step 3 · Dish catalogue — built, pending migrations + a live click-through (see scope below)
-- [ ] Step 4 · Planning — built, pending migration + a live click-through (see scope below)
-- [ ] Step 5 · Everyday view — built, pending a live click-through (see scope below)
+- [x] Step 2 · Home setup — tested live end to end (see scope below)
+- [x] Step 3 · Dish catalogue — tested live (see scope below)
+- [x] Step 4 · Planning — tested live end to end (see scope below)
+- [x] Step 5 · Everyday view — tested live (see scope below)
 - [ ] Step 6 · Polish — partly built (see scope below for what's done vs. deferred)
 - [ ] Step 7 · Family trial (2 weeks)
 
 ### Step 2 · Home setup — scope
 
-**Status: migration run, partly tested live.** Sign-in, home setup, People (add/edit) and the invite link all confirmed
-working against real data (two bugs found and fixed this way — a missing "who can even join" nuance in two messages, see
-git log around 29-30 Sep). **Not yet confirmed: an actual claim_profile() completing** — someone opening the link and
-picking their name. Needs someone with "Uses the app" on to actually try it.
-Once that works end to end, check this off and update README.md's status table too.
+**Status: migration run, tested live end to end.** Sign-in, home setup, People (add/edit), the invite link, and
+`claim_profile()` completing (a real member opened the link, signed in, picked their name, and now shows "Joined" in
+the invite screen's list) all confirmed working against real data — two bugs found and fixed along the way (a missing
+"who can even join" nuance in two messages, see git log around 29-30 Sep).
+Check this off and update README.md's status table too.
 
 Mockups: `design/mockups/png/SetupHome.png` (Step 1 of 2: home name, language, week starts Monday, plan-snacks toggle, "Who lives here" list),
 `Invite.png` (Step 2 of 2: link, WhatsApp, QR, who has joined, getting-started checklist), `Join.png` (pick "which one is you").
@@ -195,10 +195,10 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
 
 ### Step 4 · Planning — scope
 
-**Status: migration run, not yet tested live.** Week tab loaded correctly against real data (confirmed empty-state
-rendering), but saving an actual meal slot, publishing a week and assigning a Rota turn haven't been exercised live yet.
-Click-through: Week tab → tap an empty meal → pick a main dish + sides → who cooks/eats → Save → back on Week, tap
-Publish week → Rota (as Admin, assign a turn to someone; as a member, confirm you only see it read-only).
+**Status: migration run, tested live end to end.** Week tab, saving a real meal slot (main dish + cook), Publish week
+(status flips to "Published"), and Rota (both the pre-existing real turn assignments rendering correctly, and — as
+Admin — that the schedule reflects them) all confirmed against real data. The member-sees-read-only side of Rota
+hasn't specifically been exercised from a non-Admin login yet.
 
 Trims, flagged rather than silently done — ask before expanding any of these:
 - **The whole Discussion screen is deferred** (`Discussion.png`: agree/disagree votes, a suggestion-swap flow, comments).
@@ -234,11 +234,11 @@ Trims, flagged rather than silently done — ask before expanding any of these:
 
 ### Step 5 · Everyday view — scope
 
-**Status: tested live for Today, not yet for Week at a glance.** No new migration — this step is pure frontend, reusing
-Step 4's `week_plans`/`meal_slots` tables and query hooks as-is. Today's greeting, next-up card and empty-state rendering
-confirmed against real data. Click-through still needed: Week at a glance (day strip, today card, coming up; on a wide
-window, the full grid) → Save as image / Print / Share → prev/next arrows next to the date range to browse past or
-future weeks.
+**Status: tested live.** No new migration — this step is pure frontend, reusing Step 4's `week_plans`/`meal_slots`
+tables and query hooks as-is. Today's greeting, next-up card and empty-state rendering confirmed against real data.
+Week at a glance also opened live against real data — day strip, today card and coming-up list all confirmed, and one
+real bug this caught: "Coming up" was including already-past days of the current week (fixed, see git log 30 Sep).
+Save as image / Print / Share and the prev/next week-browsing arrows haven't specifically been exercised live yet.
 
 Trims, flagged rather than silently done:
 - **No votes/comments/notification bell on Today** (`Today.png` shows Agree/Disagree, a comment count and a bell) — same
