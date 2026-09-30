@@ -5,6 +5,7 @@ import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
 import { useCuisines, useDish, useDishPhotoOverrides, useSignedPhotoUrl } from '../lib/dishQueries'
 import { removeDish, uploadDishPhoto } from '../lib/dishMutations'
+import { describeError } from '../lib/errors'
 import { cuisineLabel, dishDisplayName, dishTone } from '../lib/dishes'
 import { joinNames } from '../lib/people'
 import { FullPageMessage, Pill } from '../components/ui'
@@ -64,7 +65,7 @@ export default function DishDetailPage() {
     try {
       await uploadDishPhoto(household.id, dishId, file)
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }
@@ -77,7 +78,7 @@ export default function DishDetailPage() {
       await removeDish(dishId, household.id)
       navigate('/dishes', { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
       setBusy(false)
     }
   }

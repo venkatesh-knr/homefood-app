@@ -5,6 +5,7 @@ import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
 import { usePlannerTurns, useWeekPlan, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
 import { copyDay, copyWeek, getOrCreateWeekPlan, publishWeek } from '../lib/plannerMutations'
+import { describeError } from '../lib/errors'
 import {
   activeMealTypes,
   addDays,
@@ -67,7 +68,7 @@ export default function WeekPage() {
       const n = await copyDay(household.id, addDays(selectedDate, -7), selectedDate)
       setMessage(n > 0 ? t('planner.copiedCount', { count: n }) : t('planner.nothingToCopy'))
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : t('common.error'))
+      setMessage(describeError(err, t))
     } finally {
       setBusy(null)
     }
@@ -80,7 +81,7 @@ export default function WeekPage() {
       const n = await copyWeek(household.id, addDays(weekStart, -7), weekStart)
       setMessage(n > 0 ? t('planner.copiedCount', { count: n }) : t('planner.nothingToCopy'))
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : t('common.error'))
+      setMessage(describeError(err, t))
     } finally {
       setBusy(null)
     }
@@ -93,7 +94,7 @@ export default function WeekPage() {
       const id = weekPlan?.id ?? (await getOrCreateWeekPlan(household.id, weekStart))
       await publishWeek(id, household.id)
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : t('common.error'))
+      setMessage(describeError(err, t))
     } finally {
       setBusy(null)
     }

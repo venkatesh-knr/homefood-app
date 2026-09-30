@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { createHousehold, saveDraftPeople } from '../lib/mutations'
+import { describeError } from '../lib/errors'
 import { avatarColor, newPersonDraft, personDetailText, type PersonDraft } from '../lib/people'
 import { isValidDisplayName, isValidHomeName } from '../lib/validation'
 import { Button, Card, LanguageSwitch, Logo, Pill, Toggle, TogglePill } from '../components/ui'
@@ -62,7 +63,7 @@ export default function SetupHomeStep1Page() {
       if (drafts.length > 0) await saveDraftPeople(householdId, drafts)
       navigate('/setup/invite', { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }

@@ -5,6 +5,7 @@ import { useHome } from '../lib/homeContext'
 import { useMembers } from '../lib/queries'
 import { usePlannerTurns } from '../lib/plannerQueries'
 import { assignPlannerTurn } from '../lib/plannerMutations'
+import { describeError } from '../lib/errors'
 import { addDays, toISODate, weekDates, weekStartOf, weekdayLetter, type TurnScope } from '../lib/planner'
 import { avatarColor } from '../lib/people'
 import { Button } from '../components/ui'
@@ -42,7 +43,7 @@ export default function RotaPage() {
       setAssigning(null)
       setForm({ profileId: '', scope: 'week' })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }

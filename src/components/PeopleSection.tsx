@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAllergies, useMembers } from '../lib/queries'
 import { addPerson, removePerson, updatePerson } from '../lib/mutations'
+import { describeError } from '../lib/errors'
 import { avatarColor, personDetailText, type Profile } from '../lib/people'
 import { PersonForm, type PersonFormValues } from './PersonForm'
 import { PersonRow } from './PersonRow'
@@ -58,7 +59,7 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
       setEditing(null)
       if (values.kind === 'family' && values.can_login) setNeedsInvite(values.display_name)
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }
@@ -74,7 +75,7 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
       // Only newly-eligible-and-not-yet-joined people need this — not everyone who was edited.
       if (values.kind === 'family' && values.can_login && !before?.user_id) setNeedsInvite(values.display_name)
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }
@@ -87,7 +88,7 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
       await removePerson(profileId, householdId)
       setRemoving(null)
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }

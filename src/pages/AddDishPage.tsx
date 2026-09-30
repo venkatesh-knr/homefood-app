@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useCuisines, useDish } from '../lib/dishQueries'
 import { addDish, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
+import { describeError } from '../lib/errors'
 import { assignableCuisines, cuisineLabel, dishDisplayName, type DishCourse, type DietType, type MealType } from '../lib/dishes'
 import { isValidAllergen, isValidDisplayName, normaliseAllergen } from '../lib/validation'
 import { Button, ChipInput } from '../components/ui'
@@ -83,7 +84,7 @@ export default function AddDishPage() {
       if (photo) await uploadDishPhoto(household.id, id, photo)
       navigate(`/dishes/${id}`, { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }

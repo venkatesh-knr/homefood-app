@@ -5,6 +5,7 @@ import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
 import { useWeekPlan, useWeekSlots } from '../lib/plannerQueries'
 import { clearSlot, getOrCreateWeekPlan, saveSlot, type SlotInput } from '../lib/plannerMutations'
+import { describeError } from '../lib/errors'
 import { mealAllergyConflicts, weekStartOf, toISODate, type MealSource, type MealType } from '../lib/planner'
 import { dishDisplayName } from '../lib/dishes'
 import type { DishWithNames } from '../lib/dishQueries'
@@ -101,7 +102,7 @@ export default function SlotEditorPage() {
       await saveSlot(id, household.id, date!, meal!, values)
       navigate('/week', { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
     } finally {
       setBusy(false)
     }
@@ -117,7 +118,7 @@ export default function SlotEditorPage() {
       await clearSlot(existing.id, existing.week_plan_id, household.id)
       navigate('/week', { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('common.error'))
+      setError(describeError(err, t))
       setBusy(false)
     }
   }
