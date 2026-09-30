@@ -26,8 +26,9 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [ ] Step 2 · Home setup: create a home, add profiles, invite link, join flow — built, pending a live click-through
 - [ ] Step 3 · Dish catalogue: seed data, search and filters, add a dish, Snap a dish, photos — built, pending migrations + a live click-through
 - [ ] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota — built, pending migration + a live click-through
-- [ ] Step 5 · Everyday view: Today, Week at a glance poster, history — built, pending a live click-through
-- [ ] Step 6 · Polish: Tamil throughout, welcome tour, checklist, installable app, accessibility
+- [ ] Step 5 · Everyday view: Today, Week at a glance poster, history — Today tested live, glance pending
+- [ ] Step 6 · Polish: getting-started checklist (real now), safer error messages, install prompt, a11y fixes done;
+      welcome tour and demo home deferred — see CLAUDE.md
 - [ ] Step 7 · Family trial (2 weeks)
 
 ## One-time setup

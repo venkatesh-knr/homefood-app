@@ -123,13 +123,15 @@ src/App.tsx             routes: /join/:token is public; everything else needs a 
 - [ ] Step 3 · Dish catalogue — built, pending migrations + a live click-through (see scope below)
 - [ ] Step 4 · Planning — built, pending migration + a live click-through (see scope below)
 - [ ] Step 5 · Everyday view — built, pending a live click-through (see scope below)
-- [ ] Step 6 · Polish: Tamil everywhere, welcome tour + demo home, getting-started checklist, installable app, accessibility
+- [ ] Step 6 · Polish — partly built (see scope below for what's done vs. deferred)
 - [ ] Step 7 · Family trial (2 weeks)
 
 ### Step 2 · Home setup — scope
 
-**Status: built, not yet tested live.** Needs migration `0004_invite_details.sql` run in Supabase (see Database section above),
-then a real click-through: sign in → set up a home → invite screen → open the link in another browser/incognito → join.
+**Status: migration run, partly tested live.** Sign-in, home setup, People (add/edit) and the invite link all confirmed
+working against real data (two bugs found and fixed this way — a missing "who can even join" nuance in two messages, see
+git log around 29-30 Sep). **Not yet confirmed: an actual claim_profile() completing** — someone opening the link and
+picking their name. Needs someone with "Uses the app" on to actually try it.
 Once that works end to end, check this off and update README.md's status table too.
 
 Mockups: `design/mockups/png/SetupHome.png` (Step 1 of 2: home name, language, week starts Monday, plan-snacks toggle, "Who lives here" list),
@@ -154,8 +156,10 @@ First run is this 2-step flow; afterwards the Admin reaches the same People + In
 
 ### Step 3 · Dish catalogue — scope
 
-**Status: built, not yet tested live.** Needs migration `0005_seed_dishes.sql` run in Supabase (0004 too, if that's still
-pending), then a click-through: Dishes tab → search/filter/cuisine chips → open a dish → Add new dish → Snap a dish (opens
+**Status: migration run, tested live.** Dishes tab, search, filters and cuisine chips confirmed against the real seeded
+catalogue — caught and fixed a real bug this way (European/Japanese chips were silently missing, see git log). Add new
+dish, Snap a dish and Dish Detail's edit/remove haven't specifically been exercised live yet. Click-through: Dishes tab
+→ search/filter/cuisine chips → open a dish → Add new dish → Snap a dish (opens
 the phone's camera app, not a custom viewfinder — see below) → Replace photo.
 
 Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — ask before expanding any of these:
@@ -191,9 +195,10 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
 
 ### Step 4 · Planning — scope
 
-**Status: built, not yet tested live.** Needs migration `0006_meal_slot_eaters.sql` run in Supabase, then a click-through:
-Week tab → tap an empty meal → pick a main dish + sides → who cooks/eats → Save → back on Week, tap Publish week → Rota
-(as Admin, assign a turn to someone; as a member, confirm you only see it read-only).
+**Status: migration run, not yet tested live.** Week tab loaded correctly against real data (confirmed empty-state
+rendering), but saving an actual meal slot, publishing a week and assigning a Rota turn haven't been exercised live yet.
+Click-through: Week tab → tap an empty meal → pick a main dish + sides → who cooks/eats → Save → back on Week, tap
+Publish week → Rota (as Admin, assign a turn to someone; as a member, confirm you only see it read-only).
 
 Trims, flagged rather than silently done — ask before expanding any of these:
 - **The whole Discussion screen is deferred** (`Discussion.png`: agree/disagree votes, a suggestion-swap flow, comments).
@@ -229,10 +234,11 @@ Trims, flagged rather than silently done — ask before expanding any of these:
 
 ### Step 5 · Everyday view — scope
 
-**Status: built, not yet tested live.** No new migration — this step is pure frontend, reusing Step 4's `week_plans`/
-`meal_slots` tables and query hooks as-is. Click-through: Today tab (next-up card, rest of today, the glance card at the
-bottom) → Week at a glance (day strip, today card, coming up; on a wide window, the full grid) → Save as image / Print /
-Share → prev/next arrows next to the date range to browse past or future weeks.
+**Status: tested live for Today, not yet for Week at a glance.** No new migration — this step is pure frontend, reusing
+Step 4's `week_plans`/`meal_slots` tables and query hooks as-is. Today's greeting, next-up card and empty-state rendering
+confirmed against real data. Click-through still needed: Week at a glance (day strip, today card, coming up; on a wide
+window, the full grid) → Save as image / Print / Share → prev/next arrows next to the date range to browse past or
+future weeks.
 
 Trims, flagged rather than silently done:
 - **No votes/comments/notification bell on Today** (`Today.png` shows Agree/Disagree, a comment count and a bell) — same
@@ -259,6 +265,39 @@ Trims, flagged rather than silently done:
 4. **Print**: `window.print()` plus `print:hidden` on `AppShell`'s header/bottom-nav and this page's own buttons, so the
    printout is just the poster.
 5. All new strings in en + ta; unit tests for `nextMealType`/`greetingPeriod` in `lib/planner.ts`. No schema/RLS changes.
+
+### Step 6 · Polish — scope
+
+**Status: partly built.** This pass came directly out of live-testing Steps 2-5 with Venkatesh rather than working
+through the mockups top to bottom — three of the four real bugs found so far this build (mislabeled cuisine filter,
+two misleading messages, a mislabeled "next week" button) surfaced this way, not from code review. No new migration.
+
+Done:
+- **Getting-started checklist is real now** (`GettingStartedChecklist`, used on the first-run wizard and the Home tab):
+  invite/plan/publish/poster are live queries (`useInvites`, `useHasPlannedMeals`, `useHasPublishedWeek`,
+  `usePosterOpened`), not the hardcoded "2 of 5" stub Step 2 shipped before Steps 4-5 existed to track the rest against.
+- **Tamil everywhere, part 1: raw Postgres errors no longer reach the UI.** 13 catch blocks across 7 files showed
+  `err.message` verbatim on failure — English-only, technical, sometimes schema-revealing. `lib/errors.ts`'s
+  `describeError()` always shows the translated generic message instead and logs the real one to the console.
+- **Installable app**: `InstallBanner` (in `AppShell`, dismissible, per-device) surfaces the native install prompt on
+  Chrome/Edge/Android, or manual Share → Add to Home Screen instructions on iOS Safari (which never fires
+  `beforeinstallprompt` at all — there's no programmatic install path there).
+- **Accessibility**: audited icon-only buttons for `aria-label`, colour contrast of the most-used text/background pairs
+  (`text-muted` on `bg-cream` measures ~5.6:1, clears AA's 4.5:1), touch target sizes. Found and fixed the "next week"
+  mislabel above; bumped `WeekGlancePage`'s smallest touch targets from 28px to 36px.
+
+Deferred, flagged rather than attempted half-done:
+- **Welcome tour.** A guided first-visit walkthrough is real UX design work (what gets highlighted, in what order, for
+  which of the 4 tabs) — a placeholder tour would likely do more harm than good. Needs a decision on scope before
+  building anything.
+- **Demo home.** A sandboxed household with fake data to explore before committing to a real one — bigger than it
+  sounds: either a real Supabase household seeded and reset per visitor, or a fully separate mock-data code path
+  parallel to everything built so far. Worth a decision on which before starting.
+- **Tamil everywhere, part 2: no full linguistic/native-speaker review.** Every string has an `en`/`ta` pair and the
+  parity test (`translations.test.ts`) guarantees neither language is missing a key mid-flight, but nobody has read the
+  Tamil copy end-to-end for tone, grammar or natural phrasing the way a native speaker would.
+- **No deeper accessibility pass** (full keyboard-navigation walkthrough, screen-reader testing with VoiceOver/TalkBack,
+  a systematic contrast check of every colour pair rather than the handful of most-used ones above).
 
 ## Working agreements
 
