@@ -373,6 +373,8 @@
   "common": {
     "loading": "Loading…",
     "back": "Back",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
     "add": "Add",
     "save": "Save",
     "cancel": "Cancel",

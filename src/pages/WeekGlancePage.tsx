@@ -133,7 +133,7 @@ export default function WeekGlancePage() {
             <span className="text-[13px] font-semibold text-saffron-ink">{household.name}</span>
             <h1 className="font-display text-[26px] font-bold md:text-[36px]">{t('glance.title')}</h1>
             <div className="flex items-center gap-2 text-[13px] text-muted">
-              <button type="button" onClick={() => setWeekStart(addDays(weekStart, -7))} aria-label={t('common.back')} className="flex h-7 w-7 items-center justify-center rounded-full border border-line print:hidden">
+              <button type="button" onClick={() => setWeekStart(addDays(weekStart, -7))} aria-label={t('common.previousWeek')} className="flex h-9 w-9 items-center justify-center rounded-full border border-line print:hidden">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
@@ -141,7 +141,7 @@ export default function WeekGlancePage() {
               <span>
                 {rangeLabel} · {weekPlan?.status === 'published' ? t('planner.statusPublished', { date: weekPlan.published_at?.slice(0, 10) }) : t('planner.statusDraft')}
               </span>
-              <button type="button" onClick={() => setWeekStart(addDays(weekStart, 7))} aria-label={t('planner.rota')} className="flex h-7 w-7 items-center justify-center rounded-full border border-line print:hidden">
+              <button type="button" onClick={() => setWeekStart(addDays(weekStart, 7))} aria-label={t('common.nextWeek')} className="flex h-9 w-9 items-center justify-center rounded-full border border-line print:hidden">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M9 6l6 6-6 6" />
                 </svg>

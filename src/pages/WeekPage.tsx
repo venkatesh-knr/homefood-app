@@ -138,7 +138,7 @@ export default function WeekPage() {
       )}
 
       <div className="flex items-center justify-between px-1">
-        <button type="button" onClick={() => changeWeek(-7)} aria-label={t('common.back')} className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft">
+        <button type="button" onClick={() => changeWeek(-7)} aria-label={t('common.previousWeek')} className="flex h-10 w-10 items-center justify-center rounded-full text-ink-soft">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M15 18l-6-6 6-6" />
           </svg>
@@ -146,7 +146,7 @@ export default function WeekPage() {
         <span className="text-[13px] font-semibold text-ink-soft">
           {weekRangeFormatter.formatRange(new Date(`${weekStart}T00:00:00`), new Date(`${addDays(weekStart, 6)}T00:00:00`))}
         </span>
-        <button type="button" onClick={() => changeWeek(7)} aria-label={t('common.back')} className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft">
+        <button type="button" onClick={() => changeWeek(7)} aria-label={t('common.nextWeek')} className="flex h-10 w-10 items-center justify-center rounded-full text-ink-soft">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M9 6l6 6-6 6" />
           </svg>
