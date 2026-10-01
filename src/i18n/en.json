@@ -224,6 +224,7 @@
     "addSideTitle": "Add a side",
     "changeMainTitle": "Change main dish",
     "cooksLabel": "Who cooks · pick one or more",
+    "addHelperHint": "Have a helper who cooks? Add them from the Home tab — pick \"Helper\" when adding a person, no login needed.",
     "eatingLabel": "Who is eating",
     "eatingAll": "All {{count}} family members",
     "eatingSome": "{{count}} eating",

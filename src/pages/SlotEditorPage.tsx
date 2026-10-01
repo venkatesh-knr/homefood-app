@@ -21,13 +21,15 @@ export default function SlotEditorPage() {
   const lang = i18n.language as 'en' | 'ta'
   const navigate = useNavigate()
   const { date, meal } = useParams<{ date: string; meal: MealType }>()
-  const { household } = useHome()
+  const { profile, household } = useHome()
+  const isAdmin = profile.role === 'admin'
 
   const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`)))
   const { data: weekPlan, isLoading: isWeekPlanLoading } = useWeekPlan(household.id, weekStart)
   const { data: slots, isLoading: isSlotsLoading } = useWeekSlots(weekPlan?.id)
   const { data: members } = useMembers(household.id)
   const familyMembers = (members ?? []).filter((m) => m.kind === 'family')
+  const hasHelper = (members ?? []).some((m) => m.kind === 'helper')
   const memberIds = (members ?? []).map((m) => m.id)
   const { data: allergyRows } = useAllergies(memberIds)
 
@@ -265,6 +267,7 @@ export default function SlotEditorPage() {
               )
             })}
           </div>
+          {isAdmin && !hasHelper && <p className="px-4 pt-1.5 text-[12.5px] leading-relaxed text-muted">{t('planner.addHelperHint')}</p>}
 
           <SectionLabel>{t('planner.eatingLabel')}</SectionLabel>
           <div className="mx-4 flex flex-wrap gap-2">
