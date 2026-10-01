@@ -185,7 +185,7 @@ export default function DishesPage() {
                 cuisineLabel={cuisine ? cuisineLabelOf(cuisine, lang) : ''}
                 diet={d.diet}
                 tone={i}
-                photoPath={overrideByDish.get(d.id)}
+                photoPath={overrideByDish.get(d.id) ?? d.photo_path}
                 note={note}
               />
             )

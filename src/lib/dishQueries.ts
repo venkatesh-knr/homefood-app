@@ -59,12 +59,22 @@ export function useDishPhotoOverrides(householdId: string | undefined) {
   })
 }
 
-/** The bucket is private, so every photo is shown through a short-lived signed link. */
+/** `dishes.photo_path` / `dish_photo_overrides.photo_path` hold either a private-bucket storage path
+ * (any household upload, always signed) or a plain stock-photo URL (seed dishes' own catalogue photo,
+ * shown as-is — see supabase/migrations/0007_dish_stock_photos.sql). */
+function isExternalUrl(path: string): boolean {
+  return path.startsWith('http://') || path.startsWith('https://')
+}
+
+/** The bucket is private, so every uploaded photo is shown through a short-lived signed link;
+ * an external stock-photo URL is already public and used directly. */
 export function useSignedPhotoUrl(path: string | null | undefined) {
+  const external = Boolean(path && isExternalUrl(path))
   return useQuery({
     queryKey: ['dish-photo-url', path],
-    enabled: Boolean(supabase && path),
+    enabled: Boolean(supabase && path && !external),
     staleTime: 30 * 60 * 1000,
+    initialData: external ? (path as string) : undefined,
     queryFn: async (): Promise<string | null> => {
       const { data, error } = await supabase!.storage.from('dish-photos').createSignedUrl(path!, 3600)
       if (error) throw error

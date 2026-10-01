@@ -110,6 +110,7 @@ export function DishPickerSheet({
                 cuisineLabel={cuisine ? cuisineLabelOf(cuisine, lang) : ''}
                 diet={d.diet}
                 tone={i}
+                photoPath={d.photo_path}
                 onSelect={() => onPick(d)}
               />
             )

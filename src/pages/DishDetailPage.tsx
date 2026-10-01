@@ -25,7 +25,7 @@ export default function DishDetailPage() {
   const memberIds = useMemo(() => (members ?? []).map((m) => m.id), [members])
   const { data: allergyRows } = useAllergies(memberIds)
 
-  const photoPath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path
+  const photoPath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path ?? dish?.photo_path
   const { data: photoUrl } = useSignedPhotoUrl(photoPath)
   const photoInput = useRef<HTMLInputElement>(null)
   const [zoom, setZoom] = useState(false)
