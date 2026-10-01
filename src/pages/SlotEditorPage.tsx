@@ -187,7 +187,9 @@ export default function SlotEditorPage() {
                 </div>
               </>
             ) : (
-              <span className="flex-1 text-[15px] text-muted">{t('planner.emptySlot')}</span>
+              <button type="button" onClick={() => setPicking('main')} className="flex-1 text-left text-[15px] text-muted">
+                {t('planner.emptySlot')}
+              </button>
             )}
             <button type="button" onClick={() => setPicking('main')} className="rounded-[10px] border-[1.5px] border-line-strong px-3 py-2 text-[13.5px] font-semibold">
               {t('planner.changeDish')}
