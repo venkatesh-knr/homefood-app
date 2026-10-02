@@ -27,6 +27,8 @@ export default function DishDetailPage() {
 
   const overridePath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path
   const hasOverride = Boolean(overridePath)
+  // Seed drawings (clip-art) are tagged "(illustration)" in photo_credit; they'd be cropped badly by object-cover.
+  const isDrawing = !hasOverride && Boolean(dish?.photo_credit?.includes('(illustration)'))
   const photoPath = overridePath ?? dish?.photo_path
   const { data: photoUrl } = useSignedPhotoUrl(photoPath)
   const photoInput = useRef<HTMLInputElement>(null)
@@ -95,7 +97,7 @@ export default function DishDetailPage() {
         aria-label={t('dishes.detail.tapEnlarge')}
       >
         {photoUrl ? (
-          <img src={photoUrl} alt="" className="h-full w-full object-cover" />
+          <img src={photoUrl} alt="" className={isDrawing ? 'h-full w-full object-contain p-6' : 'h-full w-full object-cover'} />
         ) : (
           <span className="flex h-[130px] w-[130px] items-center justify-center rounded-full font-display text-[52px] font-bold" style={{ background: 'rgba(255,255,255,0.5)', color: ink }}>
             {name.trim()[0]?.toUpperCase() ?? '?'}
