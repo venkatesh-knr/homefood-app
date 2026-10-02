@@ -106,13 +106,14 @@ src/lib/dishQueries.ts  react-query reads: useCuisines, useDishes, useDish, useD
 src/lib/dishMutations.ts addDish/updateDish/removeDish, uploadDishPhoto (strips EXIF/GPS via lib/photo.ts first)
 src/lib/planner.ts      week/meal types + pure helpers (weekStartOf, weekDates, mealAllergyConflicts, turnCoversDate…) (+ tests)
 src/lib/plannerQueries.ts react-query reads: useWeekPlan, useWeekSlots (one call, embeds dish/sides/cooks/eaters), usePlannerTurns
+src/lib/history.ts      History screen helpers: rangeBounds/shiftAnchor (week·month·year), summariseHistory, topEntries (+ tests)
 src/lib/plannerMutations.ts getOrCreateWeekPlan, saveSlot (upserts a slot + replaces sides/cooks/eaters), clearSlot,
                         publishWeek, copyDay/copyWeek (client-orchestrated, never overwrites an existing slot), assignPlannerTurn
 src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill, TogglePill, ChipInput
 src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm,
                         DishRow (+ DishThumb, DietMark), DishPickerSheet (full-screen dish picker, reused by the slot editor)
 src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
-                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, DishesPage,
+                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, HistoryPage, DishesPage,
                         AddDishPage, DishDetailPage, HomeTabPage)
 src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
                         wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
@@ -261,9 +262,11 @@ Trims, flagged rather than silently done:
   Discussion deferral as Step 4; nothing to wire them to yet.
 - **No "You ate this" consumption tracking** (`Today.png`) — `meal_slots.status` has room for it (`proposed`/`confirmed`/
   `done`) but nothing sets it yet; needs its own small UI (a per-meal "mark as eaten" action), not just a label.
-- **History is prev/next week navigation only**, not a year/month picker. Works for any week, arbitrarily far back or
-  forward (reuses the same `useWeekPlan`/`useWeekSlots` hooks Step 4 built for the current week), but there's no "jump to
-  March" shortcut yet.
+- **History screen exists, but is "planned up to today", not "actually eaten".** Home tab → "Meal history" (`HistoryPage`, `/history`,
+  `lib/history.ts`): Week / Month / Year with prev/next (never into the future), counts (meals, home / dine-out / order-in, most
+  cooked dishes, who cooked), a search box, and the meals grouped by day (tap one to open it). Nothing marks a meal "done"
+  yet, so every planned slot up to today counts. **No "cook this again" button** (needs a design call on which day it lands
+  on) and no counts by cuisine yet — both left for later. No new tab (still 4).
 - **Today's 5-tab nav** (`Today.png`: Today/Week/Dishes/Health/Family) **wasn't adopted** — kept the 4-tab shell from
   Step 2 (Today/Week/Dishes/Home). No Health tab exists in this build plan.
 

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useAuth } from '../lib/auth'
 import { Button } from '../components/ui'
@@ -11,6 +12,7 @@ export default function HomeTabPage() {
   const { t } = useTranslation()
   const { profile, household } = useHome()
   const { signOut } = useAuth()
+  const navigate = useNavigate()
   const isAdmin = profile.role === 'admin'
 
   return (
@@ -27,6 +29,18 @@ export default function HomeTabPage() {
       {isAdmin && <GettingStartedChecklist householdId={household.id} />}
 
       {isAdmin && <HomeSettingsCard household={household} />}
+
+      <button
+        type="button"
+        onClick={() => navigate('/history')}
+        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 text-left"
+      >
+        <span className="flex flex-col gap-0.5">
+          <span className="text-[15px] font-semibold">{t('home.history')}</span>
+          <span className="text-[12.5px] text-muted">{t('home.historyHint')}</span>
+        </span>
+        <span aria-hidden="true" className="text-[20px] text-muted">›</span>
+      </button>
 
       <Button variant="secondary" className="w-full" onClick={() => void signOut()}>
         {t('welcome.signOut')}

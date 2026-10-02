@@ -10,6 +10,7 @@ function client() {
 async function invalidateWeek(weekPlanId: string, householdId: string) {
   await queryClient.invalidateQueries({ queryKey: ['week-slots', weekPlanId] })
   await queryClient.invalidateQueries({ queryKey: ['week-plan', householdId] })
+  await queryClient.invalidateQueries({ queryKey: ['history-slots', householdId] })
 }
 
 /** Every week starts empty (no row) until the first save — this creates it on demand. */

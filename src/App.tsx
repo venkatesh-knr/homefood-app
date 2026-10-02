@@ -21,6 +21,7 @@ import DishesPage from './pages/DishesPage'
 import AddDishPage from './pages/AddDishPage'
 import DishDetailPage from './pages/DishDetailPage'
 import HomeTabPage from './pages/HomeTabPage'
+import HistoryPage from './pages/HistoryPage'
 
 export default function App() {
   const { t } = useTranslation()
@@ -68,6 +69,7 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="dishes/:dishId/edit" element={<AddDishPage />} />
         <Route path="dishes/:dishId" element={<DishDetailPage />} />
         <Route path="home" element={<HomeTabPage />} />
+        <Route path="history" element={<HistoryPage />} />
         <Route path="*" element={<Navigate to="/today" replace />} />
       </Route>
     </Routes>

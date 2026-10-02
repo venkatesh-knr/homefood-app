@@ -47,6 +47,25 @@ export function useWeekSlots(weekPlanId: string | undefined) {
   })
 }
 
+/** Meal slots across any date range (week, month or year) for the History screen — one query, newest first. */
+export function useHistorySlots(householdId: string | undefined, from: string, to: string) {
+  return useQuery({
+    queryKey: ['history-slots', householdId, from, to],
+    enabled: Boolean(supabase && householdId && from <= to),
+    queryFn: async (): Promise<SlotWithDetails[]> => {
+      const { data, error } = await supabase!
+        .from('meal_slots')
+        .select(SLOT_SELECT)
+        .eq('household_id', householdId)
+        .gte('date', from)
+        .lte('date', to)
+        .order('date', { ascending: false })
+      if (error) throw error
+      return data as unknown as SlotWithDetails[]
+    },
+  })
+}
+
 export function usePlannerTurns(householdId: string | undefined) {
   return useQuery({
     queryKey: ['planner-turns', householdId],
