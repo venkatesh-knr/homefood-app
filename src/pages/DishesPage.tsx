@@ -14,12 +14,13 @@ import {
   type DishFilters,
 } from '../lib/dishes'
 import { DishRow } from '../components/DishRow'
+import { AddCuisine } from '../components/AddCuisine'
 
 export default function DishesPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language as 'en' | 'ta'
   const navigate = useNavigate()
-  const { household } = useHome()
+  const { household, profile } = useHome()
   const { data: cuisines } = useCuisines()
   const { data: dishes } = useDishes(household.id)
   const { data: overrides } = useDishPhotoOverrides(household.id)
@@ -115,6 +116,8 @@ export default function DishesPage() {
           )
         })}
       </div>
+
+      {profile.role === 'admin' && <AddCuisine householdId={household.id} />}
 
       <div className="flex flex-wrap gap-2">
         <select

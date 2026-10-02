@@ -8,6 +8,15 @@ function client() {
   return supabase
 }
 
+/** A cuisine owned by this household (shown only to its members); the shared ones come from migration 0003. */
+export async function addCuisine(householdId: string, name: string, nameTa: string): Promise<void> {
+  const { error } = await client()
+    .from('cuisines')
+    .insert({ household_id: householdId, name: name.trim(), name_ta: nameTa.trim() || null, sort_order: 200 })
+  if (error) throw error
+  await queryClient.invalidateQueries({ queryKey: ['cuisines'] })
+}
+
 export type DishInput = {
   name_en: string
   name_ta: string

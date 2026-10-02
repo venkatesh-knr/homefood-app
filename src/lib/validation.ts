@@ -43,3 +43,8 @@ export function isValidAllergen(input: string): boolean {
 export function normaliseAllergen(input: string): string {
   return input.trim().toLowerCase()
 }
+
+export function isValidCuisineName(input: string): boolean {
+  const v = input.trim()
+  return v.length >= 1 && v.length <= 40
+}

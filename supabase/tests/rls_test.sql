@@ -107,11 +107,18 @@ insert into public.week_plans (household_id, week_start) values (:'hh_a', '2026-
 insert into public.meal_slots (week_plan_id, household_id, date, meal) values (:'wk2', :'hh_a', '2026-10-07', 'dinner');
 select tests.ok((select count(*) from public.meal_slots) = 2, 'Appa plans inside his turn and sees all home meals');
 select tests.refused($$ insert into public.planner_turns (household_id, profile_id, scope, start_date, end_date) values ('$$ || :'hh_a' || $$', '$$ || :'appa' || $$', 'month', '2026-11-01', '2026-11-30') $$, 'members cannot assign turns themselves (phase 1)');
+select tests.refused($$ insert into public.cuisines (household_id, name) values ('$$ || :'hh_a' || $$', 'Chettinad') $$, 'a member cannot add a cuisine');
+
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.cuisines (household_id, name, name_ta) values (:'hh_a', 'Chettinad', 'செட்டிநாடு');
+select tests.ok((select count(*) from public.cuisines) = 6, 'Admin adds her own cuisine next to the 5 shared ones');
 
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
 select tests.ok((select count(*) from public.meal_slot_eaters) = 0, 'Ravi sees none of home A''s eaters');
 select tests.ok(not exists (select 1 from public.dishes where name = 'Pongal'), 'Ravi cannot see home A''s own dish (Pongal) — the shared catalogue is visible to everyone, home dishes are not');
+select tests.ok(not exists (select 1 from public.cuisines where name = 'Chettinad'), 'Ravi cannot see home A''s own cuisine');
+select tests.refused($$ insert into public.cuisines (household_id, name) values ('$$ || :'hh_a' || $$', 'Intruder cuisine') $$, 'Ravi cannot add a cuisine to home A');
 select tests.refused($$ update public.profiles set role = 'member' where user_id = auth.uid() $$, 'the last Admin cannot step down');
 
 -- ── Not signed in ──

@@ -77,7 +77,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 47 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 51 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -194,7 +194,10 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
    eating" — cross-checked against real `profile_allergies`), all unit-tested.
 2. **Dishes tab:** search (matches English or Tamil), cuisine chips (+ "My dishes"), course/diet/meal filters, dish list.
    Tapping a row opens Dish Detail.
-3. **Add a dish** (`/dishes/new`): name (en + optional ta), cuisine, meal types, course, diet, tags, allergens, prep time,
+3. **Add a cuisine** (Admin, Dishes tab → "+ Add a cuisine", `AddCuisine.tsx`): English name + optional Tamil name, saved as a row owned by
+   the home (no migration — `cuisines_admin` RLS already allowed it); it shows up as a chip and in Add a dish. Top-level only (no
+   parent), no rename/delete UI yet.
+3b. **Add a dish** (`/dishes/new`): name (en + optional ta), cuisine, meal types, course, diet, tags, allergens, prep time,
    optional photo. Editing is limited to the household's own dishes (creator or Admin) — the shared catalogue is read-only
    except for photo replacement, which any member can do.
 4. **Snap a dish:** camera capture → straight into the add-dish form with the photo pre-attached.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cleanCode, isValidCode, isValidEmail, normaliseEmail } from './validation'
+import { cleanCode, isValidCode, isValidCuisineName, isValidEmail, normaliseEmail } from './validation'
 
 describe('email', () => {
   it('normalises case and spaces', () => {
@@ -24,5 +24,13 @@ describe('code', () => {
     expect(isValidCode('123456')).toBe(true)
     expect(isValidCode('12345')).toBe(false)
     expect(isValidCode('12345a')).toBe(false)
+  })
+})
+
+describe('cuisine name', () => {
+  it('needs 1-40 characters after trimming', () => {
+    expect(isValidCuisineName('Chettinad')).toBe(true)
+    expect(isValidCuisineName('   ')).toBe(false)
+    expect(isValidCuisineName('x'.repeat(41))).toBe(false)
   })
 })
