@@ -323,6 +323,7 @@
     },
     "detail": {
       "stockPhoto": "புகைப்படம்: stock படம்",
+      "photoCredit": "புகைப்படம்: {{credit}}",
       "tapEnlarge": "பெரிதாக்க தட்டவும்",
       "replacePhoto": "புகைப்படத்தை மாற்று",
       "allergensLabel": "ஒவ்வாமைகள்: {{list}}",

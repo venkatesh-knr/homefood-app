@@ -64,8 +64,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 ## Database
 
 - Migrations in `supabase/migrations/`. **0001–0006 are already applied** to the live project `homefood-prod` (Mumbai) —
-  Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is new and still needs running** —
-  Dashboard › SQL Editor › paste the file's contents › Run. Never edit an applied migration; add a new numbered file
+  Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). Never edit an applied migration; add a new numbered file
   (`0008_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
@@ -171,14 +170,14 @@ the phone's camera app, not a custom viewfinder — see below) → Replace photo
 Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — ask before expanding any of these:
 - **Seed set is ~30 dishes** (6 per cuisine, mixed meals/diets), not the full "10-12 snacks per cuisine". Full depth is a
   content-authoring task, easy to add later as more `dishes`/`dish_names` rows — no code changes needed for that.
-- **Real stock photos: a pilot batch of 6, not all ~27 yet.** `0007_dish_stock_photos.sql` (pending — see Database below)
+- **Real stock photos: a pilot batch of 6, not all ~27 yet.** `0007_dish_stock_photos.sql` (applied, all 6 confirmed rendering live)
   sets `dishes.photo_path` to a real, free-licence Wikimedia Commons photo (one is a watercolour illustration, by request)
   for Dosa, Idli, Butter chicken, Margherita pizza, Chicken teriyaki and Miso soup, with credit in `photo_credit`. Every
   other seeded dish still shows the colour+initial placeholder until more are added the same way (just more migration
   rows — no code change). `useSignedPhotoUrl()` now serves an `http(s)` `photo_path` as-is instead of only ever signing
   it against the private bucket, and `DishesPage`/`DishPickerSheet`/`DishDetailPage` fall back to it when the household
   hasn't set its own override. "Replace photo" (per-household override, uploaded to the private bucket) still works fully
-  and takes priority over the stock photo.
+  and takes priority over the stock photo. Dish Detail shows the `photo_credit` over the stock photo (CC BY/BY-SA require visible attribution); it's hidden once a household replaces the photo with its own.
 - **No Recipe screen or nutrition panel** (`Recipe.png`, and the "Nutrition per serving" / "For your family" sections on
   `DishDetail.png`). No schema for nutrition facts or recipe ingredients/steps exists — that's a data-modelling decision
   (where does nutrition data come from? who authors recipe steps?) bigger than this pass. Dish Detail shows name, cuisine,

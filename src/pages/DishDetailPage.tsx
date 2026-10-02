@@ -25,7 +25,9 @@ export default function DishDetailPage() {
   const memberIds = useMemo(() => (members ?? []).map((m) => m.id), [members])
   const { data: allergyRows } = useAllergies(memberIds)
 
-  const photoPath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path ?? dish?.photo_path
+  const overridePath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path
+  const hasOverride = Boolean(overridePath)
+  const photoPath = overridePath ?? dish?.photo_path
   const { data: photoUrl } = useSignedPhotoUrl(photoPath)
   const photoInput = useRef<HTMLInputElement>(null)
   const [zoom, setZoom] = useState(false)
@@ -105,6 +107,11 @@ export default function DishDetailPage() {
           </svg>
         </button>
         {!photoUrl && <span className="absolute bottom-3 left-3.5 text-[11px] text-ink-soft">{t('dishes.detail.stockPhoto')}</span>}
+        {photoUrl && !hasOverride && dish.photo_credit && (
+          <span className="absolute bottom-3 left-3.5 max-w-[70%] rounded-md bg-ink/60 px-2 py-0.5 text-left text-[10.5px] leading-snug text-cream">
+            {t('dishes.detail.photoCredit', { credit: dish.photo_credit })}
+          </span>
+        )}
       </button>
 
       <div className="flex flex-col gap-4 px-5 pt-4 pb-8">
