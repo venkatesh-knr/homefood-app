@@ -304,6 +304,7 @@
     "countOther": "{{count}} dishes",
     "empty": "No dishes match. Try clearing a filter, or add one.",
     "dietMarkHint": "Diet mark: green = veg, brown = egg, red = non-veg",
+    "showAnyMeal": "Show dishes for any meal",
     "rowAllergyNote": "Contains {{list}}",
     "rowAddedBy": "Added by {{name}}",
     "filters": {

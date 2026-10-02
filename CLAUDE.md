@@ -234,8 +234,10 @@ Trims, flagged rather than silently done — ask before expanding any of these:
    check against the household's `profile_allergies`), Copy last day/week, Publish week — all three only shown to whoever
    can actually plan that day/week (Admin, or has an approved `planner_turns` row covering it).
 3. **Slot editor** (`/week/:date/:meal`): Home/Dine-out/Order-in tabs. Home: main dish + up to 3 sides (both via
-   `DishPickerSheet`, a full-screen overlay reusing the dish search/filter logic so in-progress edits never get lost to a
-   page navigation), the real per-eater allergy warning (`mealAllergyConflicts` in `lib/planner.ts`, unit-tested), who
+   `DishPickerSheet`, a full-screen overlay reusing `passesFilters` — search, cuisine chips, diet, meal (starts on the slot's own
+   meal, with a "show any meal" escape if that leaves nothing), "safe for everyone eating" and a per-dish allergy badge, all judged
+   against who is actually eating this meal; course is fixed by main/side. No "Add new dish"/"Snap a dish" buttons in it, because
+   leaving the page would lose the slot's unsaved edits), the real per-eater allergy warning (`mealAllergyConflicts` in `lib/planner.ts`, unit-tested), who
    cooks (anyone, including the helper), who's eating (family members only — the helper is never counted, per this file's
    own decision), a note, YouTube/Instagram search links. Dine-out/Order-in: just a place name.
 4. **Rota** (`/week/rota`): next 6 weeks, each day coloured by whoever's `planner_turns` covers it. Admin sees an inline
