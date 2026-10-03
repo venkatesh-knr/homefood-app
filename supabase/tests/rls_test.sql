@@ -149,6 +149,23 @@ select tests.ok((select count(*) from public.meal_slot_votes) + (select count(*)
 select tests.refused($$ insert into public.meal_slot_comments (slot_id, profile_id, body) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$', 'Hello') $$, 'Ravi cannot comment on home A''s meal');
 select tests.refused($$ insert into public.meal_slot_votes (slot_id, profile_id, vote) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$', 'agree') $$, 'Ravi cannot vote on home A''s meal');
 
+-- ── Recipes ──
+select tests.ok((select count(*) from public.recipes where household_id is null) >= 38, 'the standard recipes are visible to everyone');
+select tests.ok(not exists (select 1 from public.recipes r where r.household_id is null and (not exists (select 1 from public.recipe_ingredients i where i.recipe_id = r.id) or not exists (select 1 from public.recipe_steps st where st.recipe_id = r.id))), 'every standard recipe has ingredients and steps');
+select tests.refused($$ update public.recipes set servings = 99 where household_id is null $$, 'nobody can change a standard recipe');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.recipes (dish_id, household_id, servings) select id, :'hh_a', 4 from public.dishes where name = 'Idli' and household_id is null returning id as rec \gset
+insert into public.recipe_ingredients (recipe_id, position, name, quantity, unit) values (:'rec', 1, 'Idli rice', 2, 'cup');
+insert into public.recipe_steps (recipe_id, position, body) values (:'rec', 1, 'Our way.');
+select tests.ok((select count(*) from public.recipes where household_id = :'hh_a') = 1, 'Admin keeps her own version of a recipe');
+select tests.refused($$ insert into public.recipe_ingredients (recipe_id, position, name, unit) values ('$$ || :'rec' || $$', 2, 'Salt', 'cup') $$, 'a quantity is required unless it is "to taste"');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.recipe_steps where recipe_id = :'rec') = 1, 'Appa sees his home''s own recipe version');
+select tests.refused($$ insert into public.recipe_steps (recipe_id, position, body) values ('$$ || :'rec' || $$', 2, 'Edited by a member') $$, 'a member cannot edit a home recipe');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok(not exists (select 1 from public.recipes where household_id = :'hh_a') and not exists (select 1 from public.recipe_steps where recipe_id = :'rec'), 'Ravi cannot see home A''s recipe version');
+select tests.refused($$ insert into public.recipes (dish_id, household_id, servings) select id, '$$ || :'hh_a' || $$', 2 from public.dishes where name = 'Dosa' and household_id is null $$, 'Ravi cannot add a recipe to home A');
+
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
 select tests.ok((select count(*) from public.meal_slot_eaters) = 0, 'Ravi sees none of home A''s eaters');

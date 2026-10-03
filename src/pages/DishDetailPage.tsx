@@ -9,6 +9,7 @@ import { describeError } from '../lib/errors'
 import { cuisineLabel, dishDisplayName, dishTone } from '../lib/dishes'
 import { joinNames } from '../lib/people'
 import { FullPageMessage, Pill } from '../components/ui'
+import { useRecipeDishIds } from '../lib/recipeQueries'
 
 export default function DishDetailPage() {
   const { t, i18n } = useTranslation()
@@ -24,6 +25,8 @@ export default function DishDetailPage() {
   const { data: members } = useMembers(household.id)
   const memberIds = useMemo(() => (members ?? []).map((m) => m.id), [members])
   const { data: allergyRows } = useAllergies(memberIds)
+  const { data: recipeIds } = useRecipeDishIds()
+  const hasRecipe = Boolean(dishId && recipeIds?.has(dishId))
 
   const overridePath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path
   const hasOverride = Boolean(overridePath)
@@ -129,7 +132,16 @@ export default function DishDetailPage() {
           {dish.prep_minutes !== null && <Pill>{t('dishes.detail.prepMinutes', { count: dish.prep_minutes })}</Pill>}
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className={`grid gap-2 ${hasRecipe ? 'grid-cols-3' : 'grid-cols-2'}`}>
+          {hasRecipe && (
+            <button
+              type="button"
+              onClick={() => navigate(`/dishes/${dishId}/recipe`)}
+              className="flex h-16 flex-col items-center justify-center gap-1 rounded-2xl bg-ink text-[13px] font-semibold text-cream"
+            >
+              {t('recipe.open')}
+            </button>
+          )}
           <a
             href={`https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm + ' recipe')}`}
             target="_blank"

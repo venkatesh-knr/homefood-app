@@ -13,11 +13,13 @@ export function VoteRow({
   counts,
   variant,
   onDiscuss,
+  onRecipe,
 }: {
   slotId: string
   counts: SlotDiscussionCounts
   variant: 'full' | 'compact'
   onDiscuss: () => void
+  onRecipe?: () => void
 }) {
   const { t } = useTranslation()
   const { profile } = useHome()
@@ -77,14 +79,22 @@ export function VoteRow({
             {button('agree')}
             {button('disagree')}
           </div>
-          <div className="flex items-center justify-between text-[13px] font-semibold text-saffron-ink">
-            <button type="button" onClick={onDiscuss} className="underline">
-              {commentsText}
-              {counts.openSuggestions > 0 ? ` · ${t('discussion.suggestion').toLowerCase()} ${counts.openSuggestions}` : ''}
-            </button>
-            <button type="button" onClick={onDiscuss} className="underline">
-              {t('discussion.suggestLink')}
-            </button>
+          <div className="flex items-center justify-between gap-3 text-[13px] font-semibold text-saffron-ink">
+            <span className="flex flex-wrap items-center gap-x-1.5">
+              <button type="button" onClick={onDiscuss} className="underline">
+                {commentsText}
+                {counts.openSuggestions > 0 ? ` · ${t('discussion.suggestion').toLowerCase()} ${counts.openSuggestions}` : ''}
+              </button>
+              <span aria-hidden="true">·</span>
+              <button type="button" onClick={onDiscuss} className="underline">
+                {t('discussion.suggestLink')}
+              </button>
+            </span>
+            {onRecipe && (
+              <button type="button" onClick={onRecipe} className="shrink-0 underline">
+                {t('recipe.open')}
+              </button>
+            )}
           </div>
         </>
       ) : (

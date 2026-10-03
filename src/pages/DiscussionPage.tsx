@@ -8,6 +8,7 @@ import { useSlotComments, useSlotSuggestions, useSlotVotes } from '../lib/discus
 import { acceptSuggestion, addComment, addSuggestion, deleteComment, keepDish, setVote, withdrawSuggestion } from '../lib/discussionMutations'
 import { agreeShare, formatCommentTime, myVoteOf, nextVote, tallyVotes, type Vote } from '../lib/discussion'
 import { useCanPlanDate } from '../lib/useCanPlan'
+import { useRecipeDishIds } from '../lib/recipeQueries'
 import { useDishPhotoPath } from '../lib/dishPhotos'
 import { describeError } from '../lib/errors'
 import { avatarColor } from '../lib/people'
@@ -32,6 +33,7 @@ export default function DiscussionPage() {
   const isAdmin = profile.role === 'admin'
   const canPlan = useCanPlanDate(date)
   const photoFor = useDishPhotoPath()
+  const { data: recipeIds } = useRecipeDishIds()
 
   const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`)))
   const { data: weekPlan, isLoading: planLoading } = useWeekPlan(household.id, weekStart)
@@ -191,6 +193,11 @@ export default function DiscussionPage() {
           {voteButton('disagree')}
         </div>
         {slot.kept_despite_disagree && <p className="text-[12.5px] text-muted">{t('discussion.keptNote')}</p>}
+        {slot.main_dish && recipeIds?.has(slot.main_dish.id) && (
+          <button type="button" onClick={() => navigate(`/dishes/${slot.main_dish!.id}/recipe`, { state: { servings: slot.meal_slot_eaters.length || undefined } })} className="self-start text-[13px] font-semibold text-saffron-ink underline">
+            {t('recipe.open')}
+          </button>
+        )}
       </div>
 
       {(openSuggestions.length > 0 || closedSuggestions.length > 0) && (
