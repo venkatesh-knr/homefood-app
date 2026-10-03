@@ -116,6 +116,39 @@ select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001
 insert into public.cuisines (household_id, name, name_ta) values (:'hh_a', 'Chettinad', 'செட்டிநாடு');
 select tests.ok((select count(*) from public.cuisines) = 6, 'Admin adds her own cuisine next to the 5 shared ones');
 
+-- ── Discussion: votes, comments, suggestions ──
+select public.my_profile_id() as amma_p \gset
+insert into public.meal_slot_votes (slot_id, profile_id, vote) values (:'slot1', :'amma_p', 'agree');
+insert into public.meal_slot_comments (slot_id, profile_id, body) values (:'slot1', :'amma_p', 'Pongal it is.');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+insert into public.meal_slot_votes (slot_id, profile_id, vote) values (:'slot1', :'appa', 'disagree');
+select tests.ok((select count(*) from public.meal_slot_votes) = 2, 'Appa sees Amma''s vote and his own');
+select tests.refused($$ insert into public.meal_slot_votes (slot_id, profile_id, vote) values ('$$ || :'slot1' || $$', '$$ || :'amma_p' || $$', 'disagree') $$, 'you cannot vote as someone else');
+select tests.refused($$ insert into public.meal_slot_votes (slot_id, profile_id, vote) values ('$$ || :'slot1' || $$', '$$ || :'appa' || $$', 'maybe') $$, 'a vote is agree or disagree');
+update public.meal_slot_votes set vote = 'agree' where profile_id = :'appa';
+select tests.ok((select vote from public.meal_slot_votes where profile_id = :'appa') = 'agree', 'Appa can change his own vote');
+select tests.refused($$ update public.meal_slot_votes set vote = 'disagree' where profile_id = '$$ || :'amma_p' || $$' $$, 'Appa cannot change Amma''s vote');
+insert into public.meal_slot_comments (slot_id, profile_id, body) values (:'slot1', :'appa', 'Less oil please.');
+select tests.ok((select count(*) from public.meal_slot_comments) = 2, 'Appa comments and sees Amma''s comment');
+select tests.refused($$ insert into public.meal_slot_comments (slot_id, profile_id, body) values ('$$ || :'slot1' || $$', '$$ || :'amma_p' || $$', 'Fake') $$, 'you cannot comment as someone else');
+select tests.refused($$ insert into public.meal_slot_comments (slot_id, profile_id, body) values ('$$ || :'slot1' || $$', '$$ || :'appa' || $$', '   ') $$, 'a comment cannot be blank');
+select tests.refused($$ delete from public.meal_slot_comments where profile_id = '$$ || :'amma_p' || $$' $$, 'a member cannot delete Amma''s comment');
+insert into public.meal_slot_suggestions (slot_id, profile_id, dish_id) values (:'slot1', :'appa', :'pongal') returning id as sug \gset
+select tests.refused($$ insert into public.meal_slot_suggestions (slot_id, profile_id, free_text, status) values ('$$ || :'slot1' || $$', '$$ || :'appa' || $$', 'Upma', 'accepted') $$, 'a suggestion always starts open');
+select tests.refused($$ insert into public.meal_slot_suggestions (slot_id, profile_id) values ('$$ || :'slot1' || $$', '$$ || :'appa' || $$') $$, 'a suggestion needs a dish or a few words');
+select tests.refused($$ update public.meal_slot_suggestions set status = 'accepted' where id = '$$ || :'sug' || $$' $$, 'Appa cannot accept a suggestion on a day that is not his turn');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.meal_slot_suggestions set status = 'accepted', resolved_at = now() where id = :'sug';
+select tests.ok((select count(*) from public.meal_slot_suggestions where status = 'accepted') = 1, 'the Planner/Admin accepts a suggestion');
+delete from public.meal_slot_votes where slot_id = :'slot1';
+select tests.ok((select count(*) from public.meal_slot_votes) = 0, 'the Planner can clear a meal''s votes when the dish is swapped');
+delete from public.meal_slot_comments where profile_id = :'appa';
+select tests.ok((select count(*) from public.meal_slot_comments) = 1, 'an Admin can remove a member''s comment');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.meal_slot_votes) + (select count(*) from public.meal_slot_comments) + (select count(*) from public.meal_slot_suggestions) = 0, 'Ravi sees none of home A''s votes, comments or suggestions');
+select tests.refused($$ insert into public.meal_slot_comments (slot_id, profile_id, body) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$', 'Hello') $$, 'Ravi cannot comment on home A''s meal');
+select tests.refused($$ insert into public.meal_slot_votes (slot_id, profile_id, vote) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$', 'agree') $$, 'Ravi cannot vote on home A''s meal');
+
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
 select tests.ok((select count(*) from public.meal_slot_eaters) = 0, 'Ravi sees none of home A''s eaters');

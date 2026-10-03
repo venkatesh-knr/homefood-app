@@ -194,3 +194,17 @@ export function ChipInput({
     </div>
   )
 }
+
+/** Thumbs-up / thumbs-down / comment glyphs for votes and the discussion counts. */
+export function VoteIcon({ kind, size = 16 }: { kind: 'agree' | 'disagree' | 'comment'; size?: number }) {
+  const path = {
+    agree: 'M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1.2 2.2 2.7L12.7 9H19a2 2 0 0 1 2 2.3l-1 6.5a2 2 0 0 1-2 1.7H7',
+    disagree: 'M17 13V4h3v9zM17 13l-4 8c-1.5 0-2.5-1.2-2.2-2.7L11.3 15H5a2 2 0 0 1-2-2.3l1-6.5A2 2 0 0 1 6 4.5h11',
+    comment: 'M21 12a8 8 0 0 1-11.7 7L3 21l2-5.4A8 8 0 1 1 21 12z',
+  }[kind]
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={path} />
+    </svg>
+  )
+}

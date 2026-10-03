@@ -19,9 +19,11 @@ import {
   type MealType,
 } from '../lib/planner'
 import { avatarColor } from '../lib/people'
-import { Button, Pill } from '../components/ui'
+import { Button, Pill, VoteIcon } from '../components/ui'
 import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
+import { useDiscussionCounts } from '../lib/discussionQueries'
+import { EMPTY_COUNTS, type SlotDiscussionCounts } from '../lib/discussion'
 
 const today = toISODate(new Date())
 const defaultWeekStart = toISODate(weekStartOf(new Date()))
@@ -57,6 +59,8 @@ export default function WeekPage() {
     return map
   }, [slots, dates])
 
+  const selectedSlotIds = (slotsByDate.get(selectedDate) ?? []).map((sl) => sl.id)
+  const { data: counts } = useDiscussionCounts(selectedSlotIds, profile.id)
   const canPlanSelected = isAdmin || (turns ?? []).some((tn) => tn.profile_id === profile.id && turnCoversDate(tn, selectedDate))
   const canPlanWeek = isAdmin || dates.some((d) => (turns ?? []).some((tn) => tn.profile_id === profile.id && turnCoversDate(tn, d)))
 
@@ -194,7 +198,9 @@ export default function WeekPage() {
               lang={lang}
               householdAllergens={householdAllergens}
               memberById={memberById}
-              onClick={() => navigate(`/week/${selectedDate}/${meal}`)}
+              counts={slot ? (counts?.get(slot.id) ?? EMPTY_COUNTS) : undefined}
+              onClick={() => navigate(canPlanSelected ? `/week/${selectedDate}/${meal}` : `/week/${selectedDate}/${meal}/discuss`)}
+              onDiscuss={() => navigate(`/week/${selectedDate}/${meal}/discuss`)}
             />
           )
         })}
@@ -225,14 +231,18 @@ function MealCard({
   lang,
   householdAllergens,
   memberById,
+  counts,
   onClick,
+  onDiscuss,
 }: {
   meal: MealType
   slot: SlotWithDetails | undefined
   lang: 'en' | 'ta'
   householdAllergens: string[]
   memberById: Map<string, { display_name: string; color: string }>
+  counts?: SlotDiscussionCounts
   onClick: () => void
+  onDiscuss: () => void
 }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
@@ -282,22 +292,31 @@ function MealCard({
           <span>{t('dishes.rowAllergyNote', { list: conflicts.join(', ') })}</span>
         </div>
       )}
-      {cooks.length > 0 && (
-        <div className="flex items-center gap-2 border-t border-line pt-2.5 text-[12.5px] text-ink-soft">
-          <span className="flex">
-            {cooks.map((c, i) => (
-              <span
-                key={i}
-                className="-mr-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white text-[10.5px] font-semibold text-white"
-                style={{ background: c.color }}
-              >
-                {c.display_name.trim()[0]?.toUpperCase()}
+      <div className="flex items-center justify-between gap-2 border-t border-line pt-2.5 text-[12.5px] text-ink-soft">
+        <span className="flex min-w-0 items-center gap-2">
+          {cooks.length > 0 && (
+            <>
+              <span className="flex">
+                {cooks.map((c, i) => (
+                  <span
+                    key={i}
+                    className="-mr-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white text-[10.5px] font-semibold text-white"
+                    style={{ background: c.color }}
+                  >
+                    {c.display_name.trim()[0]?.toUpperCase()}
+                  </span>
+                ))}
               </span>
-            ))}
-          </span>
-          <span>{cooks.map((c) => c.display_name).join(' + ')}</span>
-        </div>
-      )}
+              <span className="truncate">{cooks.map((c) => c.display_name).join(' + ')}</span>
+            </>
+          )}
+        </span>
+        <button type="button" onClick={onDiscuss} aria-label={t('discussion.openThread')} className="flex shrink-0 items-center gap-3 rounded-lg px-1 py-1 text-[13px] font-semibold">
+          <span className={`flex items-center gap-1 ${counts?.myVote === 'agree' ? 'text-leaf' : ''}`}><VoteIcon kind="agree" size={15} /> {counts?.agree ?? 0}</span>
+          <span className={`flex items-center gap-1 ${counts?.myVote === 'disagree' ? 'text-alert' : ''}`}><VoteIcon kind="disagree" size={15} /> {counts?.disagree ?? 0}</span>
+          <span className="flex items-center gap-1"><VoteIcon kind="comment" size={15} /> {counts?.comments ?? 0}</span>
+        </button>
+      </div>
     </div>
   )
 }

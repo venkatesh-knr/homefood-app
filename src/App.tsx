@@ -22,6 +22,7 @@ import AddDishPage from './pages/AddDishPage'
 import DishDetailPage from './pages/DishDetailPage'
 import HomeTabPage from './pages/HomeTabPage'
 import HistoryPage from './pages/HistoryPage'
+import DiscussionPage from './pages/DiscussionPage'
 
 export default function App() {
   const { t } = useTranslation()
@@ -64,6 +65,7 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="week/rota" element={<RotaPage />} />
         <Route path="week/glance" element={<WeekGlancePage />} />
         <Route path="week/:date/:meal" element={<SlotEditorPage />} />
+        <Route path="week/:date/:meal/discuss" element={<DiscussionPage />} />
         <Route path="dishes" element={<DishesPage />} />
         <Route path="dishes/new" element={<AddDishPage />} />
         <Route path="dishes/:dishId/edit" element={<AddDishPage />} />

@@ -6,6 +6,10 @@ import { activeMealTypes, greetingPeriod, nextMealType, toISODate, weekDates, we
 import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
 import { Pill } from '../components/ui'
+import { VoteRow } from '../components/VoteRow'
+import { useDiscussionCounts } from '../lib/discussionQueries'
+import { EMPTY_COUNTS, type SlotDiscussionCounts } from '../lib/discussion'
+import { useCanPlanDate } from '../lib/useCanPlan'
 
 const now = new Date()
 const today = toISODate(now)
@@ -20,6 +24,10 @@ export default function TodayPage() {
   const { data: weekPlan } = useWeekPlan(household.id, weekStart)
   const { data: slots } = useWeekSlots(weekPlan?.id)
   const todaySlots = (slots ?? []).filter((s) => s.date === today)
+  const { data: counts } = useDiscussionCounts(todaySlots.map((s) => s.id), profile.id)
+  const canPlanToday = useCanPlanDate(today)
+  const open = (meal: MealType, slot: SlotWithDetails | undefined) =>
+    navigate(slot || !canPlanToday ? `/week/${today}/${meal}/discuss` : `/week/${today}/${meal}`)
 
   const mealTypes = activeMealTypes(household.snacks_enabled)
   const nextUp = nextMealType(now, mealTypes)
@@ -37,14 +45,22 @@ export default function TodayPage() {
         <h1 className="font-display text-[22px] font-bold">{t(`today.greeting${capitalize(greetingPeriod(now))}`, { name: profile.display_name })}</h1>
       </div>
 
-      <NextUpCard meal={nextUp} slot={nextSlot} lang={lang} onClick={() => navigate(`/week/${today}/${nextUp}`)} />
+      <NextUpCard meal={nextUp} slot={nextSlot} lang={lang} counts={nextSlot ? (counts?.get(nextSlot.id) ?? EMPTY_COUNTS) : undefined} onClick={() => open(nextUp, nextSlot)} onDiscuss={() => navigate(`/week/${today}/${nextUp}/discuss`)} />
 
       {restOfDay.length > 0 && (
         <>
           <span className="pt-1 font-display text-[16px] font-semibold">{t('today.restOfToday')}</span>
           <div className="flex flex-col gap-2.5">
             {restOfDay.map((meal) => (
-              <RestCard key={meal} meal={meal} slot={todaySlots.find((s) => s.meal === meal)} lang={lang} onClick={() => navigate(`/week/${today}/${meal}`)} />
+              <RestCard
+                key={meal}
+                meal={meal}
+                slot={todaySlots.find((s) => s.meal === meal)}
+                lang={lang}
+                counts={(() => { const sl = todaySlots.find((x) => x.meal === meal); return sl ? (counts?.get(sl.id) ?? EMPTY_COUNTS) : undefined })()}
+                onClick={() => open(meal, todaySlots.find((s) => s.meal === meal))}
+                onDiscuss={() => navigate(`/week/${today}/${meal}/discuss`)}
+              />
             ))}
           </div>
         </>
@@ -80,14 +96,15 @@ function mealDishNames(slot: SlotWithDetails | undefined, lang: 'en' | 'ta') {
   return { name, sides, dish: slot.main_dish }
 }
 
-function NextUpCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; onClick: () => void }) {
+function NextUpCard({ meal, slot, lang, counts, onClick, onDiscuss }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
   const dish = mealDishNames(slot, lang)
   const photoFor = useDishPhotoPath()
 
   return (
-    <button type="button" onClick={onClick} className="flex flex-col gap-3.5 rounded-[22px] border-2 border-saffron bg-white p-4.5 text-left">
+    <div className="flex flex-col gap-3.5 rounded-[22px] border-2 border-saffron bg-white p-4.5">
+      <button type="button" onClick={onClick} className="flex flex-col gap-3.5 text-left">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-saffron-ink">
           <span className="h-2.5 w-2.5 rounded-full" style={{ background: bandColor }} />
@@ -108,18 +125,21 @@ function NextUpCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotW
       ) : (
         <span className="text-[15px] text-muted">{t('today.nothingNextUp')}</span>
       )}
-    </button>
+      </button>
+      {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="full" onDiscuss={onDiscuss} />}
+    </div>
   )
 }
 
-function RestCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; onClick: () => void }) {
+function RestCard({ meal, slot, lang, counts, onClick, onDiscuss }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
   const dish = mealDishNames(slot, lang)
   const photoFor = useDishPhotoPath()
 
   return (
-    <button type="button" onClick={onClick} className="flex items-center gap-3 rounded-2xl border border-line bg-white p-3.5 text-left">
+    <div className="flex flex-col gap-3 rounded-2xl border border-line bg-white p-3.5">
+    <button type="button" onClick={onClick} className="flex items-center gap-3 text-left">
       {dish ? (
         <DishThumb name={dish.name} tone={meal.length + 1} photoPath={photoFor(dish.dish)} size={52} ring={bandColor} />
       ) : (
@@ -139,5 +159,7 @@ function RestCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWit
         )}
       </span>
     </button>
+    {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="compact" onDiscuss={onDiscuss} />}
+    </div>
   )
 }
