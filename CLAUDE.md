@@ -63,7 +63,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0011 are all applied** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0013 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
   (`0014_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
@@ -74,13 +74,13 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   0011 (recipes: 38 standard recipes, English + Tamil) is applied and checked live (Ven Pongal scales to the 3 family members).
   Recipe content is regenerated from `scripts/recipes_data.py` by `scripts/gen-recipes.py`; they are drafts, so the family should
   check them before relying on them.
-  **0012 (nutrition: per-serving estimates for all 138 dishes + 24 daily reference targets) is new and still needs running** —
-  until it is, the nutrition panel and "My / Family nutrition" just say numbers are not available. Regenerated from
-  `scripts/nutrition_data.py` by `scripts/gen-nutrition.py` (which sanity-checks calories against the macros).
-  **0013 (notifications: the bell) is new and still needs running** — until it is, the bell just shows no unread dot and the
-  list says there is nothing new. Triggers write the notifications (week published, a published meal changed, set as cook,
-  new suggestion, suggestion accepted/declined, new comment, dish kept despite disagreement, Planner turn assigned);
-  repeats for the same person and meal within 10 minutes merge into one.
+  0012 (nutrition: per-serving estimates for all 138 dishes + 24 daily reference targets) is applied and checked live: the Dish Detail
+  panel, My nutrition and Family nutrition all show real numbers. Regenerated from `scripts/nutrition_data.py` by
+  `scripts/gen-nutrition.py` (which sanity-checks calories against the macros).
+  0013 (notifications: the bell) is applied; votes and comments still work with its triggers (checked live). The bell can only be
+  fully seen once a second person acts, because nobody is notified of their own actions. Triggers write the notifications (week
+  published, a published meal changed, set as cook, new suggestion, suggestion accepted/declined, new comment, dish kept despite
+  disagreement, Planner turn assigned); repeats for the same person and meal within 10 minutes merge into one.
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
   update, no schema/RLS change, see Step 3 scope below for which ones and why only 6 so far.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
