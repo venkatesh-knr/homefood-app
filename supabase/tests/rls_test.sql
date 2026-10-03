@@ -179,6 +179,30 @@ select tests.refused($$ update public.dish_nutrition set kcal = 1 where dish_id 
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok(not exists (select 1 from public.dish_nutrition where dish_id = :'pongal'), 'Ravi cannot see home A''s dish nutrition');
 
+-- ── Notifications (written by triggers; see 0013) ──
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.notifications where type = 'turn_assigned') = 1, 'Appa is told when a Planner turn is given to him');
+select tests.ok((select count(*) from public.notifications where type = 'suggestion_accepted') = 1, 'Appa is told his suggestion was accepted');
+select tests.refused($$ insert into public.notifications (household_id, profile_id, type) values ('$$ || :'hh_a' || $$', '$$ || :'appa' || $$', 'week_published') $$, 'nobody can write a notification from the app');
+select tests.refused($$ select public.notify('$$ || :'appa' || $$', 'week_published', null, '{}') $$, 'the app cannot call the notification writer directly');
+select tests.refused($$ update public.notifications set type = 'comment_new' $$, 'a notification can only be marked read, not edited');
+update public.notifications set read_at = now() where type = 'turn_assigned';
+select tests.ok((select count(*) from public.notifications where read_at is not null) = 1, 'Appa marks a notification read');
+select tests.ok((select count(*) from public.notifications where profile_id = :'amma_p') = 0, 'Appa cannot see Amma''s notifications');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.ok((select count(*) from public.notifications where type = 'suggestion_new') = 1, 'Amma is told about Appa''s suggestion');
+update public.week_plans set status = 'published', published_at = now() where id = :'wk1';
+update public.meal_slots set place_name = 'Cafe Chennai' where id = :'slot1';
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.notifications where type = 'week_published') = 1, 'everyone with a login is told when the week is published');
+select tests.ok((select count(*) from public.notifications where type = 'slot_changed') = 1, 'and when a published meal changes');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.meal_slots set place_name = 'Cafe Chennai 2' where id = :'slot1';
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.notifications where type = 'slot_changed') = 1 and (select data ->> 'place' from public.notifications where type = 'slot_changed') = 'Cafe Chennai 2', 'repeat changes to the same meal merge into one notification');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.notifications) = 0, 'Ravi gets, and sees, none of home A''s notifications');
+
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
 select tests.ok((select count(*) from public.meal_slot_eaters) = 0, 'Ravi sees none of home A''s eaters');
