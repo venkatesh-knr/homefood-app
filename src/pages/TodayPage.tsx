@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useWeekPlan, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
 import { activeMealTypes, greetingPeriod, nextMealType, toISODate, weekDates, weekStartOf, type MealType } from '../lib/planner'
-import { dishTone } from '../lib/dishes'
+import { DishThumb } from '../components/DishRow'
+import { useDishPhotoPath } from '../lib/dishPhotos'
 import { Pill } from '../components/ui'
 
 const now = new Date()
@@ -76,14 +77,14 @@ function mealDishNames(slot: SlotWithDetails | undefined, lang: 'en' | 'ta') {
   const sides = slot.meal_slot_sides
     .sort((a, b) => a.position - b.position)
     .map((s) => s.dish.dish_names.find((n) => n.language === lang)?.name ?? s.dish.name)
-  return { name, sides }
+  return { name, sides, dish: slot.main_dish }
 }
 
 function NextUpCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; onClick: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
   const dish = mealDishNames(slot, lang)
-  const { background, ink } = dishTone(meal.length)
+  const photoFor = useDishPhotoPath()
 
   return (
     <button type="button" onClick={onClick} className="flex flex-col gap-3.5 rounded-[22px] border-2 border-saffron bg-white p-4.5 text-left">
@@ -96,12 +97,7 @@ function NextUpCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotW
       </div>
       {dish ? (
         <div className="flex items-center gap-4">
-          <span
-            className="flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-full font-display text-[28px] font-semibold"
-            style={{ background, color: ink, boxShadow: `0 0 0 4px #FFFFFF, 0 0 0 6px ${bandColor}` }}
-          >
-            {dish.name.trim()[0]?.toUpperCase()}
-          </span>
+          <DishThumb name={dish.name} tone={meal.length} photoPath={photoFor(dish.dish)} size={76} ring={bandColor} />
           <div className="flex flex-col gap-0.5">
             <span className="font-display text-[19px] font-semibold">{dish.name}</span>
             {dish.sides.length > 0 && <span className="text-[13.5px] text-ink-soft">+ {dish.sides.join(', ')}</span>}
@@ -120,16 +116,15 @@ function RestCard({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWit
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
   const dish = mealDishNames(slot, lang)
-  const { background, ink } = dishTone(meal.length + 1)
+  const photoFor = useDishPhotoPath()
 
   return (
     <button type="button" onClick={onClick} className="flex items-center gap-3 rounded-2xl border border-line bg-white p-3.5 text-left">
-      <span
-        className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full font-display text-[18px] font-semibold"
-        style={{ background: dish ? background : '#F6EFE3', color: ink, boxShadow: dish ? `0 0 0 2px #FFFFFF, 0 0 0 4px ${bandColor}` : undefined }}
-      >
-        {dish?.name.trim()[0]?.toUpperCase() ?? ''}
-      </span>
+      {dish ? (
+        <DishThumb name={dish.name} tone={meal.length + 1} photoPath={photoFor(dish.dish)} size={52} ring={bandColor} />
+      ) : (
+        <span className="h-[52px] w-[52px] shrink-0 rounded-full" style={{ background: '#F6EFE3' }} />
+      )}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
         <span className="text-[11.5px] font-semibold uppercase tracking-wide text-muted">{t(`meal.${meal}`)}</span>
         {dish ? (

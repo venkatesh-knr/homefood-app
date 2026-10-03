@@ -3,16 +3,30 @@ import { useNavigate } from 'react-router-dom'
 import { dietColor, dishTone, type DietType } from '../lib/dishes'
 import { useSignedPhotoUrl } from '../lib/dishQueries'
 
-export function DishThumb({ name, tone, photoPath, size = 56 }: { name: string; tone: number; photoPath?: string | null; size?: number }) {
+export function DishThumb({
+  name,
+  tone,
+  photoPath,
+  size = 56,
+  ring,
+}: {
+  name: string
+  tone: number
+  photoPath?: string | null
+  size?: number
+  /** Meal-colour outline (white gap + coloured ring), as on the Today / Week at a glance mockups. */
+  ring?: string
+}) {
   const { data: url } = useSignedPhotoUrl(photoPath)
   const { background, ink } = dishTone(tone)
+  const boxShadow = ring ? `0 0 0 ${Math.max(2, size / 28)}px #fff, 0 0 0 ${Math.max(4, size / 14)}px ${ring}` : undefined
   if (url) {
-    return <img src={url} alt="" width={size} height={size} className="shrink-0 rounded-full object-cover" style={{ width: size, height: size }} />
+    return <img src={url} alt="" width={size} height={size} className="shrink-0 rounded-full object-cover" style={{ width: size, height: size, boxShadow }} />
   }
   return (
     <span
       className="flex shrink-0 items-center justify-center rounded-full font-display font-semibold"
-      style={{ width: size, height: size, background, color: ink, fontSize: size * 0.36 }}
+      style={{ width: size, height: size, background, color: ink, fontSize: size * 0.36, boxShadow }}
       aria-hidden="true"
     >
       {name.trim()[0]?.toUpperCase() ?? '?'}

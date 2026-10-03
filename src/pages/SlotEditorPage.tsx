@@ -7,11 +7,13 @@ import { useWeekPlan, useWeekSlots } from '../lib/plannerQueries'
 import { clearSlot, getOrCreateWeekPlan, saveSlot, type SlotInput } from '../lib/plannerMutations'
 import { describeError } from '../lib/errors'
 import { mealAllergyConflicts, weekStartOf, toISODate, type MealSource, type MealType } from '../lib/planner'
-import { dishDisplayName } from '../lib/dishes'
+import { cuisineLabel, dishDisplayName } from '../lib/dishes'
+import { useCuisines } from '../lib/dishQueries'
 import type { DishWithNames } from '../lib/dishQueries'
 import { avatarColor, joinNames } from '../lib/people'
 import { Button, FullPageMessage } from '../components/ui'
 import { DishThumb } from '../components/DishRow'
+import { useDishPhotoPath } from '../lib/dishPhotos'
 import { DishPickerSheet } from '../components/DishPickerSheet'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
@@ -23,6 +25,8 @@ export default function SlotEditorPage() {
   const { date, meal } = useParams<{ date: string; meal: MealType }>()
   const { profile, household } = useHome()
   const isAdmin = profile.role === 'admin'
+  const photoFor = useDishPhotoPath()
+  const { data: cuisines } = useCuisines()
 
   const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`)))
   const { data: weekPlan, isLoading: isWeekPlanLoading } = useWeekPlan(household.id, weekStart)
@@ -180,11 +184,22 @@ export default function SlotEditorPage() {
           <div className="mx-4 flex items-center gap-3.5 rounded-2xl border border-line bg-white p-3.5">
             {mainDish ? (
               <>
-                <DishThumb name={dishName(mainDish)} tone={0} photoPath={null} size={56} />
+                <DishThumb name={dishName(mainDish)} tone={0} photoPath={photoFor(mainDish)} size={56} />
                 <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <span className="text-[16px] font-semibold">{dishName(mainDish)}</span>
+                  {mainDish.dish_names.find((n) => n.language === (lang === 'ta' ? 'en' : 'ta')) && (
+                    <span className="font-tamil text-[12.5px] text-muted">{mainDish.dish_names.find((n) => n.language === (lang === 'ta' ? 'en' : 'ta'))?.name}</span>
+                  )}
                   <span className="text-[12.5px] text-muted">
-                    {mainDish.diet === 'veg' ? t('dishes.filters.dietVeg') : mainDish.diet === 'egg' ? t('dishes.filters.dietEgg') : t('dishes.filters.dietNonVeg')}
+                    {[
+                      (() => {
+                        const c = cuisines?.find((x) => x.id === mainDish.cuisine_id)
+                        return c ? cuisineLabel(c, lang) : null
+                      })(),
+                      mainDish.diet === 'veg' ? t('dishes.filters.dietVeg') : mainDish.diet === 'egg' ? t('dishes.filters.dietEgg') : t('dishes.filters.dietNonVeg'),
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
                   </span>
                 </div>
               </>
@@ -350,7 +365,7 @@ export default function SlotEditorPage() {
 
       {error && <p className="mx-4 mt-3 rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
 
-      <div className="mt-auto flex gap-2.5 border-t border-line px-4 py-4">
+      <div className="sticky bottom-16 z-10 mt-auto flex gap-2.5 border-t border-line bg-cream px-4 py-4">
         <button type="button" onClick={onClear} disabled={busy} className="px-2 text-[15px] font-semibold text-alert">
           {t('planner.clearMeal')}
         </button>

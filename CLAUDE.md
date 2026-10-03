@@ -65,9 +65,11 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 - Migrations in `supabase/migrations/`. **0001–0006 are already applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0009_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0010_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
+  **0009 (110 more Indian dishes, 64 of them sides) is new and still needs running** — Dashboard › SQL Editor › paste › Run;
+  it skips any name that already exists, so running it twice is harmless. Its dishes have no photos yet (initial placeholder).
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
   update, no schema/RLS change, see Step 3 scope below for which ones and why only 6 so far.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
@@ -77,7 +79,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 51 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 54 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).

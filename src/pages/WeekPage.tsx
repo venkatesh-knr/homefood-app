@@ -21,6 +21,7 @@ import {
 import { avatarColor } from '../lib/people'
 import { Button, Pill } from '../components/ui'
 import { DishThumb } from '../components/DishRow'
+import { useDishPhotoPath } from '../lib/dishPhotos'
 
 const today = toISODate(new Date())
 const defaultWeekStart = toISODate(weekStartOf(new Date()))
@@ -117,7 +118,7 @@ export default function WeekPage() {
       <div>
         <h1 className="font-display text-[22px] font-bold">{t('planner.title')}</h1>
         <p className="text-[13px] text-muted">
-          {weekPlan?.status === 'published' ? t('planner.statusPublished', { date: weekPlan.published_at?.slice(0, 10) }) : t('planner.statusDraft')}
+          {weekPlan?.status === 'published' ? t('planner.statusPublished', { date: weekPlan.published_at ? weekRangeFormatter.format(new Date(weekPlan.published_at)) : '' }) : t('planner.statusDraft')}
         </p>
       </div>
 
@@ -202,7 +203,7 @@ export default function WeekPage() {
       {message && <p className="rounded-xl bg-sand px-4 py-3 text-center text-[13.5px] text-ink-soft">{message}</p>}
 
       {canPlanWeek && (
-        <div className="mt-2 flex flex-col gap-2 border-t border-line pt-4">
+        <div className="sticky bottom-16 -mx-5 mt-2 flex flex-col gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">
           <div className="flex gap-2.5">
             <Button variant="secondary" className="flex-1" disabled={busy !== null} onClick={onCopyWeek}>
               {busy === 'copy-week' ? t('planner.copying') : t('planner.copyLastWeek')}
@@ -235,6 +236,7 @@ function MealCard({
 }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
+  const photoFor = useDishPhotoPath()
 
   if (!slot) {
     return (
@@ -262,7 +264,7 @@ function MealCard({
       <button type="button" onClick={onClick} className="flex items-center gap-3 text-left">
         {slot.source === 'home' && mainName ? (
           <>
-            <DishThumb name={mainName} tone={meal.length} photoPath={null} size={48} />
+            <DishThumb name={mainName} tone={meal.length} photoPath={photoFor(slot.main_dish)} size={52} />
             <span className="flex min-w-0 flex-1 flex-col gap-0.5">
               <span className="truncate text-[15px] font-semibold">{mainName}</span>
               {sideNames.length > 0 && <span className="truncate text-[13px] text-muted">+ {sideNames.join(', ')}</span>}

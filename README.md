@@ -71,7 +71,7 @@ npm run build     # production build
 npm run test:db   # database rule tests; needs PostgreSQL installed locally
 ```
 
-`npm run test:db` creates a throwaway local database, loads the migrations with small stand-ins for Supabase's `auth` schema, and runs `supabase/tests/rls_test.sql`: 51 checks that one home can never see or change another's data, that only Admins manage people and invites, and that Planners can only plan their own turns. Needs PostgreSQL installed locally; if it isn't (nobody on this project has it), the same 51 checks run automatically in GitHub Actions on every push — see the "Database rule tests" job. `supabase/tests/live_check_0004.sql` is also an optional one-off you can run in the Supabase SQL Editor instead (it cleans up after itself).
+`npm run test:db` creates a throwaway local database, loads the migrations with small stand-ins for Supabase's `auth` schema, and runs `supabase/tests/rls_test.sql`: 54 checks that one home can never see or change another's data, that only Admins manage people and invites, and that Planners can only plan their own turns. Needs PostgreSQL installed locally; if it isn't (nobody on this project has it), the same 54 checks run automatically in GitHub Actions on every push — see the "Database rule tests" job. `supabase/tests/live_check_0004.sql` is also an optional one-off you can run in the Supabase SQL Editor instead (it cleans up after itself).
 
 ## Project layout
 

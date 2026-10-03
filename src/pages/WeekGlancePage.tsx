@@ -5,7 +5,8 @@ import { toPng } from 'html-to-image'
 import { useHome } from '../lib/homeContext'
 import { useWeekPlan, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
 import { activeMealTypes, addDays, dayOfMonth, toISODate, weekDates, weekStartOf, weekdayLetter, type MealType } from '../lib/planner'
-import { dishTone } from '../lib/dishes'
+import { DishThumb } from '../components/DishRow'
+import { useDishPhotoPath } from '../lib/dishPhotos'
 import { usePosterOpened } from '../lib/onboarding'
 
 const MEAL_BAND: Record<MealType, string> = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }
@@ -17,7 +18,7 @@ function dishOf(slot: SlotWithDetails | undefined, lang: 'en' | 'ta') {
   const sides = slot.meal_slot_sides
     .sort((a, b) => a.position - b.position)
     .map((s) => s.dish.dish_names.find((n) => n.language === lang)?.name ?? s.dish.name)
-  return { name, sides }
+  return { name, sides, dish: slot.main_dish }
 }
 
 export default function WeekGlancePage() {
@@ -140,7 +141,7 @@ export default function WeekGlancePage() {
                 </svg>
               </button>
               <span>
-                {rangeLabel} · {weekPlan?.status === 'published' ? t('planner.statusPublished', { date: weekPlan.published_at?.slice(0, 10) }) : t('planner.statusDraft')}
+                {rangeLabel} · {weekPlan?.status === 'published' ? t('planner.statusPublished', { date: weekPlan.published_at ? rangeFmt.format(new Date(weekPlan.published_at)) : '' }) : t('planner.statusDraft')}
               </span>
               <button type="button" onClick={() => setWeekStart(addDays(weekStart, 7))} aria-label={t('common.nextWeek')} className="flex h-9 w-9 items-center justify-center rounded-full border border-line print:hidden">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -264,6 +265,7 @@ function GridMealRow({
   onPick: (date: string) => void
 }) {
   const { t } = useTranslation()
+  const photoFor = useDishPhotoPath()
   return (
     <>
       <div className="flex min-h-[150px] flex-col justify-center gap-1 rounded-2xl p-3.5 text-white" style={{ background: MEAL_BAND[meal] }}>
@@ -272,7 +274,6 @@ function GridMealRow({
       {dates.map((d) => {
         const slot = slotsByDate.get(d)?.find((s) => s.meal === meal)
         const dish = dishOf(slot, lang)
-        const { background, ink } = dishTone(meal.length)
         return (
           <button
             key={d}
@@ -282,9 +283,7 @@ function GridMealRow({
           >
             {dish ? (
               <>
-                <span className="flex h-[58px] w-[58px] items-center justify-center rounded-full font-display text-[20px] font-semibold" style={{ background, color: ink }}>
-                  {dish.name.trim()[0]?.toUpperCase()}
-                </span>
+                <DishThumb name={dish.name} tone={meal.length} photoPath={photoFor(dish.dish)} size={58} />
                 <span className="text-[13.5px] font-semibold leading-tight">{dish.name}</span>
                 {dish.sides.length > 0 && <span className="text-[11.5px] leading-tight text-muted">+ {dish.sides.join(', ')}</span>}
               </>
@@ -307,13 +306,11 @@ function GridMealRow({
 function TodayRow({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; onClick: () => void }) {
   const { t } = useTranslation()
   const dish = dishOf(slot, lang)
-  const { background, ink } = dishTone(meal.length)
+  const photoFor = useDishPhotoPath()
   return (
     <button type="button" onClick={onClick} className="flex items-center gap-3.5 border-t border-line py-3 text-left first:border-t-0">
       {dish ? (
-        <span className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-full font-display text-[19px] font-semibold" style={{ background, color: ink, boxShadow: `0 0 0 2px #fff, 0 0 0 4px ${MEAL_BAND[meal]}` }}>
-          {dish.name.trim()[0]?.toUpperCase()}
-        </span>
+        <DishThumb name={dish.name} tone={meal.length} photoPath={photoFor(dish.dish)} size={54} ring={MEAL_BAND[meal]} />
       ) : (
         <span className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-full border-[1.5px] border-dashed border-saffron-ink/60" />
       )}
@@ -336,14 +333,12 @@ function TodayRow({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWit
 
 function MiniCell({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; onClick: () => void }) {
   const dish = dishOf(slot, lang)
-  const { background, ink } = dishTone(meal.length)
+  const photoFor = useDishPhotoPath()
   const label = dish ? (dish.name.length > 14 ? dish.name.split(' ').slice(0, 2).join(' ') : dish.name) : slot?.place_name || ''
   return (
     <button type="button" onClick={onClick} className="flex flex-col items-center gap-1 text-center">
       {dish ? (
-        <span className="flex h-10 w-10 items-center justify-center rounded-full text-[13px] font-semibold" style={{ background, color: ink, boxShadow: `0 0 0 2px #fff, 0 0 0 4px ${MEAL_BAND[meal]}` }}>
-          {dish.name.trim()[0]?.toUpperCase()}
-        </span>
+        <DishThumb name={dish.name} tone={meal.length} photoPath={photoFor(dish.dish)} size={40} ring={MEAL_BAND[meal]} />
       ) : (
         <span className="h-10 w-10 rounded-full bg-sand" />
       )}

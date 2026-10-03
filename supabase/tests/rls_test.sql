@@ -45,6 +45,9 @@ insert into public.profile_allergies (profile_id, allergen) values (:'paati', 's
 insert into public.invites (household_id, created_by) values (:'hh_a', public.my_profile_id()) returning token as tok \gset
 select tests.ok((select count(*) from public.profiles) = 4, 'Amma sees her 4 profiles');
 select tests.ok((select count(*) from public.cuisines) = 5, 'shared cuisines are visible');
+select tests.ok((select count(*) from public.dishes where household_id is null) >= 138, 'the shared catalogue has every seeded dish');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null group by name having count(*) > 1), 'no two shared dishes share a name');
+select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and (select count(distinct n.language) from public.dish_names n where n.dish_id = d.id and n.language in ('en', 'ta')) < 2), 'every shared dish has an English and a Tamil name');
 select tests.refused($$ select public.create_household('Second', 'Amma again') $$, 'one home per login');
 select tests.refused($$ insert into public.profiles (household_id, display_name, kind, can_login) values ('$$ || :'hh_a' || $$', 'X', 'helper', true) $$, 'a helper cannot have a login');
 

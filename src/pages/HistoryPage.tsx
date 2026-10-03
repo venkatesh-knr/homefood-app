@@ -7,6 +7,8 @@ import { useHistorySlots, type SlotDish, type SlotWithDetails } from '../lib/pla
 import { rangeBounds, shiftAnchor, summariseHistory, topEntries, type HistoryRangeKind } from '../lib/history'
 import { MEAL_TYPES, toISODate, type MealType } from '../lib/planner'
 import { Card, Pill } from '../components/ui'
+import { DishThumb } from '../components/DishRow'
+import { useDishPhotoPath } from '../lib/dishPhotos'
 
 const MEAL_BAND: Record<MealType, string> = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }
 const KINDS: HistoryRangeKind[] = ['week', 'month', 'year']
@@ -23,6 +25,7 @@ export default function HistoryPage() {
   const navigate = useNavigate()
   const { household } = useHome()
   const { data: members } = useMembers(household.id)
+  const photoFor = useDishPhotoPath()
 
   const [kind, setKind] = useState<HistoryRangeKind>('month')
   const [anchor, setAnchor] = useState(today)
@@ -189,7 +192,11 @@ export default function HistoryPage() {
                       onClick={() => navigate(`/week/${s.date}/${s.meal}`)}
                       className="flex items-start gap-3 rounded-2xl border border-line bg-white p-3 text-left"
                     >
-                      <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: MEAL_BAND[s.meal] }} aria-hidden="true" />
+                      {s.main_dish ? (
+                        <DishThumb name={main ?? ''} tone={s.meal.length} photoPath={photoFor(s.main_dish)} size={44} ring={MEAL_BAND[s.meal]} />
+                      ) : (
+                        <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: MEAL_BAND[s.meal] }} aria-hidden="true" />
+                      )}
                       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                         <span className="text-[12px] font-semibold uppercase tracking-wide text-muted">{t(`meal.${s.meal}`)}</span>
                         <span className="text-[15px] font-semibold">{main}</span>
