@@ -36,6 +36,8 @@ describe('ageBand', () => {
     expect(ageBand(2010, 2026)).toBe('teen') // 16
     expect(ageBand(1990, 2026)).toBe('adult') // 36
     expect(ageBand(1950, 2026)).toBe('senior') // 76
+    expect(ageBand(2009, 2026)).toBe('teen') // 17, the spec's teen band is 13-17
+    expect(ageBand(2008, 2026)).toBe('adult') // 18
   })
 })
 

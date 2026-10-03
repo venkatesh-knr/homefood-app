@@ -166,6 +166,19 @@ select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003
 select tests.ok(not exists (select 1 from public.recipes where household_id = :'hh_a') and not exists (select 1 from public.recipe_steps where recipe_id = :'rec'), 'Ravi cannot see home A''s recipe version');
 select tests.refused($$ insert into public.recipes (dish_id, household_id, servings) select id, '$$ || :'hh_a' || $$', 2 from public.dishes where name = 'Dosa' and household_id is null $$, 'Ravi cannot add a recipe to home A');
 
+-- ── Nutrition ──
+select tests.ok((select count(*) from public.dish_nutrition) >= 138, 'every shared dish has a nutrition estimate, visible to everyone');
+select tests.ok((select count(*) from public.nutrition_targets) = 24, 'the daily reference targets are readable (4 age bands x 2 sexes x 3 activity levels)');
+select tests.refused($$ update public.nutrition_targets set kcal = 1 $$, 'nobody edits the reference targets');
+select tests.refused($$ update public.dish_nutrition set kcal = 1 $$, 'nobody edits the shared dishes'' estimates');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.dish_nutrition (dish_id, serving, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg) values (:'pongal', '1 cup', 280, 8, 40, 9, 2, 1, 450);
+select tests.ok((select count(*) from public.dish_nutrition where dish_id = :'pongal') = 1, 'Admin enters nutrition for her home''s own dish');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ update public.dish_nutrition set kcal = 1 where dish_id = '$$ || :'pongal' || $$' $$, 'a member cannot change a home dish''s nutrition');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok(not exists (select 1 from public.dish_nutrition where dish_id = :'pongal'), 'Ravi cannot see home A''s dish nutrition');
+
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_slots) = 0, 'Ravi sees none of home A''s meals');
 select tests.ok((select count(*) from public.meal_slot_eaters) = 0, 'Ravi sees none of home A''s eaters');

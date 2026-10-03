@@ -24,6 +24,8 @@ import HomeTabPage from './pages/HomeTabPage'
 import HistoryPage from './pages/HistoryPage'
 import DiscussionPage from './pages/DiscussionPage'
 import RecipePage from './pages/RecipePage'
+import NutritionPage from './pages/NutritionPage'
+import FamilyNutritionPage from './pages/FamilyNutritionPage'
 
 export default function App() {
   const { t } = useTranslation()
@@ -74,6 +76,8 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="dishes/:dishId" element={<DishDetailPage />} />
         <Route path="home" element={<HomeTabPage />} />
         <Route path="history" element={<HistoryPage />} />
+        <Route path="nutrition" element={<NutritionPage />} />
+        <Route path="nutrition/family" element={<FamilyNutritionPage />} />
         <Route path="*" element={<Navigate to="/today" replace />} />
       </Route>
     </Routes>

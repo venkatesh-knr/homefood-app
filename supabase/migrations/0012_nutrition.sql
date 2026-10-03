@@ -1,0 +1,1605 @@
+-- HomeFood · 0012: nutrition (per-dish estimates and daily reference targets)
+-- Run once in Supabase: Dashboard › SQL Editor › New query › paste › Run.
+-- dish_nutrition: per-serving ESTIMATES for the shared dishes (typical home recipe and portion, rounded — not lab values;
+--   ingredient figures were guided by IFCT 2017 / USDA FoodData Central ranges). A home's own dishes can have a row too
+--   (Admin only) but there is no screen to enter one yet.
+-- nutrition_targets: reference daily values by age band, sex and activity level — rounded from ICMR-NIN 2020
+--   "Nutrient Requirements for Indians". Anyone signed in can read them; nobody edits them from the app.
+-- Estimates for planning at home, not medical advice (the app says so on every nutrition screen).
+
+create table public.dish_nutrition (
+  dish_id     uuid primary key references public.dishes (id) on delete cascade,
+  serving     text not null,
+  kcal        numeric(7, 1) not null check (kcal >= 0),
+  protein_g   numeric(6, 1) not null check (protein_g >= 0),
+  carbs_g     numeric(6, 1) not null check (carbs_g >= 0),
+  fat_g       numeric(6, 1) not null check (fat_g >= 0),
+  fibre_g     numeric(6, 1) not null check (fibre_g >= 0),
+  sugar_g     numeric(6, 1) not null check (sugar_g >= 0),
+  sodium_mg   numeric(7, 0) not null check (sodium_mg >= 0),
+  is_estimate boolean not null default true,
+  source      text not null default 'Estimate for a typical home recipe and portion; IFCT 2017 and USDA FoodData Central used as references.'
+);
+
+create table public.nutrition_targets (
+  age_band  text not null check (age_band in ('child', 'teen', 'adult', 'senior')),
+  sex       text not null check (sex in ('female', 'male')),
+  activity  text not null check (activity in ('light', 'moderate', 'active')),
+  kcal      integer not null,
+  protein_g integer not null,
+  carbs_g   integer not null,
+  fat_g     integer not null,
+  fibre_g   integer not null,
+  sodium_mg integer not null,
+  sugar_g   integer not null,
+  source    text not null default 'Rounded from ICMR-NIN 2020, Nutrient Requirements for Indians.',
+  primary key (age_band, sex, activity)
+);
+
+alter table public.dish_nutrition    enable row level security;
+alter table public.nutrition_targets enable row level security;
+
+create policy dish_nutrition_read on public.dish_nutrition for select to authenticated
+  using (exists (select 1 from public.dishes d where d.id = dish_id and (d.household_id is null or d.household_id = public.my_household_id())));
+create policy dish_nutrition_write on public.dish_nutrition for all to authenticated
+  using (exists (select 1 from public.dishes d where d.id = dish_id and d.household_id = public.my_household_id() and public.is_admin()))
+  with check (exists (select 1 from public.dishes d where d.id = dish_id and d.household_id = public.my_household_id() and public.is_admin()));
+create policy nutrition_targets_read on public.nutrition_targets for select to authenticated using (true);
+
+grant select, insert, update, delete on public.dish_nutrition to authenticated;
+grant select on public.nutrition_targets to authenticated;
+
+insert into public.nutrition_targets (age_band, sex, activity, kcal, protein_g, carbs_g, fat_g, fibre_g, sodium_mg, sugar_g) values
+  ('child', 'male', 'light', 1700, 35, 234, 47, 20, 1500, 42),
+  ('child', 'male', 'moderate', 2000, 35, 275, 56, 20, 1500, 50),
+  ('child', 'male', 'active', 2220, 35, 305, 62, 20, 1500, 56),
+  ('child', 'female', 'light', 1600, 37, 220, 44, 20, 1500, 40),
+  ('child', 'female', 'moderate', 1900, 37, 261, 53, 20, 1500, 48),
+  ('child', 'female', 'active', 2060, 37, 283, 57, 20, 1500, 52),
+  ('teen', 'male', 'light', 2500, 58, 344, 69, 25, 2000, 62),
+  ('teen', 'male', 'moderate', 2860, 58, 393, 79, 25, 2000, 72),
+  ('teen', 'male', 'active', 3300, 58, 454, 92, 25, 2000, 82),
+  ('teen', 'female', 'light', 2100, 53, 289, 58, 25, 2000, 52),
+  ('teen', 'female', 'moderate', 2400, 53, 330, 67, 25, 2000, 60),
+  ('teen', 'female', 'active', 2600, 53, 358, 72, 25, 2000, 65),
+  ('adult', 'male', 'light', 2320, 54, 319, 64, 30, 2000, 58),
+  ('adult', 'male', 'moderate', 2730, 54, 375, 76, 30, 2000, 68),
+  ('adult', 'male', 'active', 3490, 54, 480, 97, 30, 2000, 87),
+  ('adult', 'female', 'light', 1900, 46, 261, 53, 30, 2000, 48),
+  ('adult', 'female', 'moderate', 2230, 46, 307, 62, 30, 2000, 56),
+  ('adult', 'female', 'active', 2850, 46, 392, 79, 30, 2000, 71),
+  ('senior', 'male', 'light', 2000, 54, 275, 56, 30, 2000, 50),
+  ('senior', 'male', 'moderate', 2350, 54, 323, 65, 30, 2000, 59),
+  ('senior', 'male', 'active', 3000, 54, 413, 83, 30, 2000, 75),
+  ('senior', 'female', 'light', 1650, 46, 227, 46, 30, 2000, 41),
+  ('senior', 'female', 'moderate', 1950, 46, 268, 54, 30, 2000, 49),
+  ('senior', 'female', 'active', 2450, 46, 337, 68, 30, 2000, 61)
+on conflict do nothing;
+
+-- ── Per-serving estimates for 138 shared dishes. Skips dishes that already have a row, so it is safe to run twice. ──
+insert into public.dish_nutrition (dish_id, serving, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg)
+select d.id, x.serving, x.kcal, x.protein, x.carbs, x.fat, x.fibre, x.sugar, x.sodium
+from jsonb_to_recordset($json$
+[
+{
+"dish": "Idli",
+"serving": "3 idlis (about 150 g)",
+"kcal": 175,
+"protein": 5.5,
+"carbs": 36,
+"fat": 0.6,
+"fibre": 2,
+"sugar": 1,
+"sodium": 300
+},
+{
+"dish": "Dosa",
+"serving": "1 plain dosa",
+"kcal": 150,
+"protein": 3.5,
+"carbs": 25,
+"fat": 4,
+"fibre": 1,
+"sugar": 0.5,
+"sodium": 230
+},
+{
+"dish": "Ven Pongal",
+"serving": "1 cup (200 g)",
+"kcal": 280,
+"protein": 8,
+"carbs": 40,
+"fat": 9,
+"fibre": 2,
+"sugar": 0.5,
+"sodium": 450
+},
+{
+"dish": "Sambar",
+"serving": "1 cup (200 g)",
+"kcal": 130,
+"protein": 6,
+"carbs": 18,
+"fat": 3.5,
+"fibre": 5,
+"sugar": 4,
+"sodium": 600
+},
+{
+"dish": "Rasam",
+"serving": "1 cup (200 ml)",
+"kcal": 60,
+"protein": 2,
+"carbs": 9,
+"fat": 1.5,
+"fibre": 1.5,
+"sugar": 3,
+"sodium": 550
+},
+{
+"dish": "Curd rice",
+"serving": "1 cup (200 g)",
+"kcal": 230,
+"protein": 6,
+"carbs": 33,
+"fat": 8,
+"fibre": 0.8,
+"sugar": 4,
+"sodium": 330
+},
+{
+"dish": "Idiyappam with stew",
+"serving": "3 idiyappam with stew",
+"kcal": 330,
+"protein": 8,
+"carbs": 52,
+"fat": 10,
+"fibre": 3,
+"sugar": 3,
+"sodium": 520
+},
+{
+"dish": "Medu vada",
+"serving": "2 vadas",
+"kcal": 240,
+"protein": 8,
+"carbs": 24,
+"fat": 12,
+"fibre": 3,
+"sugar": 1,
+"sodium": 380
+},
+{
+"dish": "Chapati",
+"serving": "2 chapatis",
+"kcal": 210,
+"protein": 7,
+"carbs": 40,
+"fat": 3,
+"fibre": 5,
+"sugar": 1,
+"sodium": 270
+},
+{
+"dish": "Paneer butter masala",
+"serving": "1 cup (200 g)",
+"kcal": 400,
+"protein": 15,
+"carbs": 14,
+"fat": 32,
+"fibre": 2.5,
+"sugar": 7,
+"sodium": 780
+},
+{
+"dish": "Chole",
+"serving": "1 cup (200 g)",
+"kcal": 290,
+"protein": 13,
+"carbs": 40,
+"fat": 9,
+"fibre": 11,
+"sugar": 6,
+"sodium": 640
+},
+{
+"dish": "Aloo paratha",
+"serving": "1 paratha (120 g)",
+"kcal": 250,
+"protein": 5.5,
+"carbs": 36,
+"fat": 9.5,
+"fibre": 3.5,
+"sugar": 1.5,
+"sodium": 330
+},
+{
+"dish": "Butter chicken",
+"serving": "1 cup (200 g)",
+"kcal": 420,
+"protein": 28,
+"carbs": 12,
+"fat": 29,
+"fibre": 2,
+"sugar": 7,
+"sodium": 850
+},
+{
+"dish": "Jeera rice",
+"serving": "1 cup (180 g)",
+"kcal": 240,
+"protein": 4.5,
+"carbs": 43,
+"fat": 5,
+"fibre": 1,
+"sugar": 0.3,
+"sodium": 280
+},
+{
+"dish": "Samosa",
+"serving": "1 samosa (80 g)",
+"kcal": 260,
+"protein": 4,
+"carbs": 28,
+"fat": 15,
+"fibre": 2.5,
+"sugar": 1.5,
+"sodium": 250
+},
+{
+"dish": "Aloo tikki",
+"serving": "2 tikkis",
+"kcal": 230,
+"protein": 4,
+"carbs": 32,
+"fat": 10,
+"fibre": 3,
+"sugar": 1.5,
+"sodium": 380
+},
+{
+"dish": "Pasta aglio e olio",
+"serving": "1¼ cup (200 g)",
+"kcal": 420,
+"protein": 11,
+"carbs": 62,
+"fat": 15,
+"fibre": 3,
+"sugar": 2,
+"sodium": 400
+},
+{
+"dish": "Margherita pizza",
+"serving": "2 slices",
+"kcal": 480,
+"protein": 20,
+"carbs": 62,
+"fat": 17,
+"fibre": 3,
+"sugar": 5,
+"sodium": 940
+},
+{
+"dish": "Grilled cheese sandwich",
+"serving": "1 sandwich",
+"kcal": 400,
+"protein": 16,
+"carbs": 30,
+"fat": 24,
+"fibre": 1.5,
+"sugar": 4,
+"sodium": 700
+},
+{
+"dish": "Vegetable soup",
+"serving": "1 bowl (250 ml)",
+"kcal": 90,
+"protein": 3,
+"carbs": 14,
+"fat": 2.5,
+"fibre": 3.5,
+"sugar": 5,
+"sodium": 600
+},
+{
+"dish": "Roast chicken",
+"serving": "150 g",
+"kcal": 300,
+"protein": 35,
+"carbs": 0,
+"fat": 17,
+"fibre": 0,
+"sugar": 0,
+"sodium": 380
+},
+{
+"dish": "French fries",
+"serving": "1 medium portion (115 g)",
+"kcal": 365,
+"protein": 4,
+"carbs": 48,
+"fat": 17,
+"fibre": 4,
+"sugar": 0.3,
+"sodium": 250
+},
+{
+"dish": "Chicken teriyaki",
+"serving": "1 serving (200 g)",
+"kcal": 330,
+"protein": 30,
+"carbs": 22,
+"fat": 13,
+"fibre": 0.5,
+"sugar": 18,
+"sodium": 1050
+},
+{
+"dish": "Katsu curry",
+"serving": "1 plate with rice",
+"kcal": 780,
+"protein": 28,
+"carbs": 90,
+"fat": 33,
+"fibre": 5,
+"sugar": 12,
+"sodium": 1400
+},
+{
+"dish": "Miso soup",
+"serving": "1 bowl (200 ml)",
+"kcal": 45,
+"protein": 3,
+"carbs": 5,
+"fat": 1.5,
+"fibre": 1,
+"sugar": 1.5,
+"sodium": 750
+},
+{
+"dish": "Vegetable tempura",
+"serving": "6 pieces",
+"kcal": 280,
+"protein": 4,
+"carbs": 28,
+"fat": 17,
+"fibre": 3,
+"sugar": 2,
+"sodium": 300
+},
+{
+"dish": "Onigiri",
+"serving": "2 rice balls",
+"kcal": 250,
+"protein": 5,
+"carbs": 52,
+"fat": 1,
+"fibre": 1,
+"sugar": 0.3,
+"sodium": 320
+},
+{
+"dish": "Yakisoba",
+"serving": "1 plate",
+"kcal": 520,
+"protein": 15,
+"carbs": 70,
+"fat": 20,
+"fibre": 5,
+"sugar": 9,
+"sodium": 1200
+},
+{
+"dish": "Upma",
+"serving": "1 cup (200 g)",
+"kcal": 250,
+"protein": 6,
+"carbs": 38,
+"fat": 8,
+"fibre": 3,
+"sugar": 2,
+"sodium": 520
+},
+{
+"dish": "Pesarattu",
+"serving": "1 pesarattu",
+"kcal": 160,
+"protein": 8,
+"carbs": 22,
+"fat": 4.5,
+"fibre": 4,
+"sugar": 1,
+"sodium": 260
+},
+{
+"dish": "Uttapam",
+"serving": "1 uttapam",
+"kcal": 190,
+"protein": 5,
+"carbs": 32,
+"fat": 4.5,
+"fibre": 2,
+"sugar": 2,
+"sodium": 320
+},
+{
+"dish": "Masala dosa",
+"serving": "1 masala dosa",
+"kcal": 300,
+"protein": 6,
+"carbs": 48,
+"fat": 9,
+"fibre": 3,
+"sugar": 2,
+"sodium": 480
+},
+{
+"dish": "Rava dosa",
+"serving": "1 rava dosa",
+"kcal": 170,
+"protein": 3.5,
+"carbs": 26,
+"fat": 6,
+"fibre": 1,
+"sugar": 0.5,
+"sodium": 260
+},
+{
+"dish": "Appam",
+"serving": "2 appams",
+"kcal": 190,
+"protein": 3,
+"carbs": 38,
+"fat": 2.5,
+"fibre": 1,
+"sugar": 3,
+"sodium": 150
+},
+{
+"dish": "Puttu",
+"serving": "1 serving (120 g)",
+"kcal": 210,
+"protein": 4,
+"carbs": 42,
+"fat": 3,
+"fibre": 2,
+"sugar": 1,
+"sodium": 120
+},
+{
+"dish": "Parotta",
+"serving": "1 parotta",
+"kcal": 300,
+"protein": 6,
+"carbs": 38,
+"fat": 14,
+"fibre": 1.5,
+"sugar": 1,
+"sodium": 380
+},
+{
+"dish": "Kothu parotta",
+"serving": "1 plate (250 g)",
+"kcal": 560,
+"protein": 17,
+"carbs": 60,
+"fat": 28,
+"fibre": 3,
+"sugar": 4,
+"sodium": 980
+},
+{
+"dish": "Lemon rice",
+"serving": "1 cup",
+"kcal": 250,
+"protein": 5,
+"carbs": 40,
+"fat": 8,
+"fibre": 2,
+"sugar": 1,
+"sodium": 410
+},
+{
+"dish": "Tamarind rice",
+"serving": "1 cup",
+"kcal": 280,
+"protein": 5,
+"carbs": 44,
+"fat": 9,
+"fibre": 2.5,
+"sugar": 3,
+"sodium": 520
+},
+{
+"dish": "Coconut rice",
+"serving": "1 cup",
+"kcal": 290,
+"protein": 4.5,
+"carbs": 40,
+"fat": 12,
+"fibre": 2.5,
+"sugar": 1,
+"sodium": 420
+},
+{
+"dish": "Tomato rice",
+"serving": "1 cup",
+"kcal": 240,
+"protein": 5,
+"carbs": 42,
+"fat": 6,
+"fibre": 2,
+"sugar": 3,
+"sodium": 480
+},
+{
+"dish": "Sambar rice",
+"serving": "1½ cups",
+"kcal": 330,
+"protein": 10,
+"carbs": 56,
+"fat": 7,
+"fibre": 5,
+"sugar": 4,
+"sodium": 640
+},
+{
+"dish": "Bisi bele bath",
+"serving": "1¼ cups",
+"kcal": 340,
+"protein": 10,
+"carbs": 52,
+"fat": 10,
+"fibre": 6,
+"sugar": 3,
+"sodium": 620
+},
+{
+"dish": "Vegetable biryani",
+"serving": "1½ cups (300 g)",
+"kcal": 380,
+"protein": 8,
+"carbs": 60,
+"fat": 12,
+"fibre": 4,
+"sugar": 3,
+"sodium": 720
+},
+{
+"dish": "Chicken biryani",
+"serving": "1½ cups (300 g)",
+"kcal": 520,
+"protein": 26,
+"carbs": 62,
+"fat": 18,
+"fibre": 2.5,
+"sugar": 2,
+"sodium": 870
+},
+{
+"dish": "Mutton biryani",
+"serving": "1½ cups (300 g)",
+"kcal": 580,
+"protein": 28,
+"carbs": 60,
+"fat": 24,
+"fibre": 2,
+"sugar": 2,
+"sodium": 900
+},
+{
+"dish": "Egg biryani",
+"serving": "1½ cups (300 g)",
+"kcal": 470,
+"protein": 18,
+"carbs": 62,
+"fat": 16,
+"fibre": 2.5,
+"sugar": 2,
+"sodium": 820
+},
+{
+"dish": "Chicken chettinad",
+"serving": "1 cup",
+"kcal": 340,
+"protein": 30,
+"carbs": 8,
+"fat": 21,
+"fibre": 2,
+"sugar": 3,
+"sodium": 640
+},
+{
+"dish": "Chicken curry",
+"serving": "1 cup",
+"kcal": 280,
+"protein": 28,
+"carbs": 7,
+"fat": 15,
+"fibre": 1.5,
+"sugar": 3,
+"sodium": 600
+},
+{
+"dish": "Fish curry",
+"serving": "1 cup",
+"kcal": 220,
+"protein": 24,
+"carbs": 8,
+"fat": 10,
+"fibre": 1.5,
+"sugar": 3,
+"sodium": 620
+},
+{
+"dish": "Egg curry",
+"serving": "1 cup (2 eggs)",
+"kcal": 240,
+"protein": 14,
+"carbs": 9,
+"fat": 16,
+"fibre": 1.5,
+"sugar": 4,
+"sodium": 590
+},
+{
+"dish": "Vatha kuzhambu",
+"serving": "¾ cup",
+"kcal": 130,
+"protein": 3,
+"carbs": 19,
+"fat": 5,
+"fibre": 4,
+"sugar": 6,
+"sodium": 700
+},
+{
+"dish": "Mor kuzhambu",
+"serving": "1 cup",
+"kcal": 110,
+"protein": 4,
+"carbs": 10,
+"fat": 6,
+"fibre": 1.5,
+"sugar": 5,
+"sodium": 420
+},
+{
+"dish": "Coconut chutney",
+"serving": "2 tbsp (30 g)",
+"kcal": 60,
+"protein": 1,
+"carbs": 3,
+"fat": 5,
+"fibre": 1.5,
+"sugar": 1,
+"sodium": 70
+},
+{
+"dish": "Tomato chutney",
+"serving": "2 tbsp (30 g)",
+"kcal": 35,
+"protein": 0.8,
+"carbs": 4,
+"fat": 2,
+"fibre": 1,
+"sugar": 2,
+"sodium": 120
+},
+{
+"dish": "Mint chutney",
+"serving": "2 tbsp (30 g)",
+"kcal": 20,
+"protein": 1,
+"carbs": 3,
+"fat": 0.5,
+"fibre": 1.2,
+"sugar": 1,
+"sodium": 80
+},
+{
+"dish": "Onion chutney",
+"serving": "2 tbsp (30 g)",
+"kcal": 40,
+"protein": 1,
+"carbs": 6,
+"fat": 1.5,
+"fibre": 1,
+"sugar": 3,
+"sodium": 110
+},
+{
+"dish": "Peanut chutney",
+"serving": "2 tbsp (30 g)",
+"kcal": 90,
+"protein": 4,
+"carbs": 4,
+"fat": 7,
+"fibre": 1.5,
+"sugar": 1,
+"sodium": 90
+},
+{
+"dish": "Idli podi",
+"serving": "1 tbsp (10 g)",
+"kcal": 45,
+"protein": 2,
+"carbs": 5,
+"fat": 2,
+"fibre": 1.5,
+"sugar": 0.5,
+"sodium": 150
+},
+{
+"dish": "Veg kurma",
+"serving": "½ cup (100 g)",
+"kcal": 130,
+"protein": 3,
+"carbs": 10,
+"fat": 9,
+"fibre": 3,
+"sugar": 3,
+"sodium": 380
+},
+{
+"dish": "Beans poriyal",
+"serving": "½ cup (100 g)",
+"kcal": 90,
+"protein": 2,
+"carbs": 8,
+"fat": 5.5,
+"fibre": 3,
+"sugar": 2,
+"sodium": 230
+},
+{
+"dish": "Cabbage poriyal",
+"serving": "½ cup (100 g)",
+"kcal": 85,
+"protein": 2,
+"carbs": 8,
+"fat": 5,
+"fibre": 2.5,
+"sugar": 3,
+"sodium": 220
+},
+{
+"dish": "Carrot poriyal",
+"serving": "½ cup (100 g)",
+"kcal": 95,
+"protein": 1.5,
+"carbs": 11,
+"fat": 5,
+"fibre": 3,
+"sugar": 5,
+"sodium": 240
+},
+{
+"dish": "Beetroot poriyal",
+"serving": "½ cup (100 g)",
+"kcal": 100,
+"protein": 2,
+"carbs": 12,
+"fat": 5,
+"fibre": 2.5,
+"sugar": 7,
+"sodium": 260
+},
+{
+"dish": "Potato roast",
+"serving": "½ cup (100 g)",
+"kcal": 150,
+"protein": 2,
+"carbs": 20,
+"fat": 7,
+"fibre": 2,
+"sugar": 1,
+"sodium": 260
+},
+{
+"dish": "Vendakkai fry",
+"serving": "½ cup (100 g)",
+"kcal": 110,
+"protein": 2,
+"carbs": 9,
+"fat": 7.5,
+"fibre": 3.5,
+"sugar": 2,
+"sodium": 230
+},
+{
+"dish": "Raw banana fry",
+"serving": "½ cup (100 g)",
+"kcal": 130,
+"protein": 1.5,
+"carbs": 20,
+"fat": 5.5,
+"fibre": 2.5,
+"sugar": 1.5,
+"sodium": 240
+},
+{
+"dish": "Keerai masiyal",
+"serving": "½ cup (100 g)",
+"kcal": 70,
+"protein": 4,
+"carbs": 6,
+"fat": 3.5,
+"fibre": 3,
+"sugar": 1,
+"sodium": 280
+},
+{
+"dish": "Cabbage kootu",
+"serving": "½ cup (100 g)",
+"kcal": 100,
+"protein": 5,
+"carbs": 12,
+"fat": 3.5,
+"fibre": 4,
+"sugar": 3,
+"sodium": 260
+},
+{
+"dish": "Pumpkin kootu",
+"serving": "½ cup (100 g)",
+"kcal": 95,
+"protein": 4,
+"carbs": 13,
+"fat": 3,
+"fibre": 3,
+"sugar": 5,
+"sodium": 250
+},
+{
+"dish": "Avial",
+"serving": "¾ cup (150 g)",
+"kcal": 160,
+"protein": 4,
+"carbs": 12,
+"fat": 11,
+"fibre": 4,
+"sugar": 4,
+"sodium": 300
+},
+{
+"dish": "Cucumber pachadi",
+"serving": "½ cup (100 g)",
+"kcal": 55,
+"protein": 3,
+"carbs": 6,
+"fat": 2,
+"fibre": 0.7,
+"sugar": 3,
+"sodium": 180
+},
+{
+"dish": "Appalam",
+"serving": "1 fried appalam",
+"kcal": 55,
+"protein": 1.5,
+"carbs": 6,
+"fat": 3,
+"fibre": 0.8,
+"sugar": 0.2,
+"sodium": 180
+},
+{
+"dish": "Mango pickle",
+"serving": "1 tbsp (15 g)",
+"kcal": 30,
+"protein": 0.3,
+"carbs": 2,
+"fat": 2.5,
+"fibre": 0.7,
+"sugar": 1,
+"sodium": 650
+},
+{
+"dish": "Lemon pickle",
+"serving": "1 tbsp (15 g)",
+"kcal": 25,
+"protein": 0.3,
+"carbs": 2,
+"fat": 2,
+"fibre": 0.7,
+"sugar": 1,
+"sodium": 620
+},
+{
+"dish": "Curd",
+"serving": "½ cup (120 g)",
+"kcal": 75,
+"protein": 4,
+"carbs": 5.5,
+"fat": 4,
+"fibre": 0,
+"sugar": 5,
+"sodium": 60
+},
+{
+"dish": "Buttermilk",
+"serving": "1 glass (200 ml)",
+"kcal": 35,
+"protein": 2,
+"carbs": 3,
+"fat": 1.5,
+"fibre": 0,
+"sugar": 3,
+"sodium": 170
+},
+{
+"dish": "Paruppu vadai",
+"serving": "2 vadais",
+"kcal": 190,
+"protein": 9,
+"carbs": 20,
+"fat": 8,
+"fibre": 5,
+"sugar": 1,
+"sodium": 260
+},
+{
+"dish": "Murukku",
+"serving": "30 g",
+"kcal": 150,
+"protein": 2.5,
+"carbs": 19,
+"fat": 7,
+"fibre": 1,
+"sugar": 0.5,
+"sodium": 200
+},
+{
+"dish": "Mirchi bajji",
+"serving": "2 bajjis",
+"kcal": 180,
+"protein": 4,
+"carbs": 18,
+"fat": 10,
+"fibre": 2.5,
+"sugar": 1.5,
+"sodium": 280
+},
+{
+"dish": "Sundal",
+"serving": "½ cup (100 g)",
+"kcal": 150,
+"protein": 8,
+"carbs": 22,
+"fat": 3,
+"fibre": 6,
+"sugar": 3,
+"sodium": 150
+},
+{
+"dish": "Kozhukattai",
+"serving": "2 pieces",
+"kcal": 160,
+"protein": 2.5,
+"carbs": 31,
+"fat": 3,
+"fibre": 1.5,
+"sugar": 10,
+"sodium": 60
+},
+{
+"dish": "Semiya payasam",
+"serving": "¾ cup",
+"kcal": 270,
+"protein": 6,
+"carbs": 40,
+"fat": 9,
+"fibre": 0.8,
+"sugar": 28,
+"sodium": 70
+},
+{
+"dish": "Rava kesari",
+"serving": "½ cup (100 g)",
+"kcal": 280,
+"protein": 3,
+"carbs": 42,
+"fat": 11,
+"fibre": 1,
+"sugar": 26,
+"sodium": 60
+},
+{
+"dish": "Filter coffee",
+"serving": "1 cup (150 ml)",
+"kcal": 70,
+"protein": 2.5,
+"carbs": 10,
+"fat": 2.5,
+"fibre": 0,
+"sugar": 9,
+"sodium": 35
+},
+{
+"dish": "Egg podimas",
+"serving": "½ cup (2 eggs)",
+"kcal": 190,
+"protein": 13,
+"carbs": 3,
+"fat": 14,
+"fibre": 0.5,
+"sugar": 1.5,
+"sodium": 320
+},
+{
+"dish": "Omelette",
+"serving": "2-egg omelette",
+"kcal": 190,
+"protein": 13,
+"carbs": 1.5,
+"fat": 15,
+"fibre": 0,
+"sugar": 1,
+"sodium": 330
+},
+{
+"dish": "Boiled egg",
+"serving": "1 egg",
+"kcal": 78,
+"protein": 6.3,
+"carbs": 0.6,
+"fat": 5.3,
+"fibre": 0,
+"sugar": 0.6,
+"sodium": 62
+},
+{
+"dish": "Chicken 65",
+"serving": "6 pieces (100 g)",
+"kcal": 330,
+"protein": 22,
+"carbs": 12,
+"fat": 22,
+"fibre": 0.5,
+"sugar": 1,
+"sodium": 780
+},
+{
+"dish": "Chicken fry",
+"serving": "100 g",
+"kcal": 250,
+"protein": 24,
+"carbs": 6,
+"fat": 14,
+"fibre": 0.8,
+"sugar": 1,
+"sodium": 500
+},
+{
+"dish": "Fish fry",
+"serving": "1 piece (100 g)",
+"kcal": 220,
+"protein": 20,
+"carbs": 7,
+"fat": 12,
+"fibre": 0.5,
+"sugar": 0.5,
+"sodium": 480
+},
+{
+"dish": "Prawn masala",
+"serving": "¾ cup",
+"kcal": 180,
+"protein": 22,
+"carbs": 6,
+"fat": 8,
+"fibre": 1,
+"sugar": 2,
+"sodium": 700
+},
+{
+"dish": "Mutton chukka",
+"serving": "¾ cup (120 g)",
+"kcal": 280,
+"protein": 24,
+"carbs": 6,
+"fat": 18,
+"fibre": 1.5,
+"sugar": 2,
+"sodium": 620
+},
+{
+"dish": "Dal tadka",
+"serving": "1 cup",
+"kcal": 190,
+"protein": 10,
+"carbs": 26,
+"fat": 5,
+"fibre": 6,
+"sugar": 2,
+"sodium": 560
+},
+{
+"dish": "Dal makhani",
+"serving": "¾ cup (150 g)",
+"kcal": 260,
+"protein": 10,
+"carbs": 24,
+"fat": 14,
+"fibre": 6,
+"sugar": 3,
+"sodium": 600
+},
+{
+"dish": "Rajma masala",
+"serving": "1 cup",
+"kcal": 240,
+"protein": 11,
+"carbs": 34,
+"fat": 6,
+"fibre": 10,
+"sugar": 4,
+"sodium": 520
+},
+{
+"dish": "Palak paneer",
+"serving": "¾ cup",
+"kcal": 280,
+"protein": 12,
+"carbs": 10,
+"fat": 22,
+"fibre": 3.5,
+"sugar": 3,
+"sodium": 560
+},
+{
+"dish": "Kadai paneer",
+"serving": "¾ cup",
+"kcal": 300,
+"protein": 13,
+"carbs": 11,
+"fat": 23,
+"fibre": 3,
+"sugar": 4,
+"sodium": 640
+},
+{
+"dish": "Matar paneer",
+"serving": "¾ cup",
+"kcal": 290,
+"protein": 13,
+"carbs": 14,
+"fat": 21,
+"fibre": 4,
+"sugar": 5,
+"sodium": 590
+},
+{
+"dish": "Aloo gobi",
+"serving": "1 cup (200 g)",
+"kcal": 170,
+"protein": 4,
+"carbs": 24,
+"fat": 7,
+"fibre": 5,
+"sugar": 3,
+"sodium": 420
+},
+{
+"dish": "Baingan bharta",
+"serving": "¾ cup",
+"kcal": 120,
+"protein": 3,
+"carbs": 13,
+"fat": 7,
+"fibre": 5,
+"sugar": 6,
+"sodium": 380
+},
+{
+"dish": "Bhindi masala",
+"serving": "¾ cup",
+"kcal": 130,
+"protein": 3,
+"carbs": 12,
+"fat": 8,
+"fibre": 4.5,
+"sugar": 3,
+"sodium": 360
+},
+{
+"dish": "Mixed vegetable curry",
+"serving": "1 cup",
+"kcal": 150,
+"protein": 4,
+"carbs": 17,
+"fat": 8,
+"fibre": 5,
+"sugar": 5,
+"sodium": 420
+},
+{
+"dish": "Pav bhaji",
+"serving": "1 plate (2 pav)",
+"kcal": 480,
+"protein": 10,
+"carbs": 66,
+"fat": 19,
+"fibre": 7,
+"sugar": 9,
+"sodium": 980
+},
+{
+"dish": "Poori bhaji",
+"serving": "2 pooris with bhaji",
+"kcal": 510,
+"protein": 10,
+"carbs": 64,
+"fat": 24,
+"fibre": 5,
+"sugar": 3,
+"sodium": 680
+},
+{
+"dish": "Chole bhature",
+"serving": "1 bhatura with chole",
+"kcal": 640,
+"protein": 17,
+"carbs": 78,
+"fat": 29,
+"fibre": 12,
+"sugar": 6,
+"sodium": 980
+},
+{
+"dish": "Poha",
+"serving": "1 cup (150 g)",
+"kcal": 250,
+"protein": 5,
+"carbs": 42,
+"fat": 7,
+"fibre": 3,
+"sugar": 2,
+"sodium": 380
+},
+{
+"dish": "Besan chilla",
+"serving": "2 chillas",
+"kcal": 220,
+"protein": 11,
+"carbs": 26,
+"fat": 8,
+"fibre": 5,
+"sugar": 2,
+"sodium": 340
+},
+{
+"dish": "Methi thepla",
+"serving": "2 theplas",
+"kcal": 230,
+"protein": 6,
+"carbs": 32,
+"fat": 9,
+"fibre": 4.5,
+"sugar": 1,
+"sodium": 380
+},
+{
+"dish": "Dhokla",
+"serving": "4 pieces (100 g)",
+"kcal": 160,
+"protein": 6,
+"carbs": 24,
+"fat": 4.5,
+"fibre": 2,
+"sugar": 4,
+"sodium": 520
+},
+{
+"dish": "Khichdi",
+"serving": "1½ cups",
+"kcal": 330,
+"protein": 11,
+"carbs": 55,
+"fat": 7,
+"fibre": 5,
+"sugar": 2,
+"sodium": 520
+},
+{
+"dish": "Vegetable pulao",
+"serving": "1 cup (200 g)",
+"kcal": 300,
+"protein": 6,
+"carbs": 50,
+"fat": 8,
+"fibre": 3,
+"sugar": 2,
+"sodium": 540
+},
+{
+"dish": "Kadhi pakora",
+"serving": "1 cup",
+"kcal": 280,
+"protein": 8,
+"carbs": 27,
+"fat": 16,
+"fibre": 2.5,
+"sugar": 5,
+"sodium": 580
+},
+{
+"dish": "Egg bhurji",
+"serving": "2 eggs",
+"kcal": 210,
+"protein": 13,
+"carbs": 4,
+"fat": 15,
+"fibre": 0.8,
+"sugar": 2,
+"sodium": 380
+},
+{
+"dish": "Dhaba chicken curry",
+"serving": "1 cup",
+"kcal": 300,
+"protein": 29,
+"carbs": 8,
+"fat": 17,
+"fibre": 1.5,
+"sugar": 3,
+"sodium": 660
+},
+{
+"dish": "Tandoori chicken",
+"serving": "2 pieces (200 g)",
+"kcal": 300,
+"protein": 35,
+"carbs": 6,
+"fat": 15,
+"fibre": 0.5,
+"sugar": 2,
+"sodium": 720
+},
+{
+"dish": "Chicken tikka",
+"serving": "6 pieces (120 g)",
+"kcal": 190,
+"protein": 27,
+"carbs": 4,
+"fat": 7,
+"fibre": 0.5,
+"sugar": 2,
+"sodium": 520
+},
+{
+"dish": "Mutton rogan josh",
+"serving": "¾ cup (150 g)",
+"kcal": 340,
+"protein": 26,
+"carbs": 8,
+"fat": 23,
+"fibre": 1.5,
+"sugar": 3,
+"sodium": 700
+},
+{
+"dish": "Mutton keema",
+"serving": "¾ cup",
+"kcal": 320,
+"protein": 25,
+"carbs": 7,
+"fat": 21,
+"fibre": 2,
+"sugar": 2,
+"sodium": 640
+},
+{
+"dish": "Butter naan",
+"serving": "1 naan (90 g)",
+"kcal": 280,
+"protein": 8,
+"carbs": 45,
+"fat": 7.5,
+"fibre": 2,
+"sugar": 3,
+"sodium": 520
+},
+{
+"dish": "Tandoori roti",
+"serving": "1 roti",
+"kcal": 110,
+"protein": 3.5,
+"carbs": 22,
+"fat": 1,
+"fibre": 3,
+"sugar": 0.5,
+"sodium": 180
+},
+{
+"dish": "Phulka",
+"serving": "2 phulkas",
+"kcal": 140,
+"protein": 4.5,
+"carbs": 28,
+"fat": 0.8,
+"fibre": 4,
+"sugar": 0.5,
+"sodium": 200
+},
+{
+"dish": "Boondi raita",
+"serving": "½ cup",
+"kcal": 100,
+"protein": 4.5,
+"carbs": 9,
+"fat": 5,
+"fibre": 0.5,
+"sugar": 6,
+"sodium": 380
+},
+{
+"dish": "Cucumber raita",
+"serving": "½ cup",
+"kcal": 70,
+"protein": 4,
+"carbs": 6,
+"fat": 3.5,
+"fibre": 0.5,
+"sugar": 4,
+"sodium": 200
+},
+{
+"dish": "Kachumber salad",
+"serving": "½ cup",
+"kcal": 35,
+"protein": 1,
+"carbs": 7,
+"fat": 0.3,
+"fibre": 2,
+"sugar": 3,
+"sodium": 160
+},
+{
+"dish": "Jeera aloo",
+"serving": "½ cup",
+"kcal": 130,
+"protein": 2,
+"carbs": 20,
+"fat": 5,
+"fibre": 2.5,
+"sugar": 1,
+"sodium": 280
+},
+{
+"dish": "Paneer tikka",
+"serving": "4 pieces (100 g)",
+"kcal": 250,
+"protein": 16,
+"carbs": 6,
+"fat": 18,
+"fibre": 1,
+"sugar": 3,
+"sodium": 420
+},
+{
+"dish": "Mixed veg pakora",
+"serving": "4 pieces",
+"kcal": 210,
+"protein": 5,
+"carbs": 19,
+"fat": 13,
+"fibre": 3,
+"sugar": 2,
+"sodium": 320
+},
+{
+"dish": "Kachori",
+"serving": "1 kachori",
+"kcal": 190,
+"protein": 3.5,
+"carbs": 22,
+"fat": 10,
+"fibre": 1.5,
+"sugar": 1,
+"sodium": 220
+},
+{
+"dish": "Bhel puri",
+"serving": "1 cup",
+"kcal": 210,
+"protein": 5,
+"carbs": 36,
+"fat": 5,
+"fibre": 3,
+"sugar": 6,
+"sodium": 420
+},
+{
+"dish": "Pani puri",
+"serving": "6 puris",
+"kcal": 200,
+"protein": 3,
+"carbs": 32,
+"fat": 7,
+"fibre": 3,
+"sugar": 4,
+"sodium": 360
+},
+{
+"dish": "Vada pav",
+"serving": "1 vada pav",
+"kcal": 290,
+"protein": 7,
+"carbs": 43,
+"fat": 10,
+"fibre": 2.5,
+"sugar": 3,
+"sodium": 520
+},
+{
+"dish": "Masala chai",
+"serving": "1 cup (150 ml)",
+"kcal": 90,
+"protein": 3,
+"carbs": 13,
+"fat": 3,
+"fibre": 0,
+"sugar": 11,
+"sodium": 60
+},
+{
+"dish": "Sweet lassi",
+"serving": "1 glass (200 ml)",
+"kcal": 170,
+"protein": 6,
+"carbs": 25,
+"fat": 4.5,
+"fibre": 0,
+"sugar": 23,
+"sodium": 95
+},
+{
+"dish": "Gulab jamun",
+"serving": "2 pieces",
+"kcal": 300,
+"protein": 4,
+"carbs": 45,
+"fat": 12,
+"fibre": 0.5,
+"sugar": 32,
+"sodium": 80
+},
+{
+"dish": "Kheer",
+"serving": "¾ cup",
+"kcal": 240,
+"protein": 6,
+"carbs": 34,
+"fat": 9,
+"fibre": 0.5,
+"sugar": 25,
+"sodium": 80
+},
+{
+"dish": "Gajar halwa",
+"serving": "½ cup",
+"kcal": 290,
+"protein": 5,
+"carbs": 38,
+"fat": 13,
+"fibre": 2,
+"sugar": 30,
+"sodium": 90
+},
+{
+"dish": "Jalebi",
+"serving": "2 pieces",
+"kcal": 250,
+"protein": 2,
+"carbs": 42,
+"fat": 9,
+"fibre": 0.4,
+"sugar": 30,
+"sodium": 20
+}
+]
+$json$::jsonb) as x(dish text, serving text, kcal numeric, protein numeric, carbs numeric, fat numeric, fibre numeric, sugar numeric, sodium numeric)
+join public.dishes d on d.household_id is null and d.name = x.dish
+on conflict (dish_id) do nothing;

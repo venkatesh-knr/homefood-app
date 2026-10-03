@@ -88,7 +88,7 @@ export function ageBand(birthYear: number | null, atYear: number = new Date().ge
   if (birthYear === null) return null
   const age = atYear - birthYear
   if (age < 13) return 'child'
-  if (age < 20) return 'teen'
+  if (age < 18) return 'teen'
   if (age >= 60) return 'senior'
   return 'adult'
 }

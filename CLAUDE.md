@@ -63,17 +63,20 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0010 are all applied** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0011 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0012_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0013_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
   names that already exist. Those 110 have no photos yet (initial placeholder).
   0010 (votes, comments, suggestions) is applied and tested live (vote + comment + delete on a real meal).
-  **0011 (recipes: 38 standard recipes, 309 ingredients, 150 steps, English + Tamil) is new and still needs running** — until it
-  is, no dish shows a Recipe button; nothing else breaks. Recipe content is regenerated from `scripts/recipes_data.py` by
-  `scripts/gen-recipes.py`. They are drafts: the family should check them before relying on them.
+  0011 (recipes: 38 standard recipes, English + Tamil) is applied and checked live (Ven Pongal scales to the 3 family members).
+  Recipe content is regenerated from `scripts/recipes_data.py` by `scripts/gen-recipes.py`; they are drafts, so the family should
+  check them before relying on them.
+  **0012 (nutrition: per-serving estimates for all 138 dishes + 24 daily reference targets) is new and still needs running** —
+  until it is, the nutrition panel and "My / Family nutrition" just say numbers are not available. Regenerated from
+  `scripts/nutrition_data.py` by `scripts/gen-nutrition.py` (which sanity-checks calories against the macros).
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
   update, no schema/RLS change, see Step 3 scope below for which ones and why only 6 so far.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
@@ -83,7 +86,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 79 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 86 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -116,13 +119,14 @@ src/lib/history.ts      History screen helpers: rangeBounds/shiftAnchor (week·m
 src/lib/discussion.ts   vote/comment helpers: tallyVotes, agreeShare, nextVote, countsBySlot, formatCommentTime (+ tests)
 src/lib/discussionQueries.ts / discussionMutations.ts  votes, comments, suggestions (counts are fetched apart from slots and fail quietly)
 src/lib/recipes.ts      recipe scaling/formatting helpers (+ tests); recipeQueries.ts: useRecipe, useRecipeDishIds
+src/lib/nutrition.ts    per-meal/day totals, daily targets, summarisePeriod tips, familyNotes (+ tests); nutritionQueries.ts reads
 src/lib/plannerMutations.ts getOrCreateWeekPlan, saveSlot (upserts a slot + replaces sides/cooks/eaters), clearSlot,
                         publishWeek, copyDay/copyWeek (client-orchestrated, never overwrites an existing slot), assignPlannerTurn
 src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill, TogglePill, ChipInput
 src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm,
                         DishRow (+ DishThumb, DietMark), DishPickerSheet (full-screen dish picker, reused by the slot editor)
 src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
-                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, HistoryPage, DiscussionPage, RecipePage, DishesPage,
+                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, HistoryPage, DiscussionPage, RecipePage, NutritionPage, FamilyNutritionPage, DishesPage,
                         AddDishPage, DishDetailPage, HomeTabPage)
 src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
                         wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
@@ -188,12 +192,21 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
   it against the private bucket, and `DishesPage`/`DishPickerSheet`/`DishDetailPage` fall back to it when the household
   hasn't set its own override. "Replace photo" (per-household override, uploaded to the private bucket) still works fully
   and takes priority over the stock photo. Dish Detail shows the `photo_credit` over the stock photo (CC BY/BY-SA require visible attribution); it's hidden once a household replaces the photo with its own.
-- **Recipes are built (migration 0011), the nutrition panel is not.** `RecipePage` (`/dishes/:id/recipe`, `Recipe.png`): servings
+- **Recipes (migration 0011) and nutrition (0012) are built.** `RecipePage` (`/dishes/:id/recipe`, `Recipe.png`): servings
   stepper (starts at who is eating, else the number of family members), ingredients scaled and written as a cook would (`lib/recipes.ts`:
   1¼ cups, ¾ tbsp, 250 g), steps you can tick off, cook mode (screen wake lock + bigger text) and a Watch (YouTube) button. A Recipe
   button shows on Dish Detail, the Today next-up card and the discussion card, only for dishes that have a recipe. Tables allow a home
   to keep its own version (Admin only), but there is **no "Edit our version" screen yet**, and no Recipe button in the slot editor
-  (leaving it would lose unsaved edits). Dish Detail still shows no nutrition panel — see the nutrition item in the build notes.
+  (leaving it would lose unsaved edits).
+  **Nutrition**: Dish Detail shows "Nutrition per serving" (calories, protein, carbs, fat, fibre, sodium as bars against an adult's day,
+  labelled *Estimate*) and "For your family" (notes from the dish's tags and each person's age band, plus how often it was cooked this
+  month). Home tab → **My nutrition** (`/nutrition`): the meals you are marked as eating, up to today, added up per day/week/month against a
+  target for your age band, sex and activity (ICMR-NIN 2020, rounded; missing details are assumed and the screen says so) with a few
+  gentle tips. Home tab → **Family nutrition** (`/nutrition/family`, Admin or whoever is Planner today): the same per person.
+  Logic in `lib/nutrition.ts` (+ tests). Every figure is an estimate: one serving of the main dish plus one of each side, a normal
+  portion, home meals only. Parked: no small/large portion or "skipped" tracking (the attendance table isn't built), dine-out and
+  order-in get no estimate (the screen says how many meals were left out), no way yet to enter nutrition for a home's own dish
+  (the table and rule exist), and it hangs off the Home tab because the 5-tab Health/Family nav wasn't adopted.
 - **"Snap a dish" uses `<input type="file" capture="environment">`**, which opens the phone's own camera app, instead of a
   custom full-screen viewfinder with a plate-shaped frame like `SnapDish.png`. Same result (attach a photo to a new dish),
   much less code/risk.

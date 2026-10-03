@@ -10,6 +10,7 @@ import { cuisineLabel, dishDisplayName, dishTone } from '../lib/dishes'
 import { joinNames } from '../lib/people'
 import { FullPageMessage, Pill } from '../components/ui'
 import { useRecipeDishIds } from '../lib/recipeQueries'
+import { FamilyNotesPanel, NutritionPanel } from '../components/NutritionPanel'
 
 export default function DishDetailPage() {
   const { t, i18n } = useTranslation()
@@ -172,6 +173,9 @@ export default function DishDetailPage() {
             </span>
           )}
         </div>
+
+        {dishId && <NutritionPanel dishId={dishId} />}
+        {dishId && <FamilyNotesPanel dishId={dishId} tags={dish.tags} />}
 
         <p className="text-[13px] text-muted">
           {isOwn ? t('dishes.rowAddedBy', { name: members?.find((m) => m.id === dish.created_by)?.display_name ?? '' }) : t('dishes.detail.addedByStock')}

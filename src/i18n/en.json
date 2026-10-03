@@ -454,6 +454,64 @@
       "as_needed": "as needed"
     }
   },
+  "nutrition": {
+    "perServing": "Nutrition per serving",
+    "estimate": "Estimate",
+    "kcalOfDay": "kcal · about {{percent}}% of an adult's day",
+    "barsNote": "Bars show share of an adult's daily need. Estimates for planning, not medical advice.",
+    "n": {
+      "kcal": "Calories",
+      "protein_g": "Protein",
+      "carbs_g": "Carbs",
+      "fat_g": "Fat",
+      "fibre_g": "Fibre",
+      "sugar_g": "Sugar",
+      "sodium_mg": "Sodium"
+    },
+    "forFamily": "For your family",
+    "note": {
+      "softChew": "Soft and easy to chew: good for {{names}}.",
+      "spicyKids": "Spicy: go easy for {{names}}, or serve it with curd.",
+      "friedCare": "Fried: keep the portion small for {{names}}.",
+      "caffeineKids": "Contains caffeine: not for {{names}}.",
+      "sweetInfo": "A sweet treat: enjoy it in small portions.",
+      "gheeRich": "Ghee-rich. Use a spoon less, or pair it with a vegetable side."
+    },
+    "cookedOne": "Cooked {{count}} time in {{month}} · last on {{last}}{{by}}",
+    "cookedOther": "Cooked {{count}} times in {{month}} · last on {{last}}{{by}}",
+    "by": " by {{names}}",
+    "mine": "My nutrition",
+    "mineSub": "The meals you ate, against your daily target",
+    "family": "Family nutrition",
+    "familySub": "A summary for each person",
+    "familyOnly": "Family nutrition is for Admins and whoever is Planner today.",
+    "period": "Period",
+    "unavailable": "Nutrition numbers are not available yet.",
+    "yourTarget": "Your daily target",
+    "targetKcal": "{{kcal}} kcal a day",
+    "assumed": "We assumed {{what}}. Add it under Home › People for a closer target.",
+    "assume": {
+      "age": "an adult",
+      "sex": "an average of female and male",
+      "activity": "moderate activity"
+    },
+    "empty": "No meals with a nutrition estimate in this period. Plan meals and mark yourself as eating them.",
+    "emptyPerson": "No meals with an estimate in this period.",
+    "kcalPerDay": "kcal a day · {{percent}}% of target",
+    "basedOnDays": "Based on {{count}} days with meals.",
+    "tips": "Gentle tips",
+    "tip": {
+      "proteinLow": "Protein looked low on {{n}} of {{days}} days. Dal, eggs, curd or paneer can help.",
+      "sodiumHigh": "Salt was high on {{n}} of {{days}} days. Go easy on pickles, papad and packaged foods.",
+      "fibreLow": "Fibre is at {{percent}}% of the target. More vegetables, dal and whole grains help.",
+      "caloriesHigh": "Calories are about {{percent}}% of the target. Smaller portions of fried or sweet dishes can help.",
+      "caloriesLow": "Calories are only {{percent}}% of the target. Check that every meal is planned, or add a snack.",
+      "sugarHigh": "Sugar is about {{percent}}% of the limit. Sweets and sweet drinks add up."
+    },
+    "byDay": "By day",
+    "unknownMeals": "{{count}} meals had no estimate (dine-out, order-in, or a dish without numbers), so they are left out.",
+    "disclaimer": "Nutrition figures are estimates for planning at home, based on typical recipes and portions and rounded reference values. They are general guidance, not medical advice."
+  },
   "history": {
     "title": "Meal history",
     "subtitle": "What your home has eaten",
