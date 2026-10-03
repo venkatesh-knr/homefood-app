@@ -11,7 +11,8 @@ import { useCanPlanDate } from '../lib/useCanPlan'
 import { FullPageMessage } from '../components/ui'
 import { PeriodControls, usePeriod } from '../components/PeriodControls'
 import { TargetBars } from '../components/TargetBars'
-import { BackHeader, NutritionDisclaimer } from './NutritionPage'
+import { BackHeader } from '../components/BackHeader'
+import { NutritionDisclaimer } from './NutritionPage'
 
 /** "Family nutrition": a week or month summary per family member, for Admins and whoever is Planner today. */
 export default function FamilyNutritionPage() {

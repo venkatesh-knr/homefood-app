@@ -1,3 +1,4 @@
+import { NotificationBell } from '../components/NotificationBell'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useMyProfile, useHousehold } from '../lib/queries'
@@ -33,7 +34,10 @@ export default function AppShell() {
             <Logo size={32} />
             <span className="truncate font-display text-[16px] font-semibold">{household.name}</span>
           </div>
-          <LanguageSwitch />
+          <div className="flex items-center gap-1">
+            <NotificationBell />
+            <LanguageSwitch />
+          </div>
         </header>
 
         <InstallBanner />

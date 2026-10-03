@@ -12,7 +12,7 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
   or "Use X" button, tapping a dish opens Dish Detail instead); `Recipe.png` is built (migration 0011); the nutrition panel on `DishDetail.png` is
   **not built** yet (see Step 3 scope below). Step 4 screens: `Planner.png`, `SlotEditor.png`,
   `Rota.png`, `Discussion.png` (built — see Step 4 scope below). Step 5
-  screens: `Today.png` (votes/comments built; the notification bell is still not), `Phone.png` +
+  screens: `Today.png` (votes/comments built; the notification bell is built too), `Phone.png` +
   `Main.png` (Week at a glance, mobile and tablet/laptop — one responsive page, not two), `Share.png` (what "Save as
   image" produces). `Today.png`'s 5-tab nav (Today/Week/Dishes/**Health**/Family) is a different iteration from the
   4-tab shell already built in Step 2 (Today/Week/Dishes/**Home**) — kept the existing 4 tabs, no Health tab.
@@ -65,7 +65,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 - Migrations in `supabase/migrations/`. **0001–0011 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0013_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0014_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -77,6 +77,10 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   **0012 (nutrition: per-serving estimates for all 138 dishes + 24 daily reference targets) is new and still needs running** —
   until it is, the nutrition panel and "My / Family nutrition" just say numbers are not available. Regenerated from
   `scripts/nutrition_data.py` by `scripts/gen-nutrition.py` (which sanity-checks calories against the macros).
+  **0013 (notifications: the bell) is new and still needs running** — until it is, the bell just shows no unread dot and the
+  list says there is nothing new. Triggers write the notifications (week published, a published meal changed, set as cook,
+  new suggestion, suggestion accepted/declined, new comment, dish kept despite disagreement, Planner turn assigned);
+  repeats for the same person and meal within 10 minutes merge into one.
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
   update, no schema/RLS change, see Step 3 scope below for which ones and why only 6 so far.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
@@ -86,7 +90,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 86 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 98 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -119,6 +123,7 @@ src/lib/history.ts      History screen helpers: rangeBounds/shiftAnchor (week·m
 src/lib/discussion.ts   vote/comment helpers: tallyVotes, agreeShare, nextVote, countsBySlot, formatCommentTime (+ tests)
 src/lib/discussionQueries.ts / discussionMutations.ts  votes, comments, suggestions (counts are fetched apart from slots and fail quietly)
 src/lib/recipes.ts      recipe scaling/formatting helpers (+ tests); recipeQueries.ts: useRecipe, useRecipeDishIds
+src/lib/notifications.ts / notificationQueries.ts  bell: targets, wording helpers (+ tests), polling reads, mark read
 src/lib/nutrition.ts    per-meal/day totals, daily targets, summarisePeriod tips, familyNotes (+ tests); nutritionQueries.ts reads
 src/lib/plannerMutations.ts getOrCreateWeekPlan, saveSlot (upserts a slot + replaces sides/cooks/eaters), clearSlot,
                         publishWeek, copyDay/copyWeek (client-orchestrated, never overwrites an existing slot), assignPlannerTurn
@@ -126,7 +131,7 @@ src/components/ui.tsx   Button, Logo, LanguageSwitch, Card, Toggle, Avatar, Pill
 src/components/         PersonForm, PersonRow, PeopleSection, InviteCard, QrCode, GettingStartedChecklist, SignInForm,
                         DishRow (+ DishThumb, DietMark), DishPickerSheet (full-screen dish picker, reused by the slot editor)
 src/pages/              SignInPage, SetupNeededPage, SetupHomeStep1Page, SetupHomeStep2Page, JoinPage,
-                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, HistoryPage, DiscussionPage, RecipePage, NutritionPage, FamilyNutritionPage, DishesPage,
+                        AppShell (+ TodayPage, WeekPage, SlotEditorPage, RotaPage, WeekGlancePage, HistoryPage, DiscussionPage, RecipePage, NutritionPage, FamilyNutritionPage, NotificationsPage, DishesPage,
                         AddDishPage, DishDetailPage, HomeTabPage)
 src/App.tsx             routes: /join/:token is public; everything else needs a session → no profile shows the setup
                         wizard, a profile that hasn't clicked through step 2 shows the invite screen, otherwise AppShell
@@ -247,8 +252,10 @@ Trims, flagged rather than silently done — ask before expanding any of these:
   edited; changing a dish in the slot editor doesn't clear votes; no notifications yet (the bell is the last item to build).
 - **No "fried dishes this week" balance banner** (`Planner.png`) — needs a per-household limit that hasn't been decided
   (configurable? fixed?).
-- **No real notifications.** "Everyone is notified when you publish" (mockup copy) doesn't happen — no push infrastructure
-  exists yet. Publish just flips the week to published.
+- **Notifications: an in-app bell, no phone push (migration 0013).** The bell in the header shows a red dot while anything is unread
+  (checked every minute and when the app opens); `/notifications` lists them, tapping one marks it read and opens the meal thread, the
+  poster or the rota. Not built: web/native push (needs a push key and a server function), per-person muting of event types, allergen
+  alerts and "your Planner turn starts tomorrow" reminders (need a scheduler).
 - **Rota is Admin-assigns-only, no member self-claim.** The mockup shows members tapping "I'll plan this week" on a free
   slot, but this section's own decision says *"phase 1: Admin assigns turns"* — and the DB already enforces exactly that
   (`rls_test.sql`: "members cannot assign turns themselves"). Members see the schedule read-only with an "ask your Admin"
@@ -284,7 +291,7 @@ real bug this caught: "Coming up" was including already-past days of the current
 Save as image / Print / Share and the prev/next week-browsing arrows haven't specifically been exercised live yet.
 
 Trims, flagged rather than silently done:
-- **Today has votes and comments but no notification bell** (`Today.png` shows a bell) — the bell is the last item on the list.
+- **Today has votes, comments and the notification bell** (in the app header, as `Today.png`); Today's 5-tab nav still isn't adopted.
 - **No "You ate this" consumption tracking** (`Today.png`) — `meal_slots.status` has room for it (`proposed`/`confirmed`/
   `done`) but nothing sets it yet; needs its own small UI (a per-meal "mark as eaten" action), not just a label.
 - **History screen exists, but is "planned up to today", not "actually eaten".** Home tab → "Meal history" (`HistoryPage`, `/history`,

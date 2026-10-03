@@ -1,35 +1,17 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useHistorySlots } from '../lib/plannerQueries'
 import { useAllNutrition, useNutritionTargets } from '../lib/nutritionQueries'
 import { dayTotalsFor, summarisePeriod, targetFor } from '../lib/nutrition'
 import { Card } from '../components/ui'
+import { BackHeader } from '../components/BackHeader'
 import { PeriodControls, usePeriod } from '../components/PeriodControls'
 import { TargetBars } from '../components/TargetBars'
 
 export function NutritionDisclaimer() {
   const { t } = useTranslation()
   return <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">{t('nutrition.disclaimer')}</p>
-}
-
-export function BackHeader({ title, subtitle, to }: { title: string; subtitle?: string; to: string }) {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
-  return (
-    <div className="flex items-center gap-2 pt-3">
-      <button type="button" onClick={() => navigate(to)} aria-label={t('common.back')} className="flex h-11 w-11 items-center justify-center rounded-full">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-      </button>
-      <div className="flex flex-col">
-        <span className="font-display text-[18px] font-semibold">{title}</span>
-        {subtitle && <span className="text-[12px] text-muted">{subtitle}</span>}
-      </div>
-    </div>
-  )
 }
 
 /** "My nutrition": what the meals you are marked as eating add up to, against a target for your age, sex and activity. */

@@ -512,6 +512,26 @@
     "unknownMeals": "{{count}} meals had no estimate (dine-out, order-in, or a dish without numbers), so they are left out.",
     "disclaimer": "Nutrition figures are estimates for planning at home, based on typical recipes and portions and rounded reference values. They are general guidance, not medical advice."
   },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "What changed in your home's meal plan",
+    "bellUnread": "Notifications, {{count}} unread",
+    "empty": "Nothing new yet. You will see here when a week is published, a meal changes, someone comments or suggests a dish, or you are set as a cook.",
+    "markAll": "Mark all as read",
+    "clear": "Clear all",
+    "someone": "Someone",
+    "text": {
+      "week_published": "{{actor}} published the week plan.",
+      "slot_changed": "{{actor}} changed {{day}} {{meal}} to {{what}}.",
+      "cook_assigned": "{{actor}} set you as a cook for {{day}} {{meal}} ({{what}}).",
+      "suggestion_new": "{{actor}} suggested {{suggested}} for {{day}} {{meal}}.",
+      "suggestion_accepted": "Your suggestion {{suggested}} for {{day}} {{meal}} was accepted.",
+      "suggestion_declined": "Your suggestion {{suggested}} for {{day}} {{meal}} wasn't taken this time.",
+      "comment_new": "{{actor}} commented on {{day}} {{meal}}.",
+      "kept_despite": "The Planner kept {{what}} for {{day}} {{meal}}.",
+      "turn_assigned": "{{actor}} gave you a Planner turn: {{range}}."
+    }
+  },
   "history": {
     "title": "Meal history",
     "subtitle": "What your home has eaten",
