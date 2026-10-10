@@ -62,13 +62,13 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0013 are all applied** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0014 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
   (`0015_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
-  names that already exist. Those 110 have no photos yet (initial placeholder).
+  names that already exist. Their photos came with 0014.
   0010 (votes, comments, suggestions) is applied and tested live (vote + comment + delete on a real meal).
   0011 (recipes: 38 standard recipes, English + Tamil) is applied and checked live (Ven Pongal scales to the 3 family members).
   Recipe content is regenerated from `scripts/recipes_data.py` by `scripts/gen-recipes.py`; they are drafts, so the family should
@@ -80,10 +80,9 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   fully seen once a second person acts, because nobody is notified of their own actions. Triggers write the notifications (week
   published, a published meal changed, set as cook, new suggestion, suggestion accepted/declined, new comment, dish kept despite
   disagreement, Planner turn assigned); repeats for the same person and meal within 10 minutes merge into one.
-  **0014 (catalogue photos bundled with the app) is new and still needs running.** All 138 shared dishes get `photo_path = 'static/<slug>.webp'`
+  **0014 (catalogue photos bundled with the app) is applied (run 10 Oct 2026; photos on the Dishes tab not yet eyeballed live).** All 138 shared dishes get `photo_path = 'static/<slug>.webp'`
   plus their credit; the files live in `public/dish-photos/` (~7.6 MB, WebP ≤ 720 px, downloaded once from Wikimedia Commons, no more
-  hotlinking) and `useSignedPhotoUrl` turns `static/<file>` into the app's own link. Until 0014 runs, the 28 old dishes keep their
-  Wikimedia URLs and the other 110 show the coloured initial. 8 of the 138 are drawings (marked "(illustration)" in the credit): pizza,
+  hotlinking) and `useSignedPhotoUrl` turns `static/<file>` into the app's own link. 8 of the 138 are drawings (marked "(illustration)" in the credit): pizza,
   fries, katsu curry, vegetable soup, plus veg pulao, egg bhurji, masala chai, sweet lassi. Regenerate with `python scripts/build-dish-photos.py`
   (reads `scripts/dish-photo-picks.txt` for the 110 and 0007/0008 for the 28; writes the files, `scripts/dish-photos.json` and the migration).
   The PWA caches each photo the first time it is seen (not pre-cached). A household's own photo (private bucket) still wins.
