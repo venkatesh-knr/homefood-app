@@ -33,3 +33,18 @@ describe('bundled dish photos', () => {
     for (const m of manifest) expect(sql).toContain(`'static/${m.file}'`)
   })
 })
+
+describe('South Indian dishes added in migration 0015', () => {
+  const photos: { dish: string; file: string; credit: string }[] = JSON.parse(readFileSync('scripts/south-indian-photos.json', 'utf-8'))
+  const sql = readFileSync('supabase/migrations/0015_more_south_indian_dishes.sql', 'utf-8')
+  it('ships a file and credit for every photo the migration points at', () => {
+    expect(photos.length).toBeGreaterThan(50)
+    for (const m of photos) {
+      const path = `public/dish-photos/${m.file}`
+      expect(existsSync(path), path).toBe(true)
+      expect(statSync(path).size, path).toBeLessThan(400 * 1024)
+      expect(m.credit.length).toBeGreaterThan(5)
+      expect(sql).toContain(`'static/${m.file}'`)
+    }
+  })
+})

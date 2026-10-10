@@ -1,0 +1,113 @@
+# One line per South Indian dish added in 0015 that has a photo: dish name | Wikimedia Commons file title
+# (dishes not listed here keep the coloured-initial placeholder until a photo is found)
+Rava idli | MTR Rava Idli.jpg
+Podi idli | Podi Idli - Mini Idli dipped in Podi.jpg
+Mini idli sambar | Sambar Idli - Mini idlis floating in sambar as served in Tamil nadu.JPG
+Set dosa | Set Dosa 1.jpg
+Neer dosa | Neer Dosa (ನೀರು ದೋಸೆ).jpg
+Adai | Adai Dosai with Chutney 01.jpg
+Ragi dosa | Ragi Dosa Mumbai.jpg
+Wheat dosa | Wheat dosa.jpg
+Kal dosai | Kal Dosa.jpg
+Egg dosa | Egg Dosa-MB42.jpg
+Khara bath | Chow chow bath ( khara bath & kesari bath ).jpg
+Semiya upma | Traditional Vermicelli Upma (Semiya Upma) with Fresh Vegetables.jpg
+Godhumai rava upma | Half wheat veg upma.jpg
+Arisi upma | Broken rice upma & coconut chutney.jpg
+Kuzhi paniyaram | Kuzhi Paniyaram.jpg
+Idiyappam | Idiyappam.jpg
+Poori | Poori Masala Tamil Nadu.jpg
+Sambar vada | Idly sambar vada markedJPG.jpg
+Thayir vada | Odia Style Dahi bara Puri Odisha-IMG 953.jpg
+Pazhaya sadam | Panta bhat - a rural breakfast dish.jpg
+Thinai pongal | Milagu-Pepper Thinai-Foxtail Millet Pongal with Coconut Chutney.JPG
+Ragi roti | Ragi roti.jpg
+Akki roti | Avarekalu akki roti.jpg
+Vangi bath | Brinjal rice bath.jpg
+Veechu parotta | Veechu Rotti.jpg
+Chilli parotta | Chilli parotta.jpg
+Ragi koozh | Kammang koozh.JPG
+Kambu koozh | Kambu koozh with side dish.JPG
+Ragi mudde | RAGI MUDDE.JPG
+Sakkarai pongal | Pongalpot.jpg
+Sukku malli coffee | Sukkumalli Coffee or Dry Ginger Coffee.jpg
+Badam milk | Bapatla Badam Milk.jpg
+Pidi kozhukattai | Picture of Sweet pidi kozhukattai.JPG
+Paal kozhukattai | Paal Kozhukattai - Sugar.JPG
+Aloo bonda | Aloo Bonda 1.jpg
+Masala vadai | Masala Vadai.jpg
+Onion pakoda | Onion pakoda with futana chutni.jpg
+Banana bajji | Raw banana bajji.jpg
+Potato bajji | Potato bajji picture.JPG
+Vegetable cutlet | Vegetable Cutlet From India.jpg
+Thattai | Thattai Image.jpg
+Seedai | Uppu Seedai-Ashwin restaurant,Attur-Tamilnadu-IMG 20210317 193820.jpg
+Ribbon pakoda | Corn Ribbon Pakoda The Grand Sweets And Snacks.jpg
+Mixture | Spicy and namkeen garlic mixture snack with peanuts, photographed in West Bengal, India, August 13, 2024.jpg
+Kara sev | Kara Sev.jpg
+Banana chips | Kerala banana chips Upperi varuthath.jpg
+Chicken lollipop | Chicken lollipop in Goa.jpg
+Mangalore buns | Buns, a tea time delicacy of Mangalore and Coastal Karnataka at Goa.jpg
+Adhirasam | Adhirasam2a.jpg
+Ellu urundai | Ellu Urundai Sesame Laddu JEG2424.jpg
+Kadalai mittai | Kadalai Mittai.JPG
+Sweet paniyaram | South Indian Sweet Kuzhi Paniyaram.JPG
+Pazham pori | Pazham pori making 04b frying.jpg
+Unniyappam | Unniyappam - Karayappam - Kuzhiyappam.jpg
+Poli | Obbattu.jpg
+Mysore pak | Ghee Mysore Pak.jpg
+Rava laddu | Rava laddu.jpg
+Boondi laddu | Boondi laddoo.JPG
+Badusha | Badusha Sweet by Preeti Tamilarasan.jpg
+Paal payasam | Paal payasam 1.jpg
+Javvarisi payasam | Sabudana sago payasa.jpg
+Jigarthanda | Jigarthanda.JPG
+Nannari sarbath | Nannari sarbath with Sabja seeds.jpg
+Elaneer | Tender coconut water 02.jpg
+Rose milk | Rose milk.jpg
+Nei sorru | Ghee Rice and Beef Kondattam.jpg
+Paruppu sadam | Arisiyum-paruppu-sadam.jpg
+Rasam sadam | Midday meals with rasam,pappad,plantain shaft fry and cooked rice.JPG
+Dindigul biryani | Dindigul Thalappakatti Biryani 1.jpg
+Prawn biryani | Prawn Biryani, Hyderabad.jpg
+Mushroom biryani | Mushroom Biryani.JPG
+Murungakkai sambar | Sambar (drumstick).jpg
+Kara kuzhambu | Chettinad Garlic Kara Kuzhambu Paste The Grand Sweets And Snacks.jpg
+Poondu kuzhambu | Garlic Kuzhambu.jpg
+Kathirikai kuzhambu | Brinjal-black Channa Kuzhambu.jpg
+Paagarkai pitlai | Bitter Gourd Curry 2.jpg
+Tomato pappu | Food at Indic Wikimedia Hackathon 2023 06 Tomato Pappu.jpg
+Thakkali kothsu | Poori Tomato gojju.jpg
+Salna | Soru from south India parotta salna (cropped).jpg
+Kadala curry | Kadala Curry (9686012452).jpg
+Lemon rasam | Rasam.JPG
+Tomato rasam | Tomato Rasam - Home Made.JPG
+Pepper rasam | Pepper Rasam Paste The Grand Sweets And Snacks.jpg
+Paruppu rasam | Traditional Paruppu Rasam in a Tin vessel eiyachombu.jpg
+Cabbage thoran | Cabbage thoran.jpg
+Chow chow kootu | Chow chow kootu.JPG
+Poricha kootu | Cabbage kootu.jpg
+Peerkangai kootu | Turai ki Sabzi (Ridge Gourd Curry).JPG
+Suraikkai kootu | Bottle Gourd Curry.jpg
+Keerai kootu | Vallarai keerai kootu.JPG
+Kovakkai fry | Ivy gourd fry.jpg
+Chepankizhangu roast | Colocasia Fry.jpg
+Kathirikai poriyal | Brinjal fry with masala.jpg
+Gutti vankaya | Gutti Vankaya Kura.jpg
+Kara chutney | Red Chilli Chutney Recipe By Sonia Goyal.jpg
+Garlic pickle | Garlic Pickle in Oil.JPG
+Gongura pickle | Gongura Pickle with Garlic.jpg
+Avakaya | Aavakaya.JPG
+Milagai podi | Picture of Idli milagai podi for idli and dosa.JPG
+Karuveppilai podi | Curry Leaf Powder And Idli.jpg
+Beetroot pachadi | Beetroot Pachadi.jpg
+Mango pachadi | Totapuri mango Gojju.jpg
+Onion pachadi | Onion raita(Close up).jpg
+Nattu kozhi kuzhambu | Chicken Curry with Rice.jpg
+Chicken stew | Chicken stew (Turkey).jpg
+Mutton kuzhambu | Mutton Curry (44786).jpg
+Egg masala | Egg and Veg masala meal.JPG
+Kerala egg roast | Egg roast Kerala.jpg
+Nethili fry | Anchovy Fish Fry.JPG
+Fish moilee | FISH MOILEE - Mini MADRAS 2026-05-03.jpg
+Crab masala | Crab Masala, Inani Beach Cafe (201551).jpg

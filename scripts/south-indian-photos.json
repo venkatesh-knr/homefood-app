@@ -1,0 +1,779 @@
+[
+ {
+  "dish": "Rava idli",
+  "file": "rava-idli.webp",
+  "credit": "Maharana7573, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:MTR_Rava_Idli.jpg",
+  "bytes": 23986
+ },
+ {
+  "dish": "Podi idli",
+  "file": "podi-idli.webp",
+  "credit": "Rohitvalecha, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Podi_Idli_-_Mini_Idli_dipped_in_Podi.jpg",
+  "bytes": 22176
+ },
+ {
+  "dish": "Mini idli sambar",
+  "file": "mini-idli-sambar.webp",
+  "credit": "KARTY JazZ, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Sambar_Idli_-_Mini_idlis_floating_in_sambar_as_served_in_Tamil_nadu.JPG",
+  "bytes": 43108
+ },
+ {
+  "dish": "Set dosa",
+  "file": "set-dosa.webp",
+  "credit": "Yakshitha, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Set_Dosa_1.jpg",
+  "bytes": 109512
+ },
+ {
+  "dish": "Neer dosa",
+  "file": "neer-dosa.webp",
+  "credit": "Yakshitha, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Neer_Dosa_(%E0%B2%A8%E0%B3%80%E0%B2%B0%E0%B3%81_%E0%B2%A6%E0%B3%8B%E0%B2%B8%E0%B3%86).jpg",
+  "bytes": 61794
+ },
+ {
+  "dish": "Adai",
+  "file": "adai.webp",
+  "credit": "Sudhan Ram, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Adai_Dosai_with_Chutney_01.jpg",
+  "bytes": 26726
+ },
+ {
+  "dish": "Ragi dosa",
+  "file": "ragi-dosa.webp",
+  "credit": "Pradeep717, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ragi_Dosa_Mumbai.jpg",
+  "bytes": 95514
+ },
+ {
+  "dish": "Wheat dosa",
+  "file": "wheat-dosa.webp",
+  "credit": "Rupamdas75, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Wheat_dosa.jpg",
+  "bytes": 55936
+ },
+ {
+  "dish": "Kal dosai",
+  "file": "kal-dosai.webp",
+  "credit": "Kalaiyarasiselvam, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kal_Dosa.jpg",
+  "bytes": 66436
+ },
+ {
+  "dish": "Egg dosa",
+  "file": "egg-dosa.webp",
+  "credit": "Rajeeb Dutta, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Egg_Dosa-MB42.jpg",
+  "bytes": 102938
+ },
+ {
+  "dish": "Khara bath",
+  "file": "khara-bath.webp",
+  "credit": "Apoorva lakshmi, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chow_chow_bath_(_khara_bath_%26_kesari_bath_).jpg",
+  "bytes": 34558
+ },
+ {
+  "dish": "Semiya upma",
+  "file": "semiya-upma.webp",
+  "credit": "Srujanabotcha, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Traditional_Vermicelli_Upma_(Semiya_Upma)_with_Fresh_Vegetables.jpg",
+  "bytes": 148118
+ },
+ {
+  "dish": "Godhumai rava upma",
+  "file": "godhumai-rava-upma.webp",
+  "credit": "SaroPrakash, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Half_wheat_veg_upma.jpg",
+  "bytes": 74284
+ },
+ {
+  "dish": "Arisi upma",
+  "file": "arisi-upma.webp",
+  "credit": "Raamsanjay, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Broken_rice_upma_%26_coconut_chutney.jpg",
+  "bytes": 64166
+ },
+ {
+  "dish": "Kuzhi paniyaram",
+  "file": "kuzhi-paniyaram.webp",
+  "credit": "Ishwar, CC BY 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kuzhi_Paniyaram.jpg",
+  "bytes": 56152
+ },
+ {
+  "dish": "Idiyappam",
+  "file": "idiyappam.webp",
+  "credit": "Sundar, CC BY-SA 3.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Idiyappam.jpg",
+  "bytes": 94086
+ },
+ {
+  "dish": "Poori",
+  "file": "poori.webp",
+  "credit": "Dr. Chinchu C., CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Poori_Masala_Tamil_Nadu.jpg",
+  "bytes": 103760
+ },
+ {
+  "dish": "Sambar vada",
+  "file": "sambar-vada.webp",
+  "credit": "Photographed &amp; marked by Pratheepps, Copyrighted free use, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Idly_sambar_vada_markedJPG.jpg",
+  "bytes": 45248
+ },
+ {
+  "dish": "Thayir vada",
+  "file": "thayir-vada.webp",
+  "credit": "Subhransuphotography, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Odia_Style_Dahi_bara_Puri_Odisha-IMG_953.jpg",
+  "bytes": 42310
+ },
+ {
+  "dish": "Pazhaya sadam",
+  "file": "pazhaya-sadam.webp",
+  "credit": "TAPAS KUMAR HALDER, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Panta_bhat_-_a_rural_breakfast_dish.jpg",
+  "bytes": 79560
+ },
+ {
+  "dish": "Thinai pongal",
+  "file": "thinai-pongal.webp",
+  "credit": "Nundhaa, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Milagu-Pepper_Thinai-Foxtail_Millet_Pongal_with_Coconut_Chutney.JPG",
+  "bytes": 29606
+ },
+ {
+  "dish": "Ragi roti",
+  "file": "ragi-roti.webp",
+  "credit": "Medhi jyoti, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ragi_roti.jpg",
+  "bytes": 129528
+ },
+ {
+  "dish": "Akki roti",
+  "file": "akki-roti.webp",
+  "credit": "Vidya pmysore, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Avarekalu_akki_roti.jpg",
+  "bytes": 82336
+ },
+ {
+  "dish": "Vangi bath",
+  "file": "vangi-bath.webp",
+  "credit": "Vidya pmysore, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Brinjal_rice_bath.jpg",
+  "bytes": 32148
+ },
+ {
+  "dish": "Veechu parotta",
+  "file": "veechu-parotta.webp",
+  "credit": "Indi Samarajiva, CC BY 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Veechu_Rotti.jpg",
+  "bytes": 46744
+ },
+ {
+  "dish": "Chilli parotta",
+  "file": "chilli-parotta.webp",
+  "credit": "Aashika vayila, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chilli_parotta.jpg",
+  "bytes": 103060
+ },
+ {
+  "dish": "Ragi koozh",
+  "file": "ragi-koozh.webp",
+  "credit": "manojkumar chidambaram, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kammang_koozh.JPG",
+  "bytes": 14484
+ },
+ {
+  "dish": "Kambu koozh",
+  "file": "kambu-koozh.webp",
+  "credit": "manojkumar chidambaram, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kambu_koozh_with_side_dish.JPG",
+  "bytes": 24806
+ },
+ {
+  "dish": "Ragi mudde",
+  "file": "ragi-mudde.webp",
+  "credit": "Vsigamany, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:RAGI_MUDDE.JPG",
+  "bytes": 42792
+ },
+ {
+  "dish": "Sakkarai pongal",
+  "file": "sakkarai-pongal.webp",
+  "credit": "Jennifer Kumar, public domain, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Pongalpot.jpg",
+  "bytes": 57832
+ },
+ {
+  "dish": "Sukku malli coffee",
+  "file": "sukku-malli-coffee.webp",
+  "credit": "Gems Keerthiga, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Sukkumalli_Coffee_or_Dry_Ginger_Coffee.jpg",
+  "bytes": 23424
+ },
+ {
+  "dish": "Badam milk",
+  "file": "badam-milk.webp",
+  "credit": "Saiphani02, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Bapatla_Badam_Milk.jpg",
+  "bytes": 38334
+ },
+ {
+  "dish": "Pidi kozhukattai",
+  "file": "pidi-kozhukattai.webp",
+  "credit": "Nithyasrm, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Picture_of_Sweet_pidi_kozhukattai.JPG",
+  "bytes": 147986
+ },
+ {
+  "dish": "Paal kozhukattai",
+  "file": "paal-kozhukattai.webp",
+  "credit": "Sengolkural, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Paal_Kozhukattai_-_Sugar.JPG",
+  "bytes": 25068
+ },
+ {
+  "dish": "Aloo bonda",
+  "file": "aloo-bonda.webp",
+  "credit": "లలిత వూరకరణం, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Aloo_Bonda_1.jpg",
+  "bytes": 61776
+ },
+ {
+  "dish": "Masala vadai",
+  "file": "masala-vadai.webp",
+  "credit": "Jamstechs, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Masala_Vadai.jpg",
+  "bytes": 46966
+ },
+ {
+  "dish": "Onion pakoda",
+  "file": "onion-pakoda.webp",
+  "credit": "Narendar, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Onion_pakoda_with_futana_chutni.jpg",
+  "bytes": 44024
+ },
+ {
+  "dish": "Banana bajji",
+  "file": "banana-bajji.webp",
+  "credit": "Shruti1493, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Raw_banana_bajji.jpg",
+  "bytes": 44518
+ },
+ {
+  "dish": "Potato bajji",
+  "file": "potato-bajji.webp",
+  "credit": "Nithyasrm, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Potato_bajji_picture.JPG",
+  "bytes": 62664
+ },
+ {
+  "dish": "Vegetable cutlet",
+  "file": "vegetable-cutlet.webp",
+  "credit": "Ntarch, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Vegetable_Cutlet_From_India.jpg",
+  "bytes": 59270
+ },
+ {
+  "dish": "Thattai",
+  "file": "thattai.webp",
+  "credit": "Krisanthiparax2n, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Thattai_Image.jpg",
+  "bytes": 54774
+ },
+ {
+  "dish": "Seedai",
+  "file": "seedai.webp",
+  "credit": "Nandhinikandhasamy, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Uppu_Seedai-Ashwin_restaurant,Attur-Tamilnadu-IMG_20210317_193820.jpg",
+  "bytes": 61478
+ },
+ {
+  "dish": "Ribbon pakoda",
+  "file": "ribbon-pakoda.webp",
+  "credit": "The Grand Sweets And Snacks, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Corn_Ribbon_Pakoda_The_Grand_Sweets_And_Snacks.jpg",
+  "bytes": 30366
+ },
+ {
+  "dish": "Mixture",
+  "file": "mixture.webp",
+  "credit": "Billjones94, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Spicy_and_namkeen_garlic_mixture_snack_with_peanuts,_photographed_in_West_Bengal,_India,_August_13,_2024.jpg",
+  "bytes": 130406
+ },
+ {
+  "dish": "Kara sev",
+  "file": "kara-sev.webp",
+  "credit": "Jamstechs, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kara_Sev.jpg",
+  "bytes": 39800
+ },
+ {
+  "dish": "Banana chips",
+  "file": "banana-chips.webp",
+  "credit": "Ramesh NG, CC BY-SA 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kerala_banana_chips_Upperi_varuthath.jpg",
+  "bytes": 60952
+ },
+ {
+  "dish": "Chicken lollipop",
+  "file": "chicken-lollipop.webp",
+  "credit": "Peiling Tan from Singapore, Singapore, CC BY 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chicken_lollipop_in_Goa.jpg",
+  "bytes": 71468
+ },
+ {
+  "dish": "Mangalore buns",
+  "file": "mangalore-buns.webp",
+  "credit": "Soorya Hebbar, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Buns,_a_tea_time_delicacy_of_Mangalore_and_Coastal_Karnataka_at_Goa.jpg",
+  "bytes": 33574
+ },
+ {
+  "dish": "Adhirasam",
+  "file": "adhirasam.webp",
+  "credit": "SpacemanSpiff, CC BY-SA 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Adhirasam2a.jpg",
+  "bytes": 63584
+ },
+ {
+  "dish": "Ellu urundai",
+  "file": "ellu-urundai.webp",
+  "credit": "PJeganathan, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ellu_Urundai_Sesame_Laddu_JEG2424.jpg",
+  "bytes": 61008
+ },
+ {
+  "dish": "Kadalai mittai",
+  "file": "kadalai-mittai.webp",
+  "credit": "Pranavathiyani G, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kadalai_Mittai.JPG",
+  "bytes": 20748
+ },
+ {
+  "dish": "Sweet paniyaram",
+  "file": "sweet-paniyaram.webp",
+  "credit": "Deviselvam, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:South_Indian_Sweet_Kuzhi_Paniyaram.JPG",
+  "bytes": 51090
+ },
+ {
+  "dish": "Pazham pori",
+  "file": "pazham-pori.webp",
+  "credit": "Vis M, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Pazham_pori_making_04b_frying.jpg",
+  "bytes": 56884
+ },
+ {
+  "dish": "Unniyappam",
+  "file": "unniyappam.webp",
+  "credit": "Mullookkaaran, CC BY-SA 3.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Unniyappam_-_Karayappam_-_Kuzhiyappam.jpg",
+  "bytes": 71106
+ },
+ {
+  "dish": "Poli",
+  "file": "poli.webp",
+  "credit": "GaneshDatta (talk) (Uploads), CC BY 3.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Obbattu.jpg",
+  "bytes": 28784
+ },
+ {
+  "dish": "Mysore pak",
+  "file": "mysore-pak.webp",
+  "credit": "Vaidehi Pujary, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ghee_Mysore_Pak.jpg",
+  "bytes": 61476
+ },
+ {
+  "dish": "Rava laddu",
+  "file": "rava-laddu.webp",
+  "credit": "Akshaya Soundararajan, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Rava_laddu.jpg",
+  "bytes": 24544
+ },
+ {
+  "dish": "Boondi laddu",
+  "file": "boondi-laddu.webp",
+  "credit": "Milanography, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Boondi_laddoo.JPG",
+  "bytes": 23064
+ },
+ {
+  "dish": "Badusha",
+  "file": "badusha.webp",
+  "credit": "Preeti Tamilarasan, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Badusha_Sweet_by_Preeti_Tamilarasan.jpg",
+  "bytes": 74888
+ },
+ {
+  "dish": "Paal payasam",
+  "file": "paal-payasam.webp",
+  "credit": "Anna Ekambaram, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Paal_payasam_1.jpg",
+  "bytes": 71202
+ },
+ {
+  "dish": "Javvarisi payasam",
+  "file": "javvarisi-payasam.webp",
+  "credit": "Vidya pmysore, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Sabudana_sago_payasa.jpg",
+  "bytes": 54580
+ },
+ {
+  "dish": "Jigarthanda",
+  "file": "jigarthanda.webp",
+  "credit": "KARTY JazZ, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Jigarthanda.JPG",
+  "bytes": 35984
+ },
+ {
+  "dish": "Nannari sarbath",
+  "file": "nannari-sarbath.webp",
+  "credit": "V.S.Pooja, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Nannari_sarbath_with_Sabja_seeds.jpg",
+  "bytes": 8906
+ },
+ {
+  "dish": "Elaneer",
+  "file": "elaneer.webp",
+  "credit": "Vis M, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Tender_coconut_water_02.jpg",
+  "bytes": 56058
+ },
+ {
+  "dish": "Rose milk",
+  "file": "rose-milk.webp",
+  "credit": "REVATHY, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Rose_milk.jpg",
+  "bytes": 26440
+ },
+ {
+  "dish": "Nei sorru",
+  "file": "nei-sorru.webp",
+  "credit": "Ayshamarjana, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ghee_Rice_and_Beef_Kondattam.jpg",
+  "bytes": 88100
+ },
+ {
+  "dish": "Paruppu sadam",
+  "file": "paruppu-sadam.webp",
+  "credit": "B8ird, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Arisiyum-paruppu-sadam.jpg",
+  "bytes": 51924
+ },
+ {
+  "dish": "Rasam sadam",
+  "file": "rasam-sadam.webp",
+  "credit": "V.S.Pooja, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Midday_meals_with_rasam,pappad,plantain_shaft_fry_and_cooked_rice.JPG",
+  "bytes": 30156
+ },
+ {
+  "dish": "Dindigul biryani",
+  "file": "dindigul-biryani.webp",
+  "credit": "Maharana7573, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Dindigul_Thalappakatti_Biryani_1.jpg",
+  "bytes": 51188
+ },
+ {
+  "dish": "Prawn biryani",
+  "file": "prawn-biryani.webp",
+  "credit": "Abhinaba Basu, CC BY 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Prawn_Biryani,_Hyderabad.jpg",
+  "bytes": 40138
+ },
+ {
+  "dish": "Mushroom biryani",
+  "file": "mushroom-biryani.webp",
+  "credit": "Mohsinkt, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Mushroom_Biryani.JPG",
+  "bytes": 78356
+ },
+ {
+  "dish": "Murungakkai sambar",
+  "file": "murungakkai-sambar.webp",
+  "credit": "Booradleyp1, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Sambar_(drumstick).jpg",
+  "bytes": 66282
+ },
+ {
+  "dish": "Kara kuzhambu",
+  "file": "kara-kuzhambu.webp",
+  "credit": "The Grand Sweets And Snacks, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chettinad_Garlic_Kara_Kuzhambu_Paste_The_Grand_Sweets_And_Snacks.jpg",
+  "bytes": 33336
+ },
+ {
+  "dish": "Poondu kuzhambu",
+  "file": "poondu-kuzhambu.webp",
+  "credit": "Booradleyp1, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Garlic_Kuzhambu.jpg",
+  "bytes": 40878
+ },
+ {
+  "dish": "Kathirikai kuzhambu",
+  "file": "kathirikai-kuzhambu.webp",
+  "credit": "Booradleyp1, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Brinjal-black_Channa_Kuzhambu.jpg",
+  "bytes": 50562
+ },
+ {
+  "dish": "Paagarkai pitlai",
+  "file": "paagarkai-pitlai.webp",
+  "credit": "Yakshitha, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Bitter_Gourd_Curry_2.jpg",
+  "bytes": 112946
+ },
+ {
+  "dish": "Tomato pappu",
+  "file": "tomato-pappu.webp",
+  "credit": "Jnanaranjan sahu, CC BY 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Food_at_Indic_Wikimedia_Hackathon_2023_06_Tomato_Pappu.jpg",
+  "bytes": 64656
+ },
+ {
+  "dish": "Thakkali kothsu",
+  "file": "thakkali-kothsu.webp",
+  "credit": "Manjushree396, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Poori_Tomato_gojju.jpg",
+  "bytes": 26110
+ },
+ {
+  "dish": "Salna",
+  "file": "salna.webp",
+  "credit": "Dr S Sharon Grace, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Soru_from_south_India_parotta_salna_(cropped).jpg",
+  "bytes": 85464
+ },
+ {
+  "dish": "Kadala curry",
+  "file": "kadala-curry.webp",
+  "credit": "Devika, CC BY-SA 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Kadala_Curry_(9686012452).jpg",
+  "bytes": 32690
+ },
+ {
+  "dish": "Lemon rasam",
+  "file": "lemon-rasam.webp",
+  "credit": "Miansari66, public domain, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Rasam.JPG",
+  "bytes": 58552
+ },
+ {
+  "dish": "Tomato rasam",
+  "file": "tomato-rasam.webp",
+  "credit": "Mailz2kumar, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Tomato_Rasam_-_Home_Made.JPG",
+  "bytes": 25466
+ },
+ {
+  "dish": "Pepper rasam",
+  "file": "pepper-rasam.webp",
+  "credit": "The Grand Sweets And Snacks, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Pepper_Rasam_Paste_The_Grand_Sweets_And_Snacks.jpg",
+  "bytes": 41720
+ },
+ {
+  "dish": "Paruppu rasam",
+  "file": "paruppu-rasam.webp",
+  "credit": "Sriram Ganesh Babu, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Traditional_Paruppu_Rasam_in_a_Tin_vessel_eiyachombu.jpg",
+  "bytes": 36484
+ },
+ {
+  "dish": "Cabbage thoran",
+  "file": "cabbage-thoran.webp",
+  "credit": "Rameshng at Malayalam Wikipedia, public domain, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Cabbage_thoran.jpg",
+  "bytes": 95768
+ },
+ {
+  "dish": "Chow chow kootu",
+  "file": "chow-chow-kootu.webp",
+  "credit": "Nithyacorner, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chow_chow_kootu.JPG",
+  "bytes": 59042
+ },
+ {
+  "dish": "Poricha kootu",
+  "file": "poricha-kootu.webp",
+  "credit": "Sanjay Acharya, CC BY-SA 3.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Cabbage_kootu.jpg",
+  "bytes": 32822
+ },
+ {
+  "dish": "Peerkangai kootu",
+  "file": "peerkangai-kootu.webp",
+  "credit": "Mdsmds0, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Turai_ki_Sabzi_(Ridge_Gourd_Curry).JPG",
+  "bytes": 76168
+ },
+ {
+  "dish": "Suraikkai kootu",
+  "file": "suraikkai-kootu.webp",
+  "credit": "Gaurav Dhwaj Khadka, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Bottle_Gourd_Curry.jpg",
+  "bytes": 40880
+ },
+ {
+  "dish": "Keerai kootu",
+  "file": "keerai-kootu.webp",
+  "credit": "Kalaiselvi Murugesan, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Vallarai_keerai_kootu.JPG",
+  "bytes": 36236
+ },
+ {
+  "dish": "Kovakkai fry",
+  "file": "kovakkai-fry.webp",
+  "credit": "Joli Rumi, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Ivy_gourd_fry.jpg",
+  "bytes": 81886
+ },
+ {
+  "dish": "Chepankizhangu roast",
+  "file": "chepankizhangu-roast.webp",
+  "credit": "Prakash G, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Colocasia_Fry.jpg",
+  "bytes": 46676
+ },
+ {
+  "dish": "Kathirikai poriyal",
+  "file": "kathirikai-poriyal.webp",
+  "credit": "Ranjithsiji, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Brinjal_fry_with_masala.jpg",
+  "bytes": 59608
+ },
+ {
+  "dish": "Gutti vankaya",
+  "file": "gutti-vankaya.webp",
+  "credit": "Rupak76, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Gutti_Vankaya_Kura.jpg",
+  "bytes": 41914
+ },
+ {
+  "dish": "Kara chutney",
+  "file": "kara-chutney.webp",
+  "credit": "Soniya Goyal, CC BY-SA 2.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Red_Chilli_Chutney_Recipe_By_Sonia_Goyal.jpg",
+  "bytes": 25440
+ },
+ {
+  "dish": "Garlic pickle",
+  "file": "garlic-pickle.webp",
+  "credit": "Miansari66, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Garlic_Pickle_in_Oil.JPG",
+  "bytes": 112088
+ },
+ {
+  "dish": "Gongura pickle",
+  "file": "gongura-pickle.webp",
+  "credit": "JVRKPRASAD, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Gongura_Pickle_with_Garlic.jpg",
+  "bytes": 107290
+ },
+ {
+  "dish": "Avakaya",
+  "file": "avakaya.webp",
+  "credit": "Bhaskaranaidu, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Aavakaya.JPG",
+  "bytes": 77750
+ },
+ {
+  "dish": "Milagai podi",
+  "file": "milagai-podi.webp",
+  "credit": "Nithyasrm, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Picture_of_Idli_milagai_podi_for_idli_and_dosa.JPG",
+  "bytes": 69654
+ },
+ {
+  "dish": "Karuveppilai podi",
+  "file": "karuveppilai-podi.webp",
+  "credit": "Prakrutim, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Curry_Leaf_Powder_And_Idli.jpg",
+  "bytes": 37794
+ },
+ {
+  "dish": "Beetroot pachadi",
+  "file": "beetroot-pachadi.webp",
+  "credit": "Varghesepunnamada, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Beetroot_Pachadi.jpg",
+  "bytes": 75168
+ },
+ {
+  "dish": "Mango pachadi",
+  "file": "mango-pachadi.webp",
+  "credit": "Vidya pmysore, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Totapuri_mango_Gojju.jpg",
+  "bytes": 42422
+ },
+ {
+  "dish": "Onion pachadi",
+  "file": "onion-pachadi.webp",
+  "credit": "Bssasidhar, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Onion_raita(Close_up).jpg",
+  "bytes": 35692
+ },
+ {
+  "dish": "Nattu kozhi kuzhambu",
+  "file": "nattu-kozhi-kuzhambu.webp",
+  "credit": "Gaurav Dhwaj Khadka, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chicken_Curry_with_Rice.jpg",
+  "bytes": 50172
+ },
+ {
+  "dish": "Chicken stew",
+  "file": "chicken-stew.webp",
+  "credit": "E4024, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Chicken_stew_(Turkey).jpg",
+  "bytes": 57656
+ },
+ {
+  "dish": "Mutton kuzhambu",
+  "file": "mutton-kuzhambu.webp",
+  "credit": "Gaurav Dhwaj Khadka, CC BY-SA 3.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Mutton_Curry_(44786).jpg",
+  "bytes": 168446
+ },
+ {
+  "dish": "Egg masala",
+  "file": "egg-masala.webp",
+  "credit": "Pradeepraajkumar1981, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Egg_and_Veg_masala_meal.JPG",
+  "bytes": 29926
+ },
+ {
+  "dish": "Kerala egg roast",
+  "file": "kerala-egg-roast.webp",
+  "credit": "Dr. Chinchu C., CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Egg_roast_Kerala.jpg",
+  "bytes": 83894
+ },
+ {
+  "dish": "Nethili fry",
+  "file": "nethili-fry.webp",
+  "credit": "Nundhaa, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Anchovy_Fish_Fry.JPG",
+  "bytes": 75380
+ },
+ {
+  "dish": "Fish moilee",
+  "file": "fish-moilee.webp",
+  "credit": "Andy Li, CC0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:FISH_MOILEE_-_Mini_MADRAS_2026-05-03.jpg",
+  "bytes": 62270
+ },
+ {
+  "dish": "Crab masala",
+  "file": "crab-masala.webp",
+  "credit": "Moheen Reeyad, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Crab_Masala,_Inani_Beach_Cafe_(201551).jpg",
+  "bytes": 84718
+ }
+]

@@ -45,7 +45,7 @@ insert into public.profile_allergies (profile_id, allergen) values (:'paati', 's
 insert into public.invites (household_id, created_by) values (:'hh_a', public.my_profile_id()) returning token as tok \gset
 select tests.ok((select count(*) from public.profiles) = 4, 'Amma sees her 4 profiles');
 select tests.ok((select count(*) from public.cuisines) = 5, 'shared cuisines are visible');
-select tests.ok((select count(*) from public.dishes where household_id is null) >= 138, 'the shared catalogue has every seeded dish');
+select tests.ok((select count(*) from public.dishes where household_id is null) >= 298, 'the shared catalogue has every seeded dish');
 select tests.ok(not exists (select 1 from public.dishes where household_id is null group by name having count(*) > 1), 'no two shared dishes share a name');
 select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and (select count(distinct n.language) from public.dish_names n where n.dish_id = d.id and n.language in ('en', 'ta')) < 2), 'every shared dish has an English and a Tamil name');
 select tests.refused($$ select public.create_household('Second', 'Amma again') $$, 'one home per login');
@@ -167,7 +167,7 @@ select tests.ok(not exists (select 1 from public.recipes where household_id = :'
 select tests.refused($$ insert into public.recipes (dish_id, household_id, servings) select id, '$$ || :'hh_a' || $$', 2 from public.dishes where name = 'Dosa' and household_id is null $$, 'Ravi cannot add a recipe to home A');
 
 -- ── Nutrition ──
-select tests.ok((select count(*) from public.dish_nutrition) >= 138, 'every shared dish has a nutrition estimate, visible to everyone');
+select tests.ok((select count(*) from public.dish_nutrition) >= 298, 'every shared dish has a nutrition estimate, visible to everyone');
 select tests.ok((select count(*) from public.nutrition_targets) = 24, 'the daily reference targets are readable (4 age bands x 2 sexes x 3 activity levels)');
 select tests.refused($$ update public.nutrition_targets set kcal = 1 $$, 'nobody edits the reference targets');
 select tests.refused($$ update public.dish_nutrition set kcal = 1 $$, 'nobody edits the shared dishes'' estimates');
