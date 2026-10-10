@@ -62,7 +62,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0014 are all applied (0015 is written, not yet run)** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0015 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
   (`0016_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
@@ -86,7 +86,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   fries, katsu curry, vegetable soup, plus veg pulao, egg bhurji, masala chai, sweet lassi. Regenerate with `python scripts/build-dish-photos.py`
   (reads `scripts/dish-photo-picks.txt` for the 110 and 0007/0008 for the 28; writes the files, `scripts/dish-photos.json` and the migration).
   The PWA caches each photo the first time it is seen (not pre-cached). A household's own photo (private bucket) still wins.
-  **0015 (160 more South Indian dishes) is new and still needs running.** Tiffin, variety rice, kuzhambu/sambar/rasam, kootu, poriyal,
+  **0015 (160 more South Indian dishes) is applied (run 10 Oct 2026; not yet eyeballed live).** Tiffin, variety rice, kuzhambu/sambar/rasam, kootu, poriyal,
   chutney/thokku/pickle/podi/pachadi, snacks, sweets, drinks, Kerala/Karnataka/Andhra items and non-veg (46 breakfast, 78 lunch, 45 snacks,
   42 dinner; 48 mains, 112 sides), each with a Tamil name and a nutrition estimate; 111 have a bundled photo (the rest show the initial).
   No recipes for them yet (0011 only has 38). Data lives in `scripts/south_indian_data.py` (one line per dish); regenerate with
