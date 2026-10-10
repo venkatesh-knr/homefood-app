@@ -1,0 +1,112 @@
+# One line per dish added in migration 0009: dish name | Wikimedia Commons file title | 1 if it is a drawing
+# (the 28 dishes from 0005 keep the photos chosen in 0007/0008; build-dish-photos.py reads those migrations)
+Upma | Upma South India.JPG | 0
+Pesarattu | Pesarattu with ginger chutney.jpg | 0
+Uttapam | Uttapam dosa.jpg | 0
+Masala dosa | Masala dosa 01.jpg | 0
+Rava dosa | Rava Mysore Dosa.jpg | 0
+Appam | Paalappam.JPG | 0
+Puttu | Puttu with Kadala.JPG | 0
+Parotta | Parotta in Salem.jpg | 0
+Kothu parotta | Kothu Parotta (Chicken) as served in Tamil Nadu, India.jpg | 0
+Lemon rice | Lemon Rice in Kerala.jpg | 0
+Tamarind rice | Tamarind Rice (Puliyogare).jpg | 0
+Coconut rice | Coconut Rice - Easythaiger 2026-04-21.jpg | 0
+Tomato rice | Tomato Rice up-close (1862224148).jpg | 0
+Sambar rice | Rice-sambar-salad.jpg | 0
+Bisi bele bath | Bisi Bele Bath (Bisibelebath).JPG | 0
+Vegetable biryani | Vegetable Biryani IMG 001.jpg | 0
+Chicken biryani | A home made plate of mutton biryani served with chicken kassa cooked in the bengali style.jpg | 0
+Mutton biryani | Mutton biryani.JPG | 0
+Egg biryani | Egg Biryani lol.jpg | 0
+Chicken chettinad | ChickenChettinad.JPG | 0
+Chicken curry | Chicken Curry 9.jpg | 0
+Fish curry | Kerala spicy Fish Curry.jpg | 0
+Egg curry | Egg curry pic.jpg | 0
+Vatha kuzhambu | "Aesthetic Dal Kuzhambu-Sambar".jpg | 0
+Mor kuzhambu | Butter milk kuzhambu aka Moru curry.jpg | 0
+Coconut chutney | Butter Dosa served with coconut chutney and sambhar.jpg | 0
+Tomato chutney | Tomato Chutney 3.jpg | 0
+Mint chutney | Mint rice with mint chutney,poli and banana fritters.jpg | 0
+Onion chutney | Chutneykarnataka.jpg | 0
+Peanut chutney | Plain Dosa with Peanut Chutney.jpg | 0
+Idli podi | Idli podi.jpg | 0
+Veg kurma | Vegetable Kurma India.jpg | 0
+Beans poriyal | Beans poriyal.JPG | 0
+Cabbage poriyal | Cabbage and Carrot Poriyal.jpg | 0
+Carrot poriyal | Carrot, beans poriyal.jpg | 0
+Beetroot poriyal | Beetroot Poriyal from Tamilnadu.jpg | 0
+Potato roast | Roasted potatoes in bowl.jpg | 0
+Vendakkai fry | Bhindi fry.jpg | 0
+Raw banana fry | Fried Plantain, Moimoi and cabbage.jpg | 0
+Keerai masiyal | Spinach recipes or keerai kadayal.jpg | 0
+Cabbage kootu | Cabbage kootu.jpg | 0
+Pumpkin kootu | Pumpkin kootu.JPG | 0
+Avial | Avial kerala recipe.jpg | 0
+Cucumber pachadi | Cucumber pachadi- My home Bangalore -Karnataka -pic 08.jpg | 0
+Appalam | Stack of papadums.jpg | 0
+Mango pickle | Mango pickle2.jpg | 0
+Lemon pickle | Indian pickled lime - Massachusetts.jpg | 0
+Curd | Curd in steel bowl.jpg | 0
+Buttermilk | Buttermilk glass (cropped).jpg | 0
+Paruppu vadai | Parippu Vada aka Paruppu Vadai - Vada made with Lentil.jpg | 0
+Murukku | A Traditional Tamil Snack Murukku.jpg | 0
+Mirchi bajji | Stuffed mirchi bajji (16164286908).jpg | 0
+Sundal | Sundal cooked with onion and spices.jpg | 0
+Kozhukattai | Kozhukattai flower shaped.jpg | 0
+Semiya payasam | Semiya payasam, Alappuzha.jpg | 0
+Rava kesari | Karnataka Sweet Kesari Bath with Sev.png | 0
+Filter coffee | Indian filter coffee in Dabarah.jpg | 0
+Egg podimas | Meal with Rice, Roti and Scrambled Egg Curry.jpg | 0
+Omelette | Bread Omelette 6.jpg | 0
+Boiled egg | Boiled Egg - Crossection.jpg | 0
+Chicken 65 | Chicken 65 (Dish).jpg | 0
+Chicken fry | Fried Chicken North Indian Style.jpg | 0
+Fish fry | South-Indian Masala Fish Fry.jpg | 0
+Prawn masala | Prawn and okra curry.jpg | 0
+Mutton chukka | Mutton Fry.jpg | 0
+Dal tadka | Dal tadka and naan.jpg | 0
+Dal makhani | Dal Makhani along with Naan.jpg | 0
+Rajma masala | Rajma..JPG | 0
+Palak paneer | Palakpaneer Rayagada Odisha 0009.jpg | 0
+Kadai paneer | Kadai paneer with garlic naan.jpg | 0
+Matar paneer | Matar-Paneer.JPG | 0
+Aloo gobi | Aloo gobi.jpg | 0
+Baingan bharta | Baingan Ka Bharta.JPG | 0
+Bhindi masala | Bhindi Masala.jpg | 0
+Mixed vegetable curry | Mixed vegetable curry 2.jpg | 0
+Pav bhaji | Pav bhaji SWW.jpg | 0
+Poori bhaji | Poori - Bhaji Potato Bhaji (15727506678).jpg | 0
+Chole bhature | Chole Bhature 1.jpg | 0
+Poha | Poha with tomato sause.jpg | 0
+Besan chilla | Chilla besan.JPG | 0
+Methi thepla | Thepla 2.jpg | 0
+Dhokla | Dhokla Home Made,Duliajan,Assam.jpg | 0
+Khichdi | Spicy Khichdi.JPG | 0
+Vegetable pulao | Bowl-of-rice icon.svg | 1
+Kadhi pakora | Kadhi Pakora.jpg | 0
+Egg bhurji | Fried-egg.svg | 1
+Dhaba chicken curry | IndianChickenCurry.jpg | 0
+Tandoori chicken | Tandoori chicken Indian.jpg | 0
+Chicken tikka | Chicken tikka in Araku Valley, Andhra Pradesh 01.jpg | 0
+Mutton rogan josh | Rogan josh02.jpg | 0
+Mutton keema | Keema and Rice.jpg | 0
+Butter naan | Butter Naan 2.jpg | 0
+Tandoori roti | Tandoori Roti in clay oven.JPG | 0
+Phulka | Ruti (রুটি).jpg | 0
+Boondi raita | Boondi Raita.jpg | 0
+Cucumber raita | Cucumber-raita.jpg | 0
+Kachumber salad | Kachumber Salad.JPG | 0
+Jeera aloo | Jeera aloo served with sprouts and dal.jpg | 0
+Paneer tikka | Malai Paneer Tikka, PK 007.jpg | 0
+Mixed veg pakora | Pakora (6005558506).jpg | 0
+Kachori | Kachori MA23.jpg | 0
+Bhel puri | Bhel puri chat, photographed in West Bengal, India, September 24, 2024.jpg | 0
+Pani puri | Crispy Pani Puri.jpg | 0
+Vada pav | Crunchy Crispy Vada pav.jpg | 0
+Masala chai | Teacup clipart.svg | 1
+Sweet lassi | Emojione 1F95B.svg | 1
+Gulab jamun | Two Gulab Jamun in a plate 01.jpg | 0
+Kheer | Kheer.jpg | 0
+Gajar halwa | Delicious Gajar Ka Halwa.jpg | 0
+Jalebi | Jalebi PK013.jpg | 0

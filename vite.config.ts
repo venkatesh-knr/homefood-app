@@ -19,6 +19,16 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icons/apple-touch-icon.png'],
+      workbox: {
+        // Catalogue photos (public/dish-photos, ~7 MB in all) are not pre-cached; each one is kept the first time it is seen.
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.includes('/dish-photos/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'dish-photos', expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 90 } },
+          },
+        ],
+      },
       manifest: {
         name: 'HomeFood',
         short_name: 'HomeFood',

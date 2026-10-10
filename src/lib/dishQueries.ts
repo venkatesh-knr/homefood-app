@@ -59,22 +59,31 @@ export function useDishPhotoOverrides(householdId: string | undefined) {
   })
 }
 
-/** `dishes.photo_path` / `dish_photo_overrides.photo_path` hold either a private-bucket storage path
- * (any household upload, always signed) or a plain stock-photo URL (seed dishes' own catalogue photo,
- * shown as-is — see supabase/migrations/0007_dish_stock_photos.sql). */
+/** `dishes.photo_path` / `dish_photo_overrides.photo_path` hold one of three things:
+ * - `static/<file>`: a catalogue photo bundled with the app (public/dish-photos/, migration 0014), no network lookup;
+ * - a plain http(s) URL: older stock photos, shown as-is;
+ * - anything else: a private-bucket storage path (a household's own upload), always signed. */
+const STATIC_PREFIX = 'static/'
+
 function isExternalUrl(path: string): boolean {
   return path.startsWith('http://') || path.startsWith('https://')
 }
 
-/** The bucket is private, so every uploaded photo is shown through a short-lived signed link;
- * an external stock-photo URL is already public and used directly. */
+/** The public link for a bundled catalogue photo (works under any base path, e.g. GitHub Pages). */
+export function staticPhotoUrl(path: string): string | null {
+  if (!path.startsWith(STATIC_PREFIX)) return null
+  return `${import.meta.env.BASE_URL}dish-photos/${path.slice(STATIC_PREFIX.length)}`
+}
+
+/** Bundled and external photos are already public and used directly; the bucket is private, so every
+ * uploaded photo is shown through a short-lived signed link. */
 export function useSignedPhotoUrl(path: string | null | undefined) {
-  const external = Boolean(path && isExternalUrl(path))
+  const direct = path ? (staticPhotoUrl(path) ?? (isExternalUrl(path) ? path : null)) : null
   return useQuery({
     queryKey: ['dish-photo-url', path],
-    enabled: Boolean(supabase && path && !external),
+    enabled: Boolean(supabase && path && !direct),
     staleTime: 30 * 60 * 1000,
-    initialData: external ? (path as string) : undefined,
+    initialData: direct ?? undefined,
     queryFn: async (): Promise<string | null> => {
       const { data, error } = await supabase!.storage.from('dish-photos').createSignedUrl(path!, 3600)
       if (error) throw error
