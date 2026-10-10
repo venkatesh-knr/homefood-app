@@ -3,6 +3,7 @@
 // Everything here is an ESTIMATE for planning at home, not medical advice.
 
 import { ageBand, type AgeBand } from './people'
+import { attendanceFor, attendanceMap, portionFactor, type AttendanceRow } from './attendance'
 
 export type NutrientKey = 'kcal' | 'protein_g' | 'carbs_g' | 'fat_g' | 'fibre_g' | 'sugar_g' | 'sodium_mg'
 export type Totals = Record<NutrientKey, number>
@@ -19,6 +20,12 @@ export function emptyTotals(): Totals {
 export function addTotals(a: Totals, b: Totals): Totals {
   const out = emptyTotals()
   for (const k of NUTRIENTS) out[k] = a[k] + b[k]
+  return out
+}
+
+export function scaleTotals(t: Totals, factor: number): Totals {
+  const out = emptyTotals()
+  for (const k of NUTRIENTS) out[k] = t[k] * factor
   return out
 }
 
@@ -59,20 +66,25 @@ export function mealTotals(meal: MealLike, byDish: Map<string, Totals>): { total
 
 export type DayTotals = { date: string; totals: Totals; meals: number; unknownMeals: number }
 
-/** What each day's meals add up to for one person: only meals they are marked as eating, and only up to `today`. */
+/** What each day's meals add up to for one person: only meals they are marked as eating, and only up to `today`.
+ * `attendance` records the exceptions: a skipped or "ate elsewhere" meal is left out, a small / large portion counts 75% / 125%. */
 export function dayTotalsFor(
-  slots: (MealLike & { date: string; meal_slot_eaters: { profile_id: string }[] })[],
+  slots: (MealLike & { id?: string; date: string; meal_slot_eaters: { profile_id: string }[] })[],
   profileId: string,
   byDish: Map<string, Totals>,
   today: string,
+  attendance: AttendanceRow[] = [],
 ): DayTotals[] {
   const days = new Map<string, DayTotals>()
+  const eaten = attendanceMap(attendance)
   for (const s of slots) {
     if (s.date > today || !s.meal_slot_eaters.some((e) => e.profile_id === profileId)) continue
+    const factor = s.id ? portionFactor(attendanceFor(eaten, s.id, profileId)) : 1
+    if (factor === 0) continue
     const day = days.get(s.date) ?? { date: s.date, totals: emptyTotals(), meals: 0, unknownMeals: 0 }
     const m = mealTotals(s, byDish)
     day.meals += 1
-    if (m.known) day.totals = addTotals(day.totals, m.totals)
+    if (m.known) day.totals = addTotals(day.totals, scaleTotals(m.totals, factor))
     else day.unknownMeals += 1
     days.set(s.date, day)
   }

@@ -35,6 +35,23 @@ describe('dayTotalsFor', () => {
     )
     expect(days.map((d) => [d.date, d.meals, d.totals.kcal])).toEqual([['2026-10-01', 2, 325], ['2026-10-02', 1, 175]])
   })
+  it('leaves out skipped meals and scales small and large portions', () => {
+    const withId = (id: string, date: string, dish: string) => ({ id, ...slot(date, dish, ['me']) })
+    const slots = [withId('a', '2026-10-01', 'dosa'), withId('b', '2026-10-01', 'idli'), withId('c', '2026-10-02', 'idli'), withId('d', '2026-10-02', 'dosa')]
+    const days = dayTotalsFor(
+      slots,
+      'me',
+      byDish,
+      '2026-10-03',
+      [
+        { slot_id: 'a', profile_id: 'me', status: 'skipped', portion: 'normal' },
+        { slot_id: 'b', profile_id: 'me', status: 'ate', portion: 'small' },
+        { slot_id: 'c', profile_id: 'me', status: 'ate', portion: 'large' },
+        { slot_id: 'd', profile_id: 'other', status: 'skipped', portion: 'normal' },
+      ],
+    )
+    expect(days.map((d) => [d.date, d.meals, Math.round(d.totals.kcal)])).toEqual([['2026-10-01', 1, 131], ['2026-10-02', 2, 369]])
+  })
 })
 
 describe('targetFor', () => {

@@ -4,6 +4,7 @@ import { useHome } from '../lib/homeContext'
 import { useMembers } from '../lib/queries'
 import { useHistorySlots } from '../lib/plannerQueries'
 import { useAllNutrition, useNutritionTargets } from '../lib/nutritionQueries'
+import { useAttendance } from '../lib/attendanceQueries'
 import { dayTotalsFor, summarisePeriod, targetFor } from '../lib/nutrition'
 import { ageBand, avatarColor } from '../lib/people'
 import { toISODate } from '../lib/planner'
@@ -24,16 +25,17 @@ export default function FamilyNutritionPage() {
   const { data: slots, isLoading } = useHistorySlots(household.id, period.bounds.from, period.to)
   const { data: byDish } = useAllNutrition()
   const { data: targets } = useNutritionTargets()
+  const { data: attendance } = useAttendance(period.bounds.from, period.to)
 
   const people = useMemo(() => (members ?? []).filter((m) => m.kind === 'family'), [members])
   const rows = useMemo(
     () =>
       people.map((p, i) => {
-        const days = dayTotalsFor(slots ?? [], p.id, byDish ?? new Map(), period.today)
+        const days = dayTotalsFor(slots ?? [], p.id, byDish ?? new Map(), period.today, attendance ?? [])
         const resolved = targets && targets.length > 0 ? targetFor(p, targets) : null
         return { p, i, resolved, summary: resolved ? summarisePeriod(days, resolved.target) : null }
       }),
-    [people, slots, byDish, targets, period.today],
+    [people, slots, byDish, targets, period.today, attendance],
   )
 
   if (!allowed) {

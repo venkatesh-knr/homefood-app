@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useHome } from '../lib/homeContext'
 import { useHistorySlots } from '../lib/plannerQueries'
 import { useAllNutrition, useNutritionTargets } from '../lib/nutritionQueries'
+import { useAttendance } from '../lib/attendanceQueries'
 import { dayTotalsFor, summarisePeriod, targetFor } from '../lib/nutrition'
 import { Card } from '../components/ui'
 import { BackHeader } from '../components/BackHeader'
@@ -11,7 +12,11 @@ import { TargetBars } from '../components/TargetBars'
 
 export function NutritionDisclaimer() {
   const { t } = useTranslation()
-  return <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">{t('nutrition.disclaimer')}</p>
+  return (
+    <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">
+      {t('nutrition.disclaimer')} {t('attendance.nutritionNote')}
+    </p>
+  )
 }
 
 /** "My nutrition": what the meals you are marked as eating add up to, against a target for your age, sex and activity. */
@@ -23,8 +28,9 @@ export default function NutritionPage() {
   const { data: slots, isLoading } = useHistorySlots(household.id, period.bounds.from, period.to)
   const { data: byDish } = useAllNutrition()
   const { data: targets } = useNutritionTargets()
+  const { data: attendance } = useAttendance(period.bounds.from, period.to)
 
-  const days = useMemo(() => dayTotalsFor(slots ?? [], profile.id, byDish ?? new Map(), period.today), [slots, profile.id, byDish, period.today])
+  const days = useMemo(() => dayTotalsFor(slots ?? [], profile.id, byDish ?? new Map(), period.today, attendance ?? []), [slots, profile.id, byDish, period.today, attendance])
   const resolved = targets && targets.length > 0 ? targetFor(profile, targets) : null
   const summary = resolved ? summarisePeriod(days, resolved.target) : null
   const unknown = days.reduce((n, d) => n + d.unknownMeals, 0)

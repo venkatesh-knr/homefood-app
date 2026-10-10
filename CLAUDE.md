@@ -62,9 +62,9 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0018 are all applied** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0018 are applied (0019 is written, not yet run)** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0019_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0020_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -103,6 +103,11 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   arachuvitta sambar, olan, erissery, pulissery, paper roast, veg stew, coriander chutney) is applied and checked locally (Olan photo + recipe).** 124 of the 160 now
   have photos; the other 36 have no matching Commons photo and show the initial. 0015 must never be regenerated with new photos: the list it
   was written with is frozen in `scripts/south-indian-photos-0015.json`; later photos go through `scripts/gen-south-photos.py`.
+  **0019 (who actually ate what) is new and still needs running.** Table `meal_attendance` (slot, person, status ate/skipped/elsewhere, portion
+  small/normal/large): no row = ate a normal portion. A person writes their own row, the Admin anyone's; only meals up to today (Asia/Kolkata), only
+  family members (never the helper). The Today cards have a "Did you eat this?" control (`AttendanceControl`); My nutrition and Family
+  nutrition leave out skipped / elsewhere meals and count small / large as 75% / 125% (`lib/attendance.ts`, `dayTotalsFor`). Before the
+  migration runs the queries return nothing and every meal counts as normal. History still lists planned meals.
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
   update, no schema/RLS change, see Step 3 scope below for which ones and why only 6 so far.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.
@@ -112,7 +117,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 98 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 107 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -314,8 +319,9 @@ Save as image / Print / Share and the prev/next week-browsing arrows haven't spe
 
 Trims, flagged rather than silently done:
 - **Today has votes, comments and the notification bell** (in the app header, as `Today.png`); Today's 5-tab nav still isn't adopted.
-- **No "You ate this" consumption tracking** (`Today.png`) — `meal_slots.status` has room for it (`proposed`/`confirmed`/
-  `done`) but nothing sets it yet; needs its own small UI (a per-meal "mark as eaten" action), not just a label.
+- **"You ate this" is built as attendance (migration 0019)**, not as `meal_slots.status`: each person (or the Admin for them) records a normal /
+  small / large portion, skipped or ate elsewhere, from the Today cards. Parked: marking past days (only Today shows the control), a review
+  screen, and using attendance in History's counts.
 - **History screen exists, but is "planned up to today", not "actually eaten".** Home tab → "Meal history" (`HistoryPage`, `/history`,
   `lib/history.ts`): Week / Month / Year with prev/next (never into the future), counts (meals, home / dine-out / order-in, most
   cooked dishes, who cooked), a search box, and the meals grouped by day (tap one to open it). Nothing marks a meal "done"

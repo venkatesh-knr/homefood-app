@@ -11,6 +11,9 @@ import { useDiscussionCounts } from '../lib/discussionQueries'
 import { EMPTY_COUNTS, type SlotDiscussionCounts } from '../lib/discussion'
 import { useCanPlanDate } from '../lib/useCanPlan'
 import { useRecipeDishIds } from '../lib/recipeQueries'
+import { AttendanceControl } from '../components/AttendanceControl'
+import { useAttendance } from '../lib/attendanceQueries'
+import type { AttendanceRow } from '../lib/attendance'
 
 const now = new Date()
 const today = toISODate(now)
@@ -28,6 +31,8 @@ export default function TodayPage() {
   const { data: counts } = useDiscussionCounts(todaySlots.map((s) => s.id), profile.id)
   const canPlanToday = useCanPlanDate(today)
   const { data: recipeIds } = useRecipeDishIds()
+  const { data: attendanceData } = useAttendance(today, today)
+  const attendance = attendanceData ?? []
   const eatingCount = (slot: SlotWithDetails | undefined) => slot?.meal_slot_eaters.length || undefined
   const open = (meal: MealType, slot: SlotWithDetails | undefined) =>
     navigate(slot || !canPlanToday ? `/week/${today}/${meal}/discuss` : `/week/${today}/${meal}`)
@@ -48,7 +53,7 @@ export default function TodayPage() {
         <h1 className="font-display text-[22px] font-bold">{t(`today.greeting${capitalize(greetingPeriod(now))}`, { name: profile.display_name })}</h1>
       </div>
 
-      <NextUpCard meal={nextUp} slot={nextSlot} lang={lang} counts={nextSlot ? (counts?.get(nextSlot.id) ?? EMPTY_COUNTS) : undefined} onClick={() => open(nextUp, nextSlot)} onDiscuss={() => navigate(`/week/${today}/${nextUp}/discuss`)} onRecipe={nextSlot?.main_dish && recipeIds?.has(nextSlot.main_dish.id) ? () => navigate(`/dishes/${nextSlot.main_dish!.id}/recipe`, { state: { servings: eatingCount(nextSlot) } }) : undefined} />
+      <NextUpCard meal={nextUp} slot={nextSlot} lang={lang} attendance={attendance} counts={nextSlot ? (counts?.get(nextSlot.id) ?? EMPTY_COUNTS) : undefined} onClick={() => open(nextUp, nextSlot)} onDiscuss={() => navigate(`/week/${today}/${nextUp}/discuss`)} onRecipe={nextSlot?.main_dish && recipeIds?.has(nextSlot.main_dish.id) ? () => navigate(`/dishes/${nextSlot.main_dish!.id}/recipe`, { state: { servings: eatingCount(nextSlot) } }) : undefined} />
 
       {restOfDay.length > 0 && (
         <>
@@ -60,6 +65,7 @@ export default function TodayPage() {
                 meal={meal}
                 slot={todaySlots.find((s) => s.meal === meal)}
                 lang={lang}
+                attendance={attendance}
                 counts={(() => { const sl = todaySlots.find((x) => x.meal === meal); return sl ? (counts?.get(sl.id) ?? EMPTY_COUNTS) : undefined })()}
                 onClick={() => open(meal, todaySlots.find((s) => s.meal === meal))}
                 onDiscuss={() => navigate(`/week/${today}/${meal}/discuss`)}
@@ -99,7 +105,7 @@ function mealDishNames(slot: SlotWithDetails | undefined, lang: 'en' | 'ta') {
   return { name, sides, dish: slot.main_dish }
 }
 
-function NextUpCard({ meal, slot, lang, counts, onClick, onDiscuss, onRecipe }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void; onRecipe?: () => void }) {
+function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, onRecipe }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; attendance: AttendanceRow[]; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void; onRecipe?: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
   const dish = mealDishNames(slot, lang)
@@ -130,11 +136,12 @@ function NextUpCard({ meal, slot, lang, counts, onClick, onDiscuss, onRecipe }: 
       )}
       </button>
       {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="full" onDiscuss={onDiscuss} onRecipe={onRecipe} />}
+      {slot && <AttendanceControl slot={slot} rows={attendance} />}
     </div>
   )
 }
 
-function RestCard({ meal, slot, lang, counts, onClick, onDiscuss }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void }) {
+function RestCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; attendance: AttendanceRow[]; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
   const dish = mealDishNames(slot, lang)
@@ -163,6 +170,7 @@ function RestCard({ meal, slot, lang, counts, onClick, onDiscuss }: { meal: Meal
       </span>
     </button>
     {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="compact" onDiscuss={onDiscuss} />}
+    {slot && <AttendanceControl slot={slot} rows={attendance} />}
     </div>
   )
 }

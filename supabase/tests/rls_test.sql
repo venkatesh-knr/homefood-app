@@ -211,6 +211,26 @@ select tests.ok(not exists (select 1 from public.cuisines where name = 'Chettina
 select tests.refused($$ insert into public.cuisines (household_id, name) values ('$$ || :'hh_a' || $$', 'Intruder cuisine') $$, 'Ravi cannot add a cuisine to home A');
 select tests.refused($$ update public.profiles set role = 'member' where user_id = auth.uid() $$, 'the last Admin cannot step down');
 
+-- ── Meal attendance (who actually ate what) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.week_plans (household_id, week_start) values (:'hh_a', '2020-01-06') returning id as wk_old \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal) values (:'wk_old', :'hh_a', '2020-01-08', 'lunch') returning id as slot_old \gset
+insert into public.week_plans (household_id, week_start) values (:'hh_a', '2099-01-05') returning id as wk_new \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal) values (:'wk_new', :'hh_a', '2099-01-07', 'lunch') returning id as slot_new \gset
+insert into public.meal_attendance (slot_id, profile_id, status) values (:'slot_old', :'paati', 'skipped');
+select tests.ok((select count(*) from public.meal_attendance) = 1, 'Admin records that Paati skipped a past meal');
+select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id) values ('$$ || :'slot_old' || $$', '$$ || :'helper' || $$') $$, 'the helper is never counted as eating');
+select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id, status, portion) values ('$$ || :'slot_new' || $$', '$$ || :'paati' || $$', 'ate', 'large') $$, 'a meal that has not happened yet cannot be marked');
+select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id, status, portion) values ('$$ || :'slot_old' || $$', '$$ || :'appa' || $$', 'skipped', 'large') $$, 'a skipped meal has no portion');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+insert into public.meal_attendance (slot_id, profile_id, status, portion) values (:'slot_old', :'appa', 'ate', 'small');
+select tests.ok((select count(*) from public.meal_attendance) = 2, 'Appa records his own small portion and sees the home''s records');
+select tests.refused($$ update public.meal_attendance set status = 'ate' where profile_id = '$$ || :'paati' || $$' $$, 'a member cannot change somebody else''s record');
+select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id) values ('$$ || :'slot_new' || $$', '$$ || :'appa' || $$') $$, 'nobody can mark a future meal, not even for themself');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.meal_attendance) = 0, 'Ravi sees none of home A''s attendance');
+select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id) values ('$$ || :'slot_old' || $$', '$$ || :'ravi' || $$') $$, 'Ravi cannot record attendance on home A''s meals');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;
