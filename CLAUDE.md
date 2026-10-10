@@ -62,9 +62,9 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0016 are all applied (0017 is written, not yet run)** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0016 are all applied (0017 and 0018 are written, not yet run)** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0018_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0019_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -88,7 +88,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   The PWA caches each photo the first time it is seen (not pre-cached). A household's own photo (private bucket) still wins.
   **0015 (160 more South Indian dishes) is applied (run 10 Oct 2026; not yet eyeballed live).** Tiffin, variety rice, kuzhambu/sambar/rasam, kootu, poriyal,
   chutney/thokku/pickle/podi/pachadi, snacks, sweets, drinks, Kerala/Karnataka/Andhra items and non-veg (46 breakfast, 78 lunch, 45 snacks,
-  42 dinner; 48 mains, 112 sides), each with a Tamil name and a nutrition estimate; 111 have a bundled photo (the rest show the initial).
+  42 dinner; 48 mains, 112 sides), each with a Tamil name and a nutrition estimate; 111 had a bundled photo when 0015 ran (13 more come in 0018).
   No recipes for them yet (0011 only has 38). Data lives in `scripts/south_indian_data.py` (one line per dish); regenerate with
   `python scripts/gen-south-indian.py` (validates names are new and calories match the macros). Photos: pick Commons titles in
   `scripts/south-indian-photo-picks.txt`, run `python scripts/build-south-indian-photos.py`, then regenerate. 0014 and 0015 are loaded by
@@ -99,6 +99,10 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   valid and nothing is missing. With 0011 that makes 198 dishes with a recipe.
   **0017 (recipes for the remaining 100 dishes of 0005/0009) is new and still needs running.** After it, all 298 shared dishes have a recipe.
   Source text `scripts/recipes_more_a.txt` / `b.txt`, same format; regenerate with `python scripts/gen-more-recipes.py`.
+  **0018 (13 more South Indian photos: beans usili, murungai keerai poriyal, senai fry, cluster beans poriyal, puli kuzhambu, poondu rasam,
+  arachuvitta sambar, olan, erissery, pulissery, paper roast, veg stew, coriander chutney) is new and still needs running.** 124 of the 160 now
+  have photos; the other 36 have no matching Commons photo and show the initial. 0015 must never be regenerated with new photos: the list it
+  was written with is frozen in `scripts/south-indian-photos-0015.json`; later photos go through `scripts/gen-south-photos.py`.
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
   update, no schema/RLS change, see Step 3 scope below for which ones and why only 6 so far.
 - "Automatically expose new tables" is OFF: every new table needs explicit `grant … to authenticated` plus RLS policies.

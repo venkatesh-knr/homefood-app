@@ -1,7 +1,7 @@
 """Writes supabase/migrations/0015_more_south_indian_dishes.sql from scripts/south_indian_data.py.
 Run from the repo root:  python scripts/gen-south-indian.py
 Adds the dishes (English + Tamil names), their nutrition estimates and, for the ones that have one, a bundled photo
-(scripts/south-indian-photos.json, built by scripts/build-south-indian-photos.py).
+(scripts/south-indian-photos-0015.json: the photo list as it was when 0015 was written; later photos go in their own migration, see gen-south-photos.py).
 """
 import json
 import pathlib
@@ -34,7 +34,7 @@ for r in R:
     assert abs(calc - r['kcal']) <= max(60, 0.25 * r['kcal']), (r['name'], r['kcal'], round(calc))
 
 
-PH = json.loads((root / 'scripts/south-indian-photos.json').read_text(encoding='utf-8'))
+PH = json.loads((root / 'scripts/south-indian-photos-0015.json').read_text(encoding='utf-8'))
 assert all(m['dish'] in names for m in PH), [m['dish'] for m in PH if m['dish'] not in names]
 
 

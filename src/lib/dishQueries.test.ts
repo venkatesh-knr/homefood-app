@@ -34,17 +34,20 @@ describe('bundled dish photos', () => {
   })
 })
 
-describe('South Indian dishes added in migration 0015', () => {
+describe('South Indian dish photos (migrations 0015 and 0018)', () => {
   const photos: { dish: string; file: string; credit: string }[] = JSON.parse(readFileSync('scripts/south-indian-photos.json', 'utf-8'))
-  const sql = readFileSync('supabase/migrations/0015_more_south_indian_dishes.sql', 'utf-8')
-  it('ships a file and credit for every photo the migration points at', () => {
-    expect(photos.length).toBeGreaterThan(50)
+  const in0015: { dish: string }[] = JSON.parse(readFileSync('scripts/south-indian-photos-0015.json', 'utf-8'))
+  const sql0015 = readFileSync('supabase/migrations/0015_more_south_indian_dishes.sql', 'utf-8')
+  const sql0018 = readFileSync('supabase/migrations/0018_south_indian_photos_more.sql', 'utf-8')
+  it('ships a file and credit for every photo, and some migration points at it', () => {
+    expect(photos.length).toBeGreaterThan(100)
+    const first = new Set(in0015.map((m) => m.dish))
     for (const m of photos) {
       const path = `public/dish-photos/${m.file}`
       expect(existsSync(path), path).toBe(true)
       expect(statSync(path).size, path).toBeLessThan(400 * 1024)
       expect(m.credit.length).toBeGreaterThan(5)
-      expect(sql).toContain(`'static/${m.file}'`)
+      expect(first.has(m.dish) ? sql0015 : sql0018).toContain(`'static/${m.file}'`)
     }
   })
 })

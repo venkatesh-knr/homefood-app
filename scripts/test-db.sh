@@ -25,4 +25,5 @@ psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0014_dish_photos_stat
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0015_more_south_indian_dishes.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0016_south_indian_recipes.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0017_more_recipes.sql
+psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0018_south_indian_photos_more.sql
 psql -v ON_ERROR_STOP=1 -o /dev/null -d "$DB" -f supabase/tests/rls_test.sql 2>&1 | sed -E "s/^psql:[^ ]+ NOTICE:  //"
