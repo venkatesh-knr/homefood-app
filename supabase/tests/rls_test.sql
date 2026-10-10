@@ -150,7 +150,7 @@ select tests.refused($$ insert into public.meal_slot_comments (slot_id, profile_
 select tests.refused($$ insert into public.meal_slot_votes (slot_id, profile_id, vote) values ('$$ || :'slot1' || $$', '$$ || :'ravi' || $$', 'agree') $$, 'Ravi cannot vote on home A''s meal');
 
 -- ── Recipes ──
-select tests.ok((select count(*) from public.recipes where household_id is null) >= 198, 'the standard recipes are visible to everyone');
+select tests.ok((select count(*) from public.recipes where household_id is null) >= 298, 'the standard recipes are visible to everyone');
 select tests.ok(not exists (select 1 from public.recipes r where r.household_id is null and (not exists (select 1 from public.recipe_ingredients i where i.recipe_id = r.id) or not exists (select 1 from public.recipe_steps st where st.recipe_id = r.id))), 'every standard recipe has ingredients and steps');
 select tests.refused($$ update public.recipes set servings = 99 where household_id is null $$, 'nobody can change a standard recipe');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
