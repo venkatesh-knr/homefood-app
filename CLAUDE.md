@@ -9,8 +9,7 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
 - **Mockups: `design/mockups/`** — 16 screens as PNGs (visual reference) plus their `.dc.html` source; index in `design/mockups/README.md`.
   Follow their layout, spacing, colours and copy. Step 2 screens: `SetupHome.png`, `Invite.png`, `Join.png`. Step 3 screens:
   `DishPicker.png`, `DishDetail.png` (the Dishes tab is the picker without its meal-slot context — no "Wednesday dinner" header
-  or "Use X" button, tapping a dish opens Dish Detail instead); `Recipe.png` is built (migration 0011); the nutrition panel on `DishDetail.png` is
-  **not built** yet (see Step 3 scope below). Step 4 screens: `Planner.png`, `SlotEditor.png`,
+  or "Use X" button, tapping a dish opens Dish Detail instead); `Recipe.png` is built (migration 0011); the nutrition panel on `DishDetail.png` is built too (migration 0012, see Step 3 scope below). Step 4 screens: `Planner.png`, `SlotEditor.png`,
   `Rota.png`, `Discussion.png` (built — see Step 4 scope below). Step 5
   screens: `Today.png` (votes/comments built; the notification bell is built too), `Phone.png` +
   `Main.png` (Week at a glance, mobile and tablet/laptop — one responsive page, not two), `Share.png` (what "Save as
@@ -249,7 +248,7 @@ Trims, flagged rather than silently done — ask before expanding any of these:
   main dish and clears the old votes) / "Keep Y" (marks it kept) / withdraw, everyone else sees "The Planner decides". Week cards
   show agree / disagree / comment counts (tap → thread; a non-planner's tap on a card goes to the thread), Today cards have inline Agree/Disagree and a
   comments link. Parked: suggestions are catalogue dishes only (the table also allows free text, no UI yet); comments can't be
-  edited; changing a dish in the slot editor doesn't clear votes; no notifications yet (the bell is the last item to build).
+  edited; changing a dish in the slot editor doesn't clear votes; the notification bell is built (see below).
 - **No "fried dishes this week" balance banner** (`Planner.png`) — needs a per-household limit that hasn't been decided
   (configurable? fixed?).
 - **Notifications: an in-app bell, no phone push (migration 0013).** The bell in the header shows a red dot while anything is unread
