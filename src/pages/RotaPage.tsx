@@ -10,8 +10,6 @@ import { addDays, toISODate, weekDates, weekStartOf, weekdayLetter, type TurnSco
 import { avatarColor } from '../lib/people'
 import { Button } from '../components/ui'
 
-const THIS_WEEK_START = toISODate(weekStartOf(new Date()))
-const UPCOMING_WEEKS = Array.from({ length: 6 }, (_, i) => addDays(THIS_WEEK_START, i * 7))
 
 export default function RotaPage() {
   const { t, i18n } = useTranslation()
@@ -19,6 +17,8 @@ export default function RotaPage() {
   const navigate = useNavigate()
   const { profile, household } = useHome()
   const isAdmin = profile.role === 'admin'
+  const THIS_WEEK_START = toISODate(weekStartOf(new Date(), household.week_start))
+  const UPCOMING_WEEKS = Array.from({ length: 6 }, (_, i) => addDays(THIS_WEEK_START, i * 7))
 
   const { data: members } = useMembers(household.id)
   const { data: turns } = usePlannerTurns(household.id)

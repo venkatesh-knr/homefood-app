@@ -6,6 +6,10 @@ describe('rangeBounds', () => {
     expect(rangeBounds('week', '2026-09-30')).toEqual({ from: '2026-09-28', to: '2026-10-04' }) // Wed
     expect(rangeBounds('week', '2026-10-04')).toEqual({ from: '2026-09-28', to: '2026-10-04' }) // Sun
   })
+  it('week runs Sunday to Saturday for homes that start their week on Sunday', () => {
+    expect(rangeBounds('week', '2026-09-30', 7)).toEqual({ from: '2026-09-27', to: '2026-10-03' }) // Wed
+    expect(rangeBounds('week', '2026-10-04', 7)).toEqual({ from: '2026-10-04', to: '2026-10-10' }) // Sun starts a new week
+  })
   it('month covers the whole calendar month, leap years included', () => {
     expect(rangeBounds('month', '2026-09-15')).toEqual({ from: '2026-09-01', to: '2026-09-30' })
     expect(rangeBounds('month', '2028-02-10')).toEqual({ from: '2028-02-01', to: '2028-02-29' })

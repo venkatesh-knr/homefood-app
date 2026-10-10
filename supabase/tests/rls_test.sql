@@ -246,6 +246,20 @@ select tests.ok((select count(*) from public.dish_favourites) = 0, 'Ravi sees no
 select tests.refused($$ insert into public.dish_favourites (household_id, dish_id) select '$$ || :'hh_a' || $$', id from public.dishes where name = 'Upma' and household_id is null $$, 'Ravi cannot add favourites to home A');
 select tests.refused($$ insert into public.dish_favourites (household_id, dish_id) select '$$ || :'hh_c' || $$', id from public.dishes where name = 'Pongal' $$, 'a home cannot favourite another home''s own dish');
 
+-- ── Week start choice (Monday or Sunday) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.households set week_start = 7 where id = :'hh_a';
+select tests.ok((select week_start from public.households where id = :'hh_a') = 7, 'the Admin can switch the home to Sunday-start weeks');
+insert into public.week_plans (household_id, week_start) values (:'hh_a', '2020-01-05') returning id as wk_sun \gset
+select tests.refused($$ insert into public.week_plans (household_id, week_start) values ('$$ || :'hh_a' || $$', '2020-01-13') $$, 'with Sunday weeks a plan that starts on a Monday is refused');
+select tests.refused($$ insert into public.meal_slots (week_plan_id, household_id, date, meal) values ('$$ || :'wk_sun' || $$', '$$ || :'hh_a' || $$', '2020-01-08', 'lunch') $$, 'the same date and meal cannot be planned twice, even in another week plan');
+select tests.refused($$ update public.households set week_start = 3 where id = '$$ || :'hh_a' || $$' $$, 'a week can only start on Monday or Sunday');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ update public.households set week_start = 1 where id = '$$ || :'hh_a' || $$' $$, 'a member cannot change the home''s week start');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.households set week_start = 1 where id = :'hh_a';
+select tests.ok((select week_start from public.households where id = :'hh_a') = 1, 'the Admin can switch back to Monday');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

@@ -27,9 +27,9 @@ export default function WeekGlancePage() {
   const navigate = useNavigate()
   const { household } = useHome()
 
-  const [weekStart, setWeekStart] = useState(toISODate(weekStartOf(new Date())))
+  const [weekStart, setWeekStart] = useState(toISODate(weekStartOf(new Date(), household.week_start)))
   const { data: weekPlan } = useWeekPlan(household.id, weekStart)
-  const { data: slots } = useWeekSlots(weekPlan?.id)
+  const { data: slots } = useWeekSlots(household.id, weekStart)
 
   const mealTypes = activeMealTypes(household.snacks_enabled)
   const dates = weekDates(weekStart)

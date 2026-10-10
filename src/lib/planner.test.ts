@@ -20,6 +20,9 @@ describe('weekStartOf', () => {
     expect(toISODate(weekStartOf(new Date(2026, 8, 30)))).toBe('2026-09-28') // Wed -> Mon
     expect(toISODate(weekStartOf(new Date(2026, 8, 28)))).toBe('2026-09-28') // Mon -> itself
     expect(toISODate(weekStartOf(new Date(2026, 9, 4)))).toBe('2026-09-28') // Sun -> previous Mon
+    expect(toISODate(weekStartOf(new Date(2026, 8, 30), 7))).toBe('2026-09-27') // Wed -> previous Sun
+    expect(toISODate(weekStartOf(new Date(2026, 9, 4), 7))).toBe('2026-10-04') // Sun -> itself
+    expect(toISODate(weekStartOf(new Date(2026, 9, 3), 7))).toBe('2026-09-27') // Sat -> previous Sun
   })
 })
 

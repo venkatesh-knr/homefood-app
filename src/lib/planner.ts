@@ -46,12 +46,14 @@ export type PlannerTurn = {
   created_at: string
 }
 
-/** The Monday on/before `date` — households always plan Monday-start weeks. */
-export function weekStartOf(date: Date): Date {
+/** A home's first day of the week, as stored in households.week_start: 1 = Monday (the default), 7 = Sunday. */
+export type WeekStartDay = 1 | 7
+
+/** The first day of the week (Monday, or Sunday when `startsOn` is 7) on or before `date`. */
+export function weekStartOf(date: Date, startsOn: number = 1): Date {
   const d = new Date(date)
-  const day = d.getDay() // 0 = Sunday
-  const diff = day === 0 ? -6 : 1 - day
-  d.setDate(d.getDate() + diff)
+  const first = startsOn === 7 ? 0 : 1 // JS getDay(): 0 = Sunday
+  d.setDate(d.getDate() - ((d.getDay() - first + 7) % 7))
   d.setHours(0, 0, 0, 0)
   return d
 }

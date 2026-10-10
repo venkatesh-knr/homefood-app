@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
-import { useWeekPlan, useWeekSlots, type SlotDish } from '../lib/plannerQueries'
+import { useWeekSlots, type SlotDish } from '../lib/plannerQueries'
 import { useSlotComments, useSlotSuggestions, useSlotVotes } from '../lib/discussionQueries'
 import { acceptSuggestion, addComment, addSuggestion, deleteComment, keepDish, setVote, withdrawSuggestion } from '../lib/discussionMutations'
 import { agreeShare, formatCommentTime, myVoteOf, nextVote, tallyVotes, type Vote } from '../lib/discussion'
@@ -36,9 +36,8 @@ export default function DiscussionPage() {
   const photoFor = useDishPhotoPath()
   const { data: recipeIds } = useRecipeDishIds()
 
-  const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`)))
-  const { data: weekPlan, isLoading: planLoading } = useWeekPlan(household.id, weekStart)
-  const { data: slots, isLoading: slotsLoading } = useWeekSlots(weekPlan?.id)
+  const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`), household.week_start))
+  const { data: slots, isLoading: slotsLoading } = useWeekSlots(household.id, weekStart)
   const { data: members } = useMembers(household.id)
   const memberIds = useMemo(() => (members ?? []).map((m) => m.id), [members])
   const { data: allergyRows } = useAllergies(memberIds)
@@ -55,7 +54,7 @@ export default function DiscussionPage() {
 
   const memberById = useMemo(() => new Map((members ?? []).map((m, i) => [m.id, { name: m.display_name, color: avatarColor(i, m.kind) }])), [members])
 
-  if (!date || !meal || planLoading || (weekPlan && slotsLoading)) {
+  if (!date || !meal || slotsLoading) {
     return (
       <FullPageMessage>
         <p className="text-muted">{t('common.loading')}</p>

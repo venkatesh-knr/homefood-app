@@ -10,11 +10,11 @@ function parse(iso: string): Date {
   return new Date(y!, m! - 1, d!)
 }
 
-/** First and last ISO date of the week (Mon–Sun), month or year containing `anchor`. */
-export function rangeBounds(kind: HistoryRangeKind, anchor: string): { from: string; to: string } {
+/** First and last ISO date of the week (starting Monday, or Sunday when `weekStartsOn` is 7), month or year containing `anchor`. */
+export function rangeBounds(kind: HistoryRangeKind, anchor: string, weekStartsOn: number = 1): { from: string; to: string } {
   const a = parse(anchor)
   if (kind === 'week') {
-    const from = toISODate(weekStartOf(a))
+    const from = toISODate(weekStartOf(a, weekStartsOn))
     return { from, to: addDays(from, 6) }
   }
   if (kind === 'month') {

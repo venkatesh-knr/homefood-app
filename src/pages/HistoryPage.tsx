@@ -31,11 +31,11 @@ export default function HistoryPage() {
   const [anchor, setAnchor] = useState(today)
   const [query, setQuery] = useState('')
 
-  const bounds = rangeBounds(kind, anchor)
+  const bounds = rangeBounds(kind, anchor, household.week_start)
   // Only meals up to today are history; a still-open current period just ends today.
   const to = bounds.to < today ? bounds.to : today
   const { data, isLoading } = useHistorySlots(household.id, bounds.from, to)
-  const canGoNext = rangeBounds(kind, shiftAnchor(kind, anchor, 1)).from <= today
+  const canGoNext = rangeBounds(kind, shiftAnchor(kind, anchor, 1), household.week_start).from <= today
 
   const locale = lang === 'ta' ? 'ta-IN' : 'en-IN'
   const dayFmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' })

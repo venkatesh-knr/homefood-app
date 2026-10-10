@@ -12,10 +12,10 @@ export function HomeSettingsCard({ household }: { household: Household }) {
   const { t } = useTranslation()
   const [editingName, setEditingName] = useState(false)
   const [name, setName] = useState(household.name)
-  const [busy, setBusy] = useState<'name' | 'language' | 'snacks' | null>(null)
+  const [busy, setBusy] = useState<'name' | 'language' | 'snacks' | 'weekStart' | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  async function save(patch: Partial<Pick<Household, 'name' | 'default_language' | 'snacks_enabled'>>, key: 'name' | 'language' | 'snacks') {
+  async function save(patch: Partial<Pick<Household, 'name' | 'default_language' | 'snacks_enabled' | 'week_start'>>, key: 'name' | 'language' | 'snacks' | 'weekStart') {
     setBusy(key)
     setError(null)
     try {
@@ -83,6 +83,27 @@ export function HomeSettingsCard({ household }: { household: Household }) {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="flex flex-col gap-1.5 border-b border-line px-3.5 py-3.5 text-[14.5px]">
+          <div className="flex items-center justify-between gap-3">
+            <span>{t('onboarding.step1.weekStartsOn')}</span>
+            <div role="group" aria-label={t('onboarding.step1.weekStartsOn')} className="inline-flex gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
+              {([1, 7] as const).map((day) => (
+                <button
+                  key={day}
+                  type="button"
+                  aria-pressed={household.week_start === day}
+                  disabled={busy === 'weekStart'}
+                  onClick={() => household.week_start !== day && save({ week_start: day }, 'weekStart')}
+                  className={`min-h-[36px] rounded-lg px-3 ${household.week_start === day ? 'bg-white font-semibold shadow-sm' : 'text-ink-soft'}`}
+                >
+                  {t(day === 1 ? 'onboarding.step1.monday' : 'onboarding.step1.sunday')}
+                </button>
+              ))}
+            </div>
+          </div>
+          <span className="text-[12.5px] text-muted">{t('home.weekStartHint')}</span>
         </div>
 
         <div className="flex items-center justify-between px-3.5 py-3.5 text-[14.5px]">

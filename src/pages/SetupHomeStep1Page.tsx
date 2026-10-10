@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { createHousehold, saveDraftPeople } from '../lib/mutations'
+import { createHousehold, saveDraftPeople, updateHousehold } from '../lib/mutations'
 import { describeError } from '../lib/errors'
 import { avatarColor, newPersonDraft, personDetailText, type PersonDraft } from '../lib/people'
 import { isValidDisplayName, isValidHomeName } from '../lib/validation'
@@ -21,6 +21,7 @@ export default function SetupHomeStep1Page() {
   const [homeName, setHomeName] = useState('')
   const [yourName, setYourName] = useState('')
   const [snacks, setSnacks] = useState(true)
+  const [weekStart, setWeekStart] = useState<1 | 7>(1)
   const [drafts, setDrafts] = useState<PersonDraft[]>([])
   const [editing, setEditing] = useState<'new' | string | null>(null)
   const [removing, setRemoving] = useState<string | null>(null)
@@ -60,6 +61,7 @@ export default function SetupHomeStep1Page() {
         language: i18n.language as 'en' | 'ta',
         snacksEnabled: snacks,
       })
+      if (weekStart === 7) await updateHousehold(householdId, { week_start: 7 })
       if (drafts.length > 0) await saveDraftPeople(householdId, drafts)
       navigate('/setup/invite', { replace: true })
     } catch (err) {
@@ -111,7 +113,19 @@ export default function SetupHomeStep1Page() {
         </div>
         <div className="flex items-center justify-between px-3.5 py-3.5 text-[14.5px]">
           <span>{t('onboarding.step1.weekStartsOn')}</span>
-          <span className="font-semibold">{t('onboarding.step1.monday')}</span>
+          <div role="group" aria-label={t('onboarding.step1.weekStartsOn')} className="inline-flex gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
+            {([1, 7] as const).map((day) => (
+              <button
+                key={day}
+                type="button"
+                aria-pressed={weekStart === day}
+                onClick={() => setWeekStart(day)}
+                className={`min-h-[36px] rounded-lg px-3 ${weekStart === day ? 'bg-white font-semibold shadow-sm' : 'text-ink-soft'}`}
+              >
+                {t(day === 1 ? 'onboarding.step1.monday' : 'onboarding.step1.sunday')}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="flex items-center justify-between border-t border-line px-3.5 py-3.5 text-[14.5px]">
           <label htmlFor="snacks">{t('onboarding.step1.snacks')}</label>

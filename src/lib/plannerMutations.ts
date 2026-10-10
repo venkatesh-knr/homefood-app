@@ -7,8 +7,8 @@ function client() {
   return supabase
 }
 
-async function invalidateWeek(weekPlanId: string, householdId: string) {
-  await queryClient.invalidateQueries({ queryKey: ['week-slots', weekPlanId] })
+async function invalidateWeek(_weekPlanId: string, householdId: string) {
+  await queryClient.invalidateQueries({ queryKey: ['week-slots', householdId] })
   await queryClient.invalidateQueries({ queryKey: ['week-plan', householdId] })
   await queryClient.invalidateQueries({ queryKey: ['history-slots', householdId] })
 }
@@ -52,23 +52,22 @@ export async function saveSlot(
   meal: MealType,
   input: SlotInput,
 ): Promise<string> {
-  const { data: slot, error } = await client()
-    .from('meal_slots')
-    .upsert(
-      {
-        week_plan_id: weekPlanId,
-        household_id: householdId,
-        date,
-        meal,
-        source: input.source,
-        place_name: input.source === 'home' ? null : input.place_name.trim() || null,
-        main_dish_id: input.source === 'home' ? input.main_dish_id : null,
-        note: input.note.trim() || null,
-      },
-      { onConflict: 'week_plan_id,date,meal' },
-    )
-    .select('id')
-    .single()
+  const fields = {
+    source: input.source,
+    place_name: input.source === 'home' ? null : input.place_name.trim() || null,
+    main_dish_id: input.source === 'home' ? input.main_dish_id : null,
+    note: input.note.trim() || null,
+  }
+  // A meal planned before the home changed its first day of the week lives in an older week plan: edit it where it is.
+  const { data: found, error: findError } = await client().from('meal_slots').select('id').eq('household_id', householdId).eq('date', date).eq('meal', meal).maybeSingle()
+  if (findError) throw findError
+  const { data: slot, error } = found
+    ? await client().from('meal_slots').update(fields).eq('id', found.id).select('id').single()
+    : await client()
+        .from('meal_slots')
+        .insert({ week_plan_id: weekPlanId, household_id: householdId, date, meal, ...fields })
+        .select('id')
+        .single()
   if (error) throw error
   const slotId = slot.id as string
 

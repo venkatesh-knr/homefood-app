@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { supabase } from './supabase'
 import type { MealSlot, PlannerTurn, WeekPlan } from './planner'
 import type { DishNameRow, DietType } from './dishes'
+import { addDays } from './planner'
 
 export function useWeekPlan(householdId: string | undefined, weekStart: string | undefined) {
   return useQuery({
@@ -34,13 +35,19 @@ const SLOT_SELECT = `*,
   meal_slot_cooks(profile_id),
   meal_slot_eaters(profile_id)`
 
-/** Every meal slot for a whole week — the planner list view and slot editor both read from this one cached query. */
-export function useWeekSlots(weekPlanId: string | undefined) {
+/** Every meal slot for the 7 days starting `weekStart` — the planner list view and slot editor both read from this one cached query.
+ * It goes by date, not by week plan, so a home that changes its first day of the week still sees every meal it already planned. */
+export function useWeekSlots(householdId: string | undefined, weekStart: string | undefined) {
   return useQuery({
-    queryKey: ['week-slots', weekPlanId],
-    enabled: Boolean(supabase && weekPlanId),
+    queryKey: ['week-slots', householdId, weekStart],
+    enabled: Boolean(supabase && householdId && weekStart),
     queryFn: async (): Promise<SlotWithDetails[]> => {
-      const { data, error } = await supabase!.from('meal_slots').select(SLOT_SELECT).eq('week_plan_id', weekPlanId)
+      const { data, error } = await supabase!
+        .from('meal_slots')
+        .select(SLOT_SELECT)
+        .eq('household_id', householdId)
+        .gte('date', weekStart)
+        .lte('date', addDays(weekStart!, 6))
       if (error) throw error
       return data as unknown as SlotWithDetails[]
     },

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { rangeBounds, shiftAnchor, type HistoryRangeKind } from '../lib/history'
 import { toISODate } from '../lib/planner'
+import { useHome } from '../lib/homeContext'
 
 const today = toISODate(new Date())
 const KINDS: HistoryRangeKind[] = ['week', 'month']
@@ -9,11 +10,13 @@ const KINDS: HistoryRangeKind[] = ['week', 'month']
 /** Week / month with prev-next, never reaching past today — shared by the nutrition screens. */
 export function usePeriod(initial: HistoryRangeKind = 'week') {
   const { i18n } = useTranslation()
+  const { household } = useHome()
+  const weekStartsOn = household.week_start
   const [kind, setKind] = useState<HistoryRangeKind>(initial)
   const [anchor, setAnchor] = useState(today)
-  const bounds = rangeBounds(kind, anchor)
+  const bounds = rangeBounds(kind, anchor, weekStartsOn)
   const to = bounds.to < today ? bounds.to : today
-  const canGoNext = rangeBounds(kind, shiftAnchor(kind, anchor, 1)).from <= today
+  const canGoNext = rangeBounds(kind, shiftAnchor(kind, anchor, 1), weekStartsOn).from <= today
   const locale = i18n.language === 'ta' ? 'ta-IN' : 'en-IN'
   const parse = (iso: string) => new Date(`${iso}T00:00:00`)
   const dayFmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' })

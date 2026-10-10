@@ -26,7 +26,6 @@ import { useDiscussionCounts } from '../lib/discussionQueries'
 import { EMPTY_COUNTS, type SlotDiscussionCounts } from '../lib/discussion'
 
 const today = toISODate(new Date())
-const defaultWeekStart = toISODate(weekStartOf(new Date()))
 
 export default function WeekPage() {
   const { t, i18n } = useTranslation()
@@ -35,11 +34,11 @@ export default function WeekPage() {
   const { profile, household } = useHome()
   const isAdmin = profile.role === 'admin'
 
-  const [weekStart, setWeekStart] = useState(defaultWeekStart)
+  const [weekStart, setWeekStart] = useState(() => toISODate(weekStartOf(new Date(), household.week_start)))
   const [selectedDate, setSelectedDate] = useState(today >= weekStart && today <= addDays(weekStart, 6) ? today : weekStart)
 
   const { data: weekPlan } = useWeekPlan(household.id, weekStart)
-  const { data: slots } = useWeekSlots(weekPlan?.id)
+  const { data: slots } = useWeekSlots(household.id, weekStart)
   const { data: turns } = usePlannerTurns(household.id)
   const { data: members } = useMembers(household.id)
   const memberIds = useMemo(() => (members ?? []).map((m) => m.id), [members])

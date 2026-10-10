@@ -124,7 +124,7 @@ export async function removePerson(profileId: string, householdId: string): Prom
 
 export async function updateHousehold(
   householdId: string,
-  patch: Partial<Pick<Household, 'name' | 'default_language' | 'snacks_enabled'>>,
+  patch: Partial<Pick<Household, 'name' | 'default_language' | 'snacks_enabled' | 'week_start'>>,
 ): Promise<void> {
   const { error } = await client().from('households').update(patch).eq('id', householdId)
   if (error) throw error

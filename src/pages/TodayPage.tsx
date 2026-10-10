@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
-import { useWeekPlan, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
+import { useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
 import { activeMealTypes, greetingPeriod, nextMealType, toISODate, weekDates, weekStartOf, type MealType } from '../lib/planner'
 import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
@@ -17,7 +17,6 @@ import type { AttendanceRow } from '../lib/attendance'
 
 const now = new Date()
 const today = toISODate(now)
-const weekStart = toISODate(weekStartOf(now))
 
 export default function TodayPage() {
   const { t, i18n } = useTranslation()
@@ -25,8 +24,8 @@ export default function TodayPage() {
   const navigate = useNavigate()
   const { profile, household } = useHome()
 
-  const { data: weekPlan } = useWeekPlan(household.id, weekStart)
-  const { data: slots } = useWeekSlots(weekPlan?.id)
+  const weekStart = toISODate(weekStartOf(now, household.week_start))
+  const { data: slots } = useWeekSlots(household.id, weekStart)
   const todaySlots = (slots ?? []).filter((s) => s.date === today)
   const { data: counts } = useDiscussionCounts(todaySlots.map((s) => s.id), profile.id)
   const canPlanToday = useCanPlanDate(today)

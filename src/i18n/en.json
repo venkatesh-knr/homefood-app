@@ -69,7 +69,8 @@
       "errors": {
         "homeName": "Enter a home name (up to 60 characters).",
         "yourName": "Enter your name (up to 40 characters)."
-      }
+      },
+      "sunday": "Sunday"
     }
   },
   "people": {
@@ -405,7 +406,8 @@
     "historyHint": "See what your home has eaten, by week, month or year",
     "settings": "Home settings",
     "homeName": "Home name",
-    "defaultLanguage": "Default language for new members"
+    "defaultLanguage": "Default language for new members",
+    "weekStartHint": "Meals you already planned stay exactly where they are."
   },
   "discussion": {
     "agree": "Agree",

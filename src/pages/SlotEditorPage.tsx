@@ -29,20 +29,18 @@ export default function SlotEditorPage() {
   const photoFor = useDishPhotoPath()
   const { data: cuisines } = useCuisines()
 
-  const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`)))
+  const weekStart = toISODate(weekStartOf(new Date(`${date}T00:00:00`), household.week_start))
   const { data: weekPlan, isLoading: isWeekPlanLoading } = useWeekPlan(household.id, weekStart)
-  const { data: slots, isLoading: isSlotsLoading } = useWeekSlots(weekPlan?.id)
+  const { data: slots, isLoading: isSlotsLoading } = useWeekSlots(household.id, weekStart)
   const { data: members } = useMembers(household.id)
   const familyMembers = (members ?? []).filter((m) => m.kind === 'family')
   const hasHelper = (members ?? []).some((m) => m.kind === 'helper')
   const memberIds = (members ?? []).map((m) => m.id)
   const { data: allergyRows } = useAllergies(memberIds)
 
-  // useWeekSlots is disabled (and reports isLoading: false) until weekPlan resolves, so on a
-  // fresh page load — a direct link, a reload, PWA relaunch — isSlotsLoading alone goes false
-  // before the real data ever arrives. Wait for weekPlan and members too, or the "new slot"
-  // default below fires on empty data and locks in permanently once initialised flips true.
-  const isLoading = isWeekPlanLoading || (Boolean(weekPlan) && isSlotsLoading) || members === undefined
+  // Wait for the meals and the members before filling the form, or the "new slot" default fires on empty data and
+  // locks in permanently once initialised flips true.
+  const isLoading = isWeekPlanLoading || isSlotsLoading || members === undefined
 
   const existing = slots?.find((s) => s.date === date && s.meal === meal)
 
