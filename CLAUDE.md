@@ -372,9 +372,12 @@ Deferred, flagged rather than attempted half-done:
 - **Demo home.** A sandboxed household with fake data to explore before committing to a real one — bigger than it
   sounds: either a real Supabase household seeded and reset per visitor, or a fully separate mock-data code path
   parallel to everything built so far. Worth a decision on which before starting.
-- **Tamil everywhere, part 2: no full linguistic/native-speaker review.** Every string has an `en`/`ta` pair and the
-  parity test (`translations.test.ts`) guarantees neither language is missing a key mid-flight, but nobody has read the
-  Tamil copy end-to-end for tone, grammar or natural phrasing the way a native speaker would.
+- **Tamil everywhere, part 2: still no native-speaker review.** Every string has an `en`/`ta` pair and the
+  parity test (`translations.test.ts`) guarantees neither language is missing a key mid-flight. On 11 Oct 2026 Claude read all 502 UI strings
+  in Tamil and fixed 30 (wrong word "பரிமாணம்" for servings, "வேலைக்காரர்" for helper, "stock"/"ஆப்" left in English, sandhi on buttons,
+  "சமையல் பாணி" for cuisine everywhere, clunky allergy warning). Dish names and recipes were skimmed, not proofread; known leftover: three
+  names lack sandhi (வெங்காய பக்கோடா / சட்னி / பச்சடி should be வெங்காயப் … / வெங்காயச் …) and need a data migration to change.
+  A real native read of the recipes is still the thing the family should do.
 - **No deeper accessibility pass** (full keyboard-navigation walkthrough, screen-reader testing with VoiceOver/TalkBack,
   a systematic contrast check of every colour pair rather than the handful of most-used ones above).
 
