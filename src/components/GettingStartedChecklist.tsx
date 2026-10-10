@@ -41,7 +41,7 @@ export function GettingStartedChecklist({ householdId }: { householdId: string }
                 </svg>
               )}
             </span>
-            <span className={`text-[14.5px] ${done[key] ? 'text-muted line-through' : 'text-ink'}`}>{t(`invite.steps.${key}`)}</span>
+            <span className="text-[14.5px] text-ink">{t(`invite.steps.${key}`)}</span>
           </div>
         ))}
       </Card>

@@ -1,3 +1,4 @@
+import { YouTubeIcon } from '../components/icons'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -190,9 +191,11 @@ export default function RecipePage() {
           href={`https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm + ' recipe')}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-12 flex-1 items-center justify-center rounded-2xl border-[1.5px] border-line-strong bg-white text-[15px] font-semibold"
+          aria-label={t('recipe.watch')}
+          title={t('recipe.watch')}
+          className="flex h-12 flex-1 items-center justify-center rounded-2xl border-[1.5px] border-line-strong bg-white"
         >
-          {t('recipe.watch')}
+          <YouTubeIcon size={28} />
         </a>
       </div>
     </main>

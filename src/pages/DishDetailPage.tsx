@@ -1,3 +1,4 @@
+import { InstagramIcon, RecipeIcon, YouTubeIcon } from '../components/icons'
 import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -133,31 +134,37 @@ export default function DishDetailPage() {
           {dish.prep_minutes !== null && <Pill>{t('dishes.detail.prepMinutes', { count: dish.prep_minutes })}</Pill>}
         </div>
 
-        <div className={`grid gap-2 ${hasRecipe ? 'grid-cols-3' : 'grid-cols-2'}`}>
+        <div className="flex gap-2.5">
           {hasRecipe && (
             <button
               type="button"
               onClick={() => navigate(`/dishes/${dishId}/recipe`)}
-              className="flex h-16 flex-col items-center justify-center gap-1 rounded-2xl bg-ink text-[13px] font-semibold text-cream"
+              aria-label={t('recipe.open')}
+              title={t('recipe.open')}
+              className="flex h-14 flex-1 items-center justify-center rounded-2xl bg-ink text-cream"
             >
-              {t('recipe.open')}
+              <RecipeIcon size={26} />
             </button>
           )}
           <a
             href={`https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm + ' recipe')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-16 flex-col items-center justify-center gap-1 rounded-2xl border border-line bg-white text-[13px] font-semibold"
+            aria-label={t('dishes.detail.youtube')}
+            title={t('dishes.detail.youtube')}
+            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-white"
           >
-            {t('dishes.detail.youtube')}
+            <YouTubeIcon size={28} />
           </a>
           <a
             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(searchTerm.replace(/\s+/g, ''))}/`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-16 flex-col items-center justify-center gap-1 rounded-2xl border border-line bg-white text-[13px] font-semibold"
+            aria-label={t('dishes.detail.instagram')}
+            title={t('dishes.detail.instagram')}
+            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-white"
           >
-            {t('dishes.detail.instagram')}
+            <InstagramIcon size={26} />
           </a>
         </div>
 

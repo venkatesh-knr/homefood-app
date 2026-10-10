@@ -1,3 +1,4 @@
+import { RecipeIcon } from './icons'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHome } from '../lib/homeContext'
@@ -91,8 +92,8 @@ export function VoteRow({
               </button>
             </span>
             {onRecipe && (
-              <button type="button" onClick={onRecipe} className="shrink-0 underline">
-                {t('recipe.open')}
+              <button type="button" onClick={onRecipe} aria-label={t('recipe.open')} title={t('recipe.open')} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sand text-ink">
+                <RecipeIcon size={20} />
               </button>
             )}
           </div>

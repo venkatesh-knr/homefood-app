@@ -1,3 +1,4 @@
+import { InstagramIcon, YouTubeIcon } from '../components/icons'
 import { useEffect, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -331,17 +332,21 @@ export default function SlotEditorPage() {
                   href={`https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm + ' recipe')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-white text-[13.5px] font-semibold"
+                  aria-label={t('dishes.detail.youtube')}
+                  title={t('dishes.detail.youtube')}
+                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-white"
                 >
-                  {t('dishes.detail.youtube')}
+                  <YouTubeIcon size={26} />
                 </a>
                 <a
                   href={`https://www.instagram.com/explore/tags/${encodeURIComponent(searchTerm.replace(/\s+/g, ''))}/`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-white text-[13.5px] font-semibold"
+                  aria-label={t('dishes.detail.instagram')}
+                  title={t('dishes.detail.instagram')}
+                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-white"
                 >
-                  {t('dishes.detail.instagram')}
+                  <InstagramIcon size={24} />
                 </a>
               </div>
             </>

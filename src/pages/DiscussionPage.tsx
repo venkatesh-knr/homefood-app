@@ -1,3 +1,4 @@
+import { RecipeIcon } from '../components/icons'
 import { useMemo, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -194,8 +195,8 @@ export default function DiscussionPage() {
         </div>
         {slot.kept_despite_disagree && <p className="text-[12.5px] text-muted">{t('discussion.keptNote')}</p>}
         {slot.main_dish && recipeIds?.has(slot.main_dish.id) && (
-          <button type="button" onClick={() => navigate(`/dishes/${slot.main_dish!.id}/recipe`, { state: { servings: slot.meal_slot_eaters.length || undefined } })} className="self-start text-[13px] font-semibold text-saffron-ink underline">
-            {t('recipe.open')}
+          <button type="button" onClick={() => navigate(`/dishes/${slot.main_dish!.id}/recipe`, { state: { servings: slot.meal_slot_eaters.length || undefined } })} aria-label={t('recipe.open')} title={t('recipe.open')} className="flex h-10 w-10 items-center justify-center self-start rounded-full bg-sand text-ink">
+            <RecipeIcon size={22} />
           </button>
         )}
       </div>
