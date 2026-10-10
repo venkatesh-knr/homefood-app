@@ -1,0 +1,575 @@
+# Standard recipes for the South Indian dishes added in migration 0015 — part D: poriyal and fries, chutney, thokku, pickle, podi, pachadi, non-veg.
+# Same format as recipes_south_a.txt. Drafts: the family should check ingredients and seasoning.
+
+@ Beans usili | 4 | 20 | 20
+note: Steam the dal crumble well so it is soft and not raw. | பருப்பு உதிரியை நன்கு ஆவியில் வேகவைத்தால் பச்சை வாசனை இருக்காது.
+i: French beans, finely chopped | பீன்ஸ் | 250 | g
+i: Toor dal | துவரம்பருப்பு | 0.25 | cup
+i: Chana dal | கடலைப்பருப்பு | 0.25 | cup
+i: Dried red chilli | காய்ந்த மிளகாய் | 3 | piece
+i: Mustard seeds and curry leaves | கடுகு, கறிவேப்பிலை | 1 | tsp
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Soak the dals for 1 hour, grind coarsely with the chillies and salt, and steam as a block for 10 minutes; crumble. | பருப்புகளை 1 மணி நேரம் ஊறவைத்து மிளகாய், உப்புடன் கொரகொரப்பாக அரைத்து 10 நிமிடம் ஆவியில் வேகவைத்து உதிர்க்கவும்.
+s: Cook the beans with salt and a splash of water until tender. | பீன்ஸை உப்பு, சிறிது தண்ணீருடன் வேகவிடவும்.
+s: Temper mustard and curry leaves in oil, add the beans and the crumble and toss until dry. | எண்ணெயில் கடுகு, கறிவேப்பிலை தாளித்து பீன்ஸ், பருப்பு உதிரியைச் சேர்த்து ஈரம் போகும் வரை புரட்டவும்.
+
+@ Cluster beans poriyal | 4 | 15 | 15
+note: Cluster beans can be slightly bitter; the coconut balances it. | கொத்தவரங்காய் சற்று கசக்கும்; தேங்காய் அதைச் சமன் செய்யும்.
+i: Cluster beans (kothavarangai), chopped | கொத்தவரங்காய் | 250 | g
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper mustard, urad dal, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, உளுத்தம்பருப்பு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Add the beans, salt and a splash of water; cover and cook until tender. | பீன்ஸ், உப்பு, சிறிது தண்ணீர் சேர்த்து மூடி வேகவிடவும்.
+s: Stir in the coconut and cook a minute more. | தேங்காய் சேர்த்து மேலும் ஒரு நிமிடம் வதக்கவும்.
+
+@ Kovakkai fry | 4 | 15 | 20
+note: Slice thin so they crisp up. | மெல்லியதாக நறுக்கினால் மொறுமொறுப்பாக வரும்.
+i: Ivy gourd (kovakkai), sliced | கோவக்காய் | 250 | g
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Rice flour | அரிசி மாவு | 1 | tbsp
+i: Mustard seeds and curry leaves | கடுகு, கறிவேப்பிலை | 1 | tsp
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Toss the sliced gourd with the powders, rice flour and salt. | நறுக்கிய கோவக்காயை தூள்கள், அரிசி மாவு, உப்புடன் புரட்டவும்.
+s: Temper mustard and curry leaves in oil. | எண்ணெயில் கடுகு, கறிவேப்பிலை தாளிக்கவும்.
+s: Add the gourd and cook uncovered on medium heat, stirring, until crisp and golden. | கோவக்காயைச் சேர்த்து மூடாமல் நடுத்தரத் தீயில் கிளறி மொறுமொறுப்பாக பொன்னிறமாக வதக்கவும்.
+
+@ Senaikizhangu fry | 4 | 15 | 25
+note: Boil the yam with a little tamarind to avoid itchiness. | அரிப்பு வராமல் இருக்க சேனைக்கிழங்கை சிறிது புளி சேர்த்து வேகவைக்கவும்.
+i: Elephant foot yam (senai), cubed | சேனைக்கிழங்கு | 300 | g
+i: Chilli powder | மிளகாய்த் தூள் | 1.5 | tsp
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Rice flour | அரிசி மாவு | 1 | tbsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Boil the yam cubes in salted water until just tender and drain. | சேனைக்கிழங்கை உப்புத் தண்ணீரில் வெறுமனே வேகவைத்து வடிக்கவும்.
+s: Coat with the powders and rice flour. | தூள்கள், அரிசி மாவு பூசவும்.
+s: Shallow fry in oil with curry leaves until crisp and golden. | கறிவேப்பிலையுடன் எண்ணெயில் மொறுமொறுப்பாக பொன்னிறமாக வறுக்கவும்.
+
+@ Chepankizhangu roast | 4 | 15 | 25
+note: Boil the colocasia until just done, not mushy, before roasting. | சேப்பங்கிழங்கை குழையாமல் வேகவைத்த பின் வறுக்கவும்.
+i: Colocasia (chepankizhangu) | சேப்பங்கிழங்கு | 300 | g
+i: Chilli powder | மிளகாய்த் தூள் | 1.5 | tsp
+i: Coriander powder | மல்லித் தூள் | 1 | tsp
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Pressure cook the colocasia for 2 whistles, cool, peel and slice. | சேப்பங்கிழங்கை 2 விசில் வேகவைத்து ஆறவிட்டு தோல் நீக்கி நறுக்கவும்.
+s: Toss with the powders and salt. | தூள்கள், உப்புடன் புரட்டவும்.
+s: Shallow fry in oil with curry leaves, turning, until crisp and golden. | கறிவேப்பிலையுடன் எண்ணெயில் திருப்பிப் போட்டு மொறுமொறுப்பாக பொன்னிறமாக வறுக்கவும்.
+
+@ Kathirikai poriyal | 4 | 10 | 20
+note: Keep the brinjal in small cubes and cook it uncovered. | கத்தரிக்காயை சிறு துண்டுகளாக நறுக்கி மூடாமல் வதக்கவும்.
+i: Brinjal, cubed | கத்தரிக்காய் | 300 | g
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Mustard and urad dal | கடுகு, உளுத்தம்பருப்பு | 1 | tsp
+i: Chilli and coriander powder | மிளகாய், மல்லித் தூள் | 2 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper mustard, urad dal and curry leaves in oil; fry the onion until soft. | எண்ணெயில் கடுகு, உளுத்தம்பருப்பு, கறிவேப்பிலை தாளித்து வெங்காயத்தை மென்மையாக வதக்கவும்.
+s: Add the brinjal, powders and salt and cook on medium heat, stirring, until tender and lightly browned. | கத்தரிக்காய், தூள்கள், உப்பு சேர்த்து நடுத்தரத் தீயில் கிளறி மென்மையாக லேசாகப் பழுக்கும் வரை வதக்கவும்.
+
+@ Vazhaipoo poriyal | 4 | 30 | 15
+note: Clean the florets: remove the stamens and hard parts. | பூக்களில் உள்ள நரம்பு, கடினப் பகுதிகளை நீக்கவும்.
+i: Banana flower, cleaned and chopped | வாழைப்பூ | 2 | cup
+i: Moong dal, cooked | வேகவைத்த பாசிப்பருப்பு | 0.25 | cup
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Boil the chopped flower in salted water for 5 minutes and squeeze out the water. | நறுக்கிய வாழைப்பூவை உப்புத் தண்ணீரில் 5 நிமிடம் வேகவைத்து தண்ணீரைப் பிழியவும்.
+s: Temper mustard, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Add the flower and dal, cook until dry and finish with coconut. | வாழைப்பூ, பருப்பு சேர்த்து ஈரம் போகும் வரை வதக்கி தேங்காய் சேர்க்கவும்.
+
+@ Vazhaithandu poriyal | 4 | 20 | 15
+note: Soak the chopped stem in buttermilk water to stop it darkening. | நறுக்கிய வாழைத்தண்டை மோர்த் தண்ணீரில் போட்டால் கருக்காது.
+i: Banana stem, finely chopped | வாழைத்தண்டு | 2 | cup
+i: Moong dal, cooked | வேகவைத்த பாசிப்பருப்பு | 0.25 | cup
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Remove any fibres while chopping the stem and keep it in buttermilk water. | நறுக்கும்போது நார்களை நீக்கி மோர்த் தண்ணீரில் போடவும்.
+s: Temper mustard, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Add the drained stem with salt and cook until tender; stir in the dal and coconut. | வடித்த தண்டை உப்புடன் வேகவிட்டு பருப்பு, தேங்காய் சேர்க்கவும்.
+
+@ Vazhakkai podimas | 4 | 15 | 20
+note: Boil the raw banana whole with the skin to keep it firm. | வாழைக்காயை தோலுடன் வேகவைத்தால் உதிரியாக இருக்கும்.
+i: Raw banana | வாழைக்காய் | 2 | piece
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Mustard seeds and urad dal | கடுகு, உளுத்தம்பருப்பு | 1 | tsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Boil the bananas until soft, then peel and crumble. | வாழைக்காயை வேகவைத்து தோல் உரித்து உதிர்க்கவும்.
+s: Temper mustard, urad dal and chilli in oil; fry the onion with turmeric. | எண்ணெயில் கடுகு, உளுத்தம்பருப்பு, மிளகாய் தாளித்து வெங்காயத்தை மஞ்சளுடன் வதக்கவும்.
+s: Add the banana crumble, salt and coconut and toss well. | வாழைக்காய் உதிர், உப்பு, தேங்காய் சேர்த்து நன்கு புரட்டவும்.
+
+@ Murungai keerai poriyal | 4 | 15 | 10
+note: Pluck the leaves from the stems before measuring. | இலைகளைக் காம்பிலிருந்து பறித்து அளக்கவும்.
+i: Drumstick leaves | முருங்கைக்கீரை | 3 | cup
+i: Moong dal, cooked | வேகவைத்த பாசிப்பருப்பு | 0.25 | cup
+i: Shallots, chopped | சின்ன வெங்காயம் | 6 | piece
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 2 | piece
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper mustard and chilli in oil and fry the shallots until soft. | எண்ணெயில் கடுகு, மிளகாய் தாளித்து சின்ன வெங்காயத்தை மென்மையாக வதக்கவும்.
+s: Add the leaves with salt, cook uncovered for 4 minutes. | இலைகள், உப்பு சேர்த்து மூடாமல் 4 நிமிடம் வதக்கவும்.
+s: Add the dal and coconut and cook until dry. | பருப்பு, தேங்காய் சேர்த்து ஈரம் போகும் வரை வதக்கவும்.
+
+@ Pudalangai poriyal | 4 | 15 | 15
+note: Young snake gourd needs no peeling. | இளம் புடலங்காய்க்கு தோல் சீவ வேண்டாம்.
+i: Snake gourd, chopped | புடலங்காய் | 250 | g
+i: Moong dal, cooked | வேகவைத்த பாசிப்பருப்பு | 0.25 | cup
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Mustard seeds and urad dal | கடுகு, உளுத்தம்பருப்பு | 1 | tsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper mustard, urad dal, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, உளுத்தம்பருப்பு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Add the snake gourd and salt and cook covered for 8 minutes. | புடலங்காய், உப்பு சேர்த்து மூடி 8 நிமிடம் வேகவிடவும்.
+s: Stir in the dal and coconut and cook until dry. | பருப்பு, தேங்காய் சேர்த்து ஈரம் போகும் வரை வதக்கவும்.
+
+@ Mochai poriyal | 4 | 15 | 25
+note: Soak the field beans overnight. | மொச்சையை இரவு முழுவதும் ஊறவைக்கவும்.
+i: Field beans (mochai), soaked | மொச்சை | 1 | cup
+i: Shallots, chopped | சின்ன வெங்காயம் | 6 | piece
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Pressure cook the beans with salt until soft and drain. | மொச்சையை உப்புடன் மென்மையாக வேகவைத்து வடிக்கவும்.
+s: Temper mustard, chilli and curry leaves in oil and fry the shallots. | எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை தாளித்து சின்ன வெங்காயம் வதக்கவும்.
+s: Add the beans and coconut and toss for 3 minutes. | மொச்சை, தேங்காய் சேர்த்து 3 நிமிடம் புரட்டவும்.
+
+@ Gutti vankaya | 4 | 25 | 25
+note: Slit the brinjals in a cross and keep the stem on so they hold their shape. | கத்தரிக்காயை காம்புடன் குறுக்காகக் கீறினால் வடிவம் மாறாது.
+i: Small round brinjals | சிறிய கத்தரிக்காய் | 8 | piece
+i: Peanuts | வேர்க்கடலை | 3 | tbsp
+i: Sesame seeds | எள் | 1 | tbsp
+i: Dry coconut, grated | கொப்பரைத் தேங்காய் | 3 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 2 | tsp
+i: Coriander powder | மல்லித் தூள் | 1 | tsp
+i: Tamarind paste | புளி விழுது | 1 | tsp
+i: Oil | எண்ணெய் | 4 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the peanuts, sesame and coconut and grind with the powders, tamarind and salt to a coarse masala. | வேர்க்கடலை, எள், தேங்காயை வறுத்து தூள்கள், புளி, உப்புடன் கொரகொரப்பாக அரைக்கவும்.
+s: Stuff the masala into the slit brinjals. | மசாலாவை கீறிய கத்தரிக்காய்களில் நிரப்பவும்.
+s: Cook in oil on low heat, covered, turning now and then, until tender; add leftover masala with a splash of water. | எண்ணெயில் குறைந்த தீயில் மூடி அவ்வப்போது திருப்பி வேகவிடவும்; மீதமுள்ள மசாலாவை சிறிது தண்ணீருடன் சேர்க்கவும்.
+
+@ Mor milagai | 8 | 10 | 5
+note: Sun-dry the soaked chillies for 2 to 3 days until crisp, then fry briefly. | ஊறவைத்த மிளகாய்களை 2 முதல் 3 நாள் வெயிலில் காயவைத்து மொறுமொறுப்பான பின் லேசாகப் பொரிக்கவும்.
+i: Green chillies, slit | பச்சை மிளகாய் | 20 | piece
+i: Thick sour curd | கெட்டியான புளித்த தயிர் | 1 | cup
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Soak the chillies in curd and salt for a day. | மிளகாயை தயிர், உப்பில் ஒரு நாள் ஊறவைக்கவும்.
+s: Dry them in the sun for 2 to 3 days until completely crisp; store. | 2 முதல் 3 நாள் வெயிலில் முழுவதும் மொறுமொறுப்பாகும் வரை காயவைத்து சேமிக்கவும்.
+s: Fry a few in hot oil for a few seconds and serve with curd rice. | சில மிளகாய்களை சூடான எண்ணெயில் சில நொடிகள் பொரித்து தயிர் சாதத்துடன் பரிமாறவும்.
+
+@ Vadam | 8 | 20 | 5
+note: Dry thoroughly in strong sun, turning once a day. | நல்ல வெயிலில் தினமும் ஒருமுறை திருப்பி முழுவதும் காயவைக்கவும்.
+i: Sago (javvarisi) | ஜவ்வரிசி | 1 | cup
+i: Water | தண்ணீர் | 5 | cup
+i: Green chilli paste | பச்சை மிளகாய் விழுது | 2 | tsp
+i: Cumin seeds | சீரகம் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Boil the water with salt, chilli paste and cumin, add the sago and cook until clear and thick. | தண்ணீரை உப்பு, மிளகாய் விழுது, சீரகத்துடன் கொதிக்கவிட்டு ஜவ்வரிசியைச் சேர்த்து தெளிவாகவும் கெட்டியாகவும் வரும் வரை வேகவிடவும்.
+s: Drop small spoons on a plastic sheet and sun-dry for 2 to 3 days until hard. | சிறு கரண்டிகளாக பிளாஸ்டிக் தாளில் ஊற்றி 2 முதல் 3 நாள் வெயிலில் கெட்டியாகும் வரை காயவைக்கவும்.
+s: Fry in hot oil for a few seconds until puffed and serve with rice. | சூடான எண்ணெயில் சில நொடிகள் பொங்கும் வரை பொரித்து சாதத்துடன் பரிமாறவும்.
+
+@ Pottukadalai chutney | 4 | 5 | 5
+note: Thin with water to the consistency you like. | விரும்பிய பதத்திற்கு தண்ணீர் சேர்த்து இளக்கவும்.
+i: Roasted gram (pottukadalai) | பொட்டுக்கடலை | 0.5 | cup
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Garlic | பூண்டு | 2 | clove
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Grind the roasted gram with chilli, garlic, salt and water to a smooth chutney. | பொட்டுக்கடலையை மிளகாய், பூண்டு, உப்பு, தண்ணீருடன் நைசாக அரைக்கவும்.
+s: Temper mustard and curry leaves in oil and pour over. | எண்ணெயில் கடுகு, கறிவேப்பிலை தாளித்துக் கொட்டவும்.
+
+@ Coriander chutney | 4 | 10 | 5
+note: Add a small piece of tamarind or a few drops of lemon for tang. | புளிப்புக்கு சிறிது புளி அல்லது சில துளி எலுமிச்சை சாறு சேர்க்கவும்.
+i: Coriander leaves | கொத்தமல்லி | 2 | cup
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Green chilli | பச்சை மிளகாய் | 3 | piece
+i: Roasted gram | பொட்டுக்கடலை | 2 | tbsp
+i: Garlic | பூண்டு | 2 | clove
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Grind the coriander, coconut, chilli, gram, garlic and salt with a little water to a smooth paste. | கொத்தமல்லி, தேங்காய், மிளகாய், பொட்டுக்கடலை, பூண்டு, உப்பை சிறிது தண்ணீருடன் நைசாக அரைக்கவும்.
+s: Temper mustard in a little oil and pour over. | சிறிது எண்ணெயில் கடுகு தாளித்துக் கொட்டவும்.
+
+@ Curry leaf chutney | 4 | 10 | 10
+note: Fry the leaves until they turn crisp so the chutney keeps for 2 days. | இலைகளை மொறுமொறுப்பாக வறுத்தால் சட்னி 2 நாள் வைக்கலாம்.
+i: Curry leaves | கறிவேப்பிலை | 1 | cup
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Dried red chilli | காய்ந்த மிளகாய் | 3 | piece
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tbsp
+i: Tamarind | புளி | 1 | tsp
+i: Garlic | பூண்டு | 2 | clove
+i: Oil | எண்ணெய் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the urad dal, chillies and curry leaves in oil until crisp. | உளுத்தம்பருப்பு, மிளகாய், கறிவேப்பிலையை எண்ணெயில் மொறுமொறுப்பாக வறுக்கவும்.
+s: Grind with the coconut, tamarind, garlic, salt and a little water. | தேங்காய், புளி, பூண்டு, உப்பு, சிறிது தண்ணீருடன் அரைக்கவும்.
+
+@ Ginger chutney | 4 | 10 | 10
+note: Serve with idli or dosa; a little goes a long way. | இட்லி, தோசையுடன் பரிமாறவும்; சிறிது போதும்.
+i: Ginger, chopped | இஞ்சி | 3 | inch
+i: Tamarind | புளி | 1 | tbsp
+i: Jaggery | வெல்லம் | 1 | tbsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 4 | piece
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the dal, chillies and ginger in oil until golden. | பருப்பு, மிளகாய், இஞ்சியை எண்ணெயில் பொன்னிறமாக வறுக்கவும்.
+s: Grind with the tamarind, jaggery, salt and a little water. | புளி, வெல்லம், உப்பு, சிறிது தண்ணீருடன் அரைக்கவும்.
+s: Temper mustard in oil and pour over. | எண்ணெயில் கடுகு தாளித்துக் கொட்டவும்.
+
+@ Kara chutney | 4 | 10 | 10
+note: Very spicy; reduce the chillies for children. | மிகவும் காரம்; குழந்தைகளுக்கு மிளகாயைக் குறைக்கவும்.
+i: Onion, chopped | வெங்காயம் | 2 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Dried red chilli | காய்ந்த மிளகாய் | 8 | piece
+i: Garlic | பூண்டு | 4 | clove
+i: Tamarind | புளி | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the chillies, garlic, onion and tomato in oil until soft. | மிளகாய், பூண்டு, வெங்காயம், தக்காளியை எண்ணெயில் மென்மையாக வதக்கவும்.
+s: Cool, then grind with tamarind and salt to a coarse chutney. | ஆறவிட்டு புளி, உப்புடன் கொரகொரப்பாக அரைக்கவும்.
+s: Heat a little sesame oil and fry the chutney for 2 minutes. | சிறிது நல்லெண்ணெயில் சட்னியை 2 நிமிடம் வதக்கவும்.
+
+@ Brinjal chutney | 4 | 15 | 15
+note: Roast the brinjal on an open flame for a smoky taste. | கத்தரிக்காயை நெருப்பில் சுட்டால் புகை மணம் கிடைக்கும்.
+i: Brinjal | கத்தரிக்காய் | 2 | piece
+i: Onion | வெங்காயம் | 1 | piece
+i: Dried red chilli | காய்ந்த மிளகாய் | 4 | piece
+i: Tamarind | புளி | 1 | tsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Roast the brinjals until soft, peel and mash. | கத்தரிக்காயை மென்மையாகச் சுட்டு தோல் உரித்து மசிக்கவும்.
+s: Fry the onion and chillies in oil, grind with the tamarind and salt. | வெங்காயம், மிளகாயை எண்ணெயில் வதக்கி புளி, உப்புடன் அரைக்கவும்.
+s: Mix with the mashed brinjal and temper with mustard. | மசித்த கத்தரிக்காயுடன் கலந்து கடுகு தாளிக்கவும்.
+
+@ Tomato thokku | 8 | 10 | 30
+note: Cook until the oil separates for a longer shelf life. | எண்ணெய் பிரியும் வரை சமைத்தால் நீண்ட நாள் இருக்கும்.
+i: Ripe tomatoes, chopped | தக்காளி | 6 | piece
+i: Tamarind | புளி | 1 | tsp
+i: Chilli powder | மிளகாய்த் தூள் | 2 | tbsp
+i: Fenugreek powder | வெந்தயப் பொடி | 0.5 | tsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 5 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil, splutter the mustard and add the tomatoes with salt and tamarind. | எண்ணெயில் கடுகு தாளித்து தக்காளி, உப்பு, புளி சேர்க்கவும்.
+s: Cook until mushy, then add the chilli and fenugreek powder. | குழைய வதக்கி மிளகாய்த் தூள், வெந்தயப் பொடி சேர்க்கவும்.
+s: Cook on low until thick and the oil separates, about 20 minutes. | குறைந்த தீயில் எண்ணெய் பிரியும் வரை கெட்டியாகும் வரை சுமார் 20 நிமிடம் சமைக்கவும்.
+
+@ Fish thokku | 4 | 20 | 25
+note: Use firm fish like seer or sheer and keep the pieces whole. | வஞ்சிரம் போன்ற உறுதியான மீனைப் பயன்படுத்தி துண்டுகளை உடையாமல் வைக்கவும்.
+i: Firm fish pieces | மீன் துண்டுகள் | 400 | g
+i: Onion, chopped | வெங்காயம் | 2 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 2 | tsp
+i: Tamarind paste | புளி விழுது | 1 | tsp
+i: Mustard and fenugreek seeds | கடுகு, வெந்தயம் | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 4 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper mustard and fenugreek in oil, fry the onion and ginger-garlic paste. | எண்ணெயில் கடுகு, வெந்தயம் தாளித்து வெங்காயம், இஞ்சி பூண்டு விழுதை வதக்கவும்.
+s: Add the tomato, chilli powder, tamarind and salt and cook to a thick masala. | தக்காளி, மிளகாய்த் தூள், புளி, உப்பு சேர்த்து கெட்டியான மசாலாவாக்கவும்.
+s: Add the fish gently, cover and cook on low for 10 minutes until the masala clings and the oil separates. | மீனை மெதுவாகச் சேர்த்து மூடி குறைந்த தீயில் 10 நிமிடம் மசாலா ஒட்டி எண்ணெய் பிரியும் வரை வேகவிடவும்.
+
+@ Garlic pickle | 20 | 20 | 15
+note: Dry the garlic fully before using; keep in a dry jar. | பூண்டை முழுவதும் உலர்த்தி உபயோகிக்கவும்; உலர்ந்த பாட்டிலில் வைக்கவும்.
+i: Garlic cloves, peeled | பூண்டு | 250 | g
+i: Chilli powder | மிளகாய்த் தூள் | 3 | tbsp
+i: Tamarind paste | புளி விழுது | 3 | tbsp
+i: Mustard and fenugreek powder | கடுகு, வெந்தயப் பொடி | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 0.5 | cup
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil, fry the garlic until lightly golden. | எண்ணெயில் பூண்டை லேசாகப் பொன்னிறமாக வதக்கவும்.
+s: Add the tamarind, chilli powder, salt and the spice powder and cook on low until the oil separates. | புளி, மிளகாய்த் தூள், உப்பு, மசாலாப் பொடி சேர்த்து குறைந்த தீயில் எண்ணெய் பிரியும் வரை சமைக்கவும்.
+s: Cool completely and store in a clean dry jar. | முழுவதும் ஆறவிட்டு சுத்தமான உலர்ந்த ஜாடியில் சேமிக்கவும்.
+
+@ Gongura pickle | 20 | 20 | 20
+note: Dry the sorrel leaves in shade before cooking; the pickle tastes better after 2 days. | கோங்குரா இலைகளை நிழலில் உலர்த்தி சமைக்கவும்; 2 நாளுக்குப் பிறகு ருசி கூடும்.
+i: Gongura (sorrel) leaves | கோங்குரா இலை | 4 | cup
+i: Dried red chilli | காய்ந்த மிளகாய் | 12 | piece
+i: Garlic | பூண்டு | 10 | clove
+i: Mustard and fenugreek seeds | கடுகு, வெந்தயம் | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 0.5 | cup
+i: Salt | உப்பு | - | to_taste
+s: Wilt the leaves in 2 tablespoons of oil until they reduce and the water evaporates. | இலைகளை 2 மேசைக்கரண்டி எண்ணெயில் சுருங்கி நீர் வற்றும் வரை வதக்கவும்.
+s: Roast and grind the chillies, fenugreek and salt; grind the leaves coarsely with garlic. | மிளகாய், வெந்தயம், உப்பை வறுத்துப் பொடித்து இலைகளை பூண்டுடன் கொரகொரப்பாக அரைக்கவும்.
+s: Temper mustard in the remaining oil, add the mixture and cook on low for 5 minutes. Cool and store. | மீதமுள்ள எண்ணெயில் கடுகு தாளித்து கலவையைச் சேர்த்து குறைந்த தீயில் 5 நிமிடம் சமைத்து ஆறவிட்டு சேமிக்கவும்.
+
+@ Avakaya | 30 | 30 | 0
+note: Needs 2 to 3 days to mature; keep in a dry ceramic or glass jar. | பதமாக 2 முதல் 3 நாள் ஆகும்; உலர்ந்த பீங்கான் அல்லது கண்ணாடி ஜாடியில் வைக்கவும்.
+i: Raw mangoes, cut in pieces | மாங்காய் | 1 | kg
+i: Chilli powder | மிளகாய்த் தூள் | 0.5 | cup
+i: Mustard powder | கடுகுப் பொடி | 0.25 | cup
+i: Fenugreek powder | வெந்தயப் பொடி | 1 | tbsp
+i: Salt | உப்பு | 0.25 | cup
+i: Sesame oil | நல்லெண்ணெய் | 1 | cup
+s: Wipe the mango pieces completely dry. | மாங்காய் துண்டுகளை முழுவதும் துடைத்து உலர்த்தவும்.
+s: Mix the chilli, mustard, fenugreek powders and salt, then toss the mango pieces in it. | மிளகாய், கடுகு, வெந்தயப் பொடிகள், உப்பை கலந்து மாங்காய் துண்டுகளை அதில் புரட்டவும்.
+s: Add the oil, mix well, pack into a dry jar, and let it mature for 2 to 3 days, stirring daily. | எண்ணெய் சேர்த்து நன்கு கலந்து உலர்ந்த ஜாடியில் அடைத்து 2 முதல் 3 நாள் தினமும் கிளறி ஊறவிடவும்.
+
+@ Narthangai pickle | 20 | 30 | 20
+note: Use ripe, thin-skinned citron and leave it to mature for a few days. | பழுத்த, மெல்லிய தோல் நார்த்தங்காயைப் பயன்படுத்தி சில நாள் ஊறவிடவும்.
+i: Narthangai (citron), cut in small pieces | நார்த்தங்காய் | 5 | piece
+i: Salt | உப்பு | 3 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 3 | tbsp
+i: Turmeric powder | மஞ்சள் தூள் | 1 | tsp
+i: Fenugreek powder | வெந்தயப் பொடி | 1 | tsp
+i: Mustard seeds and asafoetida | கடுகு, பெருங்காயம் | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 0.5 | cup
+s: Mix the citron pieces with salt and turmeric and leave for 2 days, turning once a day. | நார்த்தங்காய் துண்டுகளை உப்பு, மஞ்சளுடன் கலந்து 2 நாள் தினமும் ஒருமுறை புரட்டி வைக்கவும்.
+s: Temper mustard and asafoetida in hot oil, add the chilli and fenugreek powder, and mix with the citron. | சூடான எண்ணெயில் கடுகு, பெருங்காயம் தாளித்து மிளகாய், வெந்தயப் பொடி சேர்த்து நார்த்தங்காயுடன் கலக்கவும்.
+s: Cool and store in a dry jar. | ஆறவிட்டு உலர்ந்த ஜாடியில் சேமிக்கவும்.
+
+@ Milagai podi | 20 | 10 | 10
+note: Mix with sesame oil or ghee and serve with idli and dosa. | நல்லெண்ணெய் அல்லது நெய்யுடன் கலந்து இட்லி, தோசையுடன் பரிமாறவும்.
+i: Urad dal | உளுத்தம் பருப்பு | 0.5 | cup
+i: Chana dal | கடலைப்பருப்பு | 0.5 | cup
+i: Dried red chilli | காய்ந்த மிளகாய் | 12 | piece
+i: White sesame seeds | வெள்ளை எள் | 2 | tbsp
+i: Asafoetida | பெருங்காயம் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the dals, chillies and sesame separately until fragrant. | பருப்புகள், மிளகாய், எள்ளை தனித்தனியாக மணம் வரும் வரை வறுக்கவும்.
+s: Cool and grind with the asafoetida and salt to a coarse powder. | ஆறவிட்டு பெருங்காயம், உப்புடன் கொரகொரப்பாகப் பொடிக்கவும்.
+s: Store airtight for up to a month. | காற்றுப் புகாமல் ஒரு மாதம் வரை சேமிக்கலாம்.
+
+@ Paruppu podi | 20 | 10 | 10
+note: Eat with hot rice and ghee. | சூடான சாதம், நெய்யுடன் சாப்பிடவும்.
+i: Toor dal | துவரம்பருப்பு | 0.5 | cup
+i: Chana dal | கடலைப்பருப்பு | 0.25 | cup
+i: Dried red chilli | காய்ந்த மிளகாய் | 6 | piece
+i: Pepper and cumin | மிளகு, சீரகம் | 1 | tsp
+i: Asafoetida | பெருங்காயம் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the dals, chillies, pepper and cumin separately until fragrant. | பருப்புகள், மிளகாய், மிளகு, சீரகத்தை தனித்தனியாக மணம் வரும் வரை வறுக்கவும்.
+s: Cool and grind with the asafoetida and salt to a coarse powder. | ஆறவிட்டு பெருங்காயம், உப்புடன் கொரகொரப்பாகப் பொடிக்கவும்.
+
+@ Karuveppilai podi | 20 | 10 | 15
+note: Dry roast the leaves on low heat until they crumble. | இலைகளை குறைந்த தீயில் உதிரும் வரை வறுக்கவும்.
+i: Curry leaves | கறிவேப்பிலை | 2 | cup
+i: Urad dal | உளுத்தம் பருப்பு | 3 | tbsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 8 | piece
+i: Pepper | மிளகு | 1 | tsp
+i: Tamarind | புளி | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the curry leaves until crisp; set aside. | கறிவேப்பிலையை மொறுமொறுப்பாக வறுத்து எடுக்கவும்.
+s: Roast the dal, chillies and pepper until fragrant. | உளுத்தம்பருப்பு, மிளகாய், மிளகை மணம் வரும் வரை வறுக்கவும்.
+s: Grind everything with the tamarind and salt to a coarse powder. | எல்லாவற்றையும் புளி, உப்புடன் கொரகொரப்பாகப் பொடிக்கவும்.
+
+@ Beetroot pachadi | 4 | 10 | 10
+note: Add the curd after cooling so it does not split. | தயிரை ஆறிய பின் சேர்த்தால் திரியாது.
+i: Beetroot, grated | பீட்ரூட் | 1 | cup
+i: Curd | தயிர் | 1 | cup
+i: Grated coconut | தேங்காய் துருவல் | 3 | tbsp
+i: Green chilli | பச்சை மிளகாய் | 1 | piece
+i: Mustard seeds and curry leaves | கடுகு, கறிவேப்பிலை | 1 | tsp
+i: Oil | எண்ணெய் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Cook the beetroot with a little water and salt until tender and cool. | பீட்ரூட்டை சிறிது தண்ணீர், உப்புடன் வேகவைத்து ஆறவிடவும்.
+s: Grind the coconut with the chilli and mix in with the whisked curd. | தேங்காயை மிளகாயுடன் அரைத்து அடித்த தயிருடன் கலக்கவும்.
+s: Mix with the beetroot and temper with mustard and curry leaves. | பீட்ரூட்டுடன் கலந்து கடுகு, கறிவேப்பிலை தாளிக்கவும்.
+
+@ Pineapple pachadi | 4 | 10 | 10
+note: A sweet-sour side often served at feasts. | விருந்துகளில் பரிமாறப்படும் இனிப்பு புளிப்பு சைட் டிஷ்.
+i: Pineapple, small pieces | அன்னாசிப்பழம் | 1.5 | cup
+i: Curd | தயிர் | 1 | cup
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Green chilli | பச்சை மிளகாய் | 1 | piece
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Sugar or jaggery | சர்க்கரை | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Cook the pineapple with a little water, salt and sugar until soft. | அன்னாசியை சிறிது தண்ணீர், உப்பு, சர்க்கரையுடன் மென்மையாக வேகவிடவும்.
+s: Grind the coconut, chilli and mustard to a paste and stir in. | தேங்காய், மிளகாய், கடுகை விழுதாக அரைத்துச் சேர்க்கவும்.
+s: Cool slightly, fold in the whisked curd and serve. | சற்று ஆறவிட்டு அடித்த தயிரைக் கலந்து பரிமாறவும்.
+
+@ Mango pachadi | 4 | 10 | 15
+note: A Tamil New Year speciality that balances sweet, sour and bitter. | தமிழ் புத்தாண்டு சிறப்பு உணவு; இனிப்பு, புளிப்பு, கசப்பு கலந்தது.
+i: Raw mango, chopped | மாங்காய் | 1 | piece
+i: Jaggery | வெல்லம் | 0.25 | cup
+i: Green chilli | பச்சை மிளகாய் | 1 | piece
+i: Neem flowers (optional) | வேப்பம்பூ | 1 | tsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Oil | எண்ணெய் | 1 | tsp
+i: Salt | உப்பு | 1 | pinch
+s: Cook the mango with water and salt until soft. | மாங்காயை தண்ணீர், உப்புடன் மென்மையாக வேகவிடவும்.
+s: Add the jaggery and chilli and simmer until thick. | வெல்லம், மிளகாய் சேர்த்து கெட்டியாகும் வரை கொதிக்கவிடவும்.
+s: Temper mustard and neem flowers in oil and pour over. | எண்ணெயில் கடுகு, வேப்பம்பூ தாளித்துக் கொட்டவும்.
+
+@ Onion pachadi | 4 | 10 | 0
+note: Serve fresh with biryani or pulao. | பிரியாணி அல்லது புலாவுடன் புதிதாகப் பரிமாறவும்.
+i: Onions, finely chopped | வெங்காயம் | 2 | piece
+i: Curd | தயிர் | 1 | cup
+i: Green chilli | பச்சை மிளகாய் | 1 | piece
+i: Coriander leaves | கொத்தமல்லி | 1 | handful
+i: Cumin powder | சீரகத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Whisk the curd with salt and cumin. | தயிரை உப்பு, சீரகத் தூளுடன் அடிக்கவும்.
+s: Stir in the onion, chopped chilli and coriander. | வெங்காயம், நறுக்கிய மிளகாய், கொத்தமல்லி சேர்த்துக் கலக்கவும்.
+s: Chill for 10 minutes and serve. | 10 நிமிடம் குளிரவைத்துப் பரிமாறவும்.
+
+@ Nattu kozhi kuzhambu | 4 | 20 | 50
+note: Country chicken takes longer to cook; pressure cook for 4 to 5 whistles. | நாட்டுக்கோழி வேக நேரம் ஆகும்; 4 முதல் 5 விசில் குக்கரில் வேகவிடவும்.
+i: Country chicken, cut | நாட்டுக்கோழி | 700 | g
+i: Shallots | சின்ன வெங்காயம் | 10 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Chilli and coriander powder | மிளகாய், மல்லித் தூள் | 3 | tbsp
+i: Coconut and fennel paste | தேங்காய் சோம்பு விழுது | 3 | tbsp
+i: Whole spices | பட்டை, கிராம்பு, ஏலக்காய் | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 4 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil, fry the whole spices and shallots until golden, then the ginger-garlic paste and tomato. | எண்ணெயில் மசாலாக்கள், சின்ன வெங்காயத்தைப் பொன்னிறமாக வதக்கி இஞ்சி பூண்டு விழுது, தக்காளி சேர்க்கவும்.
+s: Add the powders, chicken and salt and fry for 5 minutes. | தூள்கள், கோழி, உப்பு சேர்த்து 5 நிமிடம் வதக்கவும்.
+s: Add 2 cups of water, pressure cook for 4 to 5 whistles, then stir in the coconut paste and simmer 10 minutes. | 2 கப் தண்ணீர் சேர்த்து 4 முதல் 5 விசில் குக்கரில் வேகவிட்டு தேங்காய் விழுது சேர்த்து 10 நிமிடம் கொதிக்கவிடவும்.
+
+@ Pepper chicken | 4 | 15 | 30
+note: Use freshly crushed pepper for the best heat. | புதிதாக இடித்த மிளகு சிறந்த காரம் தரும்.
+i: Chicken, small pieces | கோழிக்கறி | 500 | g
+i: Onion, chopped | வெங்காயம் | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Crushed pepper | இடித்த மிளகு | 2 | tsp
+i: Fennel and cumin seeds | சோம்பு, சீரகம் | 1 | tsp
+i: Curry leaves | கறிவேப்பிலை | 2 | sprig
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the fennel, cumin, onion and ginger-garlic paste in oil until golden. | எண்ணெயில் சோம்பு, சீரகம், வெங்காயம், இஞ்சி பூண்டு விழுதைப் பொன்னிறமாக வதக்கவும்.
+s: Add the chicken, turmeric and salt and cook for 5 minutes. | கோழி, மஞ்சள், உப்பு சேர்த்து 5 நிமிடம் வதக்கவும்.
+s: Cover and cook on low until tender, then add the pepper and curry leaves and fry until the gravy dries. | மூடி குறைந்த தீயில் வேகவிட்டு மிளகு, கறிவேப்பிலை சேர்த்து குழம்பு வற்றும் வரை வறுக்கவும்.
+
+@ Chicken stew | 4 | 15 | 35
+note: Serve with appam or idiyappam. | ஆப்பம் அல்லது இடியாப்பத்துடன் பரிமாறவும்.
+i: Chicken, pieces | கோழிக்கறி | 500 | g
+i: Potato and carrot, cubed | உருளைக்கிழங்கு, கேரட் | 1.5 | cup
+i: Onion, sliced | வெங்காயம் | 1 | piece
+i: Green chilli and ginger | பச்சை மிளகாய், இஞ்சி | 1 | tbsp
+i: Whole spices and pepper | பட்டை, கிராம்பு, மிளகு | 1 | tsp
+i: Thick coconut milk | கெட்டியான தேங்காய்ப் பால் | 1 | cup
+i: Coconut oil | தேங்காய் எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Sauté the spices, onion, chilli and ginger in coconut oil without browning. | தேங்காய் எண்ணெயில் மசாலாக்கள், வெங்காயம், மிளகாய், இஞ்சியை நிறம் மாறாமல் வதக்கவும்.
+s: Add the chicken, vegetables, salt and 1.5 cups of water and cook until tender. | கோழி, காய்கறிகள், உப்பு, 1.5 கப் தண்ணீர் சேர்த்து வேகவிடவும்.
+s: Pour in the coconut milk and warm through without boiling. | தேங்காய்ப் பாலை ஊற்றி கொதிக்க விடாமல் சூடாக்கவும்.
+
+@ Mutton kuzhambu | 4 | 20 | 50
+note: Slow cooking makes the mutton tender and the gravy rich. | மெதுவாகச் சமைத்தால் மட்டன் மென்மையாகி குழம்பு கெட்டியாகும்.
+i: Mutton, pieces | மட்டன் | 600 | g
+i: Shallots | சின்ன வெங்காயம் | 10 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Chilli and coriander powder | மிளகாய், மல்லித் தூள் | 3 | tbsp
+i: Coconut and fennel paste | தேங்காய் சோம்பு விழுது | 3 | tbsp
+i: Whole spices | பட்டை, கிராம்பு, ஏலக்காய் | 1 | tsp
+i: Sesame oil | நல்லெண்ணெய் | 4 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the whole spices, shallots, ginger-garlic paste and tomato in oil until thick. | எண்ணெயில் மசாலாக்கள், சின்ன வெங்காயம், இஞ்சி பூண்டு விழுது, தக்காளியை கெட்டியாக வதக்கவும்.
+s: Add the powders, mutton and salt and fry for 8 minutes. | தூள்கள், மட்டன், உப்பு சேர்த்து 8 நிமிடம் வதக்கவும்.
+s: Add 3 cups of water and pressure cook for 6 whistles, then add the coconut paste and simmer 10 minutes. | 3 கப் தண்ணீர் சேர்த்து 6 விசில் குக்கரில் வேகவிட்டு தேங்காய் விழுது சேர்த்து 10 நிமிடம் கொதிக்கவிடவும்.
+
+@ Egg masala | 4 | 10 | 20
+note: Prick the boiled eggs lightly so the masala flavours them. | வேகவைத்த முட்டையில் லேசாக கீறினால் மசாலா உள்ளே செல்லும்.
+i: Eggs, boiled and peeled | முட்டை | 6 | piece
+i: Onion, chopped | வெங்காயம் | 2 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Chilli and coriander powder | மிளகாய், மல்லித் தூள் | 2 | tbsp
+i: Garam masala | கரம் மசாலா | 0.5 | tsp
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the onion and ginger-garlic paste in oil until golden, add the tomato and powders and cook to a thick masala. | வெங்காயம், இஞ்சி பூண்டு விழுதை எண்ணெயில் பொன்னிறமாக வதக்கி தக்காளி, தூள்கள் சேர்த்து கெட்டியாக வேகவிடவும்.
+s: Add salt and a cup of water and simmer for 5 minutes. | உப்பு, 1 கப் தண்ணீர் சேர்த்து 5 நிமிடம் கொதிக்கவிடவும்.
+s: Add the eggs and garam masala and simmer for 3 more minutes. | முட்டை, கரம் மசாலா சேர்த்து மேலும் 3 நிமிடம் கொதிக்கவிடவும்.
+
+@ Kerala egg roast | 4 | 10 | 25
+note: The onion-tomato masala should be cooked until the oil separates. | வெங்காயம் தக்காளி மசாலாவில் எண்ணெய் பிரியும் வரை சமைக்கவும்.
+i: Eggs, boiled and peeled | முட்டை | 6 | piece
+i: Onion, sliced | வெங்காயம் | 3 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Kashmiri chilli powder | காஷ்மீரி மிளகாய்த் தூள் | 2 | tsp
+i: Coriander and garam masala powder | மல்லித் தூள், கரம் மசாலா | 2 | tsp
+i: Curry leaves | கறிவேப்பிலை | 2 | sprig
+i: Coconut oil | தேங்காய் எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the sliced onions in coconut oil until deep golden with the curry leaves. | தேங்காய் எண்ணெயில் வெங்காயத்தை கறிவேப்பிலையுடன் அடர் பொன்னிறமாக வதக்கவும்.
+s: Add the paste, tomato, powders and salt and cook until the oil separates. | இஞ்சி பூண்டு விழுது, தக்காளி, தூள்கள், உப்பு சேர்த்து எண்ணெய் பிரியும் வரை சமைக்கவும்.
+s: Slit the eggs lightly, coat with the masala and cook for 3 minutes. | முட்டைகளை லேசாகக் கீறி மசாலாவில் புரட்டி 3 நிமிடம் வேகவிடவும்.
+
+@ Nethili fry | 4 | 15 | 15
+note: Clean the anchovies well and dry them before marinating. | நெத்திலியை நன்கு சுத்தம் செய்து உலர்த்தி ஊறவைக்கவும்.
+i: Anchovies (nethili), cleaned | நெத்திலி மீன் | 300 | g
+i: Chilli powder | மிளகாய்த் தூள் | 2 | tsp
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tsp
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Lemon juice | எலுமிச்சை சாறு | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Marinate the fish with the powders, paste, lemon and salt for 20 minutes. | மீனை தூள்கள், விழுது, எலுமிச்சை, உப்புடன் 20 நிமிடம் ஊறவைக்கவும்.
+s: Coat lightly with rice flour. | அரிசி மாவை லேசாகப் பூசவும்.
+s: Shallow fry in hot oil until crisp, about 3 minutes per side. | சூடான எண்ணெயில் ஒவ்வொரு பக்கமும் சுமார் 3 நிமிடம் மொறுமொறுப்பாக வறுக்கவும்.
+
+@ Fish moilee | 4 | 15 | 20
+note: Use a firm white fish and do not boil after adding the coconut milk. | உறுதியான வெள்ளை மீனைப் பயன்படுத்தி தேங்காய்ப் பால் சேர்த்த பின் கொதிக்க விடாதீர்கள்.
+i: Fish pieces | மீன் துண்டுகள் | 500 | g
+i: Onion, sliced | வெங்காயம் | 1 | piece
+i: Green chilli, slit | பச்சை மிளகாய் | 3 | piece
+i: Ginger, julienned | இஞ்சி | 1 | inch
+i: Tomato | தக்காளி | 1 | piece
+i: Turmeric powder | மஞ்சள் தூள் | 0.5 | tsp
+i: Thick coconut milk | கெட்டியான தேங்காய்ப் பால் | 1 | cup
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Coconut oil | தேங்காய் எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Sauté the onion, chilli, ginger and curry leaves in coconut oil until soft. | தேங்காய் எண்ணெயில் வெங்காயம், மிளகாய், இஞ்சி, கறிவேப்பிலையை மென்மையாக வதக்கவும்.
+s: Add the tomato, turmeric, salt, thin coconut milk or water and the fish; cook gently for 8 minutes. | தக்காளி, மஞ்சள், உப்பு, நீர்த்த தேங்காய்ப் பால் அல்லது தண்ணீர், மீன் சேர்த்து 8 நிமிடம் மெதுவாக வேகவிடவும்.
+s: Pour in the thick coconut milk and warm through without boiling. | கெட்டியான தேங்காய்ப் பாலை ஊற்றி கொதிக்க விடாமல் சூடாக்கவும்.
+
+@ Crab masala | 4 | 25 | 30
+note: Crack the claws lightly so the masala reaches the meat. | நண்டுக் கால்களை லேசாக உடைத்தால் மசாலா உள்ளே செல்லும்.
+i: Crab, cleaned and cut | நண்டு | 800 | g
+i: Onion, chopped | வெங்காயம் | 2 | piece
+i: Tomato | தக்காளி | 2 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Chilli and coriander powder | மிளகாய், மல்லித் தூள் | 2 | tbsp
+i: Pepper powder | மிளகுத் தூள் | 1 | tsp
+i: Coconut paste | தேங்காய் விழுது | 2 | tbsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 4 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the onion and ginger-garlic paste until golden, add the tomato and powders and cook to a thick masala. | வெங்காயம், இஞ்சி பூண்டு விழுதைப் பொன்னிறமாக வதக்கி தக்காளி, தூள்கள் சேர்த்து கெட்டியான மசாலாவாக்கவும்.
+s: Add the crab, salt and 1 cup of water; cover and cook for 15 minutes. | நண்டு, உப்பு, 1 கப் தண்ணீர் சேர்த்து மூடி 15 நிமிடம் வேகவிடவும்.
+s: Stir in the coconut paste, pepper and curry leaves and cook until the gravy thickens. | தேங்காய் விழுது, மிளகு, கறிவேப்பிலை சேர்த்து குழம்பு கெட்டியாகும் வரை சமைக்கவும்.

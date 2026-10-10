@@ -1,0 +1,458 @@
+# Standard recipes for the South Indian dishes added in migration 0015 — part A: tiffin, porridges, breakfast sweets.
+# Format: "@ dish | servings | prep min | cook min", then "note: English | Tamil", "i: name | Tamil | quantity (- if none) | unit", "s: English | Tamil".
+# Drafts: the family should check ingredients and seasoning.
+
+@ Rava idli | 4 | 20 | 15
+note: Batter thickens on standing; add a splash of water before steaming. | நிற்கும்போது மாவு கெட்டியாகும்; ஆவியில் வைக்கும் முன் சிறிது தண்ணீர் சேர்க்கவும்.
+i: Rava (semolina) | ரவை | 1.5 | cup
+i: Curd | தயிர் | 1 | cup
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Chana dal | கடலைப்பருப்பு | 1 | tbsp
+i: Cashew nuts | முந்திரி | 8 | piece
+i: Ghee | நெய் | 1 | tbsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Fruit salt or baking soda | ஈனோ அல்லது சமையல் சோடா | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the rava for 3 to 4 minutes until it smells nutty, then let it cool. | ரவையை 3 முதல் 4 நிமிடம் வாசனை வரும் வரை வறுத்து ஆறவிடவும்.
+s: Heat the ghee, splutter the mustard, fry the chana dal, cashews and chopped chilli, and mix into the rava. | நெய்யில் கடுகு தாளித்து, கடலைப்பருப்பு, முந்திரி, நறுக்கிய மிளகாயை வறுத்து ரவையில் கலக்கவும்.
+s: Add the curd, salt and enough water to make a thick idli batter. Rest for 15 minutes. | தயிர், உப்பு சேர்த்து, தேவையான தண்ணீர் விட்டு கெட்டியான இட்லி மாவு பதத்தில் கலந்து 15 நிமிடம் ஊறவிடவும்.
+s: Stir in the fruit salt, fill greased idli moulds and steam for 12 minutes. | ஈனோ சேர்த்துக் கலந்து, எண்ணெய் தடவிய இட்லித் தட்டில் ஊற்றி 12 நிமிடம் ஆவியில் வேகவிடவும்.
+
+@ Podi idli | 4 | 5 | 10
+note: Use idlis from yesterday's batch if you like; they fry up even better. | நேற்றைய இட்லிகளையும் பயன்படுத்தலாம்; இன்னும் சுவையாக இருக்கும்.
+i: Mini idlis or cut idlis | மினி இட்லி | 12 | piece
+i: Idli podi (gunpowder) | இட்லி பொடி | 3 | tbsp
+i: Sesame oil | நல்லெண்ணெய் | 2 | tbsp
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+s: Heat the oil, splutter the mustard and add the curry leaves. | எண்ணெயைக் காயவைத்து கடுகு தாளித்து கறிவேப்பிலை சேர்க்கவும்.
+s: Add the idlis and toss on medium heat for 3 to 4 minutes until lightly crisp at the edges. | இட்லிகளைச் சேர்த்து நடுத்தரத் தீயில் 3 முதல் 4 நிமிடம் ஓரங்கள் லேசாக மொறுமொறுக்கும் வரை புரட்டவும்.
+s: Sprinkle the podi, toss well to coat and serve hot. | இட்லி பொடியைத் தூவி நன்கு புரட்டி சூடாகப் பரிமாறவும்.
+
+@ Mini idli sambar | 4 | 10 | 25
+note: Pour the hot sambar over the idlis just before serving so they stay soft. | பரிமாறும் முன் மட்டும் சூடான சாம்பாரை இட்லிகள் மேல் ஊற்றவும்; அப்போது மென்மையாக இருக்கும்.
+i: Mini idlis | மினி இட்லி | 24 | piece
+i: Toor dal | துவரம்பருப்பு | 0.5 | cup
+i: Mixed vegetables (carrot, drumstick, onion) | கலவை காய்கறிகள் | 1.5 | cup
+i: Tamarind | புளி | 1 | tbsp
+i: Sambar powder | சாம்பார் பொடி | 2 | tsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Ghee | நெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Pressure cook the dal with turmeric until soft and mash lightly. | துவரம்பருப்பை மஞ்சள் தூளுடன் குக்கரில் வேகவைத்து லேசாக மசிக்கவும்.
+s: Boil the vegetables with tamarind water, sambar powder and salt until tender. | காய்கறிகளைப் புளிக்கரைசல், சாம்பார் பொடி, உப்புடன் வேகும் வரை கொதிக்கவிடவும்.
+s: Add the dal, simmer for 5 minutes, then temper with mustard in ghee. | பருப்பைச் சேர்த்து 5 நிமிடம் கொதிக்கவிட்டு, நெய்யில் கடுகு தாளித்துக் கொட்டவும்.
+s: Place the idlis in a bowl, ladle the hot sambar over them and serve. | இட்லிகளை கிண்ணத்தில் வைத்து சூடான சாம்பாரை ஊற்றிப் பரிமாறவும்.
+
+@ Set dosa | 4 | 15 | 20
+note: Cook on one side only, covered, for a soft sponge-like dosa. | ஒரு பக்கம் மட்டும் மூடி வேகவிட்டால் மென்மையான பஞ்சு போன்ற தோசை கிடைக்கும்.
+i: Dosa batter | தோசை மாவு | 3 | cup
+i: Poha (soaked) | அவல் | 2 | tbsp
+i: Curd | தயிர் | 2 | tbsp
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Stir the soaked poha and curd into the fermented batter and keep it a little thicker than regular dosa batter. | புளித்த மாவில் ஊறவைத்த அவல், தயிரைக் கலந்து சாதாரண தோசை மாவை விட சற்று கெட்டியாக வைக்கவும்.
+s: Heat a pan, pour a small ladle of batter and do not spread it. | தவாவைச் சூடாக்கி சிறிய கரண்டி மாவை ஊற்றவும்; பரப்ப வேண்டாம்.
+s: Drizzle a little oil, cover and cook on low heat until the top is set and bubbly. Do not flip. | சிறிது எண்ணெய் விட்டு மூடி, குறைந்த தீயில் மேல்பகுதி வெந்து குமிழ்கள் வரும் வரை வேகவிடவும்; திருப்ப வேண்டாம்.
+s: Stack three together and serve with chutney and sagu or sambar. | மூன்றாக அடுக்கி சட்னி, சாம்பாருடன் பரிமாறவும்.
+
+@ Neer dosa | 4 | 20 | 15
+note: The batter should be as thin as buttermilk. | மாவு மோர் போல நீர்த்து இருக்க வேண்டும்.
+i: Raw rice | பச்சரிசி | 1 | cup
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 1 | tbsp
+s: Soak the rice for 2 hours, then grind with the coconut and salt to a very smooth, thin batter. | அரிசியை 2 மணி நேரம் ஊறவைத்து, தேங்காய், உப்புடன் மிக நைசாக நீர்த்த மாவாக அரைக்கவும்.
+s: Heat a non-stick pan and lightly grease it. | தவாவைச் சூடாக்கி லேசாக எண்ணெய் தடவவும்.
+s: Stir the batter, pour it from a height to cover the pan and cook covered for 1 minute; no need to flip. | மாவைக் கலக்கி உயரத்திலிருந்து தவா முழுவதும் ஊற்றி மூடி 1 நிமிடம் வேகவிடவும்; திருப்ப வேண்டாம்.
+s: Fold into a triangle and serve with coconut chutney or curry. | முக்கோணமாக மடித்து தேங்காய் சட்னி அல்லது குழம்புடன் பரிமாறவும்.
+
+@ Adai | 4 | 20 | 20
+note: Keep the batter coarse, not smooth, for crisp adai. | மொறுமொறுப்புக்கு மாவை நைசாக இல்லாமல் கொரகொரப்பாக அரைக்கவும்.
+i: Raw rice | பச்சரிசி | 1 | cup
+i: Toor dal | துவரம்பருப்பு | 0.25 | cup
+i: Chana dal | கடலைப்பருப்பு | 0.25 | cup
+i: Urad dal | உளுத்தம் பருப்பு | 0.25 | cup
+i: Dried red chilli | காய்ந்த மிளகாய் | 4 | piece
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Asafoetida | பெருங்காயம் | 1 | pinch
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 4 | tbsp
+s: Soak the rice and all dals together for 3 hours. | அரிசி, எல்லா பருப்புகளையும் சேர்த்து 3 மணி நேரம் ஊறவைக்கவும்.
+s: Grind coarsely with the chillies, asafoetida and salt. Stir in the onion and curry leaves. | மிளகாய், பெருங்காயம், உப்புடன் கொரகொரப்பாக அரைத்து வெங்காயம், கறிவேப்பிலை கலக்கவும்.
+s: Pour a ladle on a hot pan, spread thick, and drizzle oil around and in the centre. | சூடான தவாவில் ஒரு கரண்டி மாவை சற்று கனமாகப் பரப்பி, ஓரங்களிலும் நடுவிலும் எண்ணெய் விடவும்.
+s: Cook both sides until golden and crisp. Serve with avial or jaggery and butter. | இருபுறமும் பொன்னிறமாக மொறுமொறுப்பாக வேகவிட்டு அவியல் அல்லது வெல்லம், வெண்ணெயுடன் பரிமாறவும்.
+
+@ Ragi dosa | 4 | 10 | 20
+note: Add a little rice flour if the dosa tears. | தோசை கிழிந்தால் சிறிது அரிசி மாவு சேர்க்கவும்.
+i: Ragi flour | ராகி மாவு | 1 | cup
+i: Rice flour | அரிசி மாவு | 0.25 | cup
+i: Urad dal flour or dosa batter | உளுந்து மாவு | 0.25 | cup
+i: Curd | தயிர் | 0.5 | cup
+i: Onion, finely chopped | வெங்காயம் | 1 | piece
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 3 | tbsp
+s: Mix the flours, curd, salt and water into a thin batter. Rest for 15 minutes. | மாவுகள், தயிர், உப்பு, தண்ணீர் சேர்த்து நீர்த்த மாவாகக் கலந்து 15 நிமிடம் வைக்கவும்.
+s: Stir in the onion. Heat a pan and pour the batter in a circle from the edge inwards. | வெங்காயத்தைக் கலந்து, சூடான தவாவில் ஓரத்திலிருந்து உள்நோக்கி வட்டமாக மாவை ஊற்றவும்.
+s: Drizzle oil, cook until crisp, fold and serve with chutney. | எண்ணெய் விட்டு மொறுமொறுப்பாக வேகவைத்து மடித்து சட்னியுடன் பரிமாறவும்.
+
+@ Wheat dosa | 4 | 10 | 15
+note: Rest the batter for 10 minutes; it thickens as the flour absorbs water. | மாவை 10 நிமிடம் ஊறவிடவும்; மாவு தண்ணீரை உறிஞ்சி கெட்டியாகும்.
+i: Wheat flour | கோதுமை மாவு | 1 | cup
+i: Rice flour | அரிசி மாவு | 0.25 | cup
+i: Curd | தயிர் | 0.25 | cup
+i: Cumin seeds | சீரகம் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 3 | tbsp
+s: Whisk the flours, curd, cumin and salt with water into a smooth, runny batter. | மாவுகள், தயிர், சீரகம், உப்பை தண்ணீருடன் கட்டியில்லாமல் நீர்த்து கலக்கவும்.
+s: Pour on a hot greased pan and spread thin. | சூடான எண்ணெய் தடவிய தவாவில் ஊற்றி மெல்லியதாகப் பரப்பவும்.
+s: Drizzle oil, cook both sides until golden and serve with chutney. | எண்ணெய் விட்டு இருபுறமும் பொன்னிறமாக வேகவிட்டு சட்னியுடன் பரிமாறவும்.
+
+@ Kal dosai | 4 | 10 | 20
+note: Cook covered on low heat so the dosa stays soft inside. | குறைந்த தீயில் மூடி வேகவிட்டால் உள்ளே மென்மையாக இருக்கும்.
+i: Dosa batter | தோசை மாவு | 3 | cup
+i: Oil or ghee | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Heat a heavy tawa on low heat and grease it. | கனமான தவாவைக் குறைந்த தீயில் சூடாக்கி எண்ணெய் தடவவும்.
+s: Pour a ladle of batter and spread slightly to a small thick round. | ஒரு கரண்டி மாவை ஊற்றி சிறிய கனமான வட்டமாக லேசாகப் பரப்பவும்.
+s: Cover and cook until the top is set, flip once for 30 seconds and serve soft with sambar. | மூடி மேல்பகுதி வேகும் வரை சமைத்து, ஒருமுறை திருப்பி 30 விநாடி வேகவைத்து சாம்பாருடன் மென்மையாகப் பரிமாறவும்.
+
+@ Egg dosa | 2 | 5 | 10
+note: Add a pinch of pepper and chopped onion on the egg for extra flavour. | முட்டையின் மேல் மிளகுத்தூள், நறுக்கிய வெங்காயம் தூவினால் கூடுதல் சுவை.
+i: Dosa batter | தோசை மாவு | 1 | cup
+i: Eggs | முட்டை | 2 | piece
+i: Pepper powder | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 2 | tbsp
+s: Spread a dosa on a hot pan and drizzle a little oil. | சூடான தவாவில் தோசை ஊற்றி சிறிது எண்ணெய் விடவும்.
+s: Beat an egg with salt and pepper and pour it over the dosa while the top is still wet, spreading with the spoon. | முட்டையை உப்பு, மிளகுடன் அடித்து தோசை வேகும் முன் மேலே ஊற்றி கரண்டியால் பரப்பவும்.
+s: Cook until the egg sets, flip briefly, fold and serve hot. | முட்டை வெந்ததும் ஒருமுறை திருப்பி மடித்து சூடாகப் பரிமாறவும்.
+
+@ Khara bath | 4 | 10 | 20
+note: Serve with a spoon of coconut chutney or raita. | தேங்காய் சட்னி அல்லது ரைத்தாவுடன் பரிமாறவும்.
+i: Rava (semolina) | ரவை | 1 | cup
+i: Onion, tomato, carrot, peas (chopped) | கலவை காய்கறிகள் | 1.5 | cup
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Chana dal and urad dal | கடலைப்பருப்பு, உளுத்தம்பருப்பு | 1 | tbsp
+i: Cashew nuts | முந்திரி | 8 | piece
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Ghee or oil | நெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the rava until fragrant and set aside. | ரவையை வாசனை வரும் வரை வறுத்து தனியே வைக்கவும்.
+s: Heat the ghee, splutter the mustard, fry the dals, cashews and chillies, then the vegetables with salt. | நெய்யில் கடுகு தாளித்து, பருப்புகள், முந்திரி, மிளகாய் வறுத்து காய்கறிகளையும் உப்பையும் சேர்த்து வதக்கவும்.
+s: Add 2.5 cups of hot water, bring to a boil, then pour in the rava while stirring. | 2.5 கப் சூடான தண்ணீர் சேர்த்து கொதிக்கவிட்டு, கிளறியபடி ரவையைக் கொட்டவும்.
+s: Cover and cook on low for 5 minutes, fluff and serve hot. | மூடி குறைந்த தீயில் 5 நிமிடம் வேகவைத்து கிளறிப் பரிமாறவும்.
+
+@ Semiya upma | 4 | 10 | 15
+note: Roast the vermicelli well so it does not turn sticky. | சேமியாவை நன்கு வறுத்தால் ஒட்டாமல் உதிரியாக இருக்கும்.
+i: Vermicelli (semiya) | சேமியா | 1.5 | cup
+i: Onion, sliced | வெங்காயம் | 1 | piece
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Chana dal and urad dal | கடலைப்பருப்பு, உளுத்தம்பருப்பு | 1 | tbsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil or ghee | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Roast the vermicelli in a little oil until golden and set aside. | சேமியாவை சிறிது எண்ணெயில் பொன்னிறமாக வறுத்து தனியே வைக்கவும்.
+s: Temper mustard, dals, chilli and curry leaves; fry the onion until soft. | கடுகு, பருப்புகள், மிளகாய், கறிவேப்பிலை தாளித்து வெங்காயத்தை மென்மையாக வதக்கவும்.
+s: Add 3 cups of water and salt, bring to a boil, add the vermicelli and stir. | 3 கப் தண்ணீர், உப்பு சேர்த்து கொதிக்கவிட்டு சேமியாவைச் சேர்த்துக் கிளறவும்.
+s: Cover and cook on low for 3 to 4 minutes until the water is absorbed. | மூடி குறைந்த தீயில் 3 முதல் 4 நிமிடம் தண்ணீர் உறிஞ்சும் வரை வேகவிடவும்.
+
+@ Godhumai rava upma | 4 | 10 | 20
+note: Broken wheat (dalia) has more fibre than semolina. | கோதுமை ரவையில் நார்ச்சத்து அதிகம்.
+i: Broken wheat (godhumai rava) | கோதுமை ரவை | 1 | cup
+i: Mixed vegetables, chopped | கலவை காய்கறிகள் | 1 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tbsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the broken wheat for 3 minutes. | கோதுமை ரவையை 3 நிமிடம் வறுக்கவும்.
+s: Temper mustard, urad dal and chilli; fry the onion and vegetables with salt. | கடுகு, உளுத்தம்பருப்பு, மிளகாய் தாளித்து வெங்காயம், காய்கறிகளை உப்புடன் வதக்கவும்.
+s: Add 2.5 cups of boiling water, stir in the wheat, cover and cook on low for 10 minutes. | 2.5 கப் கொதிக்கும் தண்ணீர் சேர்த்து ரவையைக் கிளறி, மூடி குறைந்த தீயில் 10 நிமிடம் வேகவிடவும்.
+
+@ Arisi upma | 4 | 10 | 25
+note: Soak the rice rava for 15 minutes for a softer upma. | அரிசி ரவையை 15 நிமிடம் ஊறவைத்தால் மென்மையாக இருக்கும்.
+i: Rice rava (broken rice) | அரிசி ரவை | 1 | cup
+i: Toor dal | துவரம்பருப்பு | 2 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 3 | piece
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Boil the toor dal with 3 cups of water until half cooked. | துவரம்பருப்பை 3 கப் தண்ணீரில் பாதி வேகும் வரை வேகவிடவும்.
+s: Temper mustard, chillies and curry leaves in oil and add them with salt to the water. | எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை தாளித்து உப்புடன் தண்ணீரில் சேர்க்கவும்.
+s: Add the rice rava slowly while stirring, then the coconut; cover and cook on low for 10 minutes. | அரிசி ரவையைக் கிளறியபடி மெதுவாகச் சேர்த்து, தேங்காய் சேர்த்து மூடி குறைந்த தீயில் 10 நிமிடம் வேகவிடவும்.
+
+@ Samai upma | 4 | 10 | 20
+note: Little millet cooks quickly; do not overcook or it gets mushy. | சாமை சீக்கிரம் வேகும்; அதிகம் வேகவைத்தால் குழைந்துவிடும்.
+i: Little millet (samai) | சாமை | 1 | cup
+i: Onion, carrot, beans (chopped) | வெங்காயம், காய்கறிகள் | 1 | cup
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tbsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Ginger, grated | இஞ்சி | 1 | tsp
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Rinse the millet and drain well. | சாமையைக் கழுவி நன்கு வடிக்கவும்.
+s: Temper mustard, urad dal, chilli and ginger; fry the onion and vegetables with salt. | கடுகு, உளுத்தம்பருப்பு, மிளகாய், இஞ்சி தாளித்து வெங்காயம், காய்கறிகளை உப்புடன் வதக்கவும்.
+s: Add the millet and 2 cups of water, cover and cook on low for 12 minutes. Fluff and serve. | சாமையையும் 2 கப் தண்ணீரையும் சேர்த்து மூடி குறைந்த தீயில் 12 நிமிடம் வேகவைத்து கிளறிப் பரிமாறவும்.
+
+@ Kuzhi paniyaram | 4 | 10 | 20
+note: Use leftover idli or dosa batter. | மீதமான இட்லி அல்லது தோசை மாவைப் பயன்படுத்தலாம்.
+i: Idli or dosa batter | இட்லி மாவு | 2 | cup
+i: Onion, finely chopped | வெங்காயம் | 1 | piece
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper the mustard, chilli, curry leaves and onion in a little oil and mix into the batter with salt. | சிறிது எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை, வெங்காயம் தாளித்து உப்புடன் மாவில் கலக்கவும்.
+s: Heat the paniyaram pan, add a few drops of oil to each hollow and fill two-thirds with batter. | பணியாரக் கல்லைச் சூடாக்கி ஒவ்வொரு குழியிலும் சில துளி எண்ணெய் விட்டு மூன்றில் இரண்டு பங்கு மாவு ஊற்றவும்.
+s: Cook on low until golden underneath, turn and cook the other side. Serve with chutney. | குறைந்த தீயில் அடிப்பக்கம் பொன்னிறமானதும் திருப்பி மறுபக்கம் வேகவிட்டு சட்னியுடன் பரிமாறவும்.
+
+@ Idiyappam | 4 | 20 | 10
+note: Use hot water and mix with a spoon first; the dough is hot to touch. | சூடான தண்ணீரை முதலில் கரண்டியால் கலக்கவும்; மாவு சூடாக இருக்கும்.
+i: Idiyappam flour (rice flour) | இடியாப்ப மாவு | 2 | cup
+i: Hot water | சூடான தண்ணீர் | 2.25 | cup
+i: Oil | எண்ணெய் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Mix the flour, salt and oil, then stir in the hot water to form a soft dough. | மாவு, உப்பு, எண்ணெய் கலந்து சூடான தண்ணீர் சேர்த்து மென்மையான மாவாகப் பிசையவும்.
+s: Fill a sev press with dough and press circles onto greased idli plates. | சேவை நாழியில் மாவை நிரப்பி எண்ணெய் தடவிய இட்லித் தட்டுகளில் வட்டமாகப் பிழியவும்.
+s: Steam for 8 to 10 minutes. Serve with coconut milk, sugar, stew or kurma. | 8 முதல் 10 நிமிடம் ஆவியில் வேகவிடவும். தேங்காய்ப்பால், சர்க்கரை, ஸ்டூ அல்லது குருமாவுடன் பரிமாறவும்.
+
+@ Poori | 4 | 15 | 15
+note: Roll evenly and keep the oil hot so the pooris puff. | சமமாகத் தேய்த்து எண்ணெயை நன்கு சூடாக வைத்தால் பூரி பொங்கும்.
+i: Wheat flour | கோதுமை மாவு | 2 | cup
+i: Rava (fine semolina) | ரவை | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the flour, rava and salt, and knead a stiff dough with water. Rest for 20 minutes. | மாவு, ரவை, உப்பை கலந்து தண்ணீர் விட்டு கெட்டியாகப் பிசைந்து 20 நிமிடம் ஊறவிடவும்.
+s: Make small balls and roll into 4-inch rounds. | சிறு உருண்டைகளாக்கி 4 அங்குல வட்டங்களாகத் தேய்க்கவும்.
+s: Fry in hot oil, pressing gently so it puffs, until golden on both sides. Drain and serve with potato masala. | சூடான எண்ணெயில் மெதுவாக அழுத்தி பொங்கவிட்டு இருபுறமும் பொன்னிறமாகப் பொரிக்கவும். வடித்து உருளைக்கிழங்கு மசாலாவுடன் பரிமாறவும்.
+
+@ Sambar vada | 4 | 15 | 20
+note: Soak the fried vadas in warm sambar for 5 minutes for a soft, juicy bite. | வறுத்த வடைகளை சூடான சாம்பாரில் 5 நிமிடம் ஊறவைத்தால் மென்மையாக ருசியாக இருக்கும்.
+i: Medu vadas | மெதுவடை | 8 | piece
+i: Sambar | சாம்பார் | 3 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Coriander leaves | கொத்தமல்லி | 1 | handful
+i: Ghee | நெய் | 1 | tsp
+s: Make the medu vadas and fry until golden (or use ready-made ones). | மெதுவடைகளைச் செய்து பொன்னிறமாகப் பொரிக்கவும் (அல்லது தயாராக உள்ளவற்றைப் பயன்படுத்தவும்).
+s: Heat the sambar and add the vadas for 5 minutes. | சாம்பாரைச் சூடாக்கி வடைகளை 5 நிமிடம் ஊறவிடவும்.
+s: Serve in bowls topped with onion, coriander and a little ghee. | கிண்ணங்களில் வெங்காயம், கொத்தமல்லி, சிறிது நெய் மேலே தூவிப் பரிமாறவும்.
+
+@ Thayir vada | 4 | 15 | 10
+note: Use thick, fresh curd and chill before serving. | கெட்டியான புதிய தயிரைப் பயன்படுத்தி குளிர வைத்துப் பரிமாறவும்.
+i: Medu vadas | மெதுவடை | 8 | piece
+i: Curd | தயிர் | 2 | cup
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Green chilli | பச்சை மிளகாய் | 1 | piece
+i: Coriander leaves | கொத்தமல்லி | 1 | handful
+i: Salt | உப்பு | - | to_taste
+s: Soak the fried vadas in warm salted water for 2 minutes and press out the water gently. | பொரித்த வடைகளை சூடான உப்புத் தண்ணீரில் 2 நிமிடம் ஊறவைத்து மெதுவாகப் பிழியவும்.
+s: Whisk the curd with salt and chopped chilli and pour over the vadas. | தயிரை உப்பு, நறுக்கிய மிளகாயுடன் அடித்து வடைகள் மேல் ஊற்றவும்.
+s: Temper the mustard, pour over, garnish with coriander and chill. | கடுகு தாளித்து ஊற்றி கொத்தமல்லி தூவி குளிரவைக்கவும்.
+
+@ Pazhaya sadam | 2 | 5 | 0
+note: Soak cooked rice overnight in water; add curd and salt in the morning. | சாதத்தை இரவு முழுவதும் தண்ணீரில் ஊறவைத்து காலையில் தயிர், உப்பு சேர்க்கவும்.
+i: Cooked rice | சாதம் | 2 | cup
+i: Water | தண்ணீர் | 2 | cup
+i: Curd or buttermilk | தயிர் | 0.5 | cup
+i: Shallots | சின்ன வெங்காயம் | 6 | piece
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Salt | உப்பு | - | to_taste
+s: The night before, soak the cooked rice in water in a clay or steel pot and keep it covered. | முதல் நாள் இரவு சாதத்தை மண் அல்லது எவர்சில்வர் பாத்திரத்தில் தண்ணீரில் ஊறவைத்து மூடி வைக்கவும்.
+s: In the morning, mash the rice lightly in its water and mix in the curd and salt. | காலையில் சாதத்தை தண்ணீரோடு லேசாக மசித்து தயிர், உப்பு கலக்கவும்.
+s: Serve with shallots, green chilli and a pickle or fried fish. | சின்ன வெங்காயம், பச்சை மிளகாய், ஊறுகாய் அல்லது மீன் வறுவலுடன் பரிமாறவும்.
+
+@ Mor kali | 4 | 10 | 20
+note: Stir constantly so no lumps form. | கட்டி விழாமல் தொடர்ந்து கிளறவும்.
+i: Rice flour | அரிசி மாவு | 1 | cup
+i: Sour buttermilk | புளித்த மோர் | 2.5 | cup
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Sesame oil | நல்லெண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Whisk the rice flour with the buttermilk and salt until smooth. | அரிசி மாவை மோர், உப்புடன் கட்டியின்றி கலக்கவும்.
+s: Temper mustard, urad dal, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, உளுத்தம்பருப்பு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Pour in the buttermilk mixture and stir on medium heat until it thickens into a soft mass, about 10 minutes. | மோர் கலவையை ஊற்றி நடுத்தரத் தீயில் மென்மையான கட்டியாகும் வரை சுமார் 10 நிமிடம் கிளறவும்.
+s: Serve hot with pickle or thokku. | சூடாக ஊறுகாய் அல்லது தொக்குடன் பரிமாறவும்.
+
+@ Thinai pongal | 4 | 10 | 25
+note: Foxtail millet pongal tastes best with sambar and chutney. | தினை பொங்கல் சாம்பார், சட்னியுடன் நன்றாக இருக்கும்.
+i: Foxtail millet (thinai) | தினை | 1 | cup
+i: Moong dal | பாசிப்பருப்பு | 0.25 | cup
+i: Ghee | நெய் | 2 | tbsp
+i: Pepper and cumin | மிளகு, சீரகம் | 1 | tsp
+i: Ginger, grated | இஞ்சி | 1 | tsp
+i: Cashew nuts | முந்திரி | 8 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Salt | உப்பு | - | to_taste
+s: Dry roast the moong dal lightly, then pressure cook with the millet and 4 cups of water until soft. | பாசிப்பருப்பை லேசாக வறுத்து தினையுடன் 4 கப் தண்ணீர் சேர்த்து குழைய வேகவிடவும்.
+s: Heat the ghee, fry the pepper, cumin, ginger, cashews and curry leaves. | நெய்யில் மிளகு, சீரகம், இஞ்சி, முந்திரி, கறிவேப்பிலை வறுக்கவும்.
+s: Mix into the cooked millet with salt and mash gently. Serve hot. | வெந்த தினையில் உப்புடன் கலந்து லேசாக மசித்துச் சூடாகப் பரிமாறவும்.
+
+@ Ragi roti | 4 | 15 | 15
+note: Pat the roti with wet fingers on a banana leaf or plastic sheet. | ஈரக்கையால் வாழை இலை அல்லது பிளாஸ்டிக் தாளில் தட்டவும்.
+i: Ragi flour | ராகி மாவு | 2 | cup
+i: Onion, finely chopped | வெங்காயம் | 1 | piece
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Curry leaves and coriander | கறிவேப்பிலை, கொத்தமல்லி | 1 | handful
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 2 | tbsp
+s: Mix the flour with the onion, coconut, chilli, leaves and salt. | மாவை வெங்காயம், தேங்காய், மிளகாய், இலைகள், உப்புடன் கலக்கவும்.
+s: Add warm water gradually and knead a soft dough. | வெதுவெதுப்பான தண்ணீரை சிறிது சிறிதாகச் சேர்த்து மென்மையாகப் பிசையவும்.
+s: Pat out thin rounds by hand and cook on a hot tawa with a little oil until brown spots appear on both sides. | கையால் மெல்லியதாகத் தட்டி சூடான தவாவில் எண்ணெய் விட்டு இருபுறமும் புள்ளிகள் வரும் வரை வேகவிடவும்.
+
+@ Akki roti | 4 | 15 | 15
+note: Use warm water so the dough binds well. | வெதுவெதுப்பான தண்ணீரால் மாவு நன்கு சேரும்.
+i: Rice flour | அரிசி மாவு | 2 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Dill or coriander leaves | கொத்தமல்லி | 1 | handful
+i: Cumin seeds | சீரகம் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 3 | tbsp
+s: Mix the flour with the onion, coconut, chilli, leaves, cumin and salt. | மாவை வெங்காயம், தேங்காய், மிளகாய், இலை, சீரகம், உப்புடன் கலக்கவும்.
+s: Add warm water and knead into a soft dough. | வெதுவெதுப்பான தண்ணீர் சேர்த்து மென்மையாகப் பிசையவும்.
+s: Pat a ball on a greased sheet into a thin round, lay it on a hot tawa and cook with oil on both sides until golden. | எண்ணெய் தடவிய தாளில் உருண்டையை மெல்லிய வட்டமாகத் தட்டி சூடான தவாவில் எண்ணெய் விட்டு இருபுறமும் பொன்னிறமாக வேகவிடவும்.
+
+@ Vangi bath | 4 | 15 | 25
+note: Brinjal can be replaced with other vegetables. | கத்தரிக்காயை மற்ற காய்கறிகளாலும் மாற்றலாம்.
+i: Cooked rice | வேகவைத்த சாதம் | 3 | cup
+i: Brinjal, cut long | கத்தரிக்காய் | 250 | g
+i: Vangi bath powder | வாங்கி பாத் பொடி | 3 | tbsp
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Peanuts | வேர்க்கடலை | 2 | tbsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil, splutter the mustard, fry the peanuts and curry leaves. | எண்ணெயில் கடுகு தாளித்து வேர்க்கடலை, கறிவேப்பிலை வறுக்கவும்.
+s: Add the brinjal with salt and a splash of water; cook covered until soft. | கத்தரிக்காயை உப்பு, சிறிது தண்ணீருடன் சேர்த்து மூடி மென்மையாக வேகவிடவும்.
+s: Stir in the vangi bath powder, then fold in the rice gently and heat through. | வாங்கி பாத் பொடியைச் சேர்த்து சாதத்தை மெதுவாகக் கலந்து சூடாக்கவும்.
+
+@ Veechu parotta | 4 | 90 | 20
+note: Rest the oiled dough balls for at least 1 hour; this is what makes the layers. | எண்ணெய் தடவிய மாவு உருண்டைகளை குறைந்தது 1 மணி நேரம் ஊறவிட்டால் அடுக்குகள் கிடைக்கும்.
+i: Maida (refined flour) | மைதா | 3 | cup
+i: Sugar | சர்க்கரை | 1 | tsp
+i: Milk | பால் | 0.25 | cup
+i: Oil | எண்ணெய் | 6 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Knead the maida with salt, sugar, milk and water into a very soft dough; coat with oil and rest 30 minutes. | மைதாவை உப்பு, சர்க்கரை, பால், தண்ணீருடன் மிகவும் மென்மையாகப் பிசைந்து எண்ணெய் தடவி 30 நிமிடம் ஊறவிடவும்.
+s: Divide into balls, soak them in oil and rest for 1 hour. | உருண்டைகளாக்கி எண்ணெயில் ஊறவைத்து 1 மணி நேரம் வைக்கவும்.
+s: Stretch each ball very thin on an oiled surface, fold into a square layer by layer and flatten gently. | எண்ணெய் தடவிய மேடையில் ஒவ்வொரு உருண்டையையும் மிக மெல்லியதாக இழுத்து அடுக்கடுக்காக சதுரமாக மடித்து மெதுவாகத் தட்டவும்.
+s: Cook on a hot tawa with oil until golden, then crush gently to separate the layers. | சூடான தவாவில் எண்ணெய் விட்டு பொன்னிறமாக வேகவைத்து அடுக்குகள் பிரிய மெதுவாக அடிக்கவும்.
+
+@ Chilli parotta | 3 | 15 | 15
+note: Use parottas from the day before; they absorb the sauce better. | முதல் நாள் பரோட்டாவைப் பயன்படுத்தினால் சாஸை நன்கு உறிஞ்சும்.
+i: Parotta, torn in pieces | பரோட்டா | 3 | piece
+i: Onion, sliced | வெங்காயம் | 2 | piece
+i: Capsicum, sliced | குடைமிளகாய் | 1 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tsp
+i: Soy sauce | சோயா சாஸ் | 1 | tbsp
+i: Tomato sauce | தக்காளி சாஸ் | 2 | tbsp
+i: Chilli sauce | மிளகாய் சாஸ் | 1 | tbsp
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil and fry the ginger-garlic paste, onion and capsicum on high heat for 2 minutes. | எண்ணெயில் இஞ்சி பூண்டு விழுது, வெங்காயம், குடைமிளகாயை அதிக தீயில் 2 நிமிடம் வதக்கவும்.
+s: Add the soy, tomato and chilli sauces and a pinch of salt. | சோயா, தக்காளி, மிளகாய் சாஸ்கள், சிறிது உப்பு சேர்க்கவும்.
+s: Toss in the parotta pieces until well coated and crisp at the edges. Serve hot. | பரோட்டா துண்டுகளைச் சேர்த்து சாஸ் படிந்து ஓரங்கள் மொறுமொறுக்கும் வரை புரட்டிச் சூடாகப் பரிமாறவும்.
+
+@ Ragi koozh | 4 | 5 | 15
+note: Serve cool, topped with shallots and a pinch of salt in the summer. | கோடையில் சின்ன வெங்காயம், சிறிது உப்புடன் குளிர்ச்சியாகப் பரிமாறவும்.
+i: Ragi flour | ராகி மாவு | 0.5 | cup
+i: Water | தண்ணீர் | 3 | cup
+i: Buttermilk | மோர் | 1 | cup
+i: Salt | உப்பு | - | to_taste
+i: Shallots, chopped | சின்ன வெங்காயம் | 4 | piece
+s: Mix the ragi flour with 1 cup of water into a smooth paste with no lumps. | ராகி மாவை 1 கப் தண்ணீருடன் கட்டியின்றி கரைக்கவும்.
+s: Boil 2 cups of water, add the paste and stir on low heat for 8 to 10 minutes until thick and glossy. | 2 கப் தண்ணீரைக் கொதிக்கவிட்டு கரைத்த மாவை ஊற்றி குறைந்த தீயில் 8 முதல் 10 நிமிடம் கெட்டியாகும் வரை கிளறவும்.
+s: Cool, whisk in the buttermilk and salt, and serve with shallots. | ஆறவிட்டு மோர், உப்பு கலந்து சின்ன வெங்காயத்துடன் பரிமாறவும்.
+
+@ Kambu koozh | 4 | 5 | 15
+note: Soaking the flour overnight gives a naturally cooling drink. | மாவை இரவு ஊறவைத்தால் இயற்கையாகக் குளிர்ச்சி தரும்.
+i: Pearl millet flour (kambu) | கம்பு மாவு | 0.5 | cup
+i: Water | தண்ணீர் | 3 | cup
+i: Buttermilk | மோர் | 1 | cup
+i: Salt | உப்பு | - | to_taste
+i: Green chilli (optional) | பச்சை மிளகாய் | 1 | piece
+s: Mix the flour with a cup of water to a smooth paste. | மாவை 1 கப் தண்ணீருடன் கட்டியின்றி கரைக்கவும்.
+s: Boil the rest of the water, pour in the paste and stir on low heat until it thickens, about 10 minutes. | மீதமுள்ள தண்ணீரைக் கொதிக்கவிட்டு கரைத்த மாவை ஊற்றி குறைந்த தீயில் சுமார் 10 நிமிடம் கெட்டியாகும் வரை கிளறவும்.
+s: Cool, mix with buttermilk and salt and serve. | ஆறவிட்டு மோர், உப்பு கலந்து பரிமாறவும்.
+
+@ Ragi mudde | 4 | 5 | 20
+note: Eat with sambar or a spicy curry; swallow in small pieces. | சாம்பார் அல்லது காரக் குழம்புடன் சிறு துண்டுகளாக விழுங்கி உண்ணவும்.
+i: Ragi flour | ராகி மாவு | 1.5 | cup
+i: Water | தண்ணீர் | 3 | cup
+i: Salt | உப்பு | - | to_taste
+i: Ghee | நெய் | 1 | tsp
+s: Bring the water and salt to a boil and sprinkle in half the ragi flour; cook for 2 minutes without stirring. | தண்ணீர், உப்பைக் கொதிக்கவிட்டு பாதி ராகி மாவைத் தூவி கிளறாமல் 2 நிமிடம் வேகவிடவும்.
+s: Add the rest of the flour, stir hard with a wooden spoon to break the lumps and cook on low for 8 minutes. | மீதமுள்ள மாவைச் சேர்த்து மரக்கரண்டியால் கட்டிகளை உடைத்து அழுத்திக் கிளறி குறைந்த தீயில் 8 நிமிடம் வேகவிடவும்.
+s: With wet hands, shape into balls, brush with ghee and serve hot. | ஈரக்கையால் உருண்டைகளாக்கி நெய் தடவிச் சூடாகப் பரிமாறவும்.
+
+@ Ulundu kali | 4 | 10 | 25
+note: Serve warm with a spoon of sesame oil on top. | வெதுவெதுப்பாக மேலே நல்லெண்ணெய் ஊற்றிப் பரிமாறவும்.
+i: Black urad dal with skin | கருப்பு உளுந்து | 0.5 | cup
+i: Raw rice | பச்சரிசி | 2 | tbsp
+i: Jaggery | வெல்லம் | 0.5 | cup
+i: Sesame oil | நல்லெண்ணெய் | 3 | tbsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+s: Dry roast the urad dal and rice separately and grind to a fine flour. | உளுந்து, அரிசியைத் தனித்தனியாக வறுத்து நைசாக மாவாக அரைக்கவும்.
+s: Melt the jaggery in a little water, strain and boil. | வெல்லத்தை சிறிது தண்ணீரில் கரைத்து வடிகட்டிக் கொதிக்கவிடவும்.
+s: Add the flour with 1.5 cups of water, stir continuously on low heat until it thickens, adding sesame oil as it cooks. | மாவையும் 1.5 கப் தண்ணீரையும் சேர்த்து குறைந்த தீயில் கிளறி, நல்லெண்ணெய் சேர்த்தபடி கெட்டியாகும் வரை சமைக்கவும்.
+s: Add cardamom and serve warm. | ஏலக்காய் தூள் சேர்த்து வெதுவெதுப்பாகப் பரிமாறவும்.
+
+@ Sakkarai pongal | 4 | 10 | 30
+note: Cook the rice and dal very soft before adding the jaggery syrup. | வெல்லப் பாகு சேர்க்கும் முன் அரிசியையும் பருப்பையும் நன்கு குழைய வேகவிடவும்.
+i: Raw rice | பச்சரிசி | 0.75 | cup
+i: Moong dal | பாசிப்பருப்பு | 0.25 | cup
+i: Jaggery | வெல்லம் | 1 | cup
+i: Milk | பால் | 1 | cup
+i: Ghee | நெய் | 4 | tbsp
+i: Cashew nuts and raisins | முந்திரி, திராட்சை | 2 | tbsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+s: Dry roast the dal, then cook with the rice, milk and 2 cups of water until very soft. | பருப்பை வறுத்து அரிசியுடன் பால், 2 கப் தண்ணீர் சேர்த்து மிகவும் குழைய வேகவிடவும்.
+s: Melt the jaggery in a little water, strain and simmer for 3 minutes. | வெல்லத்தை சிறிது தண்ணீரில் கரைத்து வடிகட்டி 3 நிமிடம் கொதிக்கவிடவும்.
+s: Mash the rice, add the syrup and cook on low for 5 minutes, stirring. | சாதத்தை மசித்து பாகு சேர்த்து குறைந்த தீயில் கிளறியபடி 5 நிமிடம் சமைக்கவும்.
+s: Fry the cashews and raisins in ghee, add with the cardamom and the remaining ghee. | நெய்யில் முந்திரி, திராட்சையை வறுத்து ஏலக்காய், மீதமுள்ள நெய்யுடன் சேர்க்கவும்.
+
+@ Sukku malli coffee | 4 | 5 | 10
+note: Good for colds; add a little palm jaggery to sweeten. | சளிக்கு நல்லது; இனிப்புக்கு சிறிது கருப்பட்டி சேர்க்கவும்.
+i: Dry ginger powder (sukku) | சுக்குப் பொடி | 1 | tsp
+i: Coriander seeds | மல்லி விதை | 2 | tbsp
+i: Pepper | மிளகு | 0.5 | tsp
+i: Cardamom | ஏலக்காய் | 2 | piece
+i: Palm jaggery | கருப்பட்டி | 3 | tbsp
+i: Water | தண்ணீர் | 4 | cup
+s: Lightly crush the coriander seeds, pepper and cardamom. | மல்லி விதை, மிளகு, ஏலக்காயை லேசாக இடிக்கவும்.
+s: Boil with the water, dry ginger and jaggery for 8 to 10 minutes. | தண்ணீர், சுக்கு, கருப்பட்டியுடன் 8 முதல் 10 நிமிடம் கொதிக்கவிடவும்.
+s: Strain and serve hot. | வடிகட்டிச் சூடாகப் பரிமாறவும்.
+
+@ Badam milk | 4 | 10 | 15
+note: Soak the almonds for 4 hours to peel easily. | பாதாமை 4 மணி நேரம் ஊறவைத்தால் தோல் எளிதாக உரியும்.
+i: Milk | பால் | 4 | cup
+i: Almonds | பாதாம் | 20 | piece
+i: Sugar | சர்க்கரை | 4 | tbsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Saffron strands | குங்குமப்பூ | 1 | pinch
+s: Soak, peel and grind the almonds with a little milk to a smooth paste. | பாதாமை ஊறவைத்து தோல் நீக்கி சிறிது பாலுடன் நைசாக அரைக்கவும்.
+s: Boil the remaining milk, add the paste, sugar and saffron, and simmer for 8 minutes. | மீதமுள்ள பாலைக் கொதிக்கவிட்டு விழுது, சர்க்கரை, குங்குமப்பூ சேர்த்து 8 நிமிடம் கொதிக்கவிடவும்.
+s: Add the cardamom and serve warm or chilled. | ஏலக்காய் தூள் சேர்த்து சூடாகவோ குளிரவைத்தோ பரிமாறவும்.
+
+@ Paper roast | 4 | 15 | 20
+note: Spread the batter as thin as you can; it should shatter when you break it. | மாவை முடிந்தவரை மெல்லியதாகப் பரப்பவும்; உடைக்கும்போது மொறுமொறுவென உடைய வேண்டும்.
+i: Dosa batter | தோசை மாவு | 3 | cup
+i: Rice flour | அரிசி மாவு | 1 | tbsp
+i: Ghee or oil | நெய் | 4 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Thin the batter with a little water and stir in the rice flour and salt. | மாவை சிறிது தண்ணீரில் இளக்கி அரிசி மாவு, உப்பு சேர்த்துக் கலக்கவும்.
+s: Pour a ladle on a very hot tawa and spread in thin circles to make a large, wide dosa. | மிகவும் சூடான தவாவில் ஒரு கரண்டி மாவை ஊற்றி மெல்லிய வட்டங்களாகப் பரப்பி பெரிய அகன்ற தோசையாக்கவும்.
+s: Drizzle ghee all over and cook on medium heat until deep golden and crisp. Roll and serve with chutney and sambar. | நெய்யை முழுவதும் தெளித்து நடுத்தரத் தீயில் அடர் பொன்னிறமாக மொறுமொறுப்பாக வேகவிடவும். சுருட்டி சட்னி, சாம்பாருடன் பரிமாறவும்.

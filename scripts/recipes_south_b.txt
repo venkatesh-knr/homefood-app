@@ -1,0 +1,485 @@
+# Standard recipes for the South Indian dishes added in migration 0015 — part B: snacks, sweets, drinks.
+# Same format as recipes_south_a.txt. Drafts: the family should check ingredients and seasoning.
+
+@ Pidi kozhukattai | 4 | 15 | 20
+note: Salted and sweet versions both use the same dough shaped by hand. | உப்பு, இனிப்பு இரண்டுக்கும் ஒரே மாவு; கையால் பிடித்து வடிவமைக்கவும்.
+i: Rice flour | அரிசி மாவு | 1 | cup
+i: Water | தண்ணீர் | 1.25 | cup
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Urad dal | உளுத்தம் பருப்பு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 2 | piece
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Temper mustard, urad dal and chilli in oil, add the water and salt and boil. | எண்ணெயில் கடுகு, உளுத்தம்பருப்பு, மிளகாய் தாளித்து தண்ணீர், உப்பு சேர்த்துக் கொதிக்கவிடவும்.
+s: Lower the heat, add the coconut and slowly stir in the rice flour until it forms a soft dough. | தீயைக் குறைத்து தேங்காய் சேர்த்து அரிசி மாவை மெதுவாகக் கிளறி மென்மையான மாவாக்கவும்.
+s: When warm, press small portions in your palm to make finger-shaped pieces. | வெதுவெதுப்பாக இருக்கும்போது சிறு உருண்டைகளை உள்ளங்கையில் அழுத்தி விரல் வடிவில் பிடிக்கவும்.
+s: Steam for 10 minutes and serve warm. | 10 நிமிடம் ஆவியில் வேகவைத்து சூடாகப் பரிமாறவும்.
+
+@ Paal kozhukattai | 4 | 20 | 20
+note: Cook the balls gently in the milk; do not boil hard or they break. | உருண்டைகளை பாலில் மெதுவாக வேகவிடவும்; வேகமாகக் கொதித்தால் உடைந்துவிடும்.
+i: Rice flour | அரிசி மாவு | 1 | cup
+i: Hot water | சூடான தண்ணீர் | 0.75 | cup
+i: Milk | பால் | 2 | cup
+i: Coconut milk | தேங்காய்ப் பால் | 0.5 | cup
+i: Jaggery or sugar | வெல்லம் | 0.5 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+s: Knead the rice flour with hot water and a pinch of salt into a soft dough and roll into small balls. | அரிசி மாவை சிறிது உப்புடன் சூடான தண்ணீரால் மென்மையாகப் பிசைந்து சிறிய உருண்டைகளாக்கவும்.
+s: Boil the milk with 1 cup of water, drop in the balls and simmer for 10 minutes until they float. | பாலை 1 கப் தண்ணீருடன் கொதிக்கவிட்டு உருண்டைகளைப் போட்டு மிதக்கும் வரை 10 நிமிடம் வேகவிடவும்.
+s: Add the jaggery syrup, coconut milk and cardamom, warm through and serve. | வெல்லப் பாகு, தேங்காய்ப்பால், ஏலக்காய் சேர்த்து சூடாக்கிப் பரிமாறவும்.
+
+@ Aloo bonda | 4 | 20 | 20
+note: Make sure the potato filling is cool before dipping in batter. | உருளைக்கிழங்கு பூரணம் ஆறிய பின் மாவில் முக்கவும்.
+i: Potatoes, boiled | உருளைக்கிழங்கு | 3 | piece
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Ginger and green chilli, chopped | இஞ்சி, பச்சை மிளகாய் | 1 | tbsp
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Gram flour | கடலை மாவு | 1 | cup
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Temper mustard, onion, ginger, chilli and turmeric; mix with the mashed potato and salt and shape into balls. | கடுகு, வெங்காயம், இஞ்சி, மிளகாய், மஞ்சள் தாளித்து மசித்த உருளைக்கிழங்கு, உப்புடன் கலந்து உருண்டைகளாக்கவும்.
+s: Whisk the gram flour, rice flour and salt with water into a thick batter. | கடலை மாவு, அரிசி மாவு, உப்பை தண்ணீருடன் கெட்டியான மாவாகக் கலக்கவும்.
+s: Dip the balls in the batter and fry in hot oil until golden. | உருண்டைகளை மாவில் முக்கி சூடான எண்ணெயில் பொன்னிறமாகப் பொரிக்கவும்.
+
+@ Masala vadai | 4 | 15 | 20
+note: Grind the dal coarsely, with no water at all. | பருப்பை தண்ணீர் விடாமல் கொரகொரப்பாக அரைக்கவும்.
+i: Chana dal | கடலைப்பருப்பு | 1 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Dried red chilli | காய்ந்த மிளகாய் | 3 | piece
+i: Fennel seeds | சோம்பு | 1 | tsp
+i: Ginger, chopped | இஞ்சி | 1 | tsp
+i: Curry leaves and coriander | கறிவேப்பிலை, கொத்தமல்லி | 1 | handful
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Soak the dal for 2 hours, drain and grind coarsely with the chillies, fennel and salt. | பருப்பை 2 மணி நேரம் ஊறவைத்து வடித்து மிளகாய், சோம்பு, உப்புடன் கொரகொரப்பாக அரைக்கவும்.
+s: Mix in the onion, ginger and leaves. | வெங்காயம், இஞ்சி, இலைகளைக் கலக்கவும்.
+s: Flatten small balls into discs and fry in hot oil until crisp and golden. | சிறு உருண்டைகளை தட்டையாக்கி சூடான எண்ணெயில் மொறுமொறுப்பாக பொன்னிறமாகப் பொரிக்கவும்.
+
+@ Keerai vadai | 4 | 15 | 20
+note: Any greens such as spinach or amaranth work. | பசலை, தண்டுக்கீரை போன்ற எந்தக் கீரையும் பயன்படுத்தலாம்.
+i: Chana dal | கடலைப்பருப்பு | 1 | cup
+i: Spinach or amaranth leaves, chopped | கீரை | 2 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Dried red chilli | காய்ந்த மிளகாய் | 3 | piece
+i: Fennel seeds | சோம்பு | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Soak the dal for 2 hours, drain and grind coarsely with the chillies, fennel and salt. | பருப்பை 2 மணி நேரம் ஊறவைத்து வடித்து மிளகாய், சோம்பு, உப்புடன் கொரகொரப்பாக அரைக்கவும்.
+s: Mix in the greens and onion. | கீரை, வெங்காயம் சேர்த்துக் கலக்கவும்.
+s: Shape into discs and fry in hot oil on medium heat until crisp. | தட்டைகளாக்கி நடுத்தரத் தீயில் சூடான எண்ணெயில் மொறுமொறுப்பாகப் பொரிக்கவும்.
+
+@ Vazhaipoo vadai | 4 | 25 | 20
+note: Clean the banana flower in buttermilk water to avoid blackening. | வாழைப்பூ கருப்பாகாமல் இருக்க மோர்த் தண்ணீரில் சுத்தம் செய்யவும்.
+i: Banana flower, cleaned and chopped | வாழைப்பூ | 1 | cup
+i: Chana dal | கடலைப்பருப்பு | 1 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Dried red chilli | காய்ந்த மிளகாய் | 3 | piece
+i: Fennel seeds | சோம்பு | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Soak the dal for 2 hours, drain and grind coarsely with the chillies, fennel and salt. | பருப்பை 2 மணி நேரம் ஊறவைத்து வடித்து மிளகாய், சோம்பு, உப்புடன் கொரகொரப்பாக அரைக்கவும்.
+s: Mix in the chopped banana flower and onion. | நறுக்கிய வாழைப்பூ, வெங்காயம் சேர்த்துக் கலக்கவும்.
+s: Shape into discs and fry until golden and cooked through. | தட்டைகளாக்கி பொன்னிறமாக உள்ளே வேகும் வரை பொரிக்கவும்.
+
+@ Onion pakoda | 4 | 10 | 15
+note: Do not add water to the batter; the onion releases enough. | மாவில் தண்ணீர் சேர்க்க வேண்டாம்; வெங்காயத்தில் இருந்தே போதுமான நீர் வரும்.
+i: Onions, thinly sliced | வெங்காயம் | 3 | piece
+i: Gram flour | கடலை மாவு | 0.75 | cup
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Green chilli, chopped | பச்சை மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the sliced onions with salt and let them rest for 10 minutes. | வெங்காயத்தை உப்புடன் கலந்து 10 நிமிடம் வைக்கவும்.
+s: Add the flours, chilli, chilli powder and curry leaves and mix to a crumbly batter. | மாவுகள், மிளகாய், மிளகாய்த் தூள், கறிவேப்பிலை சேர்த்து உதிரியாகக் கலக்கவும்.
+s: Drop small portions into hot oil and fry on medium heat until crisp and golden. | சிறு பகுதிகளாக சூடான எண்ணெயில் போட்டு நடுத்தரத் தீயில் மொறுமொறுப்பாகப் பொரிக்கவும்.
+
+@ Banana bajji | 4 | 10 | 15
+note: Use firm raw bananas and slice them thin. | கெட்டியான வாழைக்காயை மெல்லியதாக நறுக்கவும்.
+i: Raw banana | வாழைக்காய் | 2 | piece
+i: Gram flour | கடலை மாவு | 1 | cup
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Asafoetida | பெருங்காயம் | 1 | pinch
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Peel the bananas and slice lengthwise into thin strips. | வாழைக்காயின் தோலை நீக்கி நீளவாக்கில் மெல்லிய துண்டுகளாக நறுக்கவும்.
+s: Whisk the flours, chilli powder, asafoetida and salt with water into a thick coating batter. | மாவுகள், மிளகாய்த் தூள், பெருங்காயம், உப்பை தண்ணீருடன் கெட்டியான மாவாகக் கலக்கவும்.
+s: Dip the slices and fry in hot oil until golden. Serve with chutney. | துண்டுகளை மாவில் முக்கி சூடான எண்ணெயில் பொன்னிறமாகப் பொரித்து சட்னியுடன் பரிமாறவும்.
+
+@ Potato bajji | 4 | 10 | 15
+note: Slice potatoes thin so they cook through. | உருளைக்கிழங்கை மெல்லியதாக நறுக்கினால் நன்கு வேகும்.
+i: Potatoes, thinly sliced | உருளைக்கிழங்கு | 3 | piece
+i: Gram flour | கடலை மாவு | 1 | cup
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Asafoetida | பெருங்காயம் | 1 | pinch
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the flours, chilli powder, asafoetida and salt with water into a thick batter. | மாவுகள், மிளகாய்த் தூள், பெருங்காயம், உப்பை தண்ணீருடன் கெட்டியான மாவாகக் கலக்கவும்.
+s: Dip each potato slice in the batter. | ஒவ்வொரு உருளைக்கிழங்குத் துண்டையும் மாவில் முக்கவும்.
+s: Fry in hot oil on medium heat until golden and cooked inside. | சூடான எண்ணெயில் நடுத்தரத் தீயில் பொன்னிறமாக உள்ளே வேகும் வரை பொரிக்கவும்.
+
+@ Vegetable cutlet | 4 | 25 | 20
+note: Chill the shaped cutlets for 15 minutes so they hold their shape. | வடிவமைத்த கட்லெட்டை 15 நிமிடம் குளிரவைத்தால் உடையாமல் இருக்கும்.
+i: Potatoes, boiled | உருளைக்கிழங்கு | 2 | piece
+i: Carrot, beans, peas (finely chopped) | கலவை காய்கறிகள் | 1 | cup
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tsp
+i: Garam masala | கரம் மசாலா | 1 | tsp
+i: Bread crumbs | ரொட்டித் தூள் | 0.5 | cup
+i: Salt | உப்பு | - | to_taste
+i: Oil | எண்ணெய் | 4 | tbsp
+s: Sauté the onion, ginger-garlic paste and vegetables with salt until soft. | வெங்காயம், இஞ்சி பூண்டு விழுது, காய்கறிகளை உப்புடன் மென்மையாக வதக்கவும்.
+s: Mix with the mashed potato and garam masala and shape into patties. | மசித்த உருளைக்கிழங்கு, கரம் மசாலாவுடன் கலந்து தட்டைகளாக்கவும்.
+s: Coat in bread crumbs and shallow fry on a pan until crisp and golden on both sides. | ரொட்டித் தூளில் புரட்டி தவாவில் எண்ணெய் விட்டு இருபுறமும் மொறுமொறுப்பாகப் பொரிக்கவும்.
+
+@ Thattai | 4 | 20 | 20
+note: Roll the dough thin and prick it for crisp thattai. | மாவை மெல்லியதாகத் தேய்த்து குத்தினால் மொறுமொறுப்பாக வரும்.
+i: Rice flour | அரிசி மாவு | 2 | cup
+i: Urad dal flour | உளுந்து மாவு | 2 | tbsp
+i: Soaked chana dal | ஊறவைத்த கடலைப்பருப்பு | 2 | tbsp
+i: Peanuts, crushed | வேர்க்கடலை | 2 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Butter or hot oil | வெண்ணெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix all the ingredients except the oil for frying, adding water to make a stiff dough. | பொரிக்கும் எண்ணெய் தவிர எல்லாவற்றையும் கலந்து தண்ணீர் சேர்த்து கெட்டியாகப் பிசையவும்.
+s: Pat small balls into thin discs on a wet sheet and prick with a fork. | சிறு உருண்டைகளை ஈரத் தாளில் மெல்லிய வட்டங்களாகத் தட்டி முள்கரண்டியால் குத்தவும்.
+s: Fry in medium-hot oil until the bubbles subside. Cool and store airtight. | நடுத்தரச் சூட்டு எண்ணெயில் குமிழ்கள் அடங்கும் வரை பொரித்து ஆறவிட்டு காற்றுப் புகாத டப்பாவில் வைக்கவும்.
+
+@ Seedai | 4 | 25 | 20
+note: Make sure the balls are completely dry-textured and without cracks, to avoid bursting. | உருண்டைகளில் விரிசல் இல்லாமல் இருந்தால் வெடிக்காது.
+i: Rice flour (roasted) | அரிசி மாவு | 2 | cup
+i: Urad dal flour (roasted) | உளுந்து மாவு | 0.25 | cup
+i: Cumin or sesame seeds | சீரகம் | 1 | tsp
+i: Butter | வெண்ணெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the flours, seeds, butter and salt, adding water gradually to a smooth soft dough. | மாவுகள், விதைகள், வெண்ணெய், உப்பைக் கலந்து தண்ணீர் சிறிது சிறிதாகச் சேர்த்து மென்மையாகப் பிசையவும்.
+s: Roll into small marble-size balls. | சிறிய கோலி அளவு உருண்டைகளாக்கவும்.
+s: Fry on medium-low heat until the sound of bubbling stops and they turn golden. | நடுத்தரக் குறைந்த தீயில் குமிழ் சத்தம் அடங்கி பொன்னிறமாகும் வரை பொரிக்கவும்.
+
+@ Ribbon pakoda | 4 | 20 | 20
+note: Use the ribbon plate of the murukku press. | முறுக்கு நாழியில் ரிப்பன் தட்டைப் பயன்படுத்தவும்.
+i: Gram flour | கடலை மாவு | 1 | cup
+i: Rice flour | அரிசி மாவு | 1 | cup
+i: Butter | வெண்ணெய் | 2 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Asafoetida | பெருங்காயம் | 1 | pinch
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the flours with butter, chilli powder, asafoetida and salt; add water and knead a soft dough. | மாவுகளை வெண்ணெய், மிளகாய்த் தூள், பெருங்காயம், உப்புடன் கலந்து தண்ணீர் சேர்த்து மென்மையாகப் பிசையவும்.
+s: Fill the press with the ribbon plate and press long strips into hot oil. | முறுக்கு நாழியில் ரிப்பன் தட்டை வைத்து நீளமாக சூடான எண்ணெயில் பிழியவும்.
+s: Fry until crisp and golden, drain, cool and break into pieces. | மொறுமொறுப்பாக பொன்னிறமாக பொரித்து வடித்து ஆறவிட்டு துண்டுகளாக உடைக்கவும்.
+
+@ Mixture | 8 | 15 | 30
+note: A little of each fried item is enough; store airtight for 2 weeks. | ஒவ்வொன்றிலும் சிறிது போதும்; காற்றுப் புகாமல் வைத்தால் 2 வாரம் வரை இருக்கும்.
+i: Sev or ribbon pakoda | சேவு | 2 | cup
+i: Boondi | பூந்தி | 1 | cup
+i: Fried peanuts | வறுத்த வேர்க்கடலை | 0.5 | cup
+i: Poha (fried) | அவல் | 1 | cup
+i: Curry leaves, fried | கறிவேப்பிலை | 1 | handful
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Fry the poha, curry leaves and peanuts separately until crisp. | அவல், கறிவேப்பிலை, வேர்க்கடலையை தனித்தனியாகப் பொரிக்கவும்.
+s: Combine everything in a large bowl. | எல்லாவற்றையும் பெரிய பாத்திரத்தில் கலக்கவும்.
+s: Sprinkle the chilli powder and salt and toss well. | மிளகாய்த் தூள், உப்பைத் தூவி நன்கு புரட்டவும்.
+
+@ Kara sev | 4 | 15 | 20
+note: Use the sev plate with medium holes. | நடுத்தர துளைகள் உள்ள சேவு தட்டைப் பயன்படுத்தவும்.
+i: Gram flour | கடலை மாவு | 1.5 | cup
+i: Rice flour | அரிசி மாவு | 0.5 | cup
+i: Chilli powder | மிளகாய்த் தூள் | 1.5 | tsp
+i: Pepper powder | மிளகுத் தூள் | 0.5 | tsp
+i: Asafoetida | பெருங்காயம் | 1 | pinch
+i: Hot oil | சூடான எண்ணெய் | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the flours with the spices, salt and hot oil, then add water to make a soft dough. | மாவுகளை மசாலாக்கள், உப்பு, சூடான எண்ணெயுடன் கலந்து தண்ணீர் சேர்த்து மென்மையாகப் பிசையவும்.
+s: Press the dough through the sev plate into hot oil in circles. | மாவை சேவு தட்டில் வைத்து சூடான எண்ணெயில் வட்டமாகப் பிழியவும்.
+s: Fry until golden and the sizzling stops; drain, cool and crumble. | பொன்னிறமாகி சத்தம் அடங்கும் வரை பொரித்து வடித்து ஆறவிட்டு உதிர்க்கவும்.
+
+@ Verkadalai sundal | 4 | 10 | 15
+note: Soak the peanuts for 6 hours first. | வேர்க்கடலையை முதலில் 6 மணி நேரம் ஊறவைக்கவும்.
+i: Raw peanuts, soaked | வேர்க்கடலை | 1.5 | cup
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Dried red chilli | காய்ந்த மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Pressure cook the peanuts with salt until soft but whole; drain. | வேர்க்கடலையை உப்புடன் குக்கரில் உடையாமல் மென்மையாக வேகவைத்து வடிக்கவும்.
+s: Temper mustard, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Toss in the peanuts and coconut and serve warm. | வேர்க்கடலை, தேங்காய் சேர்த்துப் புரட்டி சூடாகப் பரிமாறவும்.
+
+@ Corn sundal | 4 | 5 | 10
+note: Add a squeeze of lemon at the end. | கடைசியில் எலுமிச்சை சாறு பிழியவும்.
+i: Sweet corn kernels | ஸ்வீட் கார்ன் | 2 | cup
+i: Mustard seeds | கடுகு | 1 | tsp
+i: Green chilli | பச்சை மிளகாய் | 1 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Grated coconut | தேங்காய் துருவல் | 0.25 | cup
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Boil the corn in salted water for 5 minutes and drain. | சோளத்தை உப்புத் தண்ணீரில் 5 நிமிடம் வேகவைத்து வடிக்கவும்.
+s: Temper mustard, chilli and curry leaves in oil. | எண்ணெயில் கடுகு, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
+s: Add the corn and coconut, toss for a minute and serve. | சோளம், தேங்காய் சேர்த்து ஒரு நிமிடம் புரட்டிப் பரிமாறவும்.
+
+@ Banana chips | 6 | 15 | 20
+note: Slice as thin as possible; soak slices in salted turmeric water for 10 minutes first. | முடிந்தவரை மெல்லியதாக நறுக்கி, உப்பு மஞ்சள் தண்ணீரில் 10 நிமிடம் ஊறவைக்கவும்.
+i: Raw banana (nendran) | வாழைக்காய் | 3 | piece
+i: Turmeric powder | மஞ்சள் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Coconut oil for frying | தேங்காய் எண்ணெய் | - | as_needed
+s: Peel the bananas and soak in salted turmeric water for 10 minutes. | வாழைக்காயின் தோலை நீக்கி உப்பு மஞ்சள் தண்ணீரில் 10 நிமிடம் ஊறவைக்கவும்.
+s: Slice thinly directly into hot oil. | நேரடியாக சூடான எண்ணெயில் மெல்லியதாக சீவிப் போடவும்.
+s: Fry until crisp and the bubbling slows, drain on paper and sprinkle a little salt water. | மொறுமொறுப்பாகி குமிழ்கள் குறையும் வரை பொரித்து காகிதத்தில் வடித்து சிறிது உப்புத் தண்ணீர் தெளிக்கவும்.
+
+@ Chicken lollipop | 4 | 30 | 20
+note: Marinate for at least 1 hour for the best flavour. | சிறந்த சுவைக்கு குறைந்தது 1 மணி நேரம் ஊறவைக்கவும்.
+i: Chicken winglets | சிக்கன் விங்ஸ் | 12 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 2 | tbsp
+i: Chilli powder | மிளகாய்த் தூள் | 2 | tsp
+i: Soy sauce | சோயா சாஸ் | 1 | tbsp
+i: Cornflour | சோள மாவு | 3 | tbsp
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Egg | முட்டை | 1 | piece
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the chicken with the paste, chilli powder, soy sauce, salt and egg; marinate for 1 hour. | சிக்கனை விழுது, மிளகாய்த் தூள், சோயா சாஸ், உப்பு, முட்டையுடன் கலந்து 1 மணி நேரம் ஊறவைக்கவும்.
+s: Add the cornflour and rice flour and coat evenly. | சோள மாவு, அரிசி மாவு சேர்த்து சமமாகப் பூசவும்.
+s: Fry in hot oil on medium heat for 10 to 12 minutes until golden and cooked through. | சூடான எண்ணெயில் நடுத்தரத் தீயில் 10 முதல் 12 நிமிடம் பொன்னிறமாக வேகும் வரை பொரிக்கவும்.
+
+@ Mutton kola urundai | 4 | 25 | 20
+note: Keep the mince dry; roast the fried gram well before grinding. | கறி விழுது ஈரமாக இல்லாமல் இருக்க வேண்டும்; பொட்டுக்கடலையை நன்கு வறுத்து அரைக்கவும்.
+i: Mutton mince | மட்டன் கீமா | 400 | g
+i: Fried gram (pottukadalai), powdered | பொட்டுக்கடலை | 3 | tbsp
+i: Onion, finely chopped | வெங்காயம் | 1 | piece
+i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tbsp
+i: Fennel seeds | சோம்பு | 1 | tsp
+i: Garam masala | கரம் மசாலா | 1 | tsp
+i: Chilli powder | மிளகாய்த் தூள் | 1 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the mince with the gram powder, onion, paste, spices and salt. | கறியை பொட்டுக்கடலைத் தூள், வெங்காயம், விழுது, மசாலாக்கள், உப்புடன் கலக்கவும்.
+s: Shape into small balls. | சிறிய உருண்டைகளாக்கவும்.
+s: Deep fry on medium heat until browned and cooked through. | நடுத்தரத் தீயில் பழுப்பு நிறமாக உள்ளே வேகும் வரை பொரிக்கவும்.
+
+@ Mangalore buns | 6 | 60 | 20
+note: Rest the dough for 6 to 8 hours or overnight. | மாவை 6 முதல் 8 மணி நேரம் அல்லது இரவு முழுவதும் ஊறவிடவும்.
+i: Ripe bananas, mashed | நன்கு பழுத்த வாழைப்பழம் | 2 | piece
+i: Maida (refined flour) | மைதா | 2 | cup
+i: Sugar | சர்க்கரை | 3 | tbsp
+i: Curd | தயிர் | 0.25 | cup
+i: Cumin seeds | சீரகம் | 1 | tsp
+i: Baking soda | சமையல் சோடா | 0.25 | tsp
+i: Salt | உப்பு | - | to_taste
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mash the bananas with sugar, curd, cumin, soda and salt. | வாழைப்பழத்தை சர்க்கரை, தயிர், சீரகம், சோடா, உப்புடன் மசிக்கவும்.
+s: Knead in the maida to a soft dough, cover and rest for 6 to 8 hours. | மைதாவைச் சேர்த்து மென்மையாகப் பிசைந்து மூடி 6 முதல் 8 மணி நேரம் வைக்கவும்.
+s: Roll into thick discs and fry in hot oil until puffed and golden. Serve with coconut chutney. | தடிமனான வட்டங்களாகத் தேய்த்து சூடான எண்ணெயில் பொங்கி பொன்னிறமாகப் பொரித்து தேங்காய் சட்னியுடன் பரிமாறவும்.
+
+@ Adhirasam | 6 | 30 | 30
+note: The rice flour and jaggery dough should be like thick halwa and rested a day for best results. | அரிசி மாவு, வெல்லக் கலவை கெட்டியான அல்வா பதத்தில் இருக்க வேண்டும்; ஒரு நாள் ஊறவிட்டால் சிறப்பு.
+i: Raw rice (soaked, dried and powdered) | பச்சரிசி மாவு | 2 | cup
+i: Jaggery | வெல்லம் | 1 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Sesame seeds | எள் | 1 | tbsp
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Boil the jaggery with a little water to a soft-ball syrup. | வெல்லத்தை சிறிது தண்ணீருடன் மென்மையான உருண்டை பதம் வரும் வரை காய்ச்சவும்.
+s: Stir in the rice flour and cardamom to make a soft dough; cover and rest overnight. | அரிசி மாவு, ஏலக்காய் சேர்த்துக் கிளறி மென்மையான மாவாக்கி மூடி இரவு முழுவதும் வைக்கவும்.
+s: Pat into thick discs on an oiled sheet with sesame and fry on low heat until golden, pressing out the oil. | எண்ணெய் தடவிய தாளில் எள்ளுடன் தடிமனான வட்டங்களாகத் தட்டி குறைந்த தீயில் பொன்னிறமாகப் பொரித்து எண்ணெயை அழுத்தி வடிக்கவும்.
+
+@ Ellu urundai | 4 | 10 | 15
+note: Dry roast the sesame well but do not let it brown. | எள்ளை நன்கு வறுக்கவும்; ஆனால் பழுப்பாக விடாதீர்கள்.
+i: Black sesame seeds | கருப்பு எள் | 1 | cup
+i: Jaggery | வெல்லம் | 0.75 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Ghee | நெய் | 1 | tsp
+s: Dry roast the sesame until it pops, then cool. | எள்ளை வெடிக்கும் வரை வறுத்து ஆறவிடவும்.
+s: Melt the jaggery in a little water and boil to a soft-ball syrup. | வெல்லத்தை சிறிது தண்ணீரில் கரைத்து மென்மையான உருண்டை பதம் வரும் வரை காய்ச்சவும்.
+s: Mix in the sesame and cardamom, grease your hands with ghee and shape into balls while warm. | எள், ஏலக்காய் சேர்த்துக் கலந்து நெய் தடவிய கையால் சூடாக இருக்கும்போதே உருண்டைகளாக்கவும்.
+
+@ Kadalai mittai | 6 | 5 | 20
+note: Shape quickly while the mixture is hot. | கலவை சூடாக இருக்கும்போதே வேகமாக வடிவமைக்கவும்.
+i: Raw peanuts, roasted and skinned | வேர்க்கடலை | 1 | cup
+i: Jaggery | வெல்லம் | 0.75 | cup
+i: Ghee | நெய் | 1 | tsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.25 | tsp
+s: Melt the jaggery with 3 tablespoons of water and boil until a drop forms a hard thread in cold water. | வெல்லத்தை 3 மேசைக்கரண்டி தண்ணீருடன் காய்ச்சி குளிர்ந்த நீரில் விட்டால் கெட்டியான நூல் பதம் வரும் வரை கொதிக்கவிடவும்.
+s: Stir in the peanuts and cardamom quickly. | வேர்க்கடலை, ஏலக்காயை வேகமாகக் கலக்கவும்.
+s: Pour onto a greased plate, flatten, cut into pieces while warm and cool. | நெய் தடவிய தட்டில் ஊற்றி தட்டையாக்கி சூடாக இருக்கும்போதே வெட்டி ஆறவிடவும்.
+
+@ Sweet paniyaram | 4 | 15 | 20
+note: Use ripe banana for natural sweetness. | இயற்கையான இனிப்புக்கு பழுத்த வாழைப்பழம் சேர்க்கவும்.
+i: Rice flour | அரிசி மாவு | 1 | cup
+i: Jaggery, grated | வெல்லம் | 0.75 | cup
+i: Ripe banana, mashed | வாழைப்பழம் | 1 | piece
+i: Grated coconut | தேங்காய் துருவல் | 2 | tbsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Ghee or oil | நெய் | 3 | tbsp
+s: Mix the flour, jaggery, banana, coconut and cardamom with a little water to a thick batter. | மாவு, வெல்லம், வாழைப்பழம், தேங்காய், ஏலக்காயை சிறிது தண்ணீருடன் கெட்டியான மாவாகக் கலக்கவும்.
+s: Heat the paniyaram pan, add ghee in each hollow and fill with batter. | பணியாரக் கல்லைச் சூடாக்கி ஒவ்வொரு குழியிலும் நெய் விட்டு மாவை ஊற்றவும்.
+s: Cook on low heat, turning, until dark golden all around. | குறைந்த தீயில் திருப்பிப் போட்டு அனைத்துப் பக்கமும் பொன்னிறமாக வேகவிடவும்.
+
+@ Pazham pori | 4 | 10 | 15
+note: Use ripe nendran (plantain); it fries up sweet and soft. | பழுத்த நேந்திரம் பழம் இனிப்பாக மென்மையாகப் பொரியும்.
+i: Ripe nendran bananas | நேந்திரம் பழம் | 3 | piece
+i: Maida (refined flour) | மைதா | 1 | cup
+i: Rice flour | அரிசி மாவு | 2 | tbsp
+i: Sugar | சர்க்கரை | 2 | tbsp
+i: Turmeric powder | மஞ்சள் தூள் | 1 | pinch
+i: Salt | உப்பு | 1 | pinch
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Whisk the maida, rice flour, sugar, turmeric and salt with water into a thick batter. | மைதா, அரிசி மாவு, சர்க்கரை, மஞ்சள், உப்பை தண்ணீருடன் கெட்டியான மாவாகக் கலக்கவும்.
+s: Slice the bananas lengthwise into thick pieces. | வாழைப்பழத்தை நீளவாக்கில் தடிமனாக நறுக்கவும்.
+s: Dip in the batter and fry in hot oil on medium heat until golden. | மாவில் முக்கி சூடான எண்ணெயில் நடுத்தரத் தீயில் பொன்னிறமாகப் பொரிக்கவும்.
+
+@ Unniyappam | 4 | 20 | 20
+note: Rest the batter for 2 hours so the rice flour softens. | அரிசி மாவு மென்மையாக 2 மணி நேரம் ஊறவிடவும்.
+i: Raw rice flour | அரிசி மாவு | 1 | cup
+i: Jaggery | வெல்லம் | 0.75 | cup
+i: Ripe banana, mashed | வாழைப்பழம் | 1 | piece
+i: Coconut bits, fried in ghee | தேங்காய்த் துண்டுகள் | 2 | tbsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Baking soda | சமையல் சோடா | 1 | pinch
+i: Ghee or oil | நெய் | 4 | tbsp
+s: Melt the jaggery in a little water and strain. | வெல்லத்தை சிறிது தண்ணீரில் கரைத்து வடிகட்டவும்.
+s: Mix with the flour, banana, cardamom and soda to a thick batter; stir in the coconut and rest for 2 hours. | மாவு, வாழைப்பழம், ஏலக்காய், சோடாவுடன் கெட்டியான மாவாகக் கலந்து தேங்காய் சேர்த்து 2 மணி நேரம் வைக்கவும்.
+s: Heat the appe pan with ghee in each hollow, fill two-thirds and cook on low heat, turning, until dark brown. | அப்பக்கல்லில் ஒவ்வொரு குழியிலும் நெய் விட்டு மூன்றில் இரண்டு பங்கு மாவு ஊற்றி குறைந்த தீயில் திருப்பி அடர் பழுப்பு வரை வேகவிடவும்.
+
+@ Poli | 6 | 40 | 30
+note: Both the filling and the dough should be soft so the poli rolls thin without tearing. | பூரணமும் மாவும் மென்மையாக இருந்தால் போளி கிழியாமல் மெல்லியதாக வரும்.
+i: Maida or wheat flour | மைதா | 1.5 | cup
+i: Chana dal | கடலைப்பருப்பு | 1 | cup
+i: Jaggery | வெல்லம் | 1 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 1 | tsp
+i: Turmeric powder | மஞ்சள் தூள் | 1 | pinch
+i: Ghee | நெய் | 4 | tbsp
+s: Pressure cook the chana dal until soft, drain, and cook with the jaggery until thick; mash and add cardamom. | கடலைப்பருப்பை குழைய வேகவைத்து வடித்து வெல்லத்துடன் கெட்டியாகும் வரை சமைத்து மசித்து ஏலக்காய் சேர்க்கவும்.
+s: Knead the flour with turmeric, ghee and water into a very soft dough and rest. | மாவை மஞ்சள், நெய், தண்ணீருடன் மிகவும் மென்மையாகப் பிசைந்து ஊறவிடவும்.
+s: Stuff the dough balls with the filling, roll thin and cook on a tawa with ghee until golden. | மாவு உருண்டைகளில் பூரணம் வைத்து மெல்லியதாகத் தேய்த்து தவாவில் நெய் விட்டு பொன்னிறமாக வேகவிடவும்.
+
+@ Mysore pak | 8 | 10 | 25
+note: Add the hot ghee in small batches and stir fast; the mixture bubbles and sets quickly. | சூடான நெய்யை சிறிது சிறிதாகச் சேர்த்து வேகமாகக் கிளறவும்; கலவை வேகமாகப் பொங்கி கெட்டியாகும்.
+i: Gram flour (sieved) | கடலை மாவு | 1 | cup
+i: Sugar | சர்க்கரை | 2 | cup
+i: Ghee (melted, hot) | நெய் | 1.5 | cup
+i: Water | தண்ணீர் | 0.75 | cup
+s: Dry roast the gram flour for 2 minutes and mix with 2 tablespoons of ghee. | கடலை மாவை 2 நிமிடம் வறுத்து 2 மேசைக்கரண்டி நெய்யுடன் கலக்கவும்.
+s: Boil the sugar with the water to a one-string syrup. | சர்க்கரையை தண்ணீருடன் ஒரு கம்பிப் பாகு வரும் வரை காய்ச்சவும்.
+s: Lower the heat, add the flour in a stream, then the hot ghee a little at a time, stirring constantly until frothy and pulling away from the pan. | தீயைக் குறைத்து மாவை கொட்டி, சூடான நெய்யை சிறிது சிறிதாகச் சேர்த்து நுரைத்து கடாயில் ஒட்டாமல் வரும் வரை கிளறவும்.
+s: Pour into a greased tray, cut into pieces while warm and cool. | நெய் தடவிய தட்டில் ஊற்றி சூடாக இருக்கும்போதே வெட்டி ஆறவிடவும்.
+
+@ Rava laddu | 12 | 10 | 20
+note: The sugar should be powdered fine and the rava roasted evenly. | சர்க்கரையை நைசாகப் பொடிக்கவும்; ரவையை சமமாக வறுக்கவும்.
+i: Rava (semolina) | ரவை | 1 | cup
+i: Sugar, powdered | சர்க்கரை | 0.75 | cup
+i: Ghee | நெய் | 0.25 | cup
+i: Grated coconut | தேங்காய் துருவல் | 2 | tbsp
+i: Cashew nuts and raisins | முந்திரி, திராட்சை | 2 | tbsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Warm milk | பால் | 0.25 | cup
+s: Fry the cashews and raisins in ghee and set aside. Roast the rava in the same ghee until fragrant. | முந்திரி, திராட்சையை நெய்யில் வறுத்து எடுக்கவும். அதே நெய்யில் ரவையை வாசனை வரும் வரை வறுக்கவும்.
+s: Mix in the coconut, sugar, cardamom and nuts. | தேங்காய், சர்க்கரை, ஏலக்காய், முந்திரி கலந்து கொள்ளவும்.
+s: Sprinkle warm milk a little at a time and shape into balls while the mixture is warm. | வெதுவெதுப்பான பாலைச் சிறிது சிறிதாகத் தெளித்து கலவை சூடாக இருக்கும்போதே உருண்டைகளாக்கவும்.
+
+@ Boondi laddu | 12 | 40 | 40
+note: Shape the laddus while the mixture is warm. | கலவை சூடாக இருக்கும்போதே லட்டு பிடிக்கவும்.
+i: Gram flour | கடலை மாவு | 1.5 | cup
+i: Sugar | சர்க்கரை | 1.5 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 1 | tsp
+i: Cashew nuts and raisins fried in ghee | முந்திரி, திராட்சை | 2 | tbsp
+i: Food colour (optional) | உணவு நிறம் | 1 | pinch
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Whisk the gram flour with water into a smooth, flowing batter. | கடலை மாவை தண்ணீருடன் கட்டியின்றி ஓடும் பதத்தில் கலக்கவும்.
+s: Pour the batter through a perforated ladle into hot oil and fry the tiny drops of boondi until just firm; drain. | துளையுள்ள கரண்டியில் மாவை ஊற்றி சூடான எண்ணெயில் சிறு பூந்திகளாக வெறுமனே உறுதியாகும் வரை பொரித்து வடிக்கவும்.
+s: Boil the sugar with water to a one-string syrup, add cardamom, colour and the boondi. | சர்க்கரையை தண்ணீருடன் ஒரு கம்பிப் பாகு வரை காய்ச்சி ஏலக்காய், நிறம், பூந்தி சேர்க்கவும்.
+s: Add the nuts and shape into balls while warm. | முந்திரி, திராட்சை சேர்த்து சூடாக இருக்கும்போதே உருண்டைகளாக்கவும்.
+
+@ Badusha | 10 | 30 | 30
+note: Do not knead hard; a soft touch gives the flaky layers. | அழுத்திப் பிசையாதீர்கள்; மென்மையாகப் பிசைந்தால் அடுக்குகள் கிடைக்கும்.
+i: Maida (refined flour) | மைதா | 2 | cup
+i: Ghee | நெய் | 0.5 | cup
+i: Curd | தயிர் | 0.25 | cup
+i: Baking soda | சமையல் சோடா | 0.25 | tsp
+i: Sugar | சர்க்கரை | 1.5 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Oil for frying | பொரிக்க எண்ணெய் | - | as_needed
+s: Mix the maida, ghee, curd and soda into a soft dough with a little water; rest for 20 minutes. | மைதா, நெய், தயிர், சோடாவை சிறிது தண்ணீருடன் மென்மையாகப் பிசைந்து 20 நிமிடம் வைக்கவும்.
+s: Make small balls and press a dent in the centre. | சிறு உருண்டைகளாக்கி நடுவில் குழி வைக்கவும்.
+s: Fry on low heat until golden. Make a one-string sugar syrup with cardamom. | குறைந்த தீயில் பொன்னிறமாகப் பொரிக்கவும். ஏலக்காயுடன் ஒரு கம்பிப் பாகு தயாரிக்கவும்.
+s: Dip the hot badushas in the warm syrup for a minute and cool on a plate. | சூடான பாதுஷாக்களை வெதுவெதுப்பான பாகில் ஒரு நிமிடம் முக்கி தட்டில் ஆறவிடவும்.
+
+@ Paal payasam | 4 | 10 | 40
+note: Cook the rice in milk on low heat and stir often to prevent sticking. | அரிசியை பாலில் குறைந்த தீயில் சமைத்து அடிக்கடி கிளறினால் அடிப்பிடிக்காது.
+i: Raw rice | பச்சரிசி | 0.25 | cup
+i: Full-fat milk | பால் | 4 | cup
+i: Sugar | சர்க்கரை | 0.5 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Cashew nuts and raisins fried in ghee | முந்திரி, திராட்சை | 2 | tbsp
+s: Rinse the rice and cook it in 1 cup of water until soft. | அரிசியைக் கழுவி 1 கப் தண்ணீரில் மென்மையாக வேகவிடவும்.
+s: Add the milk and simmer on low heat for 25 minutes, stirring often, until creamy. | பால் சேர்த்து குறைந்த தீயில் 25 நிமிடம் அடிக்கடி கிளறி கெட்டியாகும் வரை கொதிக்கவிடவும்.
+s: Stir in the sugar and cardamom, cook for 5 more minutes, and top with fried nuts. | சர்க்கரை, ஏலக்காய் சேர்த்து மேலும் 5 நிமிடம் சமைத்து வறுத்த முந்திரியுடன் பரிமாறவும்.
+
+@ Javvarisi payasam | 4 | 10 | 25
+note: Soak the sago for 30 minutes so it cooks evenly. | ஜவ்வரிசியை 30 நிமிடம் ஊறவைத்தால் சமமாக வேகும்.
+i: Sago (javvarisi) | ஜவ்வரிசி | 0.5 | cup
+i: Milk | பால் | 3 | cup
+i: Sugar or jaggery | சர்க்கரை | 0.5 | cup
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Cashew nuts and raisins fried in ghee | முந்திரி, திராட்சை | 2 | tbsp
+s: Soak the sago, then cook it in 1 cup of water until translucent. | ஜவ்வரிசியை ஊறவைத்து 1 கப் தண்ணீரில் வெளிப்படையாகும் வரை வேகவிடவும்.
+s: Add the milk and simmer for 10 minutes. | பால் சேர்த்து 10 நிமிடம் கொதிக்கவிடவும்.
+s: Stir in the sugar and cardamom, top with the fried nuts and serve warm or chilled. | சர்க்கரை, ஏலக்காய் சேர்த்து வறுத்த முந்திரியுடன் சூடாகவோ குளிரவைத்தோ பரிமாறவும்.
+
+@ Jigarthanda | 2 | 15 | 0
+note: Madurai's famous cool drink; best served very cold. | மதுரையின் புகழ்பெற்ற குளிர்பானம்; நன்கு குளிர்வித்துப் பரிமாறவும்.
+i: Milk, boiled and chilled | பால் | 2 | cup
+i: Sugar | சர்க்கரை | 4 | tbsp
+i: Nannari syrup | நன்னாரி சிரப் | 2 | tbsp
+i: Badam pisin (almond gum), soaked | பாதாம் பிசின் | 2 | tbsp
+i: Ice cream | ஐஸ்கிரீம் | 2 | piece
+i: Ice cubes | ஐஸ் கட்டிகள் | 4 | piece
+s: Soak the almond gum for 6 hours until it swells like jelly. | பாதாம் பிசினை 6 மணி நேரம் ஊறவைத்து ஜெல்லி போல பெருக்கவிடவும்.
+s: Mix the chilled milk with the sugar and nannari syrup. | குளிர்ந்த பாலை சர்க்கரை, நன்னாரி சிரப்புடன் கலக்கவும்.
+s: Put the gum in glasses, pour in the milk, add ice and top with a scoop of ice cream. | கண்ணாடி கோப்பைகளில் பிசினை வைத்து பாலை ஊற்றி ஐஸ், ஒரு ஸ்கூப் ஐஸ்கிரீம் சேர்த்துப் பரிமாறவும்.
+
+@ Panakam | 4 | 5 | 0
+note: A traditional offering for Rama Navami; best made fresh. | ராம நவமிக்கான பாரம்பரிய நைவேத்தியம்; புதிதாகச் செய்வது சிறந்தது.
+i: Jaggery | வெல்லம் | 0.5 | cup
+i: Water | தண்ணீர் | 4 | cup
+i: Dry ginger powder | சுக்குப் பொடி | 0.5 | tsp
+i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
+i: Lemon juice | எலுமிச்சை சாறு | 1 | tbsp
+s: Dissolve the jaggery in the water and strain out any impurities. | வெல்லத்தை தண்ணீரில் கரைத்து அசுத்தங்களை வடிகட்டவும்.
+s: Stir in the dry ginger, cardamom and lemon juice. | சுக்கு, ஏலக்காய், எலுமிச்சை சாறு சேர்த்துக் கலக்கவும்.
+s: Serve chilled. | குளிரவைத்துப் பரிமாறவும்.
+
+@ Nannari sarbath | 2 | 5 | 0
+note: Add a few sabja (basil) seeds soaked in water for extra cooling. | கூடுதல் குளிர்ச்சிக்கு ஊறவைத்த சப்ஜா விதைகளைச் சேர்க்கவும்.
+i: Nannari syrup | நன்னாரி சிரப் | 4 | tbsp
+i: Cold water | குளிர்ந்த தண்ணீர் | 2 | cup
+i: Lemon juice | எலுமிச்சை சாறு | 2 | tbsp
+i: Ice cubes | ஐஸ் கட்டிகள் | 6 | piece
+s: Mix the nannari syrup with the cold water and lemon juice. | நன்னாரி சிரப்பை குளிர்ந்த தண்ணீர், எலுமிச்சை சாறுடன் கலக்கவும்.
+s: Pour over ice and serve at once. | ஐஸ் மேல் ஊற்றி உடனே பரிமாறவும்.
+
+@ Elaneer | 1 | 2 | 0
+note: Choose a heavy, fresh tender coconut. | கனமான புதிய இளநீரைத் தேர்ந்தெடுக்கவும்.
+i: Tender coconut | இளநீர் | 1 | piece
+s: Chill the tender coconut for an hour if you like. | விரும்பினால் இளநீரை 1 மணி நேரம் குளிர வைக்கவும்.
+s: Cut open the top, pour the water into a glass and scoop out the soft malai to eat. | மேற்புறத்தை வெட்டி தண்ணீரை டம்ளரில் ஊற்றி மென்மையான வழுக்கையையும் சாப்பிடவும்.
+
+@ Rose milk | 2 | 5 | 0
+note: Adjust the syrup to taste; chill the milk first. | சிரப்பை சுவைக்கேற்ப சேர்க்கவும்; பாலை முதலில் குளிர வைக்கவும்.
+i: Cold milk | குளிர்ந்த பால் | 2 | cup
+i: Rose syrup | ரோஸ் சிரப் | 4 | tbsp
+i: Sugar (optional) | சர்க்கரை | 1 | tsp
+i: Ice cubes | ஐஸ் கட்டிகள் | 4 | piece
+s: Stir the rose syrup into the cold milk until evenly pink. | ரோஸ் சிரப்பை குளிர்ந்த பாலில் சமமாகப் பிங்க் நிறம் வரும் வரை கலக்கவும்.
+s: Add sugar if you like, pour over ice and serve. | விரும்பினால் சர்க்கரை சேர்த்து ஐஸ் மேல் ஊற்றிப் பரிமாறவும்.
