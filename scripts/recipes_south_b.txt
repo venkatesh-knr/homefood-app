@@ -321,7 +321,7 @@ i: Jaggery, grated | வெல்லம் | 0.75 | cup
 i: Ripe banana, mashed | வாழைப்பழம் | 1 | piece
 i: Grated coconut | தேங்காய் துருவல் | 2 | tbsp
 i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
-i: Ghee or oil | நெய் | 3 | tbsp
+i: Ghee or oil | நெய் அல்லது எண்ணெய் | 3 | tbsp
 s: Mix the flour, jaggery, banana, coconut and cardamom with a little water to a thick batter. | மாவு, வெல்லம், வாழைப்பழம், தேங்காய், ஏலக்காயை சிறிது தண்ணீருடன் கெட்டியான மாவாகக் கலக்கவும்.
 s: Heat the paniyaram pan, add ghee in each hollow and fill with batter. | பணியாரக் கல்லைச் சூடாக்கி ஒவ்வொரு குழியிலும் நெய் விட்டு மாவை ஊற்றவும்.
 s: Cook on low heat, turning, until dark golden all around. | குறைந்த தீயில் திருப்பிப் போட்டு அனைத்துப் பக்கமும் பொன்னிறமாக வேகவிடவும்.
@@ -347,7 +347,7 @@ i: Ripe banana, mashed | வாழைப்பழம் | 1 | piece
 i: Coconut bits, fried in ghee | தேங்காய்த் துண்டுகள் | 2 | tbsp
 i: Cardamom powder | ஏலக்காய் தூள் | 0.5 | tsp
 i: Baking soda | சமையல் சோடா | 1 | pinch
-i: Ghee or oil | நெய் | 4 | tbsp
+i: Ghee or oil | நெய் அல்லது எண்ணெய் | 4 | tbsp
 s: Melt the jaggery in a little water and strain. | வெல்லத்தை சிறிது தண்ணீரில் கரைத்து வடிகட்டவும்.
 s: Mix with the flour, banana, cardamom and soda to a thick batter; stir in the coconut and rest for 2 hours. | மாவு, வாழைப்பழம், ஏலக்காய், சோடாவுடன் கெட்டியான மாவாகக் கலந்து தேங்காய் சேர்த்து 2 மணி நேரம் வைக்கவும்.
 s: Heat the appe pan with ghee in each hollow, fill two-thirds and cook on low heat, turning, until dark brown. | அப்பக்கல்லில் ஒவ்வொரு குழியிலும் நெய் விட்டு மூன்றில் இரண்டு பங்கு மாவு ஊற்றி குறைந்த தீயில் திருப்பி அடர் பழுப்பு வரை வேகவிடவும்.

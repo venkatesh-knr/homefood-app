@@ -48,6 +48,7 @@ select tests.ok((select count(*) from public.cuisines) = 5, 'shared cuisines are
 select tests.ok((select count(*) from public.dishes where household_id is null) >= 298, 'the shared catalogue has every seeded dish');
 select tests.ok(not exists (select 1 from public.dishes where household_id is null group by name having count(*) > 1), 'no two shared dishes share a name');
 select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and (select count(distinct n.language) from public.dish_names n where n.dish_id = d.id and n.language in ('en', 'ta')) < 2), 'every shared dish has an English and a Tamil name');
+select tests.ok(exists (select 1 from public.dish_names where language = 'ta' and name = 'வெங்காயப் பக்கோடா') and not exists (select 1 from public.dish_names where name = 'வெங்காய பக்கோடா') and not exists (select 1 from public.recipe_ingredients where name_ta in ('பாஸ்மதி அரிசி', 'வரமிளகாய்', 'க்ரீம்')), 'the Tamil wording fixes of 0020 are in');
 select tests.refused($$ select public.create_household('Second', 'Amma again') $$, 'one home per login');
 select tests.refused($$ insert into public.profiles (household_id, display_name, kind, can_login) values ('$$ || :'hh_a' || $$', 'X', 'helper', true) $$, 'a helper cannot have a login');
 

@@ -249,7 +249,7 @@ i: Mixed vegetables (carrot, beans, peas) | கலவை காய்கறி�
 i: Onion, sliced | வெங்காயம் | 1 | piece
 i: Whole spices (bay leaf, cinnamon, clove, cardamom) | பட்டை, கிராம்பு, ஏலக்காய் | 1 | tsp
 i: Ginger-garlic paste | இஞ்சி பூண்டு விழுது | 1 | tsp
-i: Ghee and oil | நெய் | 3 | tbsp
+i: Ghee and oil | நெய், எண்ணெய் | 3 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Soak the rice for 20 minutes. Fry the whole spices and onion in ghee until golden. | அரிசியை 20 நிமிடம் ஊறவைக்கவும். நெய்யில் மசாலாக்கள், வெங்காயத்தைப் பொன்னிறமாக வதக்கவும்.
 s: Add the paste and vegetables and fry for 2 minutes. | விழுது, காய்கறிகள் சேர்த்து 2 நிமிடம் வதக்கவும்.
@@ -276,7 +276,7 @@ i: Onion, finely chopped | வெங்காயம் | 1 | piece
 i: Tomato, chopped | தக்காளி | 1 | piece
 i: Green chilli and coriander | பச்சை மிளகாய், கொத்தமல்லி | 2 | tbsp
 i: Turmeric and chilli powder | மஞ்சள், மிளகாய்த் தூள் | 0.5 | tsp
-i: Butter or oil | வெண்ணெய் | 2 | tbsp
+i: Butter or oil | வெண்ணெய் அல்லது எண்ணெய் | 2 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Fry the onion and chilli in butter until soft, add the tomato and spices. | வெண்ணெயில் வெங்காயம், மிளகாய் வதக்கி தக்காளி, மசாலா சேர்க்கவும்.
 s: Break in the eggs with salt and stir gently until just set. | முட்டையை உடைத்து உப்புடன் வேகும் வரை மெதுவாகக் கிளறவும்.
@@ -404,7 +404,7 @@ i: Cumin seeds | சீரகம் | 2 | tsp
 i: Green chilli and ginger | பச்சை மிளகாய், இஞ்சி | 1 | tbsp
 i: Turmeric and chilli powder | மஞ்சள், மிளகாய்த் தூள் | 0.5 | tsp
 i: Coriander leaves | கொத்தமல்லி | 2 | tbsp
-i: Oil or ghee | எண்ணெய் | 3 | tbsp
+i: Oil or ghee | எண்ணெய் அல்லது நெய் | 3 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Heat the oil, splutter the cumin and fry the chilli and ginger. | எண்ணெயில் சீரகம் தாளித்து மிளகாய், இஞ்சி வதக்கவும்.
 s: Add the potatoes, turmeric, chilli powder and salt and fry until golden. | உருளைக்கிழங்கு, மஞ்சள், மிளகாய்த் தூள், உப்பு சேர்த்து பொன்னிறமாக வறுக்கவும்.

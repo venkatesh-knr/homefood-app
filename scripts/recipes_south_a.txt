@@ -112,7 +112,7 @@ s: Drizzle oil, cook both sides until golden and serve with chutney. | எண்
 @ Kal dosai | 4 | 10 | 20
 note: Cook covered on low heat so the dosa stays soft inside. | குறைந்த தீயில் மூடி வேகவிட்டால் உள்ளே மென்மையாக இருக்கும்.
 i: Dosa batter | தோசை மாவு | 3 | cup
-i: Oil or ghee | எண்ணெய் | 3 | tbsp
+i: Oil or ghee | எண்ணெய் அல்லது நெய் | 3 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Heat a heavy tawa on low heat and grease it. | கனமான தவாவைக் குறைந்த தீயில் சூடாக்கி எண்ணெய் தடவவும்.
 s: Pour a ladle of batter and spread slightly to a small thick round. | ஒரு கரண்டி மாவை ஊற்றி சிறிய கனமான வட்டமாக லேசாகப் பரப்பவும்.
@@ -137,7 +137,7 @@ i: Mustard seeds | கடுகு | 1 | tsp
 i: Chana dal and urad dal | கடலைப்பருப்பு, உளுத்தம்பருப்பு | 1 | tbsp
 i: Cashew nuts | முந்திரி | 8 | piece
 i: Green chilli | பச்சை மிளகாய் | 2 | piece
-i: Ghee or oil | நெய் | 3 | tbsp
+i: Ghee or oil | நெய் அல்லது எண்ணெய் | 3 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Dry roast the rava until fragrant and set aside. | ரவையை வாசனை வரும் வரை வறுத்து தனியே வைக்கவும்.
 s: Heat the ghee, splutter the mustard, fry the dals, cashews and chillies, then the vegetables with salt. | நெய்யில் கடுகு தாளித்து, பருப்புகள், முந்திரி, மிளகாய் வறுத்து காய்கறிகளையும் உப்பையும் சேர்த்து வதக்கவும்.
@@ -152,7 +152,7 @@ i: Mustard seeds | கடுகு | 1 | tsp
 i: Chana dal and urad dal | கடலைப்பருப்பு, உளுத்தம்பருப்பு | 1 | tbsp
 i: Green chilli | பச்சை மிளகாய் | 2 | piece
 i: Curry leaves | கறிவேப்பிலை | 1 | sprig
-i: Oil or ghee | எண்ணெய் | 2 | tbsp
+i: Oil or ghee | எண்ணெய் அல்லது நெய் | 2 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Roast the vermicelli in a little oil until golden and set aside. | சேமியாவை சிறிது எண்ணெயில் பொன்னிறமாக வறுத்து தனியே வைக்கவும்.
 s: Temper mustard, dals, chilli and curry leaves; fry the onion until soft. | கடுகு, பருப்புகள், மிளகாய், கறிவேப்பிலை தாளித்து வெங்காயத்தை மென்மையாக வதக்கவும்.
@@ -451,7 +451,7 @@ s: Add the cardamom and serve warm or chilled. | ஏலக்காய் தூ
 note: Spread the batter as thin as you can; it should shatter when you break it. | மாவை முடிந்தவரை மெல்லியதாகப் பரப்பவும்; உடைக்கும்போது மொறுமொறுவென உடைய வேண்டும்.
 i: Dosa batter | தோசை மாவு | 3 | cup
 i: Rice flour | அரிசி மாவு | 1 | tbsp
-i: Ghee or oil | நெய் | 4 | tbsp
+i: Ghee or oil | நெய் அல்லது எண்ணெய் | 4 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Thin the batter with a little water and stir in the rice flour and salt. | மாவை சிறிது தண்ணீரில் இளக்கி அரிசி மாவு, உப்பு சேர்த்துக் கலக்கவும்.
 s: Pour a ladle on a very hot tawa and spread in thin circles to make a large, wide dosa. | மிகவும் சூடான தவாவில் ஒரு கரண்டி மாவை ஊற்றி மெல்லிய வட்டங்களாகப் பரப்பி பெரிய அகன்ற தோசையாக்கவும்.

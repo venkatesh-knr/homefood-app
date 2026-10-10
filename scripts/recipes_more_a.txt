@@ -259,7 +259,7 @@ i: Mustard seeds | கடுகு | 1 | tsp
 i: Chana dal and urad dal | கடலைப்பருப்பு, உளுத்தம்பருப்பு | 1 | tbsp
 i: Cashew nuts | முந்திரி | 8 | piece
 i: Dried red chilli and curry leaves | காய்ந்த மிளகாய், கறிவேப்பிலை | 1 | tbsp
-i: Ghee or oil | நெய் | 2 | tbsp
+i: Ghee or oil | நெய் அல்லது எண்ணெய் | 2 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Heat the ghee and temper mustard, dals, cashews, chilli and curry leaves. | நெய்யில் கடுகு, பருப்புகள், முந்திரி, மிளகாய், கறிவேப்பிலை தாளிக்கவும்.
 s: Add the coconut and fry for 2 minutes. | தேங்காய் சேர்த்து 2 நிமிடம் வறுக்கவும்.
@@ -731,7 +731,7 @@ note: Do not overcook; fold when the top is just set. | அதிகம் வ�
 i: Eggs | முட்டை | 3 | piece
 i: Onion, finely chopped | வெங்காயம் | 1 | piece
 i: Green chilli and coriander | பச்சை மிளகாய், கொத்தமல்லி | 1 | tbsp
-i: Pepper | மிளகுத் தூள் | 0.25 | tsp
+i: Pepper | மிளகு | 0.25 | tsp
 i: Oil or butter | எண்ணெய் | 1 | tbsp
 i: Salt | உப்பு | - | to_taste
 s: Beat the eggs with the onion, chilli, coriander, pepper and salt. | முட்டையை வெங்காயம், மிளகாய், கொத்தமல்லி, மிளகு, உப்புடன் அடிக்கவும்.
