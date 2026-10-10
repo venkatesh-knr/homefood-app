@@ -62,7 +62,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0016 are all applied (0017 and 0018 are written, not yet run)** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0018 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
   (`0019_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
@@ -97,10 +97,10 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   drafts to be checked by the family. Source text: `scripts/recipes_south_a.txt` … `d.txt` (one block per dish: `@ dish | servings | prep | cook`,
   `i:` ingredient lines, `s:` step lines); regenerate with `python scripts/gen-south-recipes.py`, which checks every dish exists in 0015, units are
   valid and nothing is missing. With 0011 that makes 198 dishes with a recipe.
-  **0017 (recipes for the remaining 100 dishes of 0005/0009) is new and still needs running.** After it, all 298 shared dishes have a recipe.
+  **0017 (recipes for the remaining 100 dishes of 0005/0009) is applied and checked locally (Samosa recipe scales to 3).** After it, all 298 shared dishes have a recipe.
   Source text `scripts/recipes_more_a.txt` / `b.txt`, same format; regenerate with `python scripts/gen-more-recipes.py`.
   **0018 (13 more South Indian photos: beans usili, murungai keerai poriyal, senai fry, cluster beans poriyal, puli kuzhambu, poondu rasam,
-  arachuvitta sambar, olan, erissery, pulissery, paper roast, veg stew, coriander chutney) is new and still needs running.** 124 of the 160 now
+  arachuvitta sambar, olan, erissery, pulissery, paper roast, veg stew, coriander chutney) is applied and checked locally (Olan photo + recipe).** 124 of the 160 now
   have photos; the other 36 have no matching Commons photo and show the initial. 0015 must never be regenerated with new photos: the list it
   was written with is frozen in `scripts/south-indian-photos-0015.json`; later photos go through `scripts/gen-south-photos.py`.
   `0007_dish_stock_photos.sql` sets a real Wikimedia Commons photo (+ credit) on 6 of those seeded dishes — a pure data
