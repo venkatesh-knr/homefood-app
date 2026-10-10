@@ -35,7 +35,9 @@ export function scaleQuantity(quantity: number, base: number, servings: number):
 
 const FRACTIONS: Record<number, string> = { 0.125: '⅛', 0.25: '¼', 0.375: '⅜', 0.5: '½', 0.625: '⅝', 0.75: '¾', 0.875: '⅞' }
 const WEIGHT_UNITS = new Set(['g', 'ml', 'kg'])
-const COUNT_UNITS = new Set(['piece', 'sprig', 'pinch', 'clove', 'slice', 'handful', 'bunch'])
+// Things you cannot cut in half when cooking for the family: 7½ shallots is written as 8. Looser measures keep halves.
+const WHOLE_UNITS = new Set(['piece', 'clove', 'slice'])
+const COUNT_UNITS = new Set(['sprig', 'pinch', 'handful', 'bunch'])
 
 function withFraction(value: number, step: number): string {
   const rounded = Math.round(value / step) * step
@@ -46,12 +48,13 @@ function withFraction(value: number, step: number): string {
   return `${whole}${fracText}`
 }
 
-/** "1¼", "¾", "250", "13" — rounded to something a person would actually measure. */
+/** "1¼", "¾", "250", "13" — rounded to something a person would actually measure (whole pieces and cloves are never halved). */
 export function formatQuantity(value: number, unit: RecipeUnit): string {
   if (WEIGHT_UNITS.has(unit)) {
     if (unit === 'kg') return String(Math.round(value * 100) / 100)
     return String(value >= 100 ? Math.round(value / 5) * 5 : Math.max(1, Math.round(value)))
   }
+  if (WHOLE_UNITS.has(unit)) return String(Math.max(1, Math.round(value)))
   if (COUNT_UNITS.has(unit)) return withFraction(Math.max(0.5, value), 0.5)
   return withFraction(Math.max(0.125, value), value < 1 ? 0.125 : 0.25)
 }

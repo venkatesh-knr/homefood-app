@@ -221,7 +221,7 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
   and takes priority over the stock photo. Dish Detail shows the `photo_credit` over the stock photo (CC BY/BY-SA require visible attribution); it's hidden once a household replaces the photo with its own.
 - **Recipes (migration 0011) and nutrition (0012) are built.** `RecipePage` (`/dishes/:id/recipe`, `Recipe.png`): servings
   stepper (starts at who is eating, else the number of family members), ingredients scaled and written as a cook would (`lib/recipes.ts`:
-  1¼ cups, ¾ tbsp, 250 g), steps you can tick off, cook mode (screen wake lock + bigger text) and a Watch (YouTube) button. A Recipe
+  1¼ cups, ¾ tbsp, 250 g; pieces, cloves and slices are always whole numbers, so 7½ shallots reads 8), steps you can tick off, cook mode (screen wake lock + bigger text) and a Watch (YouTube) button. A Recipe
   button shows on Dish Detail, the Today next-up card and the discussion card, only for dishes that have a recipe. Tables allow a home
   to keep its own version (Admin only), but there is **no "Edit our version" screen yet**, and no Recipe button in the slot editor
   (leaving it would lose unsaved edits).

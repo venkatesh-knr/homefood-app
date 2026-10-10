@@ -22,9 +22,12 @@ describe('formatQuantity', () => {
     expect(formatQuantity(37.4, 'g')).toBe('37')
     expect(formatQuantity(0.2, 'ml')).toBe('1')
   })
-  it('counts things in halves, never less than a half', () => {
+  it('counts whole pieces and cloves in whole numbers, loose measures in halves', () => {
     expect(formatQuantity(1.2, 'piece')).toBe('1')
-    expect(formatQuantity(1.4, 'clove')).toBe('1½')
+    expect(formatQuantity(1.4, 'clove')).toBe('1')
+    expect(formatQuantity(7.5, 'piece')).toBe('8')
+    expect(formatQuantity(0.4, 'piece')).toBe('1')
+    expect(formatQuantity(2.5, 'handful')).toBe('2½')
     expect(formatQuantity(0.1, 'sprig')).toBe('½')
     expect(formatQuantity(13, 'piece')).toBe('13')
   })
