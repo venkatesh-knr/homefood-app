@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { dietColor, dishTone, type DietType } from '../lib/dishes'
 import { useSignedPhotoUrl } from '../lib/dishQueries'
+import { FavouriteButton } from './FavouriteButton'
 
 export function DishThumb({
   name,
@@ -76,10 +77,11 @@ export function DishRow({
   }[note?.kind ?? 'info']
 
   return (
+    <div className="flex items-center rounded-2xl border border-line bg-white pr-1">
     <button
       type="button"
       onClick={onSelect ?? (() => navigate(`/dishes/${dishId}`))}
-      className="flex items-center gap-3 rounded-2xl border border-line bg-white p-3 text-left"
+      className="flex min-w-0 flex-1 items-center gap-3 p-3 text-left"
     >
       <DishThumb name={name} tone={tone} photoPath={photoPath} />
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -94,5 +96,7 @@ export function DishRow({
         {note && <span className={`self-start rounded-md px-2 py-0.5 text-[12px] font-semibold ${noteStyle}`}>{note.text}</span>}
       </span>
     </button>
+    <FavouriteButton dishId={dishId} />
+    </div>
   )
 }

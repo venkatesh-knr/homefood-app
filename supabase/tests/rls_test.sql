@@ -49,6 +49,7 @@ select tests.ok((select count(*) from public.dishes where household_id is null) 
 select tests.ok(not exists (select 1 from public.dishes where household_id is null group by name having count(*) > 1), 'no two shared dishes share a name');
 select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and (select count(distinct n.language) from public.dish_names n where n.dish_id = d.id and n.language in ('en', 'ta')) < 2), 'every shared dish has an English and a Tamil name');
 select tests.ok(exists (select 1 from public.dish_names where language = 'ta' and name = 'வெங்காயப் பக்கோடா') and not exists (select 1 from public.dish_names where name = 'வெங்காய பக்கோடா') and not exists (select 1 from public.recipe_ingredients where name_ta in ('பாஸ்மதி அரிசி', 'வரமிளகாய்', 'க்ரீம்')), 'the Tamil wording fixes of 0020 are in');
+select tests.ok((select count(*) from public.dishes where household_id is null and name in ('Idli', 'Dosa', 'Upma') and meal_types @> '{breakfast,dinner}') = 3 and (select count(*) from public.dishes where household_id is null and name in ('Chapati', 'Parotta', 'Sambar') and meal_types @> '{breakfast,dinner}') = 3, 'tiffin dishes work for both breakfast and dinner');
 select tests.refused($$ select public.create_household('Second', 'Amma again') $$, 'one home per login');
 select tests.refused($$ insert into public.profiles (household_id, display_name, kind, can_login) values ('$$ || :'hh_a' || $$', 'X', 'helper', true) $$, 'a helper cannot have a login');
 
@@ -231,6 +232,19 @@ select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id)
 select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
 select tests.ok((select count(*) from public.meal_attendance) = 0, 'Ravi sees none of home A''s attendance');
 select tests.refused($$ insert into public.meal_attendance (slot_id, profile_id) values ('$$ || :'slot_old' || $$', '$$ || :'ravi' || $$') $$, 'Ravi cannot record attendance on home A''s meals');
+
+-- ── Favourite dishes ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.dish_favourites (household_id, dish_id) select :'hh_a', id from public.dishes where name = 'Idli' and household_id is null;
+select tests.ok((select count(*) from public.dish_favourites) = 1, 'Amma marks a shared dish as a favourite of her home');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.dish_favourites) = 1, 'Appa sees his home''s favourites');
+insert into public.dish_favourites (household_id, dish_id) select :'hh_a', id from public.dishes where name = 'Dosa' and household_id is null;
+select tests.ok((select count(*) from public.dish_favourites) = 2, 'any member can add a favourite');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.dish_favourites) = 0, 'Ravi sees none of home A''s favourites');
+select tests.refused($$ insert into public.dish_favourites (household_id, dish_id) select '$$ || :'hh_a' || $$', id from public.dishes where name = 'Upma' and household_id is null $$, 'Ravi cannot add favourites to home A');
+select tests.refused($$ insert into public.dish_favourites (household_id, dish_id) select '$$ || :'hh_c' || $$', id from public.dishes where name = 'Pongal' $$, 'a home cannot favourite another home''s own dish');
 
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);

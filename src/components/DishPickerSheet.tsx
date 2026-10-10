@@ -13,6 +13,9 @@ import {
 import { mealAllergyConflicts, type MealType } from '../lib/planner'
 import type { DishWithNames } from '../lib/dishQueries'
 import { DishRow } from './DishRow'
+import { useDishUsage, useFavourites } from '../lib/favouriteQueries'
+import { orderDishes } from '../lib/favourites'
+import { HeartIcon } from './icons'
 
 type Eater = { name: string; allergens: string[] }
 
@@ -45,6 +48,9 @@ export function DishPickerSheet({
   const { data: dishes } = useDishes(householdId)
   const { data: overrides } = useDishPhotoOverrides(householdId)
   const [filters, setFilters] = useState<DishFilters>({ ...DEFAULT_DISH_FILTERS, course, mealType: meal })
+  const [favouritesOnly, setFavouritesOnly] = useState(false)
+  const { data: favourites } = useFavourites(householdId)
+  const { data: usage } = useDishUsage(householdId)
 
   const leafCuisines = useMemo(() => assignableCuisines(cuisines ?? []), [cuisines])
   const cuisineById = useMemo(() => new Map((cuisines ?? []).map((c) => [c.id, c])), [cuisines])
@@ -52,16 +58,17 @@ export function DishPickerSheet({
   const eaterAllergens = useMemo(() => [...new Set(eaters.flatMap((e) => e.allergens))], [eaters])
 
   const visible = useMemo(() => {
-    return (dishes ?? [])
+    const matching = (dishes ?? [])
       .filter((d) => !excludeIds.includes(d.id))
+      .filter((d) => !favouritesOnly || favourites?.has(d.id))
       .filter((d) => passesFilters(d, filters, householdId, eaterAllergens))
       .filter((d) => {
         const name = dishDisplayName(d, d.dish_names, lang)
         const nameTa = d.dish_names.find((n) => n.language === 'ta')?.name
         return matchesQuery(name, nameTa, filters.query)
       })
-      .sort((a, b) => dishDisplayName(a, a.dish_names, lang).localeCompare(dishDisplayName(b, b.dish_names, lang)))
-  }, [dishes, excludeIds, filters, householdId, eaterAllergens, lang])
+    return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
+  }, [dishes, excludeIds, filters, householdId, eaterAllergens, lang, favouritesOnly, favourites, usage])
 
   const selectClass = 'h-8 rounded-[10px] border border-line bg-white px-2.5 text-[13px]'
 
@@ -92,6 +99,15 @@ export function DishPickerSheet({
           />
         </div>
         <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            aria-pressed={favouritesOnly}
+            onClick={() => setFavouritesOnly((v) => !v)}
+            className={`flex h-8 items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold ${favouritesOnly ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-white'}`}
+          >
+            <HeartIcon size={14} filled={favouritesOnly} />
+            {t('dishes.favourites')}
+          </button>
           {(['all', ...leafCuisines.map((c) => c.id), 'mine'] as const).map((id) => {
             const on = filters.cuisineId === id
             const label = id === 'all' ? t('dishes.cuisineAll') : id === 'mine' ? t('dishes.myDishes') : cuisineLabelOf(cuisineById.get(id)!, lang)

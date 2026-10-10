@@ -28,4 +28,6 @@ psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0017_more_recipes.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0018_south_indian_photos_more.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0019_meal_attendance.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0020_tamil_wording_fixes.sql
+psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0021_breakfast_dinner_overlap.sql
+psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0022_dish_favourites.sql
 psql -v ON_ERROR_STOP=1 -o /dev/null -d "$DB" -f supabase/tests/rls_test.sql 2>&1 | sed -E "s/^psql:[^ ]+ NOTICE:  //"

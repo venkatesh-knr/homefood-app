@@ -14,6 +14,9 @@ import {
   type DishFilters,
 } from '../lib/dishes'
 import { DishRow } from '../components/DishRow'
+import { useDishUsage, useFavourites } from '../lib/favouriteQueries'
+import { orderDishes } from '../lib/favourites'
+import { HeartIcon } from '../components/icons'
 import { AddCuisine } from '../components/AddCuisine'
 
 export default function DishesPage() {
@@ -30,6 +33,9 @@ export default function DishesPage() {
   const photoInput = useRef<HTMLInputElement>(null)
 
   const [filters, setFilters] = useState<DishFilters>(DEFAULT_DISH_FILTERS)
+  const [favouritesOnly, setFavouritesOnly] = useState(false)
+  const { data: favourites } = useFavourites(household.id)
+  const { data: usage } = useDishUsage(household.id)
 
   const leafCuisines = useMemo(() => assignableCuisines(cuisines ?? []), [cuisines])
   const householdAllergens = useMemo(() => [...new Set((allergyRows ?? []).map((a) => a.allergen))], [allergyRows])
@@ -38,15 +44,16 @@ export default function DishesPage() {
   const cuisineById = useMemo(() => new Map((cuisines ?? []).map((c) => [c.id, c])), [cuisines])
 
   const visible = useMemo(() => {
-    return (dishes ?? [])
+    const matching = (dishes ?? [])
+      .filter((d) => !favouritesOnly || favourites?.has(d.id))
       .filter((d) => passesFilters(d, filters, household.id, householdAllergens))
       .filter((d) => {
         const name = dishDisplayName(d, d.dish_names, lang)
         const nameTa = d.dish_names.find((n) => n.language === 'ta')?.name
         return matchesQuery(name, nameTa, filters.query)
       })
-      .sort((a, b) => dishDisplayName(a, a.dish_names, lang).localeCompare(dishDisplayName(b, b.dish_names, lang)))
-  }, [dishes, filters, household.id, householdAllergens, lang])
+    return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
+  }, [dishes, filters, household.id, householdAllergens, lang, favouritesOnly, favourites, usage])
 
   function onSnapPhoto(file: File | undefined) {
     if (!file) return
@@ -100,6 +107,15 @@ export default function DishesPage() {
       </div>
 
       <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          aria-pressed={favouritesOnly}
+          onClick={() => setFavouritesOnly((v) => !v)}
+          className={`flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13.5px] font-semibold ${favouritesOnly ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-white text-ink'}`}
+        >
+          <HeartIcon size={15} filled={favouritesOnly} />
+          {t('dishes.favourites')}
+        </button>
         {(['all', ...leafCuisines.map((c) => c.id), 'mine'] as const).map((id) => {
           const on = filters.cuisineId === id
           const label = id === 'all' ? t('dishes.cuisineAll') : id === 'mine' ? t('dishes.myDishes') : cuisineLabelOf(cuisineById.get(id)!, lang)
@@ -167,7 +183,7 @@ export default function DishesPage() {
       </div>
 
       {visible.length === 0 ? (
-        <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('dishes.empty')}</p>
+        <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{favouritesOnly && (favourites?.size ?? 0) === 0 ? t('dishes.noFavourites') : t('dishes.empty')}</p>
       ) : (
         <div className="flex flex-col gap-2">
           {visible.map((d, i) => {

@@ -389,7 +389,11 @@
         "nameEn": "Enter a name (up to 80 characters).",
         "mealTypes": "Pick at least one meal."
       }
-    }
+    },
+    "favourites": "Favourites",
+    "favouriteAdd": "Add to favourites",
+    "favouriteRemove": "Remove from favourites",
+    "noFavourites": "No favourites yet. Tap the heart on a dish to add it."
   },
   "home": {
     "household": "Household",
