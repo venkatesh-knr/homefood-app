@@ -62,7 +62,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0015 are all applied (0016 is written, not yet run)** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0016 are all applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
   (`0017_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
@@ -93,7 +93,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   `python scripts/gen-south-indian.py` (validates names are new and calories match the macros). Photos: pick Commons titles in
   `scripts/south-indian-photo-picks.txt`, run `python scripts/build-south-indian-photos.py`, then regenerate. 0014 and 0015 are loaded by
   `scripts/test-db.sh`, so CI also checks the SQL really runs. Shared catalogue is now 298 dishes.
-  **0016 (recipes for the 160 new South Indian dishes) is new and still needs running.** English + Tamil, ingredients scaled by the app,
+  **0016 (recipes for the 160 new South Indian dishes) is applied and checked locally (Kara kuzhambu recipe scales to 3 servings, English and Tamil).** English + Tamil, ingredients scaled by the app,
   drafts to be checked by the family. Source text: `scripts/recipes_south_a.txt` … `d.txt` (one block per dish: `@ dish | servings | prep | cook`,
   `i:` ingredient lines, `s:` step lines); regenerate with `python scripts/gen-south-recipes.py`, which checks every dish exists in 0015, units are
   valid and nothing is missing. With 0011 that makes 198 dishes with a recipe. The 110 dishes from 0009 still have none.
