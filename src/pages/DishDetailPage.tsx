@@ -109,8 +109,8 @@ export default function DishDetailPage() {
             {name.trim()[0]?.toUpperCase() ?? '?'}
           </span>
         )}
-        <button type="button" onClick={() => navigate(-1)} aria-label={t('common.back')} className="absolute left-3 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-white/90">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2622" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <button type="button" onClick={() => navigate(-1)} aria-label={t('common.back')} className="absolute left-3 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-surface/90 text-ink">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
@@ -156,7 +156,7 @@ export default function DishDetailPage() {
             rel="noopener noreferrer"
             aria-label={t('dishes.detail.youtube')}
             title={t('dishes.detail.youtube')}
-            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-white"
+            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
           >
             <YouTubeIcon size={28} />
           </a>
@@ -166,13 +166,13 @@ export default function DishDetailPage() {
             rel="noopener noreferrer"
             aria-label={t('dishes.detail.instagram')}
             title={t('dishes.detail.instagram')}
-            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-white"
+            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
           >
             <InstagramIcon size={26} />
           </a>
         </div>
 
-        <div className="flex flex-col gap-1 rounded-2xl border border-[#F0CF94] bg-saffron-tint px-3.5 py-3 text-[13.5px]">
+        <div className="flex flex-col gap-1 rounded-2xl border border-saffron/40 bg-saffron-tint px-3.5 py-3 text-[13.5px]">
           <span className="font-semibold">
             {dish.allergens.length > 0 ? t('dishes.detail.allergensLabel', { list: dish.allergens.join(', ') }) : t('dishes.detail.allergensNone')}
           </span>
@@ -199,7 +199,7 @@ export default function DishDetailPage() {
             type="button"
             disabled={busy}
             onClick={() => photoInput.current?.click()}
-            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-white text-[14px] font-medium"
+            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium"
           >
             {t('dishes.detail.replacePhoto')}
           </button>
@@ -232,7 +232,7 @@ export default function DishDetailPage() {
 
       {zoom && photoUrl && (
         <div role="dialog" aria-modal="true" aria-label={name} className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-[rgba(20,17,15,0.94)]">
-          <button type="button" onClick={() => setZoom(false)} aria-label={t('dishes.detail.tapEnlarge')} className="absolute right-3 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-cream">
+          <button type="button" onClick={() => setZoom(false)} aria-label={t('dishes.detail.tapEnlarge')} className="absolute right-3 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-surface/15 text-cream">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <path d="M6 6l12 12M18 6L6 18" />
             </svg>

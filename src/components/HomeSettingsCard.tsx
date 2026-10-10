@@ -46,7 +46,7 @@ export function HomeSettingsCard({ household }: { household: Household }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 autoFocus
-                className="h-10 w-36 rounded-xl border border-line-strong bg-white px-2.5 text-[14px]"
+                className="h-10 w-36 rounded-xl border border-line-strong bg-surface px-2.5 text-[14px]"
               />
               <Button variant="text" type="submit" disabled={busy === 'name' || !isValidHomeName(name)} className="min-h-0">
                 {t('common.save')}
@@ -77,7 +77,7 @@ export function HomeSettingsCard({ household }: { household: Household }) {
                 aria-pressed={household.default_language === lang}
                 disabled={busy === 'language'}
                 onClick={() => save({ default_language: lang }, 'language')}
-                className={`min-h-[36px] rounded-lg px-3 ${household.default_language === lang ? 'bg-white font-semibold shadow-sm' : 'text-ink-soft'}`}
+                className={`min-h-[36px] rounded-lg px-3 ${household.default_language === lang ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
               >
                 {t(`language.${lang}`)}
               </button>
@@ -96,7 +96,7 @@ export function HomeSettingsCard({ household }: { household: Household }) {
                   aria-pressed={household.week_start === day}
                   disabled={busy === 'weekStart'}
                   onClick={() => household.week_start !== day && save({ week_start: day }, 'weekStart')}
-                  className={`min-h-[36px] rounded-lg px-3 ${household.week_start === day ? 'bg-white font-semibold shadow-sm' : 'text-ink-soft'}`}
+                  className={`min-h-[36px] rounded-lg px-3 ${household.week_start === day ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
                 >
                   {t(day === 1 ? 'onboarding.step1.monday' : 'onboarding.step1.sunday')}
                 </button>

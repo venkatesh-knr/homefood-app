@@ -169,7 +169,7 @@ export default function SlotEditorPage() {
               role="radio"
               aria-checked={values.source === s}
               onClick={() => setValues((v) => ({ ...v, source: s }))}
-              className={`h-10 rounded-[11px] text-[14px] ${values.source === s ? 'bg-white font-semibold shadow-sm' : 'font-medium text-ink-soft'}`}
+              className={`h-10 rounded-[11px] text-[14px] ${values.source === s ? 'bg-surface font-semibold shadow-sm' : 'font-medium text-ink-soft'}`}
             >
               {t(`planner.source.${s === 'home' ? 'home' : s === 'dine_out' ? 'dineOut' : 'orderIn'}`)}
             </button>
@@ -180,7 +180,7 @@ export default function SlotEditorPage() {
       {values.source === 'home' ? (
         <div className="flex flex-col">
           <SectionLabel>{t('planner.mainDish')}</SectionLabel>
-          <div className="mx-4 flex items-center gap-3.5 rounded-2xl border border-line bg-white p-3.5">
+          <div className="mx-4 flex items-center gap-3.5 rounded-2xl border border-line bg-surface p-3.5">
             {mainDish ? (
               <>
                 <DishThumb name={dishName(mainDish)} tone={0} photoPath={photoFor(mainDish)} size={56} />
@@ -233,7 +233,7 @@ export default function SlotEditorPage() {
           <SectionLabel>{t('planner.sidesLabel')}</SectionLabel>
           <div className="flex flex-wrap gap-2 px-4">
             {sideDishes.map((d) => (
-              <span key={d.id} className="flex items-center gap-1.5 rounded-full border border-line bg-white py-2 pl-3.5 pr-1.5 text-[14px]">
+              <span key={d.id} className="flex items-center gap-1.5 rounded-full border border-line bg-surface py-2 pl-3.5 pr-1.5 text-[14px]">
                 {dishName(d)}
                 <button
                   type="button"
@@ -266,7 +266,7 @@ export default function SlotEditorPage() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => toggleCook(m.id)}
-                  className={`flex h-11 items-center gap-2 rounded-full border py-0 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-white'}`}
+                  className={`flex h-11 items-center gap-2 rounded-full border py-0 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-semibold text-white" style={{ background: avatarColor(i, m.kind) }}>
                     {m.display_name.trim()[0]?.toUpperCase()}
@@ -293,7 +293,7 @@ export default function SlotEditorPage() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => toggleEater(m.id)}
-                  className={`flex h-11 items-center gap-2 rounded-full border py-0 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-white'}`}
+                  className={`flex h-11 items-center gap-2 rounded-full border py-0 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-semibold text-white" style={{ background: avatarColor(i, m.kind) }}>
                     {m.display_name.trim()[0]?.toUpperCase()}
@@ -318,7 +318,7 @@ export default function SlotEditorPage() {
               value={values.note}
               onChange={(e) => setValues((v) => ({ ...v, note: e.target.value }))}
               placeholder={t('planner.notePlaceholder')}
-              className="h-12 w-full rounded-2xl border border-line-strong bg-white px-3.5 text-[15px]"
+              className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
             />
           </div>
 
@@ -332,7 +332,7 @@ export default function SlotEditorPage() {
                   rel="noopener noreferrer"
                   aria-label={t('dishes.detail.youtube')}
                   title={t('dishes.detail.youtube')}
-                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-white"
+                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
                 >
                   <YouTubeIcon size={26} />
                 </a>
@@ -342,7 +342,7 @@ export default function SlotEditorPage() {
                   rel="noopener noreferrer"
                   aria-label={t('dishes.detail.instagram')}
                   title={t('dishes.detail.instagram')}
-                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-white"
+                  className="flex h-[46px] flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
                 >
                   <InstagramIcon size={24} />
                 </a>
@@ -360,7 +360,7 @@ export default function SlotEditorPage() {
             value={values.place_name}
             onChange={(e) => setValues((v) => ({ ...v, place_name: e.target.value }))}
             placeholder={values.source === 'dine_out' ? t('planner.dineOutPlaceholder') : t('planner.orderInPlaceholder')}
-            className="h-12 rounded-2xl border border-line-strong bg-white px-3.5 text-[15px]"
+            className="h-12 rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
           />
           <p className="px-1 text-[13px] text-muted">{t('planner.outHint')}</p>
         </div>

@@ -46,6 +46,9 @@ Design tokens: cream `#FFF8EE` background, ink `#2B2622`, saffron `#E08A00` acce
 meal colours breakfast `#F2B705`, lunch `#2F7A3E`, snacks `#E8742A`, dinner `#3B4A9C`.
 Fonts: Poppins (headings), Noto Sans / Noto Sans Tamil (body; `:lang(ta)`).
 Simple, eye-catching, big touch targets, mobile-first (test at 375px wide).
+**Dark mode** (11 Oct 2026): the colour tokens in `src/index.css` are redefined for dark under `prefers-color-scheme: dark` and `[data-theme="dark"]`;
+white cards use `bg-surface` (never `bg-white`) and new colours must be tokens, not hex, so both themes work. Home tab → Appearance (System / Light /
+Dark, `lib/theme.ts`, per device in localStorage). `data-theme="light"` on an element forces light for it (the Week at a glance poster, which is saved as an image).
 
 ## Commands
 

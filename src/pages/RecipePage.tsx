@@ -109,7 +109,7 @@ export default function RecipePage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between rounded-2xl border border-line bg-white p-3.5">
+      <div className="flex items-center justify-between rounded-2xl border border-line bg-surface p-3.5">
         <div className="flex flex-col">
           <span className="text-[15px] font-semibold">{t('recipe.servings')}</span>
           <span className="text-[12.5px] text-muted">{t('recipe.servingsHint')}</span>
@@ -125,7 +125,7 @@ export default function RecipePage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between rounded-2xl bg-white/60 p-3.5">
+      <div className="flex items-center justify-between rounded-2xl bg-surface/60 p-3.5">
         <div className="flex flex-col">
           <span className="text-[15px] font-semibold">{t('recipe.cookMode')}</span>
           <span className="text-[12.5px] text-muted">{t('recipe.cookModeHint')}</span>
@@ -134,7 +134,7 @@ export default function RecipePage() {
       </div>
 
       <h2 className="pt-1 font-display text-[18px] font-semibold">{t('recipe.ingredients')}</h2>
-      <div className="flex flex-col divide-y divide-line rounded-2xl border border-line bg-white">
+      <div className="flex flex-col divide-y divide-line rounded-2xl border border-line bg-surface">
         {recipe.recipe_ingredients.map((ing) => {
           const q = ing.quantity === null ? null : scaleQuantity(ing.quantity, recipe.servings, people)
           const secondary = lang === 'ta' ? ing.name : ing.name_ta
@@ -169,7 +169,7 @@ export default function RecipePage() {
                   return next
                 })
               }
-              className={`flex items-start gap-3 rounded-2xl border p-3.5 text-left ${on ? 'border-line bg-sand' : 'border-line bg-white'}`}
+              className={`flex items-start gap-3 rounded-2xl border p-3.5 text-left ${on ? 'border-line bg-sand' : 'border-line bg-surface'}`}
             >
               <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold ${on ? 'bg-leaf text-white' : 'bg-sand'}`}>
                 {on ? '✓' : step.position}
@@ -193,7 +193,7 @@ export default function RecipePage() {
           rel="noopener noreferrer"
           aria-label={t('recipe.watch')}
           title={t('recipe.watch')}
-          className="flex h-12 flex-1 items-center justify-center rounded-2xl border-[1.5px] border-line-strong bg-white"
+          className="flex h-12 flex-1 items-center justify-center rounded-2xl border-[1.5px] border-line-strong bg-surface"
         >
           <YouTubeIcon size={28} />
         </a>

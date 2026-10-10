@@ -111,7 +111,7 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
   const photoFor = useDishPhotoPath()
 
   return (
-    <div className="flex flex-col gap-3.5 rounded-[22px] border-2 border-saffron bg-white p-4.5">
+    <div className="flex flex-col gap-3.5 rounded-[22px] border-2 border-saffron bg-surface p-4.5">
       <button type="button" onClick={onClick} className="flex flex-col gap-3.5 text-left">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-saffron-ink">
@@ -147,12 +147,12 @@ function RestCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss }: 
   const photoFor = useDishPhotoPath()
 
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-line bg-white p-3.5">
+    <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-3.5">
     <button type="button" onClick={onClick} className="flex items-center gap-3 text-left">
       {dish ? (
         <DishThumb name={dish.name} tone={meal.length + 1} photoPath={photoFor(dish.dish)} size={52} ring={bandColor} />
       ) : (
-        <span className="h-[52px] w-[52px] shrink-0 rounded-full" style={{ background: '#F6EFE3' }} />
+        <span className="h-[52px] w-[52px] shrink-0 rounded-full" style={{ background: 'var(--color-sand)' }} />
       )}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
         <span className="text-[11.5px] font-semibold uppercase tracking-wide text-muted">{t(`meal.${meal}`)}</span>

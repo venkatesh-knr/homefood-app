@@ -111,7 +111,7 @@ export default function AddDishPage() {
           value={values.name_en}
           onChange={(e) => setValues((v) => ({ ...v, name_en: e.target.value }))}
           aria-invalid={showErrors && !nameValid}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         />
         {showErrors && !nameValid && <p className="text-[12.5px] text-alert">{t('dishes.form.errors.nameEn')}</p>}
       </div>
@@ -121,7 +121,7 @@ export default function AddDishPage() {
         <input
           value={values.name_ta}
           onChange={(e) => setValues((v) => ({ ...v, name_ta: e.target.value }))}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 font-tamil text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 font-tamil text-[15px]"
         />
       </div>
 
@@ -130,7 +130,7 @@ export default function AddDishPage() {
         <select
           value={values.cuisine_id ?? ''}
           onChange={(e) => setValues((v) => ({ ...v, cuisine_id: e.target.value || null }))}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         >
           <option value="">{t('dishes.form.cuisineNone')}</option>
           {leafCuisines.map((c) => (
@@ -151,7 +151,7 @@ export default function AddDishPage() {
               aria-pressed={values.meal_types.includes(m)}
               onClick={() => toggleMealType(m)}
               className={`h-10 rounded-xl border px-3.5 text-[13.5px] font-semibold ${
-                values.meal_types.includes(m) ? 'border-ink bg-ink text-cream' : 'border-line-strong bg-white text-ink-soft'
+                values.meal_types.includes(m) ? 'border-ink bg-ink text-cream' : 'border-line-strong bg-surface text-ink-soft'
               }`}
             >
               {t(`meal.${m}`)}
@@ -166,7 +166,7 @@ export default function AddDishPage() {
         <select
           value={values.course}
           onChange={(e) => setValues((v) => ({ ...v, course: e.target.value as DishCourse }))}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         >
           <option value="main">{t('dishes.filters.courseMain')}</option>
           <option value="side">{t('dishes.filters.courseSide')}</option>
@@ -179,7 +179,7 @@ export default function AddDishPage() {
         <select
           value={values.diet}
           onChange={(e) => setValues((v) => ({ ...v, diet: e.target.value as DietType }))}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         >
           <option value="veg">{t('dishes.filters.dietVeg')}</option>
           <option value="egg">{t('dishes.filters.dietEgg')}</option>
@@ -215,7 +215,7 @@ export default function AddDishPage() {
           value={values.prep_minutes}
           onChange={(e) => setValues((v) => ({ ...v, prep_minutes: e.target.value.replace(/\D/g, '').slice(0, 3) }))}
           inputMode="numeric"
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         />
       </div>
 

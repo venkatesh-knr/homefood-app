@@ -104,7 +104,7 @@ export default function JoinPage() {
                   }}
                   className={`flex items-center gap-3 rounded-2xl border px-3.5 py-3 text-left ${
                     p.joined ? 'cursor-default opacity-55' : 'cursor-pointer'
-                  } ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-white'}`}
+                  } ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
                 >
                   <span
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[15px] font-semibold text-white"

@@ -12,7 +12,7 @@ export function InstallBanner() {
   if (dismissed || (!canPromptInstall && !canShowIOSInstructions)) return null
 
   return (
-    <div className="mx-5 mt-2 flex items-start gap-3 rounded-2xl border border-line-strong bg-white px-3.5 py-3 print:hidden">
+    <div className="mx-5 mt-2 flex items-start gap-3 rounded-2xl border border-line-strong bg-surface px-3.5 py-3 print:hidden">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-saffron text-ink" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 11l9-7 9 7" />

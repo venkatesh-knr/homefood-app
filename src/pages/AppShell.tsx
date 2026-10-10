@@ -46,7 +46,7 @@ export default function AppShell() {
           <Outlet />
         </div>
 
-        <nav className="fixed inset-x-0 bottom-0 mx-auto flex max-w-md border-t border-line bg-white print:hidden">
+        <nav className="fixed inset-x-0 bottom-0 mx-auto flex max-w-md border-t border-line bg-surface print:hidden">
           {TABS.map(({ to, labelKey, icon: Icon }) => (
             <NavLink
               key={to}

@@ -120,16 +120,16 @@ export default function WeekGlancePage() {
           <button type="button" onClick={onSave} disabled={busy !== null} className="flex h-11 items-center gap-2 rounded-xl bg-ink px-4 text-[15px] font-semibold text-cream">
             {busy === 'save' ? t('glance.saving') : t('glance.saveImage')}
           </button>
-          <button type="button" onClick={() => window.print()} className="flex h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-white px-4 text-[15px]">
+          <button type="button" onClick={() => window.print()} className="flex h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
             {t('glance.print')}
           </button>
-          <button type="button" onClick={onShare} disabled={busy !== null} className="flex h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-white px-4 text-[15px]">
+          <button type="button" onClick={onShare} disabled={busy !== null} className="flex h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
             <ShareIcon /> {t('glance.share')}
           </button>
         </div>
       </div>
 
-      <div ref={posterRef} className="flex flex-col gap-4 bg-cream py-3">
+      <div ref={posterRef} data-theme="light" className="flex flex-col gap-4 bg-cream py-3">
         <div className="flex items-end justify-between gap-4">
           <div className="flex flex-col gap-1">
             <span className="text-[13px] font-semibold text-saffron-ink">{household.name}</span>
@@ -156,7 +156,7 @@ export default function WeekGlancePage() {
         <div className="hidden md:grid md:gap-2.5" style={{ gridTemplateColumns: '140px repeat(7, minmax(0, 1fr))' }}>
           <div />
           {dates.map((d) => (
-            <div key={d} className={`flex min-h-[84px] flex-col items-center justify-end gap-0.5 rounded-2xl p-2.5 ${d === today ? 'bg-saffron-tint' : 'bg-white'}`}>
+            <div key={d} className={`flex min-h-[84px] flex-col items-center justify-end gap-0.5 rounded-2xl p-2.5 ${d === today ? 'bg-saffron-tint' : 'bg-surface'}`}>
               {d === today && <span className="mb-1 rounded-full bg-saffron px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide">{t('glance.today')}</span>}
               <span className="font-display text-[16px] font-semibold">{dayFmt.format(new Date(`${d}T00:00:00`)).split(',')[0]}</span>
               <span className="text-[12px] text-muted">{dayOfMonth(d)}</span>
@@ -173,7 +173,7 @@ export default function WeekGlancePage() {
             {dates.map((d) => (
               <div
                 key={d}
-                className={`flex h-[58px] flex-col items-center justify-center gap-0.5 rounded-2xl ${d === today ? 'border-2 border-saffron bg-saffron text-ink' : 'border border-line bg-white'}`}
+                className={`flex h-[58px] flex-col items-center justify-center gap-0.5 rounded-2xl ${d === today ? 'border-2 border-saffron bg-saffron text-ink' : 'border border-line bg-surface'}`}
               >
                 <span className="text-[10.5px] text-muted">{weekdayLetter(d)}</span>
                 <span className="font-display text-[15px] font-semibold">{dayOfMonth(d)}</span>
@@ -190,7 +190,7 @@ export default function WeekGlancePage() {
           </div>
 
           {todayInWeek && (
-            <div className="flex flex-col gap-1 rounded-[20px] border-2 border-saffron bg-white p-4">
+            <div className="flex flex-col gap-1 rounded-[20px] border-2 border-saffron bg-surface p-4">
               <span className="text-[11px] font-semibold uppercase tracking-wide text-saffron-ink">{t('glance.today')}</span>
               <span className="pb-1 font-display text-[17px] font-semibold">{dayFmt.format(new Date(`${today}T00:00:00`))}</span>
               {mealTypes.map((meal) => (
@@ -207,7 +207,7 @@ export default function WeekGlancePage() {
               // or future week, there's no "today" in range at all, so show every day of it.
               .filter((d) => (todayInWeek ? d > today : true))
               .map((d) => (
-                <div key={d} className="grid grid-cols-[52px_repeat(4,minmax(0,1fr))] items-start gap-1.5 rounded-2xl border border-line bg-white p-2.5">
+                <div key={d} className="grid grid-cols-[52px_repeat(4,minmax(0,1fr))] items-start gap-1.5 rounded-2xl border border-line bg-surface p-2.5">
                   <div className="flex flex-col gap-0.5 pt-2">
                     <span className="font-display text-[14px] font-semibold">{dayFmt.format(new Date(`${d}T00:00:00`)).split(',')[0]}</span>
                     <span className="text-[11px] text-muted">{dayOfMonth(d)}</span>
@@ -231,7 +231,7 @@ export default function WeekGlancePage() {
         <button type="button" onClick={onSave} disabled={busy !== null} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-ink text-[15px] font-semibold text-cream">
           {busy === 'save' ? t('glance.saving') : t('glance.saveImage')}
         </button>
-        <button type="button" onClick={() => window.print()} className="flex h-12 items-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-white px-4 text-[15px]">
+        <button type="button" onClick={() => window.print()} className="flex h-12 items-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
           {t('glance.print')}
         </button>
       </div>
@@ -279,7 +279,7 @@ function GridMealRow({
             key={d}
             type="button"
             onClick={() => onPick(d)}
-            className="flex min-h-[150px] flex-col items-center justify-start gap-1.5 rounded-2xl border border-line bg-white p-2.5 text-center"
+            className="flex min-h-[150px] flex-col items-center justify-start gap-1.5 rounded-2xl border border-line bg-surface p-2.5 text-center"
           >
             {dish ? (
               <>

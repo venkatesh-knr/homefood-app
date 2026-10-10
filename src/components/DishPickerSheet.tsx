@@ -70,7 +70,7 @@ export function DishPickerSheet({
     return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
   }, [dishes, excludeIds, filters, householdId, eaterAllergens, lang, favouritesOnly, favourites, usage])
 
-  const selectClass = 'h-8 rounded-[10px] border border-line bg-white px-2.5 text-[13px]'
+  const selectClass = 'h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]'
 
   return (
     <div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-50 flex flex-col bg-cream">
@@ -84,8 +84,8 @@ export function DishPickerSheet({
       </div>
 
       <div className="flex flex-col gap-3 px-4 pt-3">
-        <div className="flex items-center gap-2.5 rounded-2xl border border-line-strong bg-white px-3.5 py-1">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E6259" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <div className="flex items-center gap-2.5 rounded-2xl border border-line-strong bg-surface px-3.5 py-1">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-muted" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
             <path d="M20 20l-4-4" />
           </svg>
@@ -103,7 +103,7 @@ export function DishPickerSheet({
             type="button"
             aria-pressed={favouritesOnly}
             onClick={() => setFavouritesOnly((v) => !v)}
-            className={`flex h-8 items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold ${favouritesOnly ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-white'}`}
+            className={`flex h-8 items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold ${favouritesOnly ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface'}`}
           >
             <HeartIcon size={14} filled={favouritesOnly} />
             {t('dishes.favourites')}
@@ -117,7 +117,7 @@ export function DishPickerSheet({
                 type="button"
                 aria-pressed={on}
                 onClick={() => setFilters((f) => ({ ...f, cuisineId: id }))}
-                className={`h-8 rounded-full px-3 text-[13px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-white'}`}
+                className={`h-8 rounded-full px-3 text-[13px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface'}`}
               >
                 {label}
               </button>
@@ -152,7 +152,7 @@ export function DishPickerSheet({
             type="button"
             aria-pressed={filters.safeOnly}
             onClick={() => setFilters((f) => ({ ...f, safeOnly: !f.safeOnly }))}
-            className={`h-8 rounded-[10px] border px-2.5 text-[13px] ${filters.safeOnly ? 'border-leaf bg-leaf-tint text-leaf' : 'border-line bg-white'}`}
+            className={`h-8 rounded-[10px] border px-2.5 text-[13px] ${filters.safeOnly ? 'border-leaf bg-leaf-tint text-leaf' : 'border-line bg-surface'}`}
           >
             {t('dishes.filters.safeOnly')}
           </button>

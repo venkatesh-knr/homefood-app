@@ -43,9 +43,9 @@ export function AddCuisine({ householdId }: { householdId: string }) {
     )
   }
 
-  const inputClass = 'h-11 rounded-xl border border-line-strong bg-white px-3 text-[15px]'
+  const inputClass = 'h-11 rounded-xl border border-line-strong bg-surface px-3 text-[15px]'
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-2 rounded-2xl border border-line bg-white p-3.5">
+    <form onSubmit={onSubmit} className="flex flex-col gap-2 rounded-2xl border border-line bg-surface p-3.5">
       <span className="text-[13px] font-semibold">{t('dishes.addCuisine')}</span>
       <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('dishes.cuisineNamePlaceholder')} maxLength={40} autoFocus className={inputClass} />
       <input value={nameTa} onChange={(e) => setNameTa(e.target.value)} placeholder={t('dishes.cuisineNameTaPlaceholder')} maxLength={40} className={`${inputClass} font-tamil`} />

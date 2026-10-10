@@ -89,7 +89,7 @@ export default function SetupHomeStep1Page() {
           onChange={(e) => setHomeName(e.target.value)}
           placeholder={t('onboarding.step1.homeNamePlaceholder')}
           aria-invalid={showErrors && !homeNameValid}
-          className="h-[50px] rounded-2xl border border-line-strong bg-white px-3.5 text-base"
+          className="h-[50px] rounded-2xl border border-line-strong bg-surface px-3.5 text-base"
         />
         {showErrors && !homeNameValid && <p className="px-1 text-[12.5px] text-alert">{t('onboarding.step1.errors.homeName')}</p>}
       </div>
@@ -101,7 +101,7 @@ export default function SetupHomeStep1Page() {
           onChange={(e) => setYourName(e.target.value)}
           placeholder={t('onboarding.step1.yourNamePlaceholder')}
           aria-invalid={showErrors && !yourNameValid}
-          className="h-[50px] rounded-2xl border border-line-strong bg-white px-3.5 text-base"
+          className="h-[50px] rounded-2xl border border-line-strong bg-surface px-3.5 text-base"
         />
         {showErrors && !yourNameValid && <p className="px-1 text-[12.5px] text-alert">{t('onboarding.step1.errors.yourName')}</p>}
       </div>
@@ -120,7 +120,7 @@ export default function SetupHomeStep1Page() {
                 type="button"
                 aria-pressed={weekStart === day}
                 onClick={() => setWeekStart(day)}
-                className={`min-h-[36px] rounded-lg px-3 ${weekStart === day ? 'bg-white font-semibold shadow-sm' : 'text-ink-soft'}`}
+                className={`min-h-[36px] rounded-lg px-3 ${weekStart === day ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
               >
                 {t(day === 1 ? 'onboarding.step1.monday' : 'onboarding.step1.sunday')}
               </button>

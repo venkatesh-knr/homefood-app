@@ -600,5 +600,12 @@
     "save": "Save",
     "cancel": "Cancel",
     "error": "Something went wrong. Please try again."
+  },
+  "theme": {
+    "appearance": "Appearance",
+    "system": "Match my device",
+    "light": "Light",
+    "dark": "Dark",
+    "hint": "Applies to this phone or computer only."
   }
 }

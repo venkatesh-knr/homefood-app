@@ -80,7 +80,7 @@ export default function NotificationsPage() {
                 })
                 navigate(notificationTarget(n))
               }}
-              className={`flex items-start gap-3 rounded-2xl border p-3.5 text-left ${n.read_at === null ? 'border-saffron/50 bg-white' : 'border-line bg-white/60'}`}
+              className={`flex items-start gap-3 rounded-2xl border p-3.5 text-left ${n.read_at === null ? 'border-saffron/50 bg-surface' : 'border-line bg-surface/60'}`}
             >
               <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${n.read_at === null ? 'bg-alert' : 'bg-transparent'}`} aria-hidden="true" />
               <span className="flex min-w-0 flex-1 flex-col gap-0.5">

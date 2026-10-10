@@ -73,11 +73,11 @@ export function DishRow({
     favourite: 'bg-leaf-tint text-leaf',
     allergy: 'bg-alert-tint text-alert',
     info: 'bg-sand text-ink-soft',
-    mine: 'bg-[#EEF0FA] text-[#2C3777]',
+    mine: 'bg-dinner-tint text-dinner-ink',
   }[note?.kind ?? 'info']
 
   return (
-    <div className="flex items-center rounded-2xl border border-line bg-white pr-1">
+    <div className="flex items-center rounded-2xl border border-line bg-surface pr-1">
     <button
       type="button"
       onClick={onSelect ?? (() => navigate(`/dishes/${dishId}`))}

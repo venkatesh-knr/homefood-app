@@ -2,6 +2,9 @@
 
 /* HomeFood design tokens — match the mockups on the design canvas */
 @theme {
+  --color-surface: #ffffff;
+  --color-dinner-tint: #eef0fa;
+  --color-dinner-ink: #2c3777;
   --color-cream: #fff8ee;
   --color-sand: #f4ecdf;
   --color-line: #eadfcb;
@@ -25,6 +28,70 @@
   --font-sans: "Noto Sans", "Noto Sans Tamil", system-ui, sans-serif;
   --font-display: "Poppins", "Noto Sans Tamil", system-ui, sans-serif;
   --font-tamil: "Noto Sans Tamil", "Noto Sans", sans-serif;
+}
+
+/* Dark mode: follows the device unless the person chose Light or Dark (stored on the device, see lib/theme.ts).
+   [data-theme="light"] on any element forces the light palette for that subtree (the Week at a glance poster). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --color-surface: #26201a;
+  --color-cream: #1b1713;
+  --color-sand: #2e2720;
+  --color-line: #3b3329;
+  --color-line-strong: #5a4e40;
+  --color-ink: #f4ece0;
+  --color-ink-soft: #d7cbbb;
+  --color-muted: #aa9e90;
+  --color-saffron-ink: #f3b04a;
+  --color-saffron-tint: #3a2a12;
+  --color-leaf: #6fbf80;
+  --color-leaf-tint: #1f3324;
+  --color-alert: #f2837b;
+  --color-alert-tint: #402220;
+  --color-dinner-tint: #232846;
+  --color-dinner-ink: #b6c0f5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-surface: #26201a;
+  --color-cream: #1b1713;
+  --color-sand: #2e2720;
+  --color-line: #3b3329;
+  --color-line-strong: #5a4e40;
+  --color-ink: #f4ece0;
+  --color-ink-soft: #d7cbbb;
+  --color-muted: #aa9e90;
+  --color-saffron-ink: #f3b04a;
+  --color-saffron-tint: #3a2a12;
+  --color-leaf: #6fbf80;
+  --color-leaf-tint: #1f3324;
+  --color-alert: #f2837b;
+  --color-alert-tint: #402220;
+  --color-dinner-tint: #232846;
+  --color-dinner-ink: #b6c0f5;
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --color-surface: #ffffff;
+  --color-cream: #fff8ee;
+  --color-sand: #f4ecdf;
+  --color-line: #eadfcb;
+  --color-line-strong: #cdbfa8;
+  --color-ink: #2b2622;
+  --color-ink-soft: #4a3f37;
+  --color-muted: #6e6259;
+  --color-saffron-ink: #8a4b00;
+  --color-saffron-tint: #fff1db;
+  --color-leaf: #2f7a3e;
+  --color-leaf-tint: #e7f1e8;
+  --color-alert: #b3261e;
+  --color-alert-tint: #fdecea;
+  --color-dinner-tint: #eef0fa;
+  --color-dinner-ink: #2c3777;
+  background: var(--color-cream);
+  color: var(--color-ink);
 }
 
 html,

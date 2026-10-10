@@ -79,7 +79,7 @@ export default function RotaPage() {
               : uniqueAssignees.map((id) => memberById.get(id!)?.display_name).join(' · ')
 
           return (
-            <div key={weekStart} className={`flex flex-col gap-2.5 rounded-2xl border bg-white p-3.5 ${isThisWeek ? 'border-2 border-saffron' : isFree ? 'border-dashed border-line-strong' : 'border-line'}`}>
+            <div key={weekStart} className={`flex flex-col gap-2.5 rounded-2xl border bg-surface p-3.5 ${isThisWeek ? 'border-2 border-saffron' : isFree ? 'border-dashed border-line-strong' : 'border-line'}`}>
               <div className="flex items-baseline justify-between">
                 <span className="font-display text-[15px] font-semibold">
                   {rangeFormatter.format(new Date(`${weekStart}T00:00:00`))} – {rangeFormatter.format(new Date(`${addDays(weekStart, 6)}T00:00:00`))}
@@ -96,7 +96,7 @@ export default function RotaPage() {
                     <span
                       key={d}
                       className="flex h-11 flex-col items-center justify-center gap-0.5 rounded-[10px] text-white"
-                      style={{ background: member?.color ?? '#F1E7D6', color: member ? '#FFFFFF' : '#6E6259' }}
+                      style={{ background: member?.color ?? 'var(--color-sand)', color: member ? '#FFFFFF' : 'var(--color-muted)' }}
                     >
                       <span className="text-[10px] opacity-85">{weekdayLetter(d)}</span>
                       <span className="text-[12px] font-semibold">{member ? member.display_name.trim()[0]?.toUpperCase() : '—'}</span>
@@ -112,7 +112,7 @@ export default function RotaPage() {
                       <select
                         value={form.profileId}
                         onChange={(e) => setForm((f) => ({ ...f, profileId: e.target.value }))}
-                        className="h-10 rounded-lg border border-line-strong bg-white px-2.5 text-[13.5px]"
+                        className="h-10 rounded-lg border border-line-strong bg-surface px-2.5 text-[13.5px]"
                       >
                         <option value="">{t('rota.person')}</option>
                         {canPlan.map((m) => (
@@ -128,7 +128,7 @@ export default function RotaPage() {
                             type="button"
                             aria-pressed={form.scope === s}
                             onClick={() => setForm((f) => ({ ...f, scope: s }))}
-                            className={`h-9 flex-1 rounded-lg text-[13px] font-semibold ${form.scope === s ? 'bg-ink text-cream' : 'border border-line-strong bg-white'}`}
+                            className={`h-9 flex-1 rounded-lg text-[13px] font-semibold ${form.scope === s ? 'bg-ink text-cream' : 'border border-line-strong bg-surface'}`}
                           >
                             {t(`rota.scope${s === 'day' ? 'Day' : s === 'week' ? 'Week' : 'Month'}`)}
                           </button>

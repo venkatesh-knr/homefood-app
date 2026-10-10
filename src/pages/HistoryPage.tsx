@@ -81,7 +81,7 @@ export default function HistoryPage() {
     return groups
   }, [shown])
 
-  const arrow = 'flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white disabled:opacity-40'
+  const arrow = 'flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface disabled:opacity-40'
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-3 px-5 pb-8">
@@ -108,7 +108,7 @@ export default function HistoryPage() {
               setKind(k)
               setAnchor(today)
             }}
-            className={`h-10 rounded-xl text-[14px] font-semibold ${kind === k ? 'bg-white shadow-sm' : 'text-ink-soft'}`}
+            className={`h-10 rounded-xl text-[14px] font-semibold ${kind === k ? 'bg-surface shadow-sm' : 'text-ink-soft'}`}
           >
             {t(`history.${k}`)}
           </button>
@@ -170,7 +170,7 @@ export default function HistoryPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('history.searchPlaceholder')}
-            className="h-12 rounded-2xl border border-line-strong bg-white px-3.5 text-[15px]"
+            className="h-12 rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
           />
 
           {byDate.length === 0 ? (
@@ -190,7 +190,7 @@ export default function HistoryPage() {
                       key={s.id}
                       type="button"
                       onClick={() => navigate(`/week/${s.date}/${s.meal}`)}
-                      className="flex items-start gap-3 rounded-2xl border border-line bg-white p-3 text-left"
+                      className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-3 text-left"
                     >
                       {s.main_dish ? (
                         <DishThumb name={main ?? ''} tone={s.meal.length} photoPath={photoFor(s.main_dish)} size={44} ring={MEAL_BAND[s.meal]} />

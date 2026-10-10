@@ -62,8 +62,8 @@ export default function DishesPage() {
 
   return (
     <main className="flex flex-col gap-3 px-5 pb-8">
-      <div className="flex items-center gap-2.5 rounded-2xl border border-line-strong bg-white px-3.5 py-1">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6E6259" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <div className="flex items-center gap-2.5 rounded-2xl border border-line-strong bg-surface px-3.5 py-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-muted" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
           <path d="M20 20l-4-4" />
         </svg>
@@ -111,7 +111,7 @@ export default function DishesPage() {
           type="button"
           aria-pressed={favouritesOnly}
           onClick={() => setFavouritesOnly((v) => !v)}
-          className={`flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13.5px] font-semibold ${favouritesOnly ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-white text-ink'}`}
+          className={`flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13.5px] font-semibold ${favouritesOnly ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`}
         >
           <HeartIcon size={15} filled={favouritesOnly} />
           {t('dishes.favourites')}
@@ -125,7 +125,7 @@ export default function DishesPage() {
               type="button"
               aria-pressed={on}
               onClick={() => setFilters((f) => ({ ...f, cuisineId: id }))}
-              className={`h-9 rounded-full px-3.5 text-[13.5px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-white text-ink'}`}
+              className={`h-9 rounded-full px-3.5 text-[13.5px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`}
             >
               {label}
             </button>
@@ -139,7 +139,7 @@ export default function DishesPage() {
         <select
           value={filters.course}
           onChange={(e) => setFilters((f) => ({ ...f, course: e.target.value as DishFilters['course'] }))}
-          className="h-8 rounded-[10px] border border-line bg-white px-2.5 text-[13px]"
+          className="h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]"
         >
           <option value="any">{t('dishes.filters.courseAny')}</option>
           <option value="main">{t('dishes.filters.courseMain')}</option>
@@ -148,7 +148,7 @@ export default function DishesPage() {
         <select
           value={filters.diet}
           onChange={(e) => setFilters((f) => ({ ...f, diet: e.target.value as DishFilters['diet'] }))}
-          className="h-8 rounded-[10px] border border-line bg-white px-2.5 text-[13px]"
+          className="h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]"
         >
           <option value="any">{t('dishes.filters.dietAny')}</option>
           <option value="veg">{t('dishes.filters.dietVeg')}</option>
@@ -158,7 +158,7 @@ export default function DishesPage() {
         <select
           value={filters.mealType}
           onChange={(e) => setFilters((f) => ({ ...f, mealType: e.target.value as DishFilters['mealType'] }))}
-          className="h-8 rounded-[10px] border border-line bg-white px-2.5 text-[13px]"
+          className="h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]"
         >
           <option value="any">{t('dishes.filters.mealAny')}</option>
           <option value="breakfast">{t('meal.breakfast')}</option>
@@ -170,7 +170,7 @@ export default function DishesPage() {
           type="button"
           aria-pressed={filters.safeOnly}
           onClick={() => setFilters((f) => ({ ...f, safeOnly: !f.safeOnly }))}
-          className={`h-8 rounded-[10px] border px-2.5 text-[13px] ${filters.safeOnly ? 'border-leaf bg-leaf-tint text-leaf' : 'border-line bg-white'}`}
+          className={`h-8 rounded-[10px] border px-2.5 text-[13px] ${filters.safeOnly ? 'border-leaf bg-leaf-tint text-leaf' : 'border-line bg-surface'}`}
         >
           {t('dishes.filters.safeOnly')}
         </button>

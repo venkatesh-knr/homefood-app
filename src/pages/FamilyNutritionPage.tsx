@@ -55,7 +55,7 @@ export default function FamilyNutritionPage() {
         <p className="py-6 text-center text-muted">{t('common.loading')}</p>
       ) : (
         rows.map(({ p, i, resolved, summary }) => (
-          <section key={p.id} className="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-4">
+          <section key={p.id} className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-4">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-full text-[15px] font-semibold text-white" style={{ background: avatarColor(i, p.kind) }}>
                 {p.display_name.trim()[0]?.toUpperCase()}

@@ -24,7 +24,7 @@ export function Button({ variant = 'primary', className = '', children, ...rest 
   const base = 'inline-flex items-center justify-center gap-2 font-semibold transition disabled:cursor-not-allowed disabled:opacity-60'
   const styles = {
     primary: 'h-13 min-h-[52px] rounded-2xl bg-ink px-5 text-base text-cream hover:bg-ink-soft',
-    secondary: 'min-h-[48px] rounded-2xl border-[1.5px] border-line-strong bg-white px-4 text-[15px] text-ink hover:bg-sand',
+    secondary: 'min-h-[48px] rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px] text-ink hover:bg-sand',
     accent: 'h-13 min-h-[52px] rounded-2xl bg-saffron px-5 text-base text-ink hover:brightness-95',
     text: 'min-h-[44px] px-1 text-[14px] text-saffron-ink hover:underline',
   }[variant]
@@ -47,7 +47,7 @@ export function LanguageSwitch() {
           lang={lang}
           aria-pressed={current === lang}
           onClick={() => setLanguage(lang)}
-          className={`min-h-[36px] rounded-lg px-3 ${current === lang ? 'bg-white font-semibold shadow-sm' : 'text-ink-soft'}`}
+          className={`min-h-[36px] rounded-lg px-3 ${current === lang ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
         >
           {t(`language.${lang}`)}
         </button>
@@ -61,7 +61,7 @@ export function FullPageMessage({ children }: { children: ReactNode }) {
 }
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`rounded-2xl border border-line bg-white ${className}`}>{children}</div>
+  return <div className={`rounded-2xl border border-line bg-surface ${className}`}>{children}</div>
 }
 
 /** An on/off switch styled like the mockups (e.g. "Plan evening snacks"). */
@@ -84,7 +84,7 @@ export function Toggle({
       className={`relative h-8 w-[52px] shrink-0 rounded-full transition-colors ${checked ? 'bg-leaf' : 'bg-line-strong'}`}
     >
       <span
-        className="absolute top-[3px] h-[26px] w-[26px] rounded-full bg-white shadow transition-[left]"
+        className="absolute top-[3px] h-[26px] w-[26px] rounded-full bg-surface shadow transition-[left]"
         style={{ left: checked ? 23 : 3 }}
       />
     </button>
@@ -133,7 +133,7 @@ export function TogglePill({
       aria-pressed={pressed}
       onClick={onClick}
       className={`h-[34px] shrink-0 whitespace-nowrap rounded-full border px-3 text-[12.5px] font-semibold ${
-        pressed ? 'border-leaf bg-leaf-tint text-leaf' : 'border-line-strong bg-white text-ink-soft'
+        pressed ? 'border-leaf bg-leaf-tint text-leaf' : 'border-line-strong bg-surface text-ink-soft'
       }`}
     >
       {pressed ? onLabel : offLabel}
@@ -174,7 +174,7 @@ export function ChipInput({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line-strong bg-white p-2">
+    <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-line-strong bg-surface p-2">
       {values.map((v) => (
         <span key={v} className="inline-flex items-center gap-1.5 rounded-full bg-sand px-3 py-1.5 text-[13px] text-ink-soft">
           {v}

@@ -56,7 +56,7 @@ export function PersonForm({
           onChange={(e) => setValues((v) => ({ ...v, display_name: e.target.value }))}
           placeholder={t('people.form.namePlaceholder')}
           aria-invalid={showErrors && !nameValid}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         />
         {showErrors && !nameValid && <p className="text-[12.5px] text-alert">{t('people.form.errors.name')}</p>}
       </div>
@@ -70,7 +70,7 @@ export function PersonForm({
               type="button"
               onClick={() => setValues((v) => ({ ...v, kind: k, can_login: k === 'helper' ? false : v.can_login }))}
               className={`h-10 flex-1 rounded-xl border text-[13.5px] font-semibold ${
-                values.kind === k ? 'border-ink bg-ink text-cream' : 'border-line-strong bg-white text-ink-soft'
+                values.kind === k ? 'border-ink bg-ink text-cream' : 'border-line-strong bg-surface text-ink-soft'
               }`}
             >
               {k === 'family' ? t('people.form.kindFamily') : t('people.form.kindHelper')}
@@ -80,7 +80,7 @@ export function PersonForm({
       </div>
 
       {values.kind === 'family' && (
-        <label className="flex items-center justify-between gap-3 rounded-xl border border-line-strong bg-white px-3 py-2.5 text-[14px]">
+        <label className="flex items-center justify-between gap-3 rounded-xl border border-line-strong bg-surface px-3 py-2.5 text-[14px]">
           {t('people.form.usesApp')}
           <input
             type="checkbox"
@@ -99,7 +99,7 @@ export function PersonForm({
           inputMode="numeric"
           placeholder="1990"
           aria-invalid={showErrors && !birthYearValid}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         />
         {showErrors && !birthYearValid && (
           <p className="text-[12.5px] text-alert">{t('people.form.errors.birthYear', { year: CURRENT_YEAR })}</p>
@@ -111,7 +111,7 @@ export function PersonForm({
         <select
           value={values.sex}
           onChange={(e) => setValues((v) => ({ ...v, sex: e.target.value as Sex | '' }))}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         >
           <option value="">{t('people.form.sexUnspecified')}</option>
           <option value="female">{t('people.form.sexFemale')}</option>
@@ -125,7 +125,7 @@ export function PersonForm({
         <select
           value={values.activity}
           onChange={(e) => setValues((v) => ({ ...v, activity: e.target.value as ActivityLevel | '' }))}
-          className="h-12 rounded-xl border border-line-strong bg-white px-3 text-[15px]"
+          className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         >
           <option value="">{t('people.form.activityUnspecified')}</option>
           <option value="light">{t('people.form.activityLight')}</option>

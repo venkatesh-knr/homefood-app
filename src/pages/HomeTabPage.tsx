@@ -7,6 +7,7 @@ import { PeopleSection } from '../components/PeopleSection'
 import { InviteCard } from '../components/InviteCard'
 import { GettingStartedChecklist } from '../components/GettingStartedChecklist'
 import { HomeSettingsCard } from '../components/HomeSettingsCard'
+import { AppearanceCard } from '../components/AppearanceCard'
 import { useCanPlanDate } from '../lib/useCanPlan'
 import { toISODate } from '../lib/planner'
 
@@ -33,10 +34,12 @@ export default function HomeTabPage() {
 
       {isAdmin && <HomeSettingsCard household={household} />}
 
+      <AppearanceCard />
+
       <button
         type="button"
         onClick={() => navigate('/history')}
-        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 text-left"
+        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3.5 text-left"
       >
         <span className="flex flex-col gap-0.5">
           <span className="text-[15px] font-semibold">{t('home.history')}</span>
@@ -48,7 +51,7 @@ export default function HomeTabPage() {
       <button
         type="button"
         onClick={() => navigate('/nutrition')}
-        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 text-left"
+        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3.5 text-left"
       >
         <span className="flex flex-col gap-0.5">
           <span className="text-[15px] font-semibold">{t('nutrition.mine')}</span>
@@ -61,7 +64,7 @@ export default function HomeTabPage() {
         <button
           type="button"
           onClick={() => navigate('/nutrition/family')}
-          className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 text-left"
+          className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3.5 text-left"
         >
           <span className="flex flex-col gap-0.5">
             <span className="text-[15px] font-semibold">{t('nutrition.family')}</span>

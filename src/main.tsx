@@ -6,6 +6,9 @@ import './i18n'
 import { queryClient } from './lib/queryClient'
 import { AuthProvider } from './lib/auth'
 import App from './App'
+import { applyTheme, readThemePref } from './lib/theme'
+
+applyTheme(readThemePref())
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

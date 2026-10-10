@@ -29,7 +29,7 @@ export function usePeriod(initial: HistoryRangeKind = 'week') {
 
 export function PeriodControls({ period }: { period: ReturnType<typeof usePeriod> }) {
   const { t } = useTranslation()
-  const arrow = 'flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white disabled:opacity-40'
+  const arrow = 'flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface disabled:opacity-40'
   return (
     <>
       <div role="radiogroup" aria-label={t('nutrition.period')} className="grid grid-cols-2 gap-1 rounded-2xl bg-sand p-1">
@@ -40,7 +40,7 @@ export function PeriodControls({ period }: { period: ReturnType<typeof usePeriod
             role="radio"
             aria-checked={period.kind === k}
             onClick={() => period.setKind(k)}
-            className={`h-10 rounded-xl text-[14px] font-semibold ${period.kind === k ? 'bg-white shadow-sm' : 'text-ink-soft'}`}
+            className={`h-10 rounded-xl text-[14px] font-semibold ${period.kind === k ? 'bg-surface shadow-sm' : 'text-ink-soft'}`}
           >
             {t(`history.${k}`)}
           </button>

@@ -43,7 +43,7 @@ export function VoteRow({
     const on = counts.myVote === v
     const agree = v === 'agree'
     const n = agree ? counts.agree : counts.disagree
-    const tone = on ? (agree ? 'border-leaf bg-leaf-tint text-leaf' : 'border-alert bg-alert-tint text-alert') : 'border-line-strong bg-white'
+    const tone = on ? (agree ? 'border-leaf bg-leaf-tint text-leaf' : 'border-alert bg-alert-tint text-alert') : 'border-line-strong bg-surface'
     return variant === 'full' ? (
       <button
         type="button"

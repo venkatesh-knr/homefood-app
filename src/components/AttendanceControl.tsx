@@ -55,7 +55,7 @@ export function AttendanceControl({ slot, rows }: { slot: SlotWithDetails; rows:
           {people.length > 1 && (
             <label className="flex items-center gap-2 text-[12.5px] font-semibold text-ink-soft">
               {t('attendance.who')}
-              <select value={personId} onChange={(e) => setChosen(e.target.value)} className="min-h-9 flex-1 rounded-xl border border-line bg-white px-2 text-[14px] text-ink">
+              <select value={personId} onChange={(e) => setChosen(e.target.value)} className="min-h-9 flex-1 rounded-xl border border-line bg-surface px-2 text-[14px] text-ink">
                 {people.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.display_name}
@@ -73,7 +73,7 @@ export function AttendanceControl({ slot, rows }: { slot: SlotWithDetails; rows:
                 aria-pressed={current === o}
                 title={t(`attendance.optionHint.${o}`)}
                 onClick={() => choose(o)}
-                className={`min-h-9 rounded-full border px-3 text-[13px] font-semibold ${current === o ? 'border-ink bg-ink text-cream' : 'border-line bg-white text-ink'}`}
+                className={`min-h-9 rounded-full border px-3 text-[13px] font-semibold ${current === o ? 'border-ink bg-ink text-cream' : 'border-line bg-surface text-ink'}`}
               >
                 {t(`attendance.option.${o}`)}
               </button>

@@ -144,7 +144,7 @@ export default function DiscussionPage() {
         disabled={busy}
         onClick={() => void onVote(v)}
         className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] text-[15px] font-semibold ${
-          on ? (agree ? 'border-leaf bg-leaf-tint text-leaf' : 'border-alert bg-alert-tint text-alert') : 'border-line-strong bg-white'
+          on ? (agree ? 'border-leaf bg-leaf-tint text-leaf' : 'border-alert bg-alert-tint text-alert') : 'border-line-strong bg-surface'
         }`}
       >
         <VoteIcon kind={agree ? 'agree' : 'disagree'} size={18} />
@@ -157,7 +157,7 @@ export default function DiscussionPage() {
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-3 px-5 pb-4">
       {header}
 
-      <div className="flex flex-col gap-3 rounded-[20px] border border-line bg-white p-4">
+      <div className="flex flex-col gap-3 rounded-[20px] border border-line bg-surface p-4">
         <div className="flex items-center gap-3.5">
           {slot.main_dish ? <DishThumb name={mainName} tone={meal.length} photoPath={photoFor(slot.main_dish)} size={64} ring={MEAL_BAND[meal]} /> : null}
           <div className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -208,12 +208,12 @@ export default function DiscussionPage() {
             const dishName = s.dish ? nameOf(s.dish, lang) : (s.free_text ?? '')
             const mine = s.profile_id === profile.id
             return (
-              <div key={s.id} className="flex flex-col gap-2.5 rounded-2xl bg-[#EEF0FA] p-3.5">
+              <div key={s.id} className="flex flex-col gap-2.5 rounded-2xl bg-dinner-tint p-3.5">
                 <div className="flex items-center gap-3">
                   {s.dish && <DishThumb name={dishName} tone={1} photoPath={photoFor(s.dish)} size={44} />}
                   <div className="flex flex-col">
                     <span className="text-[15px] font-semibold">{t('discussion.insteadOf', { dish: dishName })}</span>
-                    <span className="text-[12.5px] text-[#2C3777]">{t('discussion.suggestedBy', { name: who })}</span>
+                    <span className="text-[12.5px] text-dinner-ink">{t('discussion.suggestedBy', { name: who })}</span>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -231,13 +231,13 @@ export default function DiscussionPage() {
                         type="button"
                         disabled={busy}
                         onClick={() => void run(() => keepDish(slotId, household.id, s.id))}
-                        className="h-10 rounded-xl border border-[#2C3777]/40 px-3.5 text-[13.5px] font-semibold text-[#2C3777]"
+                        className="h-10 rounded-xl border border-dinner-ink/40 px-3.5 text-[13.5px] font-semibold text-dinner-ink"
                       >
                         {t('discussion.keepDish', { dish: mainName })}
                       </button>
                     </>
                   ) : (
-                    <span className="text-[13px] text-[#2C3777]">{t('discussion.plannerDecides')}</span>
+                    <span className="text-[13px] text-dinner-ink">{t('discussion.plannerDecides')}</span>
                   )}
                   {(mine || canPlan) && (
                     <button type="button" disabled={busy} onClick={() => void run(() => withdrawSuggestion(slotId, s.id))} className="ml-auto text-[12.5px] font-semibold text-muted">
@@ -268,7 +268,7 @@ export default function DiscussionPage() {
                 <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[14px] font-semibold text-white" style={{ background: who?.color ?? '#6E6259' }}>
                   {who?.name.trim()[0]?.toUpperCase() ?? '?'}
                 </span>
-                <div className="flex min-w-0 flex-1 flex-col gap-0.5 rounded-2xl border border-line bg-white px-3.5 py-2.5">
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5 rounded-2xl border border-line bg-surface px-3.5 py-2.5">
                   <div className="flex items-baseline justify-between gap-2">
                     <span className="text-[13px] font-semibold">{who?.name ?? ''}</span>
                     <span className="text-[12px] text-muted">{formatCommentTime(c.created_at, new Date(), locale)}</span>
@@ -295,7 +295,7 @@ export default function DiscussionPage() {
             onChange={(e) => setText(e.target.value)}
             maxLength={500}
             placeholder={t('discussion.commentPlaceholder')}
-            className="h-12 min-w-0 flex-1 rounded-2xl border border-line-strong bg-white px-3.5 text-[15px]"
+            className="h-12 min-w-0 flex-1 rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
           />
           <Button type="submit" disabled={busy || !text.trim()} aria-label={t('discussion.send')} className="!min-h-0 h-12 w-12 !px-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

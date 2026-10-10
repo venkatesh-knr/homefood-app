@@ -74,7 +74,7 @@ export default function NutritionPage() {
                 <section className="flex flex-col gap-1.5">
                   <h2 className="pt-1 text-[12px] font-semibold uppercase tracking-wide text-muted">{t('nutrition.tips')}</h2>
                   {summary.tips.map((tip) => (
-                    <p key={tip.key} className="rounded-2xl border border-line bg-white px-3.5 py-3 text-[14px]">
+                    <p key={tip.key} className="rounded-2xl border border-line bg-surface px-3.5 py-3 text-[14px]">
                       {t(`nutrition.tip.${tip.key}`, tip.params)}
                     </p>
                   ))}
@@ -84,7 +84,7 @@ export default function NutritionPage() {
               <section className="flex flex-col gap-1.5">
                 <h2 className="pt-1 text-[12px] font-semibold uppercase tracking-wide text-muted">{t('nutrition.byDay')}</h2>
                 {[...days].reverse().map((d) => (
-                  <div key={d.date} className="flex items-center justify-between rounded-2xl border border-line bg-white px-3.5 py-2.5 text-[14px]">
+                  <div key={d.date} className="flex items-center justify-between rounded-2xl border border-line bg-surface px-3.5 py-2.5 text-[14px]">
                     <span className="font-semibold">{dayFmt.format(new Date(`${d.date}T00:00:00`))}</span>
                     <span className="text-ink-soft">
                       {Math.round(d.totals.kcal)} kcal · {Math.round(d.totals.protein_g)} g {t('nutrition.n.protein_g').toLowerCase()}

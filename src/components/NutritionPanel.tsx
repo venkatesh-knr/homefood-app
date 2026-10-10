@@ -28,7 +28,7 @@ export function NutritionPanel({ dishId }: { dishId: string }) {
         <h2 className="font-display text-[17px] font-semibold">{t('nutrition.perServing')}</h2>
         {row.is_estimate && <span className="rounded-md bg-sand px-2 py-0.5 text-[11px] font-semibold text-ink-soft">{t('nutrition.estimate')}</span>}
       </div>
-      <div className="flex flex-col gap-3 rounded-2xl border border-line bg-white p-4">
+      <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4">
         <div className="flex flex-wrap items-baseline gap-x-2">
           <span className="font-display text-[30px] font-bold">{Math.round(row.kcal)}</span>
           <span className="text-[13px] text-ink-soft">{t('nutrition.kcalOfDay', { percent: percentOf(row.kcal, ADULT_REFERENCE.kcal) })}</span>
@@ -75,7 +75,7 @@ export function FamilyNotesPanel({ dishId, tags }: { dishId: string; tags: strin
   return (
     <section className="flex flex-col gap-2.5">
       <h2 className="font-display text-[17px] font-semibold">{t('nutrition.forFamily')}</h2>
-      <div className="flex flex-col divide-y divide-line rounded-2xl border border-line bg-white">
+      <div className="flex flex-col divide-y divide-line rounded-2xl border border-line bg-surface">
         {notes.map((n) => (
           <div key={n.key} className="flex items-start gap-3 px-4 py-3 text-[14px]">
             <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: dot[n.kind] }} aria-hidden="true" />

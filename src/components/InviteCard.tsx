@@ -71,7 +71,7 @@ export function InviteCard({ household, myProfileId }: { household: Household; m
       {active ? (
         <>
           <div className="flex items-center gap-2.5 rounded-xl bg-sand px-3.5 py-3 text-[14px]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E6259" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-muted" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1" />
               <path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1" />
             </svg>

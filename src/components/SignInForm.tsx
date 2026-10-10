@@ -81,7 +81,7 @@ export function SignInForm({ onSuccess }: { onSuccess?: () => void }) {
             placeholder={t('signIn.emailPlaceholder')}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? 'signin-error' : undefined}
-            className="h-[52px] rounded-2xl border border-line-strong bg-white px-4 text-base"
+            className="h-[52px] rounded-2xl border border-line-strong bg-surface px-4 text-base"
           />
           <Button type="submit" disabled={busy}>
             {busy ? t('signIn.sending') : t('signIn.sendCode')}
@@ -106,7 +106,7 @@ export function SignInForm({ onSuccess }: { onSuccess?: () => void }) {
             placeholder="••••••"
             aria-invalid={Boolean(error)}
             aria-describedby={error ? 'signin-error' : undefined}
-            className="h-[60px] rounded-2xl border-2 border-saffron bg-white px-4 text-center font-display text-[28px] tracking-[0.5em]"
+            className="h-[60px] rounded-2xl border-2 border-saffron bg-surface px-4 text-center font-display text-[28px] tracking-[0.5em]"
           />
           <Button type="submit" disabled={busy || code.length !== 6}>
             {busy ? t('signIn.checking') : t('signIn.continue')}

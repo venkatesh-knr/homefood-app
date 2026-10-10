@@ -167,7 +167,7 @@ export default function WeekPage() {
               key={d}
               type="button"
               onClick={() => setSelectedDate(d)}
-              className={`flex h-[62px] flex-col items-center justify-center gap-0.5 rounded-2xl ${on ? 'border-2 border-saffron bg-saffron text-ink' : 'border border-line bg-white text-ink'}`}
+              className={`flex h-[62px] flex-col items-center justify-center gap-0.5 rounded-2xl ${on ? 'border-2 border-saffron bg-saffron text-ink' : 'border border-line bg-surface text-ink'}`}
             >
               <span className={`text-[10.5px] ${on ? 'text-ink' : 'text-muted'}`}>{weekdayLetter(d)}</span>
               <span className="font-display text-[15px] font-semibold">{dayOfMonth(d)}</span>
@@ -249,7 +249,7 @@ function MealCard({
 
   if (!slot) {
     return (
-      <button type="button" onClick={onClick} className="flex flex-col gap-2 rounded-2xl border border-dashed border-line-strong bg-white p-3.5 text-left">
+      <button type="button" onClick={onClick} className="flex flex-col gap-2 rounded-2xl border border-dashed border-line-strong bg-surface p-3.5 text-left">
         <MealLabel meal={meal} bandColor={bandColor} />
         <span className="text-[14px] text-muted">{t('planner.emptySlot')}</span>
       </button>
@@ -265,7 +265,7 @@ function MealCard({
   const cooks = slot.meal_slot_cooks.map((c) => memberById.get(c.profile_id)).filter((m): m is NonNullable<typeof m> => Boolean(m))
 
   return (
-    <div className="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-3.5">
+    <div className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-3.5">
       <div className="flex items-center justify-between">
         <MealLabel meal={meal} bandColor={bandColor} />
         <Pill>{t(`planner.source.${slot.source === 'home' ? 'home' : slot.source === 'dine_out' ? 'dineOut' : 'orderIn'}`)}</Pill>
