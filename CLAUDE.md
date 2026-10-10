@@ -103,7 +103,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   arachuvitta sambar, olan, erissery, pulissery, paper roast, veg stew, coriander chutney) is applied and checked locally (Olan photo + recipe).** 124 of the 160 now
   have photos; the other 36 have no matching Commons photo and show the initial. 0015 must never be regenerated with new photos: the list it
   was written with is frozen in `scripts/south-indian-photos-0015.json`; later photos go through `scripts/gen-south-photos.py`.
-  **0019 (who actually ate what) is applied (run 11 Oct 2026; Today control not yet exercised live).** Table `meal_attendance` (slot, person, status ate/skipped/elsewhere, portion
+  **0019 (who actually ate what) is applied (run 11 Oct 2026; checked live: Skipped removes the meal from My nutrition, Large counts 175 → 219 kcal, saved choices survive a reload, Tamil labels work).** Table `meal_attendance` (slot, person, status ate/skipped/elsewhere, portion
   small/normal/large): no row = ate a normal portion. A person writes their own row, the Admin anyone's; only meals up to today (Asia/Kolkata), only
   family members (never the helper). The Today cards have a "Did you eat this?" control (`AttendanceControl`); My nutrition and Family
   nutrition leave out skipped / elsewhere meals and count small / large as 75% / 125% (`lib/attendance.ts`, `dayTotalsFor`). Before the
