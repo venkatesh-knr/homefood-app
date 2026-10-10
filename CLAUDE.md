@@ -80,18 +80,18 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   fully seen once a second person acts, because nobody is notified of their own actions. Triggers write the notifications (week
   published, a published meal changed, set as cook, new suggestion, suggestion accepted/declined, new comment, dish kept despite
   disagreement, Planner turn assigned); repeats for the same person and meal within 10 minutes merge into one.
-  **0014 (catalogue photos bundled with the app) is applied (run 10 Oct 2026; photos on the Dishes tab not yet eyeballed live).** All 138 shared dishes get `photo_path = 'static/<slug>.webp'`
+  **0014 (catalogue photos bundled with the app) is applied (run 10 Oct 2026; bundled photos confirmed loading in the app).** All 138 shared dishes get `photo_path = 'static/<slug>.webp'`
   plus their credit; the files live in `public/dish-photos/` (~7.6 MB, WebP ≤ 720 px, downloaded once from Wikimedia Commons, no more
   hotlinking) and `useSignedPhotoUrl` turns `static/<file>` into the app's own link. 8 of the 138 are drawings (marked "(illustration)" in the credit): pizza,
   fries, katsu curry, vegetable soup, plus veg pulao, egg bhurji, masala chai, sweet lassi. Regenerate with `python scripts/build-dish-photos.py`
   (reads `scripts/dish-photo-picks.txt` for the 110 and 0007/0008 for the 28; writes the files, `scripts/dish-photos.json` and the migration).
   The PWA caches each photo the first time it is seen (not pre-cached). A household's own photo (private bucket) still wins.
-  **0015 (160 more South Indian dishes) is applied (run 10 Oct 2026; not yet eyeballed live).** Tiffin, variety rice, kuzhambu/sambar/rasam, kootu, poriyal,
+  **0015 (160 more South Indian dishes) is applied (run 10 Oct 2026; Olan and Kara kuzhambu checked in the app).** Tiffin, variety rice, kuzhambu/sambar/rasam, kootu, poriyal,
   chutney/thokku/pickle/podi/pachadi, snacks, sweets, drinks, Kerala/Karnataka/Andhra items and non-veg (46 breakfast, 78 lunch, 45 snacks,
   42 dinner; 48 mains, 112 sides), each with a Tamil name and a nutrition estimate; 111 had a bundled photo when 0015 ran (13 more come in 0018).
-  No recipes for them yet (0011 only has 38). Data lives in `scripts/south_indian_data.py` (one line per dish); regenerate with
+  Their recipes are in 0016. Data lives in `scripts/south_indian_data.py` (one line per dish); regenerate with
   `python scripts/gen-south-indian.py` (validates names are new and calories match the macros). Photos: pick Commons titles in
-  `scripts/south-indian-photo-picks.txt`, run `python scripts/build-south-indian-photos.py`, then regenerate. 0014 and 0015 are loaded by
+  `scripts/south-indian-photo-picks.txt`, run `python scripts/build-south-indian-photos.py`, then regenerate. 0014–0018 are loaded by
   `scripts/test-db.sh`, so CI also checks the SQL really runs. Shared catalogue is now 298 dishes.
   **0016 (recipes for the 160 new South Indian dishes) is applied and checked locally (Kara kuzhambu recipe scales to 3 servings, English and Tamil).** English + Tamil, ingredients scaled by the app,
   drafts to be checked by the family. Source text: `scripts/recipes_south_a.txt` … `d.txt` (one block per dish: `@ dish | servings | prep | cook`,

@@ -24,7 +24,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 
 - [x] **Step 1 · Setup:** project, design tokens, English/Tamil, email-code sign-in, database schema with access rules and tests
 - [x] Step 2 · Home setup: create a home, add profiles, invite link, join flow — tested live end to end
-- [x] Step 3 · Dish catalogue: seed data, search and filters, add a dish, Snap a dish, photos — tested live
+- [x] Step 3 · Dish catalogue: 298 dishes (English + Tamil) with photos, recipes and nutrition estimates, search and filters, add a dish, Snap a dish — tested live
 - [x] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota — tested live end to end
 - [x] Step 5 · Everyday view: Today, Week at a glance poster, history — tested live
 - [ ] Step 6 · Polish: getting-started checklist (real now), safer error messages, install prompt, a11y fixes done;
