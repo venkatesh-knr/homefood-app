@@ -43,7 +43,8 @@ export default function RecipePage() {
   const navigate = useNavigate()
   const location = useLocation()
   const { dishId } = useParams<{ dishId: string }>()
-  const { household } = useHome()
+  const { household, profile } = useHome()
+  const isAdmin = profile.role === 'admin'
   const { data: dish } = useDish(dishId)
   const { data: recipe, isLoading } = useRecipe(dishId)
   const { data: members } = useMembers(household.id)
@@ -77,6 +78,11 @@ export default function RecipePage() {
       <main className="mx-auto flex max-w-md flex-col gap-3 px-5 pb-8">
         <div className="flex items-center gap-2 pt-3">{back}<span className="font-display text-[18px] font-semibold">{name}</span></div>
         <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('recipe.none')}</p>
+        {isAdmin && (
+          <button type="button" onClick={() => navigate(`/dishes/${dishId}/recipe/edit`)} className="min-h-[52px] rounded-2xl bg-ink text-[15px] font-semibold text-cream">
+            {t('recipeEdit.openWrite')}
+          </button>
+        )}
       </main>
     )
   }
@@ -197,6 +203,11 @@ export default function RecipePage() {
         >
           <YouTubeIcon size={28} />
         </a>
+        {isAdmin && (
+          <button type="button" onClick={() => navigate(`/dishes/${dishId}/recipe/edit`)} className="min-h-[48px] flex-[2] rounded-2xl bg-ink px-3 text-[14.5px] font-semibold text-cream">
+            {t('recipeEdit.openEdit')}
+          </button>
+        )}
       </div>
     </main>
   )

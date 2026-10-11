@@ -24,6 +24,7 @@ import HomeTabPage from './pages/HomeTabPage'
 import HistoryPage from './pages/HistoryPage'
 import DiscussionPage from './pages/DiscussionPage'
 import RecipePage from './pages/RecipePage'
+import RecipeEditPage from './pages/RecipeEditPage'
 import NutritionPage from './pages/NutritionPage'
 import FamilyNutritionPage from './pages/FamilyNutritionPage'
 import NotificationsPage from './pages/NotificationsPage'
@@ -74,6 +75,7 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="dishes/new" element={<AddDishPage />} />
         <Route path="dishes/:dishId/edit" element={<AddDishPage />} />
         <Route path="dishes/:dishId/recipe" element={<RecipePage />} />
+        <Route path="dishes/:dishId/recipe/edit" element={<RecipeEditPage />} />
         <Route path="dishes/:dishId" element={<DishDetailPage />} />
         <Route path="home" element={<HomeTabPage />} />
         <Route path="history" element={<HistoryPage />} />

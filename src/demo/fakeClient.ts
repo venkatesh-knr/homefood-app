@@ -350,11 +350,32 @@ class Query implements PromiseLike<Result> {
   }
 }
 
+/** The demo's version of the `save_household_recipe` function: one copy of a recipe per dish for the home, replaced as a whole. */
+function saveHouseholdRecipe(db: Db, a: Row): Result {
+  const ingredients = (a.p_ingredients ?? []) as Row[]
+  const steps = (a.p_steps ?? []) as Row[]
+  if (ingredients.length === 0) return fail('A recipe needs at least one ingredient')
+  if (steps.length === 0) return fail('A recipe needs at least one step')
+  const home = db.households?.[0]?.id
+  const recipes = (db.recipes ??= [])
+  let recipe = recipes.find((r) => r.dish_id === a.p_dish && r.household_id === home)
+  if (!recipe) {
+    recipe = { id: crypto.randomUUID(), dish_id: a.p_dish, household_id: home, credit: null, created_at: nowIso() }
+    recipes.push(recipe)
+  }
+  Object.assign(recipe, { servings: a.p_servings, prep_minutes: a.p_prep, cook_minutes: a.p_cook, note: a.p_note, note_ta: a.p_note_ta })
+  db.recipe_ingredients = (db.recipe_ingredients ?? []).filter((r) => r.recipe_id !== recipe.id)
+  db.recipe_steps = (db.recipe_steps ?? []).filter((r) => r.recipe_id !== recipe.id)
+  ingredients.forEach((i, k) => db.recipe_ingredients!.push({ recipe_id: recipe.id, position: k + 1, name: i.name, name_ta: i.name_ta ?? null, quantity: i.quantity ?? null, unit: i.unit }))
+  steps.forEach((s, k) => db.recipe_steps!.push({ recipe_id: recipe.id, position: k + 1, body: s.body, body_ta: s.body_ta ?? null }))
+  return { data: recipe.id, error: null, count: null }
+}
+
 /** A Supabase-shaped client over one in-memory database. */
 export function createDemoClient(db: Db): SupabaseClient {
   const client = {
     from: (table: string) => new Query(db, table),
-    rpc: async (): Promise<Result> => fail(NOT_IN_DEMO),
+    rpc: async (name: string, args: Row = {}): Promise<Result> => (name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : fail(NOT_IN_DEMO)),
     storage: {
       from: () => ({
         createSignedUrl: async (path: string) => ({ data: { signedUrl: path }, error: null }),

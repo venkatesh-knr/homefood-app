@@ -277,6 +277,32 @@ select tests.ok((select 'vegetable' = any (tags) from public.dishes where househ
 select tests.ok((select not ('vegetable' = any (tags)) from public.dishes where household_id is null and name = 'Sambar'), 'Sambar is not tagged as a vegetable dish');
 select tests.ok((select not ('vegetable' = any (tags)) from public.dishes where name = 'Pongal' and household_id = :'hh_a'), 'a home''s own dishes were not tagged by the migration');
 
+-- ── Edit our version of a recipe (0025) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select public.save_household_recipe((select id from public.dishes where name = 'Idli' and household_id is null), 3, 10, 20, 'less water', null,
+  '[{"name":"Rice","name_ta":"அரிசி","quantity":2,"unit":"cup"},{"name":"Salt","quantity":null,"unit":"to_taste"}]'::jsonb,
+  '[{"body":"Soak the rice."},{"body":"Steam it.","body_ta":"ஆவியில் வேகவை."}]'::jsonb) as own_rec \gset
+select tests.ok((select servings = 3 and note = 'less water' and household_id = :'hh_a' from public.recipes where id = :'own_rec'), 'the Admin saves her home''s own copy of a recipe');
+select tests.ok((select count(*) from public.recipe_ingredients where recipe_id = :'own_rec') = 2 and (select count(*) from public.recipe_steps where recipe_id = :'own_rec') = 2, 'the copy has every ingredient and step she entered');
+select tests.ok((select string_agg(position::text, ',' order by position) from public.recipe_steps where recipe_id = :'own_rec') = '1,2', 'steps are numbered 1, 2 in the order given');
+select tests.ok((select count(*) from public.recipes where household_id is null and dish_id = (select dish_id from public.recipes where id = :'own_rec') and servings = 4) = 1, 'the standard recipe is left alone');
+select public.save_household_recipe((select id from public.dishes where name = 'Idli' and household_id is null), 2, null, null, null, null,
+  '[{"name":"Rice flour","quantity":1.5,"unit":"cup"}]'::jsonb, '[{"body":"Mix and steam."}]'::jsonb) as own_rec2 \gset
+select tests.ok(:'own_rec2' = :'own_rec' and (select count(*) from public.recipe_ingredients where recipe_id = :'own_rec') = 1 and (select servings from public.recipes where id = :'own_rec') = 2, 'saving again replaces the copy instead of adding a second one');
+select tests.refused($$ select public.save_household_recipe((select id from public.dishes where name = 'Idli' and household_id is null), 5, null, null, null, null, '[{"name":"Rice","quantity":1,"unit":"bucket"}]'::jsonb, '[{"body":"x"}]'::jsonb) $$, 'an unknown unit is refused');
+select tests.ok((select count(*) from public.recipe_ingredients where recipe_id = :'own_rec') = 1 and (select servings from public.recipes where id = :'own_rec') = 2, 'a refused save changes nothing (all or nothing)');
+select tests.refused($$ select public.save_household_recipe((select id from public.dishes where name = 'Idli' and household_id is null), 5, null, null, null, null, '[{"name":"Rice","quantity":1,"unit":"cup"}]'::jsonb, '[]'::jsonb) $$, 'a recipe without steps is refused');
+select tests.refused($$ select public.save_household_recipe((select id from public.dishes where name = 'Idli' and household_id is null), 5, null, null, null, null, '[{"name":"Rice","quantity":null,"unit":"cup"}]'::jsonb, '[{"body":"x"}]'::jsonb) $$, 'a measured ingredient without a quantity is refused');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ select public.save_household_recipe((select id from public.dishes where name = 'Idli' and household_id is null), 5, null, null, null, null, '[{"name":"Rice","quantity":1,"unit":"cup"}]'::jsonb, '[{"body":"x"}]'::jsonb) $$, 'a member cannot edit the home''s recipes');
+select tests.refused($$ delete from public.recipes where household_id = '$$ || :'hh_a' || $$' $$, 'a member cannot delete the home''s recipe copy');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok(not exists (select 1 from public.recipes where id = :'own_rec'), 'another home cannot see this home''s recipe copy');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.recipes where id = :'own_rec';
+select tests.ok(not exists (select 1 from public.recipe_ingredients where recipe_id = :'own_rec') and not exists (select 1 from public.recipe_steps where recipe_id = :'own_rec'), 'back to the original: deleting the copy removes its ingredients and steps');
+select tests.ok(exists (select 1 from public.recipes where household_id is null and dish_id = (select id from public.dishes where name = 'Idli' and household_id is null)), 'and the standard recipe is still there');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

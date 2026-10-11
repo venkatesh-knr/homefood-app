@@ -151,6 +151,25 @@ describe('fake client', () => {
     expect(slot.main_dish_id).toBeNull()
   })
 
+  it('saves the home own copy of a recipe in one go, replacing the earlier copy and leaving the standard one alone', async () => {
+    const { client } = fresh()
+    const save = (servings: number, ingredients: object[]) =>
+      client.rpc('save_household_recipe', { p_dish: 'dish-idli', p_servings: servings, p_prep: null, p_cook: null, p_note: null, p_note_ta: null, p_ingredients: ingredients, p_steps: [{ body: 'Steam.', body_ta: null }] })
+    expect((await save(3, [{ name: 'Rice', name_ta: null, quantity: 2, unit: 'cup' }, { name: 'Salt', name_ta: null, quantity: null, unit: 'to_taste' }])).error).toBeNull()
+    expect((await save(2, [{ name: 'Rice flour', name_ta: null, quantity: 1, unit: 'cup' }])).error).toBeNull()
+    const { data } = await client.from('recipes').select('*, recipe_ingredients(*), recipe_steps(*)').eq('dish_id', 'dish-idli')
+    const own = data!.filter((r: { household_id: string | null }) => r.household_id === DEMO_HOUSEHOLD_ID)
+    expect(own).toHaveLength(1)
+    expect(own[0].servings).toBe(2)
+    expect(own[0].recipe_ingredients.map((i: { name: string }) => i.name)).toEqual(['Rice flour'])
+    expect(data!.filter((r: { household_id: string | null }) => r.household_id === null)).toHaveLength(1)
+    // back to the original
+    await client.from('recipes').delete().eq('dish_id', 'dish-idli').eq('household_id', DEMO_HOUSEHOLD_ID)
+    const after = await client.from('recipes').select('*').eq('dish_id', 'dish-idli')
+    expect(after.data).toHaveLength(1)
+    expect((await client.rpc('save_household_recipe', { p_dish: 'dish-idli', p_ingredients: [], p_steps: [] })).error).not.toBeNull()
+  })
+
   it('says plainly that things that need a server are not in the demo', async () => {
     const { client } = fresh()
     const res = await client.rpc('create_household', {})

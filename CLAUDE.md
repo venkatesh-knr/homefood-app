@@ -67,7 +67,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 - Migrations in `supabase/migrations/`. **0001–0023 are applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0025_….sql`) for the next change. **0024 (weekly balance limits + the `vegetable` tag) is written but NOT yet run: Venkatesh must run it in the SQL Editor.** Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0026_….sql`) for the next change. **0024 (weekly balance limits + the `vegetable` tag) and 0025 (`save_household_recipe`, for "Edit our version") are written but NOT yet run: Venkatesh must run them in the SQL Editor, in order.** Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -132,7 +132,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 131 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 145 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -244,7 +244,7 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
   stepper (starts at who is eating, else the number of family members), ingredients scaled and written as a cook would (`lib/recipes.ts`:
   1¼ cups, ¾ tbsp, 250 g; pieces, cloves and slices are always whole numbers, so 7½ shallots reads 8), steps you can tick off, cook mode (screen wake lock + bigger text) and a Watch (YouTube) button. A Recipe
   button shows on Dish Detail, the Today next-up card and the discussion card, only for dishes that have a recipe. Tables allow a home
-  to keep its own version (Admin only), but there is **no "Edit our version" screen yet**, and no Recipe button in the slot editor
+  to keep its own version (Admin only). **"Edit our version" is built (12 Oct 2026, migration 0025)**: the Admin's "Edit our version" (or "Write our recipe" when a dish has none) on the Recipe screen opens `RecipeEditPage` (`/dishes/:id/recipe/edit`, `lib/recipeEdit.ts`): servings, prep/cook minutes, every ingredient (English + optional Tamil name, amount like 2, 1.5, 1/2 or 1 1/2, unit) and step (English + optional Tamil), a note, move up/down, and "Back to the original" (deletes the home's copy). Saving goes through the database function `save_household_recipe`, which writes the whole copy in one transaction (all or nothing, Admin only, the standard recipe is never touched). A name or step typed in only one language is stored in both fields. There is no Recipe button in the slot editor
   (leaving it would lose unsaved edits).
   **Nutrition**: Dish Detail shows "Nutrition per serving" (calories, protein, carbs, fat, fibre, sodium as bars against an adult's day,
   labelled *Estimate*) and "For your family" (notes from the dish's tags and each person's age band, plus how often it was cooked this
