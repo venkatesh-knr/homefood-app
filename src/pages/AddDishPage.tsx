@@ -121,8 +121,9 @@ export default function AddDishPage() {
       <p className="text-[12.5px] text-muted">{t('dishes.form.photoHint')}</p>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.nameEn')}</label>
+        <label htmlFor="dish-nameEn" className="text-[13px] font-semibold">{t('dishes.form.nameEn')}</label>
         <input
+          id="dish-nameEn"
           value={values.name_en}
           onChange={(e) => setValues((v) => ({ ...v, name_en: e.target.value }))}
           aria-invalid={showErrors && !nameValid}
@@ -132,17 +133,19 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.nameTa')}</label>
+        <label htmlFor="dish-nameTa" className="text-[13px] font-semibold">{t('dishes.form.nameTa')}</label>
         <input
+          id="dish-nameTa"
           value={values.name_ta}
           onChange={(e) => setValues((v) => ({ ...v, name_ta: e.target.value }))}
-          className="h-12 rounded-xl border border-line-strong bg-surface px-3 font-tamil text-[15px]"
+          lang="ta" className="h-12 rounded-xl border border-line-strong bg-surface px-3 font-tamil text-[15px]"
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.cuisine')}</label>
+        <label htmlFor="dish-cuisine" className="text-[13px] font-semibold">{t('dishes.form.cuisine')}</label>
         <select
+          id="dish-cuisine"
           value={values.cuisine_id ?? ''}
           onChange={(e) => setValues((v) => ({ ...v, cuisine_id: e.target.value || null }))}
           className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
@@ -157,8 +160,8 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.mealTypes')}</label>
-        <div className="flex flex-wrap gap-2">
+        <span id="dish-mealTypes" className="text-[13px] font-semibold">{t('dishes.form.mealTypes')}</span>
+        <div role="group" aria-labelledby="dish-mealTypes" className="flex flex-wrap gap-2">
           {MEAL_TYPES.map((m) => (
             <button
               key={m}
@@ -177,8 +180,9 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.course')}</label>
+        <label htmlFor="dish-course" className="text-[13px] font-semibold">{t('dishes.form.course')}</label>
         <select
+          id="dish-course"
           value={values.course}
           onChange={(e) => setValues((v) => ({ ...v, course: e.target.value as DishCourse }))}
           className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
@@ -190,8 +194,9 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.diet')}</label>
+        <label htmlFor="dish-diet" className="text-[13px] font-semibold">{t('dishes.form.diet')}</label>
         <select
+          id="dish-diet"
           value={values.diet}
           onChange={(e) => setValues((v) => ({ ...v, diet: e.target.value as DietType }))}
           className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
@@ -203,8 +208,10 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.tags')}</label>
+        <label htmlFor="dish-tags" className="text-[13px] font-semibold">{t('dishes.form.tags')}</label>
         <ChipInput
+          id="dish-tags"
+          label={t('dishes.form.tags')}
           values={values.tags}
           onChange={(tags) => setValues((v) => ({ ...v, tags }))}
           placeholder={t('dishes.form.tagsPlaceholder')}
@@ -214,8 +221,10 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.allergens')}</label>
+        <label htmlFor="dish-allergens" className="text-[13px] font-semibold">{t('dishes.form.allergens')}</label>
         <ChipInput
+          id="dish-allergens"
+          label={t('dishes.form.allergens')}
           values={values.allergens}
           onChange={(allergens) => setValues((v) => ({ ...v, allergens }))}
           placeholder={t('dishes.form.allergensPlaceholder')}
@@ -225,8 +234,9 @@ export default function AddDishPage() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[13px] font-semibold">{t('dishes.form.prepMinutes')}</label>
+        <label htmlFor="dish-prepMinutes" className="text-[13px] font-semibold">{t('dishes.form.prepMinutes')}</label>
         <input
+          id="dish-prepMinutes"
           value={values.prep_minutes}
           onChange={(e) => setValues((v) => ({ ...v, prep_minutes: e.target.value.replace(/\D/g, '').slice(0, 3) }))}
           inputMode="numeric"
@@ -264,7 +274,7 @@ export default function AddDishPage() {
         {showErrors && parsedNutrition.kind === 'invalid' && <p className="text-[12.5px] text-alert">{t('dishes.form.nutrition.problem')}</p>}
       </fieldset>
 
-      {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
 
       <div className="mt-2 flex gap-2 border-t border-line pt-4">
         <Button variant="secondary" className="flex-1" onClick={() => navigate(-1)}>

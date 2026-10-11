@@ -32,7 +32,7 @@ export function GettingStartedChecklist({ householdId }: { householdId: string }
           <div key={key} className="flex items-center gap-3 py-2.5">
             <span
               className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full ${
-                done[key] ? 'bg-leaf text-white' : 'border-2 border-line-strong'
+                done[key] ? 'bg-leaf text-on-solid' : 'border-2 border-line-strong'
               }`}
             >
               {done[key] && (

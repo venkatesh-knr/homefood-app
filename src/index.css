@@ -8,7 +8,7 @@
   --color-cream: #fff8ee;
   --color-sand: #f4ecdf;
   --color-line: #eadfcb;
-  --color-line-strong: #cdbfa8;
+  --color-line-strong: #8c7d66;
   --color-ink: #2b2622;
   --color-ink-soft: #4a3f37;
   --color-muted: #6e6259;
@@ -19,6 +19,9 @@
   --color-leaf-tint: #e7f1e8;
   --color-alert: #b3261e;
   --color-alert-tint: #fdecea;
+  /* text that sits on a solid saffron / red / green block: dark ink on saffron in both modes, white (light) or dark (dark) on red and green */
+  --color-on-saffron: #2b2622;
+  --color-on-solid: #ffffff;
 
   --color-meal-breakfast: #f2b705;
   --color-meal-lunch: #2f7a3e;
@@ -39,7 +42,7 @@
   --color-cream: #1b1713;
   --color-sand: #2e2720;
   --color-line: #3b3329;
-  --color-line-strong: #5a4e40;
+  --color-line-strong: #8d7e6c;
   --color-ink: #f4ece0;
   --color-ink-soft: #d7cbbb;
   --color-muted: #aa9e90;
@@ -51,6 +54,7 @@
   --color-alert-tint: #402220;
   --color-dinner-tint: #232846;
   --color-dinner-ink: #b6c0f5;
+  --color-on-solid: #1b1713;
   }
 }
 :root[data-theme="dark"] {
@@ -59,7 +63,7 @@
   --color-cream: #1b1713;
   --color-sand: #2e2720;
   --color-line: #3b3329;
-  --color-line-strong: #5a4e40;
+  --color-line-strong: #8d7e6c;
   --color-ink: #f4ece0;
   --color-ink-soft: #d7cbbb;
   --color-muted: #aa9e90;
@@ -71,6 +75,7 @@
   --color-alert-tint: #402220;
   --color-dinner-tint: #232846;
   --color-dinner-ink: #b6c0f5;
+  --color-on-solid: #1b1713;
 }
 [data-theme="light"] {
   color-scheme: light;
@@ -78,7 +83,7 @@
   --color-cream: #fff8ee;
   --color-sand: #f4ecdf;
   --color-line: #eadfcb;
-  --color-line-strong: #cdbfa8;
+  --color-line-strong: #8c7d66;
   --color-ink: #2b2622;
   --color-ink-soft: #4a3f37;
   --color-muted: #6e6259;
@@ -90,6 +95,7 @@
   --color-alert-tint: #fdecea;
   --color-dinner-tint: #eef0fa;
   --color-dinner-ink: #2c3777;
+  --color-on-solid: #ffffff;
   background: var(--color-cream);
   color: var(--color-ink);
 }
@@ -112,7 +118,30 @@ body {
   font-family: var(--font-tamil);
 }
 
+/* Touch targets: at least 44 px tall (WCAG 2.5.5 / the app's own rule). Switches keep their look and get a larger hit area instead (see Toggle). */
+button:not([role="switch"]),
+[role="button"],
+select,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]):not([type="file"]) {
+  min-height: 44px;
+}
+button:not([role="switch"]),
+[role="button"] {
+  min-width: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 :focus-visible {
-  outline: 3px solid var(--color-saffron);
+  outline: 3px solid var(--color-saffron-ink);
   outline-offset: 2px;
 }

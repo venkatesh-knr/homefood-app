@@ -89,7 +89,7 @@ export function DishRow({
           <DietMark diet={diet} />
           <span className="truncate text-[15.5px] font-semibold">{name}</span>
         </span>
-        {secondaryName && <span className="truncate font-tamil text-[12.5px] text-muted">{secondaryName}</span>}
+        {secondaryName && <span lang="ta" className="truncate font-tamil text-[12.5px] text-muted">{secondaryName}</span>}
         <span className="truncate text-[12.5px] text-muted">
           {cuisineLabel} · {dietWord}
         </span>

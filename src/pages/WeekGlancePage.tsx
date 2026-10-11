@@ -160,7 +160,7 @@ export default function WeekGlancePage() {
           <div />
           {dates.map((d) => (
             <div key={d} className={`flex min-h-[84px] flex-col items-center justify-end gap-0.5 rounded-2xl p-2.5 ${d === today ? 'bg-saffron-tint' : 'bg-surface'}`}>
-              {d === today && <span className="mb-1 rounded-full bg-saffron px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide">{t('glance.today')}</span>}
+              {d === today && <span className="mb-1 rounded-full bg-saffron text-on-saffron px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide">{t('glance.today')}</span>}
               <span className="font-display text-[16px] font-semibold">{dayFmt.format(new Date(`${d}T00:00:00`)).split(',')[0]}</span>
               <span className="text-[12px] text-muted">{dayOfMonth(d)}</span>
             </div>
@@ -176,7 +176,7 @@ export default function WeekGlancePage() {
             {dates.map((d) => (
               <div
                 key={d}
-                className={`flex h-[58px] flex-col items-center justify-center gap-0.5 rounded-2xl ${d === today ? 'border-2 border-saffron bg-saffron text-ink' : 'border border-line bg-surface'}`}
+                className={`flex h-[58px] flex-col items-center justify-center gap-0.5 rounded-2xl ${d === today ? 'border-2 border-saffron bg-saffron text-on-saffron' : 'border border-line bg-surface'}`}
               >
                 <span className="text-[10.5px] text-muted">{weekdayLetter(d)}</span>
                 <span className="font-display text-[15px] font-semibold">{dayOfMonth(d)}</span>
@@ -271,7 +271,7 @@ function GridMealRow({
   const photoFor = useDishPhotoPath()
   return (
     <>
-      <div className="flex min-h-[150px] flex-col justify-center gap-1 rounded-2xl p-3.5 text-white" style={{ background: MEAL_BAND[meal] }}>
+      <div className={`flex min-h-[150px] flex-col justify-center gap-1 rounded-2xl p-3.5 ${meal === 'breakfast' || meal === 'snacks' ? 'text-on-saffron' : 'text-white'}`} style={{ background: MEAL_BAND[meal] }}>
         <span className="font-display text-[16px] font-semibold">{t(`meal.${meal}`)}</span>
       </div>
       {dates.map((d) => {

@@ -165,7 +165,7 @@ export default function WeekPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className="grid grid-cols-7 gap-1">
         {dates.map((d) => {
           const on = d === selectedDate
           const planned = (slotsByDate.get(d)?.length ?? 0) + '/' + mealTypes.length
@@ -174,7 +174,7 @@ export default function WeekPage() {
               key={d}
               type="button"
               onClick={() => setSelectedDate(d)}
-              className={`flex h-[62px] flex-col items-center justify-center gap-0.5 rounded-2xl ${on ? 'border-2 border-saffron bg-saffron text-ink' : 'border border-line bg-surface text-ink'}`}
+              className={`flex h-[62px] flex-col items-center justify-center gap-0.5 rounded-2xl ${on ? 'border-2 border-saffron bg-saffron text-on-saffron' : 'border border-line bg-surface text-ink'}`}
             >
               <span className={`text-[10.5px] ${on ? 'text-ink' : 'text-muted'}`}>{weekdayLetter(d)}</span>
               <span className="font-display text-[15px] font-semibold">{dayOfMonth(d)}</span>
@@ -212,7 +212,7 @@ export default function WeekPage() {
         })}
       </div>
 
-      {message && <p className="rounded-xl bg-sand px-4 py-3 text-center text-[13.5px] text-ink-soft">{message}</p>}
+      {message && <p role="status" className="rounded-xl bg-sand px-4 py-3 text-center text-[13.5px] text-ink-soft">{message}</p>}
 
       {canPlanWeek && (
         <div className="sticky bottom-16 -mx-5 mt-2 flex flex-col gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">

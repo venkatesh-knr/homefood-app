@@ -16,6 +16,7 @@ import { DishRow } from './DishRow'
 import { useDishUsage, useFavourites } from '../lib/favouriteQueries'
 import { orderDishes } from '../lib/favourites'
 import { HeartIcon } from './icons'
+import { Dialog } from './Dialog'
 
 type Eater = { name: string; allergens: string[] }
 
@@ -73,14 +74,14 @@ export function DishPickerSheet({
   const selectClass = 'h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]'
 
   return (
-    <div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-50 flex flex-col bg-cream">
+    <Dialog title={title} onClose={onClose} variant="full">
       <div className="flex items-center gap-3 px-4 pt-4">
         <button type="button" onClick={onClose} aria-label={t('common.cancel')} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
-        <span className="font-display text-[17px] font-semibold">{title}</span>
+        <h2 className="font-display text-[17px] font-semibold">{title}</h2>
       </div>
 
       <div className="flex flex-col gap-3 px-4 pt-3">
@@ -197,6 +198,6 @@ export function DishPickerSheet({
           })
         )}
       </div>
-    </div>
+    </Dialog>
   )
 }

@@ -67,7 +67,7 @@ export default function JoinPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col px-5">
       <div className="flex flex-col items-center gap-2.5 pb-6 pt-12 text-center">
-        <span className="flex h-16 w-16 items-center justify-center rounded-[20px] bg-saffron text-ink">
+        <span className="flex h-16 w-16 items-center justify-center rounded-[20px] bg-saffron text-on-saffron">
           <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 11l9-7 9 7" />
             <path d="M5 10v10h14V10" />

@@ -156,7 +156,7 @@ export default function SlotEditorPage() {
           </svg>
         </button>
         <div className="flex flex-col items-center">
-          <span className="font-display text-[16px] font-semibold">{t('planner.editTitle', { day: dayLabel, meal: mealLabel })}</span>
+          <h1 className="font-display text-[16px] font-semibold">{t('planner.editTitle', { day: dayLabel, meal: mealLabel })}</h1>
           <span className="text-[12px] text-muted">{dateLabel}</span>
         </div>
         <button type="button" onClick={onSave} disabled={busy} className="px-3 py-2.5 text-[15px] font-semibold text-saffron-ink">
@@ -193,7 +193,7 @@ export default function SlotEditorPage() {
                 <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <span className="text-[16px] font-semibold">{dishName(mainDish)}</span>
                   {mainDish.dish_names.find((n) => n.language === (lang === 'ta' ? 'en' : 'ta')) && (
-                    <span className="font-tamil text-[12.5px] text-muted">{mainDish.dish_names.find((n) => n.language === (lang === 'ta' ? 'en' : 'ta'))?.name}</span>
+                    <span lang="ta" className="font-tamil text-[12.5px] text-muted">{mainDish.dish_names.find((n) => n.language === (lang === 'ta' ? 'en' : 'ta'))?.name}</span>
                   )}
                   <span className="text-[12.5px] text-muted">
                     {[
@@ -229,7 +229,7 @@ export default function SlotEditorPage() {
               </span>
               <span>{t('planner.allergy.body')}</span>
               <div className="flex gap-2">
-                <button type="button" onClick={() => setPicking('main')} className="rounded-lg bg-alert px-3 py-1.5 text-[13px] font-semibold text-white">
+                <button type="button" onClick={() => setPicking('main')} className="rounded-lg bg-alert px-3 py-1.5 text-[13px] font-semibold text-on-solid">
                   {t('planner.allergy.pickAnother')}
                 </button>
               </div>

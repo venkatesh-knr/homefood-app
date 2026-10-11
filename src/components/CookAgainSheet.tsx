@@ -157,7 +157,7 @@ export function CookAgainSheet({
           <p className="rounded-2xl bg-leaf-tint px-3.5 py-2.5 text-[13.5px] text-leaf">{t('cookAgain.suggestedDone', { day: label(result.date), meal: t(`meal.${result.meal}`) })}</p>
         )}
         {result?.kind === 'taken' && <p className="rounded-2xl bg-sand px-3.5 py-2.5 text-[13.5px] text-ink-soft">{t('cookAgain.taken')}</p>}
-        {result?.kind === 'error' && <p className="rounded-2xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{result.text}</p>}
+        {result?.kind === 'error' && <p role="alert" className="rounded-2xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{result.text}</p>}
       </div>
     </Dialog>
   )

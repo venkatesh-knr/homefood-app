@@ -51,7 +51,7 @@ export function Dialog({ title, onClose, children, variant = 'sheet' }: { title:
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className={variant === 'full' ? 'flex w-full flex-col' : 'flex max-h-[88vh] w-full max-w-md flex-col rounded-t-3xl bg-cream shadow-xl'}
+        className={variant === 'full' ? 'flex h-full min-h-0 w-full flex-col' : 'flex max-h-[88vh] w-full max-w-md flex-col rounded-t-3xl bg-cream shadow-xl'}
       >
         {children}
       </div>

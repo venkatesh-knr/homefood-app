@@ -76,7 +76,7 @@ export default function RecipePage() {
   if (!recipe) {
     return (
       <main className="mx-auto flex max-w-md flex-col gap-3 px-5 pb-8">
-        <div className="flex items-center gap-2 pt-3">{back}<span className="font-display text-[18px] font-semibold">{name}</span></div>
+        <div className="flex items-center gap-2 pt-3">{back}<h1 className="font-display text-[18px] font-semibold">{name}</h1></div>
         <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('recipe.none')}</p>
         {isAdmin && (
           <button type="button" onClick={() => navigate(`/dishes/${dishId}/recipe/edit`)} className="min-h-[52px] rounded-2xl bg-ink text-[15px] font-semibold text-cream">
@@ -110,7 +110,7 @@ export default function RecipePage() {
       <div className="flex items-center gap-2 pt-3">
         {back}
         <div className="flex flex-col">
-          <span className="font-display text-[18px] font-semibold">{t('recipe.title', { dish: name })}</span>
+          <h1 className="font-display text-[18px] font-semibold">{t('recipe.title', { dish: name })}</h1>
           <span className="text-[12px] text-muted">{minutes}</span>
         </div>
       </div>
@@ -148,7 +148,7 @@ export default function RecipePage() {
             <div key={ing.position} className="flex items-baseline justify-between gap-3 px-4 py-3">
               <span className="flex flex-col">
                 <span className={text}>{(lang === 'ta' ? ing.name_ta : ing.name) ?? ing.name}</span>
-                {secondary && <span className="font-tamil text-[12px] text-muted">{secondary}</span>}
+                {secondary && <span lang={lang === 'ta' ? 'en' : 'ta'} className="font-tamil text-[12px] text-muted">{secondary}</span>}
               </span>
               <span className={`shrink-0 text-right font-semibold ${text}`}>
                 {q === null ? unitText(ing.unit, null) : `${formatQuantity(q, ing.unit)} ${unitText(ing.unit, q)}`.trim()}
@@ -177,7 +177,7 @@ export default function RecipePage() {
               }
               className={`flex items-start gap-3 rounded-2xl border p-3.5 text-left ${on ? 'border-line bg-sand' : 'border-line bg-surface'}`}
             >
-              <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold ${on ? 'bg-leaf text-white' : 'bg-sand'}`}>
+              <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold ${on ? 'bg-leaf text-on-solid' : 'bg-sand'}`}>
                 {on ? '✓' : step.position}
               </span>
               <span className={`${text} ${on ? 'text-ink-soft' : ''}`}>{(lang === 'ta' ? step.body_ta : step.body) ?? step.body}</span>

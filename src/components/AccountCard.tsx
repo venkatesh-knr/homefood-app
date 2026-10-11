@@ -77,7 +77,7 @@ function Buttons({ onClose, onConfirm, confirm, busy, disabled }: { onClose: () 
       <button type="button" onClick={onClose} disabled={busy} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold">
         {t('common.cancel')}
       </button>
-      <button type="button" onClick={onConfirm} disabled={busy || disabled} className="min-h-[52px] flex-[2] rounded-2xl bg-alert text-[15px] font-semibold text-white disabled:opacity-50">
+      <button type="button" onClick={onConfirm} disabled={busy || disabled} className="min-h-[52px] flex-[2] rounded-2xl bg-alert text-[15px] font-semibold text-on-solid disabled:opacity-50">
         {confirm}
       </button>
     </div>
@@ -102,7 +102,7 @@ function SignOutAllDialog({ onClose }: { onClose: () => void }) {
   return (
     <Shell title={t('account.signOutAll')} onClose={onClose}>
       <p className="text-[14px] leading-relaxed">{t('account.signOutAllBody')}</p>
-      {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
       <div className="flex gap-2.5 pt-1">
         <button type="button" onClick={onClose} disabled={busy} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold">
           {t('common.cancel')}
@@ -147,7 +147,7 @@ function DeleteAccountDialog({ onClose }: { onClose: () => void }) {
         <li>{t('account.removed')}</li>
         <li>{t('account.kept')}</li>
       </ul>
-      <div role="alert">{error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}</div>
+      <div>{error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}</div>
       <Buttons onClose={onClose} onConfirm={() => void go()} confirm={t('account.deleteAccountYes')} busy={busy} />
     </Shell>
   )
@@ -176,7 +176,7 @@ function DeleteHouseholdDialog({ onClose }: { onClose: () => void }) {
         {t('account.typeName', { name: household.name })}
         <input value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" className="min-h-[48px] rounded-xl border border-line-strong bg-surface px-3 text-[16px]" />
       </label>
-      <div role="alert">{error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}</div>
+      <div>{error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}</div>
       <Buttons onClose={onClose} onConfirm={() => void go()} confirm={t('account.deleteHomeYes')} busy={busy} disabled={!nameMatches(typed, household.name)} />
     </Shell>
   )

@@ -77,9 +77,9 @@ export default function DiscussionPage() {
         </svg>
       </button>
       <div className="flex flex-1 flex-col">
-        <span className="font-display text-[18px] font-semibold">
+        <h1 className="font-display text-[18px] font-semibold">
           {dayLabel} {mealLabel.toLowerCase()}
-        </span>
+        </h1>
         <span className="text-[12px] text-muted">{dateLabel}</span>
       </div>
       {canPlan && slot && (
@@ -302,7 +302,7 @@ export default function DiscussionPage() {
         )}
       </section>
 
-      {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
 
       <div className="sticky bottom-16 -mx-5 mt-auto flex flex-col gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">
         <form onSubmit={onSend} className="flex gap-2">
@@ -310,6 +310,7 @@ export default function DiscussionPage() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             maxLength={500}
+            aria-label={t('discussion.commentPlaceholder')}
             placeholder={t('discussion.commentPlaceholder')}
             className="h-12 min-w-0 flex-1 rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
           />

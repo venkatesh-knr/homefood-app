@@ -249,7 +249,7 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
           {confirmReset ? (
             <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t('recipeEdit.confirm')}>
               <span className="text-[13.5px] font-semibold">{t('recipeEdit.confirm')}</span>
-              <button type="button" disabled={busy} onClick={() => void onReset()} className="min-h-[44px] rounded-xl bg-alert px-3.5 text-[14px] font-semibold text-white">
+              <button type="button" disabled={busy} onClick={() => void onReset()} className="min-h-[44px] rounded-xl bg-alert px-3.5 text-[14px] font-semibold text-on-solid">
                 {t('recipeEdit.confirmYes')}
               </button>
               <button type="button" onClick={() => setConfirmReset(false)} className="min-h-[44px] rounded-xl border border-line-strong px-3.5 text-[14px] font-semibold">
@@ -265,13 +265,13 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
       )}
 
       <div className="sticky bottom-16 -mx-5 flex flex-col gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">
-        <div role="alert">
+        <div>
           {tried && problems.any && (
-            <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">
+            <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">
               {problems.noIngredients || problems.noSteps ? t('recipeEdit.problemNone') : problems.servings ? t('recipeEdit.problemServings') : t('recipeEdit.problems')}
             </p>
           )}
-          {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+          {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
         </div>
         <div className="flex gap-2.5">
           <button type="button" onClick={() => navigate(`/dishes/${dishId}/recipe`)} disabled={busy} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold">

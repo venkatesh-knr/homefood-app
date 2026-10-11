@@ -12,7 +12,7 @@ export function BackHeader({ title, subtitle, to, action }: { title: string; sub
         </svg>
       </button>
       <div className="flex flex-1 flex-col">
-        <span className="font-display text-[18px] font-semibold">{title}</span>
+        <h1 className="font-display text-[18px] font-semibold">{title}</h1>
         {subtitle && <span className="text-[12px] text-muted">{subtitle}</span>}
       </div>
       {action}

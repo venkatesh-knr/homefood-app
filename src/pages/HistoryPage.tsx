@@ -114,7 +114,7 @@ export default function HistoryPage() {
           </svg>
         </button>
         <div className="flex flex-col">
-          <span className="font-display text-[18px] font-semibold">{t('history.title')}</span>
+          <h1 className="font-display text-[18px] font-semibold">{t('history.title')}</h1>
           <span className="text-[12px] text-muted">{t('history.subtitle')}</span>
         </div>
       </div>
@@ -216,6 +216,7 @@ export default function HistoryPage() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            aria-label={t('history.searchPlaceholder')}
             placeholder={t('history.searchPlaceholder')}
             className="h-12 rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
           />

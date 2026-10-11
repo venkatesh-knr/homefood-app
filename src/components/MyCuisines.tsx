@@ -97,7 +97,7 @@ export function MyCuisines({ householdId }: { householdId: string }) {
                     {confirming === c.id ? (
                       <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t('cuisines.confirm', { name: label })}>
                         <span className="text-[13.5px] font-semibold">{t('cuisines.confirm', { name: label })}</span>
-                        <button type="button" disabled={busy} onClick={() => void run(async () => { await deleteCuisine(c.id); setConfirming(null) })} className="min-h-[44px] rounded-xl bg-alert px-3.5 text-[14px] font-semibold text-white">
+                        <button type="button" disabled={busy} onClick={() => void run(async () => { await deleteCuisine(c.id); setConfirming(null) })} className="min-h-[44px] rounded-xl bg-alert px-3.5 text-[14px] font-semibold text-on-solid">
                           {t('cuisines.confirmYes')}
                         </button>
                         <button type="button" onClick={() => setConfirming(null)} className="min-h-[44px] rounded-xl border border-line-strong px-3.5 text-[14px] font-semibold">
@@ -133,7 +133,7 @@ export function MyCuisines({ householdId }: { householdId: string }) {
               </div>
             )
           })}
-          {error && <p className="rounded-xl bg-alert-tint px-3 py-2 text-[13px] text-alert">{error}</p>}
+          {error && <p role="alert" className="rounded-xl bg-alert-tint px-3 py-2 text-[13px] text-alert">{error}</p>}
         </div>
       )}
     </div>

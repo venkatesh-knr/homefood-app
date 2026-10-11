@@ -48,9 +48,9 @@ export function AddCuisine({ householdId }: { householdId: string }) {
     <form onSubmit={onSubmit} className="flex flex-col gap-2 rounded-2xl border border-line bg-surface p-3.5">
       <span className="text-[13px] font-semibold">{t('dishes.addCuisine')}</span>
       <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('dishes.cuisineNamePlaceholder')} maxLength={40} autoFocus className={inputClass} />
-      <input value={nameTa} onChange={(e) => setNameTa(e.target.value)} placeholder={t('dishes.cuisineNameTaPlaceholder')} maxLength={40} className={`${inputClass} font-tamil`} />
+      <input value={nameTa} onChange={(e) => setNameTa(e.target.value)} placeholder={t('dishes.cuisineNameTaPlaceholder')} maxLength={40} lang="ta" className={`${inputClass} font-tamil`} />
       <p className="text-[12.5px] text-muted">{t('dishes.cuisineHint')}</p>
-      {error && <p className="rounded-xl bg-alert-tint px-3 py-2 text-[13px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-3 py-2 text-[13px] text-alert">{error}</p>}
       <div className="flex gap-2">
         <Button type="submit" disabled={busy || !isValidCuisineName(name)} className="flex-1">
           {t('common.save')}

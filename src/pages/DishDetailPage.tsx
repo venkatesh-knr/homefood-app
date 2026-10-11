@@ -15,6 +15,7 @@ import { FullPageMessage, Pill } from '../components/ui'
 import { useRecipeDishIds } from '../lib/recipeQueries'
 import { FamilyNotesPanel, NutritionPanel } from '../components/NutritionPanel'
 import { CookAgainSheet } from '../components/CookAgainSheet'
+import { Dialog } from '../components/Dialog'
 
 export default function DishDetailPage() {
   const { t, i18n } = useTranslation()
@@ -130,7 +131,7 @@ export default function DishDetailPage() {
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h1 className="font-display text-[24px] font-bold">{name}</h1>
-            {secondaryName && <p className="font-tamil text-[14.5px] text-muted">{secondaryName}</p>}
+            {secondaryName && <p lang="ta" className="font-tamil text-[14.5px] text-muted">{secondaryName}</p>}
           </div>
           <FavouriteButton dishId={dish.id} size={26} />
         </div>
@@ -196,7 +197,7 @@ export default function DishDetailPage() {
           {isOwn ? t('dishes.rowAddedBy', { name: members?.find((m) => m.id === dish.created_by)?.display_name ?? '' }) : t('dishes.detail.addedByStock')}
         </p>
 
-        {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
+        {error && <p role="alert" className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
 
         <button
           type="button"
@@ -245,15 +246,17 @@ export default function DishDetailPage() {
       {cookAgain && <CookAgainSheet dish={{ id: dish.id, name, meal_types: dish.meal_types }} onClose={() => setCookAgain(false)} />}
 
       {zoom && photoUrl && (
-        <div role="dialog" aria-modal="true" aria-label={name} className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-[rgba(20,17,15,0.94)]">
-          <button type="button" onClick={() => setZoom(false)} aria-label={t('dishes.detail.tapEnlarge')} className="absolute right-3 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-surface/15 text-cream">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          </button>
-          <img src={photoUrl} alt={name} className="max-h-[70vh] max-w-[90vw] rounded-2xl object-contain" />
-          <span className="text-[15px] font-semibold text-cream">{name}</span>
-        </div>
+        <Dialog title={name} onClose={() => setZoom(false)} variant="full">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-[rgba(20,17,15,0.94)]">
+            <button type="button" onClick={() => setZoom(false)} aria-label={t('cookAgain.close')} className="absolute right-3 top-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-surface/15 text-cream">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </button>
+            <img src={photoUrl} alt={name} className="max-h-[70vh] max-w-[90vw] rounded-2xl object-contain" />
+            <span className="text-[15px] font-semibold text-cream">{name}</span>
+          </div>
+        </Dialog>
       )}
     </main>
   )

@@ -28,6 +28,7 @@ export default function HomeTabPage() {
 
   return (
     <main className="flex flex-col gap-5 px-5 pb-8">
+      <h1 className="sr-only">{t('shell.nav.home')}</h1>
       <FirstVisitTip id="home" />
 
       <PeopleSection householdId={household.id} myProfileId={profile.id} isAdmin={isAdmin} />

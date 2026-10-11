@@ -145,7 +145,7 @@ export function AddFoodSheet({ personId, personName, date, onClose }: { personId
               </ul>
             </>
           )}
-          {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+          {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
           <div className="flex gap-2.5">
             <button type="button" onClick={() => setStep({ kind: 'pick' })} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold">
               {t('extras.back')}
@@ -186,7 +186,7 @@ export function AddFoodSheet({ personId, personName, date, onClose }: { personId
         </div>
       </div>
       <div className="mt-2 flex flex-1 flex-col gap-1.5 overflow-y-auto px-5 pb-5">
-        {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+        {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
         {!searching && usuals.length > 0 && (
           <>
             <h3 className="pt-1 text-[12px] font-semibold uppercase tracking-wide text-muted">{t('extras.usuals')}</h3>
@@ -251,7 +251,7 @@ function AmountStep({ food, name, starred, busy, error, onStar, onBack, onSave }
       <p className="rounded-2xl bg-sand px-4 py-3 text-[14px]" aria-live="polite">
         {n.kcal === null ? t('extras.previewUnknown') : t('extras.preview', { kcal: Math.round(n.kcal), protein: n.protein_g === null ? 0 : Math.round(n.protein_g * 10) / 10 })}
       </p>
-      {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
       <div className="flex gap-2.5">
         <button type="button" onClick={onBack} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold">
           {t('extras.back')}
@@ -302,7 +302,7 @@ function CustomFoodStep({ initialName, busy, error, onBack, onSave }: { initialN
         ))}
       </div>
       {bad && <p className="text-[12.5px] text-alert">{t('extras.customProblem')}</p>}
-      {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
       <div className="flex gap-2.5 pt-1">
         <button type="button" onClick={onBack} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold">
           {t('extras.back')}

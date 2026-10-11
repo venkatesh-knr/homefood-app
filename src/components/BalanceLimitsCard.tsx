@@ -74,7 +74,7 @@ export function BalanceLimitsCard({ household }: { household: Household }) {
           {t('balance.settingsHint', { same: DEFAULT_BALANCE.sameMain, fried: DEFAULT_BALANCE.fried, run: DEFAULT_BALANCE.outRun })}
         </p>
       </Card>
-      {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
     </div>
   )
 }

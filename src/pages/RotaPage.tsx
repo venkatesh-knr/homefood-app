@@ -58,7 +58,7 @@ export default function RotaPage() {
           </svg>
         </button>
         <div className="flex flex-col">
-          <span className="font-display text-[18px] font-semibold">{t('rota.title')}</span>
+          <h1 className="font-display text-[18px] font-semibold">{t('rota.title')}</h1>
           <span className="text-[12px] text-muted">{t('rota.subtitle', { month: monthLabel })}</span>
         </div>
       </div>

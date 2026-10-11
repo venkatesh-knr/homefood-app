@@ -5,7 +5,7 @@ import { setLanguage, type Language } from '../i18n'
 export function Logo({ size = 72 }: { size?: number }) {
   return (
     <span
-      className="inline-flex items-center justify-center rounded-[22px] bg-saffron text-ink"
+      className="inline-flex items-center justify-center rounded-[22px] bg-saffron text-on-saffron"
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
@@ -25,7 +25,7 @@ export function Button({ variant = 'primary', className = '', children, ...rest 
   const styles = {
     primary: 'h-13 min-h-[52px] rounded-2xl bg-ink px-5 text-base text-cream hover:bg-ink-soft',
     secondary: 'min-h-[48px] rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px] text-ink hover:bg-sand',
-    accent: 'h-13 min-h-[52px] rounded-2xl bg-saffron px-5 text-base text-ink hover:brightness-95',
+    accent: 'h-13 min-h-[52px] rounded-2xl bg-saffron px-5 text-base text-on-saffron hover:brightness-95',
     text: 'min-h-[44px] px-1 text-[14px] text-saffron-ink hover:underline',
   }[variant]
   return (
@@ -81,7 +81,7 @@ export function Toggle({
       aria-checked={checked}
       aria-label={label}
       onClick={() => onChange(!checked)}
-      className={`relative h-8 w-[52px] shrink-0 rounded-full transition-colors ${checked ? 'bg-leaf' : 'bg-line-strong'}`}
+      className={`relative h-8 w-[52px] shrink-0 rounded-full transition-colors before:absolute before:-inset-2 before:content-[''] ${checked ? 'bg-leaf' : 'bg-line-strong'}`}
     >
       <span
         className="absolute top-[3px] h-[26px] w-[26px] rounded-full bg-surface shadow transition-[left]"
@@ -148,13 +148,19 @@ export function ChipInput({
   placeholder,
   isValid,
   normalise,
+  label,
+  id,
 }: {
   values: string[]
   onChange: (next: string[]) => void
   placeholder: string
+  /** The field's name for screen readers. */
+  label?: string
+  id?: string
   isValid: (value: string) => boolean
   normalise: (value: string) => string
 }) {
+  const { t } = useTranslation()
   const [draft, setDraft] = useState('')
 
   function commit() {
@@ -178,12 +184,14 @@ export function ChipInput({
       {values.map((v) => (
         <span key={v} className="inline-flex items-center gap-1.5 rounded-full bg-sand px-3 py-1.5 text-[13px] text-ink-soft">
           {v}
-          <button type="button" onClick={() => onChange(values.filter((x) => x !== v))} aria-label={v} className="text-muted hover:text-alert">
+          <button type="button" onClick={() => onChange(values.filter((x) => x !== v))} aria-label={`${t('recipeEdit.remove')}: ${v}`} className="text-muted hover:text-alert">
             ×
           </button>
         </span>
       ))}
       <input
+        id={id}
+        aria-label={label}
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
         onKeyDown={onKeyDown}

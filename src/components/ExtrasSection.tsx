@@ -127,7 +127,7 @@ function EditItemSheet({ row, onClose }: { row: IntakeRow; onClose: () => void }
             </button>
           </div>
         </div>
-        {error && <p className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
+        {error && <p role="alert" className="rounded-xl bg-alert-tint px-3.5 py-2.5 text-[13.5px] text-alert">{error}</p>}
         <div className="flex gap-2.5">
           <button type="button" disabled={busy} onClick={() => void run(() => removeIntake(row.id))} className="min-h-[52px] flex-1 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[15px] font-semibold text-alert">
             {t('extras.remove')}

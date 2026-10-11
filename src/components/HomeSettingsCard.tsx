@@ -115,7 +115,7 @@ export function HomeSettingsCard({ household }: { household: Household }) {
           />
         </div>
       </Card>
-      {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
     </div>
   )
 }

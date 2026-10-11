@@ -64,6 +64,7 @@ export default function DishesPage() {
 
   return (
     <main className="flex flex-col gap-3 px-5 pb-8">
+      <h1 className="sr-only">{t('shell.nav.dishes')}</h1>
       <FirstVisitTip id="dishes" />
       <div className="flex items-center gap-2.5 rounded-2xl border border-line-strong bg-surface px-3.5 py-1">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-muted" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -74,6 +75,7 @@ export default function DishesPage() {
           type="search"
           value={filters.query}
           onChange={(e) => setFilters((f) => ({ ...f, query: e.target.value }))}
+          aria-label={t('dishes.searchPlaceholder')}
           placeholder={t('dishes.searchPlaceholder')}
           className="h-[46px] flex-1 border-none bg-transparent text-[15px] outline-none"
         />
@@ -145,6 +147,7 @@ export default function DishesPage() {
 
       <div className="flex flex-wrap gap-2">
         <select
+          aria-label={t('dishes.form.course')}
           value={filters.course}
           onChange={(e) => setFilters((f) => ({ ...f, course: e.target.value as DishFilters['course'] }))}
           className="h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]"
@@ -154,6 +157,7 @@ export default function DishesPage() {
           <option value="side">{t('dishes.filters.courseSide')}</option>
         </select>
         <select
+          aria-label={t('dishes.form.diet')}
           value={filters.diet}
           onChange={(e) => setFilters((f) => ({ ...f, diet: e.target.value as DishFilters['diet'] }))}
           className="h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]"
@@ -164,6 +168,7 @@ export default function DishesPage() {
           <option value="non_veg">{t('dishes.filters.dietNonVeg')}</option>
         </select>
         <select
+          aria-label={t('dishes.form.mealTypes')}
           value={filters.mealType}
           onChange={(e) => setFilters((f) => ({ ...f, mealType: e.target.value as DishFilters['mealType'] }))}
           className="h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]"
