@@ -12,6 +12,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from south_indian_data import rows as south_rows  # noqa: E402
 from nutrition_data import N  # noqa: E402
 from recipes_data import R as RECIPES_0011  # noqa: E402
+from common_foods_data import rows as common_food_rows  # noqa: E402
 
 root = pathlib.Path(__file__).parent.parent
 SI = '00000000-0000-4000-8000-000000000002'
@@ -123,7 +124,11 @@ for band, bysex in ENERGY.items():
             targets.append(dict(age_band=band, sex=sex, activity=activity, kcal=kcal, protein_g=PROTEIN[band][sex], carbs_g=round(kcal * 0.55 / 4), fat_g=round(kcal * 0.25 / 9),
                                 fibre_g=FIBRE[band], sodium_mg=SODIUM[band], sugar_g=round(kcal * 0.10 / 4), source='Rounded from ICMR-NIN 2020, Nutrient Requirements for Indians.'))
 
+common_foods = [dict(id='food-' + re.sub(r'[^a-z0-9]+', '-', r['name_en'].lower()).strip('-'), name_en=r['name_en'], name_ta=r['name_ta'], category=r['category'], unit=r['unit'],
+                     grams_per_unit=r['grams'], default_quantity=r['usual'], kcal=r['kcal'], protein_g=r['protein'], carbs_g=r['carbs'], fat_g=r['fat'], fibre_g=r['fibre'],
+                     sugar_g=r['sugar'], sodium_mg=r['sodium'], source='IFCT 2017 and USDA FoodData Central, rounded; an estimate.') for r in common_food_rows()]
+
 dest = root / 'src/demo/catalogue.json'
 dest.parent.mkdir(parents=True, exist_ok=True)
-dest.write_text(json.dumps(dict(cuisines=cuisines, dishes=out_dishes, nutrition=out_nutrition, recipes=out_recipes, targets=targets), ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+dest.write_text(json.dumps(dict(cuisines=cuisines, dishes=out_dishes, nutrition=out_nutrition, recipes=out_recipes, targets=targets, commonFoods=common_foods), ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 print('%d dishes (%d with photos), %d recipes, %d bytes' % (len(out_dishes), sum(1 for d in out_dishes if d['photo']), len(out_recipes), dest.stat().st_size))

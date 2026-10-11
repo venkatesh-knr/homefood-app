@@ -10,6 +10,7 @@ export type Catalogue = {
   nutrition: { dish_id: string; serving: string; kcal: number; protein_g: number; carbs_g: number; fat_g: number; fibre_g: number; sugar_g: number; sodium_mg: number }[]
   recipes: { dish_id: string; servings: number; prep: number; cook: number; note: string | null; note_ta: string | null; ingredients: { n: string; t: string; q: number | null; u: string }[]; steps: { e: string; t: string }[] }[]
   targets: Row[]
+  commonFoods: Row[]
 }
 
 /** Wording that depends on the language the demo was opened in (the family's names stay as they are). */
@@ -87,6 +88,7 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   }
   for (const n of cat.nutrition) put('dish_nutrition', { ...n, is_estimate: true, source: 'Estimate for a typical home recipe and portion.' })
   put('nutrition_targets', ...cat.targets)
+  put('common_foods', ...cat.commonFoods)
   for (const r of cat.recipes) {
     const id = `recipe-${r.dish_id}`
     put('recipes', { id, dish_id: r.dish_id, household_id: null, servings: r.servings, prep_minutes: r.prep, cook_minutes: r.cook, credit: null, note: r.note, note_ta: r.note_ta, created_at: created })
@@ -165,6 +167,32 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   comment(sat, 'dinner', DEMO_IDS.kavi, text.comments.kaviBiryani, 550, 5)
 
   put('meal_slot_suggestions', { id: 'suggestion-1', slot_id: slotId(today, 'dinner'), profile_id: DEMO_IDS.kavi, dish_id: dishId('Margherita pizza'), free_text: null, status: 'open', created_at: minutesAgo(now, 155), resolved_at: null })
+
+  // ── a few personal extras (private: only Appa and Kavi can see their own; the Admin cannot) ──
+  const food = (name: string) => {
+    const f = cat.commonFoods.find((c) => c.name_en === name)
+    if (!f) throw new Error(`demo: food "${name}" is not in the demo catalogue`)
+    return f
+  }
+  const yesterdayIso = addDays(today, -1)
+  const extra = (n: number, who: string, date: string, time: string, name: string, quantity: number) => {
+    const f = food(name)
+    const q = (v: number) => Math.round(v * quantity * 10) / 10
+    put('personal_intake', {
+      id: `intake-${n}`, household_id: DEMO_HOUSEHOLD_ID, profile_id: who, eaten_on: date, eaten_at: time, common_food_id: f.id, custom_food_id: null, dish_id: null, food_name: f.name_en,
+      quantity, unit: f.unit, kcal: q(f.kcal), protein_g: q(f.protein_g), carbs_g: q(f.carbs_g), fat_g: q(f.fat_g), fibre_g: q(f.fibre_g), sugar_g: q(f.sugar_g), sodium_mg: Math.round(f.sodium_mg * quantity),
+      created_by: who, created_at: minutesAgo(now, 60),
+    })
+  }
+  extra(1, DEMO_IDS.kavi, today, '07:10', 'Boiled egg', 2)
+  extra(2, DEMO_IDS.kavi, today, '16:40', 'Banana', 1)
+  extra(3, DEMO_IDS.kavi, yesterdayIso, '17:00', 'Protein shake (whey in toned milk)', 1)
+  extra(4, DEMO_IDS.kavi, yesterdayIso, '11:00', 'Almonds', 10)
+  extra(5, DEMO_IDS.appa, today, '10:30', 'Tea with milk and sugar', 1)
+  extra(6, DEMO_IDS.appa, today, '10:35', 'Marie biscuits', 2)
+  extra(7, DEMO_IDS.appa, yesterdayIso, '16:00', 'Peanuts, roasted', 1)
+  put('personal_usuals', { id: 'usual-1', household_id: DEMO_HOUSEHOLD_ID, profile_id: DEMO_IDS.kavi, common_food_id: food('Boiled egg').id, custom_food_id: null, dish_id: null, created_at: created })
+  put('personal_goals', { profile_id: DEMO_IDS.kavi, household_id: DEMO_HOUSEHOLD_ID, protein_goal_g: 60, kcal_goal: null, updated_at: created })
 
   // ── the bell ──
   const tonight = WEEK[weekStartIndex(now)]!.dinner

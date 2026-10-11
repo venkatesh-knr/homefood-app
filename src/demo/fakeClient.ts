@@ -4,6 +4,7 @@
 // against made-up data. Nothing here touches the network or any storage: the data lives in one object that is thrown
 // away when the demo closes.
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { DEMO_USER_IDS, getDemoState } from './demoState'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type Row = Record<string, any>
@@ -89,6 +90,20 @@ const DEFAULTS: Record<string, () => Row> = {
 }
 
 const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications'])
+
+/** Tables whose rows are private to one person (migration 0029): their own login, or the Admin for family members with no login. */
+const PERSONAL_TABLES = new Set(['personal_intake', 'personal_usuals', 'personal_goals'])
+
+function viewerProfile(db: Db): Row | undefined {
+  return (db.profiles ?? []).find((p) => p.user_id === DEMO_USER_IDS[getDemoState().role])
+}
+
+function canManagePersonal(db: Db, profileId: string): boolean {
+  const viewer = viewerProfile(db)
+  const p = (db.profiles ?? []).find((x) => x.id === profileId)
+  if (!viewer || !p || p.kind !== 'family') return false
+  return p.user_id === viewer.user_id || (p.can_login === false && viewer.role === 'admin' && p.household_id === viewer.household_id)
+}
 
 const NOT_IN_DEMO = 'This is not available in the demo.'
 
@@ -230,6 +245,11 @@ class Query implements PromiseLike<Result> {
   }
 
   // ── execution ──
+  /** The privacy rule: other people's personal rows are invisible and untouchable. */
+  private allowed(r: Row): boolean {
+    return !PERSONAL_TABLES.has(this.table) || canManagePersonal(this.db, r.profile_id)
+  }
+
   private rows(): Row[] {
     return (this.db[this.table] ??= [])
   }
@@ -299,6 +319,7 @@ class Query implements PromiseLike<Result> {
       for (const input of list) {
         const row: Row = { ...(DEFAULTS[this.table]?.() ?? {}), ...input }
         if (HAS_ID.has(this.table) && row.id == null) row.id = crypto.randomUUID()
+        if (PERSONAL_TABLES.has(this.table) && !canManagePersonal(this.db, row.profile_id)) return fail('new row violates row-level security policy', '42501')
         const hit = this.op === 'upsert' ? this.upsertTarget(row) : this.conflict(row)
         if (hit && this.op === 'insert') return fail(`duplicate key value violates unique constraint on ${this.table}`, '23505')
         if (hit) {
@@ -310,7 +331,7 @@ class Query implements PromiseLike<Result> {
         }
       }
     } else if (this.op === 'update') {
-      affected = this.rows().filter((r) => this.matches(r, node))
+      affected = this.rows().filter((r) => this.allowed(r) && this.matches(r, node))
       for (const r of affected) {
         const next = { ...r, ...(this.payload as Row) }
         const hit = this.conflict(next, r)
@@ -318,7 +339,7 @@ class Query implements PromiseLike<Result> {
         Object.assign(r, this.payload)
       }
     } else if (this.op === 'delete') {
-      affected = this.rows().filter((r) => this.matches(r, node))
+      affected = this.rows().filter((r) => this.allowed(r) && this.matches(r, node))
       const refusal = DELETE_GUARDS[this.table]?.(this.db, affected)
       if (refusal) return fail(refusal, 'P0001')
       this.db[this.table] = this.rows().filter((r) => !affected.includes(r))
@@ -326,6 +347,7 @@ class Query implements PromiseLike<Result> {
     } else {
       const working: { row: Row; full: Row }[] = []
       for (const r of this.rows()) {
+        if (!this.allowed(r)) continue
         const full = this.expand(this.table, r, node)
         if (full && this.preds.every((p) => p(full))) working.push({ row: r, full })
       }
@@ -382,11 +404,32 @@ function saveHouseholdRecipe(db: Db, a: Row): Result {
   return { data: recipe.id, error: null, count: null }
 }
 
+/** The demo's version of `family_extras_totals`: each family member's daily SUMS of extras, never the items; for the Admin or whoever plans today. */
+function familyExtrasTotals(db: Db, a: Row): Result {
+  const viewer = viewerProfile(db)
+  const today = new Date().toISOString().slice(0, 10)
+  const planner = (db.planner_turns ?? []).some((t) => t.profile_id === viewer?.id && t.status === 'approved' && t.start_date <= today && today <= t.end_date)
+  if (!viewer || (viewer.role !== 'admin' && !planner)) return fail("Only an Admin or today's Planner can see the family's totals", 'P0001')
+  const sums = new Map<string, Row>()
+  for (const i of db.personal_intake ?? []) {
+    const p = (db.profiles ?? []).find((x) => x.id === i.profile_id)
+    if (!p || p.kind !== 'family' || i.eaten_on < a.p_from || i.eaten_on > a.p_to) continue
+    const key = `${i.profile_id}|${i.eaten_on}`
+    const s = sums.get(key) ?? { profile_id: i.profile_id, eaten_on: i.eaten_on, kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0, fibre_g: 0, sugar_g: 0, sodium_mg: 0, items: 0, unknown_items: 0 }
+    for (const k of ['kcal', 'protein_g', 'carbs_g', 'fat_g', 'fibre_g', 'sugar_g', 'sodium_mg']) s[k] += Number(i[k] ?? 0)
+    s.items += 1
+    if (i.kcal == null) s.unknown_items += 1
+    sums.set(key, s)
+  }
+  return { data: [...sums.values()], error: null, count: null }
+}
+
 /** A Supabase-shaped client over one in-memory database. */
 export function createDemoClient(db: Db): SupabaseClient {
   const client = {
     from: (table: string) => new Query(db, table),
-    rpc: async (name: string, args: Row = {}): Promise<Result> => (name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : fail(NOT_IN_DEMO)),
+    rpc: async (name: string, args: Row = {}): Promise<Result> =>
+      name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : name === 'family_extras_totals' ? familyExtrasTotals(db, args) : fail(NOT_IN_DEMO),
     storage: {
       from: () => ({
         createSignedUrl: async (path: string) => ({ data: { signedUrl: path }, error: null }),

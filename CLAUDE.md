@@ -171,6 +171,7 @@ src/lib/plannerQueries.ts react-query reads: useWeekPlan, useWeekSlots (one call
 src/lib/history.ts      History screen helpers: rangeBounds/shiftAnchor (week·month·year), summariseHistory, topEntries (+ tests)
 src/lib/discussion.ts   vote/comment helpers: tallyVotes, agreeShare, nextVote, countsBySlot, formatCommentTime (+ tests)
 src/lib/discussionQueries.ts / discussionMutations.ts  votes, comments, suggestions (counts are fetched apart from slots and fail quietly)
+src/lib/intake.ts       My extras logic (units, nutrition of an amount, day totals, goals, search) (+ tests); intakeQueries.ts / intakeMutations.ts; useExtrasPeople.ts
 src/lib/recipes.ts      recipe scaling/formatting helpers (+ tests); recipeQueries.ts: useRecipe, useRecipeDishIds
 src/lib/notifications.ts / notificationQueries.ts  bell: targets, wording helpers (+ tests), polling reads, mark read
 src/lib/nutrition.ts    per-meal/day totals, daily targets, summarisePeriod tips, familyNotes (+ tests); nutritionQueries.ts reads
@@ -408,6 +409,18 @@ Done:
   Discussion, Home), dismissed with "Got it", never shown again on that device (`lib/tips.ts`, localStorage `homefood.tip.<id>`; `components/FirstVisitTip.tsx`, `role="note"`, in the page
   flow, never an overlay; focus moves to the page when it goes). Home tab → Tips → "Show tips again" (`TipsCard`) brings them all back. In the demo home tips live in memory only and
   start unseen. Add a tip: a `TipId` in `lib/tips.ts`, `tips.<id>` in en/ta, `<FirstVisitTip id="…" />` on the screen.
+- **My extras** (11–12 Oct 2026, migrations 0029 + 0030, both applied): a personal food log so each person's nutrition includes what they eat outside the planned meals. **Decisions
+  (do not change without asking):** a person's items are PRIVATE to them (own login only); the Admin can log for and see only family members with NO login (`can_login = false`: Paati, children),
+  never the helper and never a member who has a login; Family nutrition (Admin / today's Planner) gets only per-person DAILY TOTALS from the `family_extras_totals` function, never items, and compares
+  against the standard ICMR-NIN target (goals are private); optional personal protein / calorie goals (`personal_goals`, same privacy, no body weight stored); supplements are not a category
+  (protein powder is a food); tea and coffee are foods; no water tracking; extras never appear in History, the planner, the poster or notifications; gentle tone, no streaks or "too much" warnings.
+  **Tables:** `common_foods` (82 shared foods, per-unit nutrition, Tamil names; data in `scripts/common_foods_data.py`, regenerate 0030 with `gen-common-foods.py`, which checks calories against macros),
+  `custom_foods` (the home's own, "Something else…"), `personal_intake` (one row per item with a SNAPSHOT of the nutrition, so correcting a food never changes a past day; today and up to 7 days back),
+  `personal_usuals` (the ⭐), `personal_goals`. **Code:** `lib/intake.ts` (pure logic + tests: units/steps, nutrition for an amount, unknown stays unknown, day totals, meals+extras merge, same-as-yesterday,
+  recent, English/Tamil search, goal choice, progress), `intakeQueries.ts` / `intakeMutations.ts` (fail quietly before the migrations), `AddFoodSheet`, `ExtrasSection` (Today tab, with the Admin's person
+  switcher via `useExtrasPeople`), `ProteinCard` (Today and My nutrition), `MyGoalsCard` (Home tab), My nutrition shows "meals X + extras Y kcal" per day, Family nutrition adds the totals + a note.
+  The demo home gives Kavi and Appa a few private extras; its fake client enforces the same privacy (`PERSONAL_TABLES`) and has `family_extras_totals`. Not built: editing the time of a logged item,
+  logging more than 7 days back, extras in the data export (comes with the privacy controls, still to do).
 
 Deferred, flagged rather than attempted half-done:
 - **Welcome tour.** A guided first-visit walkthrough is real UX design work (what gets highlighted, in what order, for
