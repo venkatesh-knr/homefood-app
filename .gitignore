@@ -28,3 +28,7 @@ dist-ssr
 .env.*
 !.env.example
 dev-dist
+
+# Python bytecode from the scripts/ generators
+__pycache__/
+*.pyc

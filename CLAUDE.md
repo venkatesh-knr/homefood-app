@@ -339,13 +339,12 @@ Save as image / Print / Share and the prev/next week-browsing arrows haven't spe
 Trims, flagged rather than silently done:
 - **Today has votes, comments and the notification bell** (in the app header, as `Today.png`); Today's 5-tab nav still isn't adopted.
 - **"You ate this" is built as attendance (migration 0019)**, not as `meal_slots.status`: each person (or the Admin for them) records a normal /
-  small / large portion, skipped or ate elsewhere, from the Today cards. Parked: marking past days (only Today shows the control), a review
-  screen, and using attendance in History's counts.
-- **History screen exists, but is "planned up to today", not "actually eaten".** Home tab → "Meal history" (`HistoryPage`, `/history`,
-  `lib/history.ts`): Week / Month / Year with prev/next (never into the future), counts (meals, home / dine-out / order-in, most
-  cooked dishes, who cooked), a search box, and the meals grouped by day (tap one to open it). Nothing marks a meal "done"
-  yet, so every planned slot up to today counts. **No "cook this again" button** (needs a design call on which day it lands
-  on) and no counts by cuisine yet — both left for later. No new tab (still 4).
+  small / large portion, skipped or ate elsewhere, from the Today cards **and, since 12 Oct 2026, from any past meal on the History screen** (the database already allowed any
+  day up to today). Parked: a review screen.
+- **History screen** (Home tab → "Meal history", `HistoryPage`, `/history`, `lib/history.ts`): Week / Month / Year with prev/next (never into the future), counts (meals, home /
+  dine-out / order-in, most cooked dishes, **by cuisine**, who cooked, **meals each person ate**), a search box, and the meals grouped by day (tap one to open it), each with the
+  "Did you eat this?" control. **Eaten counts come from attendance where recorded and fall back to the plan** (`summariseHistory(slots, attendance)`): a person's meal counts unless they
+  skipped it or ate elsewhere; a meal counts as eaten unless everyone marked as eating it skipped it. The header says how many meals have anything recorded. No new tab (still 4).
 - **Today's 5-tab nav** (`Today.png`: Today/Week/Dishes/Health/Family) **wasn't adopted** — kept the 4-tab shell from
   Step 2 (Today/Week/Dishes/Home). No Health tab exists in this build plan.
 

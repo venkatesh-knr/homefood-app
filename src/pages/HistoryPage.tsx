@@ -9,6 +9,10 @@ import { MEAL_TYPES, toISODate, type MealType } from '../lib/planner'
 import { Card, Pill } from '../components/ui'
 import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
+import { useAttendance } from '../lib/attendanceQueries'
+import { useCuisines } from '../lib/dishQueries'
+import { cuisineLabel } from '../lib/dishes'
+import { AttendanceControl } from '../components/AttendanceControl'
 
 const MEAL_BAND: Record<MealType, string> = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }
 const KINDS: HistoryRangeKind[] = ['week', 'month', 'year']
@@ -35,6 +39,9 @@ export default function HistoryPage() {
   // Only meals up to today are history; a still-open current period just ends today.
   const to = bounds.to < today ? bounds.to : today
   const { data, isLoading } = useHistorySlots(household.id, bounds.from, to)
+  const { data: attendanceData } = useAttendance(bounds.from, to)
+  const attendance = useMemo(() => attendanceData ?? [], [attendanceData])
+  const { data: cuisines } = useCuisines()
   const canGoNext = rangeBounds(kind, shiftAnchor(kind, anchor, 1), household.week_start).from <= today
 
   const locale = lang === 'ta' ? 'ta-IN' : 'en-IN'
@@ -51,7 +58,14 @@ export default function HistoryPage() {
 
   // A slot only counts once it actually has something in it.
   const slots = useMemo(() => (data ?? []).filter((s) => s.main_dish || s.place_name), [data])
-  const summary = useMemo(() => summariseHistory(slots.map((s) => ({ source: s.source, main_dish_id: s.main_dish_id, meal_slot_cooks: s.meal_slot_cooks }))), [slots])
+  const summary = useMemo(
+    () =>
+      summariseHistory(
+        slots.map((s) => ({ id: s.id, source: s.source, main_dish_id: s.main_dish_id, main_dish: s.main_dish ? { cuisine_id: s.main_dish.cuisine_id } : null, meal_slot_cooks: s.meal_slot_cooks, meal_slot_eaters: s.meal_slot_eaters })),
+        attendance,
+      ),
+    [slots, attendance],
+  )
 
   const dishById = useMemo(() => {
     const map = new Map<string, SlotDish>()
@@ -60,6 +74,12 @@ export default function HistoryPage() {
   }, [slots])
   const topDishes = topEntries(summary.dishCounts, 3)
   const topCooks = topEntries(summary.cookCounts, 3)
+  const topAte = topEntries(summary.ateCounts, 6)
+  const topCuisines = topEntries(summary.cuisineCounts, 5)
+  const cuisineName = (id: string) => {
+    const c = cuisines?.find((x) => x.id === id)
+    return c ? cuisineLabel(c, lang) : ''
+  }
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -141,6 +161,9 @@ export default function HistoryPage() {
               <Pill>{t('planner.source.dineOut')} · {summary.bySource.dine_out}</Pill>
               <Pill>{t('planner.source.orderIn')} · {summary.bySource.order_in}</Pill>
             </div>
+            <p className="text-[12.5px] text-ink-soft">
+              {summary.recordedMeals > 0 ? t('history.eatenOf', { eaten: summary.eatenMeals, total: summary.total, recorded: summary.recordedMeals }) : t('history.noRecords')}
+            </p>
             {topDishes.length > 0 && (
               <div className="flex flex-col gap-1">
                 <span className="text-[12px] font-semibold uppercase tracking-wide text-muted">{t('history.topDishes')}</span>
@@ -148,6 +171,28 @@ export default function HistoryPage() {
                   <div key={id} className="flex justify-between text-[14px]">
                     <span>{dishById.get(id) ? dishNames(dishById.get(id)!, lang).shown : ''}</span>
                     <span className="text-muted">{t('history.times', { count: n })}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {topCuisines.length > 0 && (
+              <div className="flex flex-col gap-1">
+                <span className="text-[12px] font-semibold uppercase tracking-wide text-muted">{t('history.byCuisine')}</span>
+                {topCuisines.map(([id, n]) => (
+                  <div key={id} className="flex justify-between text-[14px]">
+                    <span>{cuisineName(id)}</span>
+                    <span className="text-muted">{t('history.times', { count: n })}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {topAte.length > 0 && (
+              <div className="flex flex-col gap-1">
+                <span className="text-[12px] font-semibold uppercase tracking-wide text-muted">{t('history.whoAte')}</span>
+                {topAte.map(([id, n]) => (
+                  <div key={id} className="flex justify-between text-[14px]">
+                    <span>{memberName.get(id) ?? ''}</span>
+                    <span className="text-muted">{t(n === 1 ? 'history.mealsOne' : 'history.mealsOther', { count: n })}</span>
                   </div>
                 ))}
               </div>
@@ -186,25 +231,23 @@ export default function HistoryPage() {
                   const sides = s.meal_slot_sides.sort((a, b) => a.position - b.position).map((x) => dishNames(x.dish, lang).shown)
                   const cooks = s.meal_slot_cooks.map((c) => memberName.get(c.profile_id)).filter(Boolean)
                   return (
-                    <button
-                      key={s.id}
-                      type="button"
-                      onClick={() => navigate(`/week/${s.date}/${s.meal}`)}
-                      className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-3 text-left"
-                    >
-                      {s.main_dish ? (
-                        <DishThumb name={main ?? ''} tone={s.meal.length} photoPath={photoFor(s.main_dish)} size={44} ring={MEAL_BAND[s.meal]} />
-                      ) : (
-                        <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: MEAL_BAND[s.meal] }} aria-hidden="true" />
-                      )}
-                      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                        <span className="text-[12px] font-semibold uppercase tracking-wide text-muted">{t(`meal.${s.meal}`)}</span>
-                        <span className="text-[15px] font-semibold">{main}</span>
-                        {sides.length > 0 && <span className="text-[13px] text-muted">+ {sides.join(', ')}</span>}
-                        {cooks.length > 0 && <span className="text-[12.5px] text-ink-soft">{t('history.cookedBy', { names: cooks.join(' + ') })}</span>}
-                      </span>
-                      {s.source !== 'home' && <Pill>{t(s.source === 'dine_out' ? 'planner.source.dineOut' : 'planner.source.orderIn')}</Pill>}
-                    </button>
+                    <div key={s.id} className="flex flex-col gap-2 rounded-2xl border border-line bg-surface p-3">
+                      <button type="button" onClick={() => navigate(`/week/${s.date}/${s.meal}`)} className="flex items-start gap-3 text-left">
+                        {s.main_dish ? (
+                          <DishThumb name={main ?? ''} tone={s.meal.length} photoPath={photoFor(s.main_dish)} size={44} ring={MEAL_BAND[s.meal]} />
+                        ) : (
+                          <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: MEAL_BAND[s.meal] }} aria-hidden="true" />
+                        )}
+                        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                          <span className="text-[12px] font-semibold uppercase tracking-wide text-muted">{t(`meal.${s.meal}`)}</span>
+                          <span className="text-[15px] font-semibold">{main}</span>
+                          {sides.length > 0 && <span className="text-[13px] text-muted">+ {sides.join(', ')}</span>}
+                          {cooks.length > 0 && <span className="text-[12.5px] text-ink-soft">{t('history.cookedBy', { names: cooks.join(' + ') })}</span>}
+                        </span>
+                        {s.source !== 'home' && <Pill>{t(s.source === 'dine_out' ? 'planner.source.dineOut' : 'planner.source.orderIn')}</Pill>}
+                      </button>
+                      <AttendanceControl slot={s} rows={attendance} />
+                    </div>
                   )
                 })}
               </section>
