@@ -18,6 +18,20 @@ export async function addCuisine(householdId: string, name: string, nameTa: stri
   await queryClient.invalidateQueries({ queryKey: ['cuisines'] })
 }
 
+/** Renames one of this home's own cuisines (the shared ones cannot be changed). */
+export async function renameCuisine(cuisineId: string, name: string, nameTa: string): Promise<void> {
+  const { error } = await client().from('cuisines').update({ name: name.trim(), name_ta: nameTa.trim() || null }).eq('id', cuisineId)
+  if (error) throw error
+  await queryClient.invalidateQueries({ queryKey: ['cuisines'] })
+}
+
+/** Deletes one of this home's own cuisines; the database refuses while any dish still uses it (migration 0027). */
+export async function deleteCuisine(cuisineId: string): Promise<void> {
+  const { error } = await client().from('cuisines').delete().eq('id', cuisineId)
+  if (error) throw error
+  await queryClient.invalidateQueries({ queryKey: ['cuisines'] })
+}
+
 export type DishInput = {
   name_en: string
   name_ta: string

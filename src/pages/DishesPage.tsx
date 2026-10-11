@@ -19,6 +19,7 @@ import { useDishUsage, useFavourites } from '../lib/favouriteQueries'
 import { orderDishes } from '../lib/favourites'
 import { HeartIcon } from '../components/icons'
 import { AddCuisine } from '../components/AddCuisine'
+import { MyCuisines } from '../components/MyCuisines'
 
 export default function DishesPage() {
   const { t, i18n } = useTranslation()
@@ -135,7 +136,12 @@ export default function DishesPage() {
         })}
       </div>
 
-      {profile.role === 'admin' && <AddCuisine householdId={household.id} />}
+      {profile.role === 'admin' && (
+        <div className="flex flex-wrap items-start gap-2">
+          <AddCuisine householdId={household.id} />
+          <MyCuisines householdId={household.id} />
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-2">
         <select

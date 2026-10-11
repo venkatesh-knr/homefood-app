@@ -170,6 +170,20 @@ describe('fake client', () => {
     expect((await client.rpc('save_household_recipe', { p_dish: 'dish-idli', p_ingredients: [], p_steps: [] })).error).not.toBeNull()
   })
 
+  it('renames an own cuisine and refuses to delete one while dishes use it', async () => {
+    const { client } = fresh()
+    const made = await client.from('cuisines').insert({ household_id: DEMO_HOUSEHOLD_ID, name: 'Family classics' }).select('id').single()
+    const id = made.data!.id as string
+    await client.from('cuisines').update({ name: 'Our classics', name_ta: null }).eq('id', id)
+    expect((await client.from('cuisines').select('name').eq('id', id).single()).data).toEqual({ name: 'Our classics' })
+    await client.from('dishes').update({ cuisine_id: id }).eq('id', 'dish-idli')
+    const refused = await client.from('cuisines').delete().eq('id', id)
+    expect(refused.error?.message).toMatch(/still has dishes/i)
+    expect((await client.from('dishes').select('cuisine_id').eq('id', 'dish-idli').single()).data).toEqual({ cuisine_id: id })
+    await client.from('dishes').update({ cuisine_id: null }).eq('id', 'dish-idli')
+    expect((await client.from('cuisines').delete().eq('id', id)).error).toBeNull()
+  })
+
   it('says plainly that things that need a server are not in the demo', async () => {
     const { client } = fresh()
     const res = await client.rpc('create_household', {})

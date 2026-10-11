@@ -765,5 +765,18 @@
   },
   "outsideNutrition": {
     "note": "A dine-out or order-in meal is counted only if you said how big it was (light, normal or heavy), as a rough estimate."
+  },
+  "cuisines": {
+    "manage": "Manage my cuisines",
+    "hint": "These are the cuisines your home added. The shared cuisines cannot be changed.",
+    "rename": "Rename",
+    "delete": "Delete",
+    "unused": "No dishes yet",
+    "usedOne": "{{count}} dish",
+    "usedOther": "{{count}} dishes",
+    "inUse": "It cannot be deleted while dishes use it. Change or remove its {{count}} dishes first.",
+    "confirm": "Delete {{name}}?",
+    "confirmYes": "Yes, delete it",
+    "confirmNo": "Keep it"
   }
 }

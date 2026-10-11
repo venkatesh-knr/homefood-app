@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  countDishesByCuisine,
   DEFAULT_DISH_FILTERS,
   assignableCuisines,
   cuisineLabel,
@@ -130,5 +131,14 @@ describe('passesFilters', () => {
     const f = { ...DEFAULT_DISH_FILTERS, safeOnly: true }
     expect(passesFilters(dish({ allergens: ['soy'] }), f, HH, ['soy'])).toBe(false)
     expect(passesFilters(dish({ allergens: [] }), f, HH, ['soy'])).toBe(true)
+  })
+})
+
+describe('countDishesByCuisine', () => {
+  it('counts dishes per cuisine and ignores dishes with none', () => {
+    const counts = countDishesByCuisine([{ cuisine_id: 'a' }, { cuisine_id: 'a' }, { cuisine_id: 'b' }, { cuisine_id: null }])
+    expect(counts.get('a')).toBe(2)
+    expect(counts.get('b')).toBe(1)
+    expect(counts.size).toBe(2)
   })
 })

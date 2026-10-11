@@ -113,3 +113,10 @@ export function passesFilters(
   if (filters.safeOnly && dishConflictsWith(dish, householdAllergens)) return false
   return true
 }
+
+/** How many dishes use each cuisine, by cuisine id (dishes with no cuisine are not counted). */
+export function countDishesByCuisine(dishes: { cuisine_id: string | null }[]): Map<string, number> {
+  const out = new Map<string, number>()
+  for (const d of dishes) if (d.cuisine_id) out.set(d.cuisine_id, (out.get(d.cuisine_id) ?? 0) + 1)
+  return out
+}

@@ -34,4 +34,5 @@ psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0023_week_start_choic
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0024_weekly_balance.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0025_recipe_edit.sql
 psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0026_own_dish_nutrition_and_meals_out.sql
+psql -q -v ON_ERROR_STOP=1 -d "$DB" -f supabase/migrations/0027_cuisine_in_use_guard.sql
 psql -v ON_ERROR_STOP=1 -o /dev/null -d "$DB" -f supabase/tests/rls_test.sql 2>&1 | sed -E "s/^psql:[^ ]+ NOTICE:  //"

@@ -328,6 +328,26 @@ update public.meal_slots set source = 'home', outside_meal_size = null where id 
 select tests.ok((select source = 'home' and outside_meal_size is null from public.meal_slots where id = :'out_slot'), 'clearing the size and switching to home works together');
 select tests.refused($$ update public.meal_slots set outside_meal_size = 'light' where id = '$$ || :'out_slot' || $$' $$, 'a home-cooked meal has no meal-out size');
 
+-- ── Cuisines: rename and delete (0027) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.cuisines (household_id, name) values (:'hh_a', 'Family classics') returning id as cz \gset
+update public.cuisines set name = 'Our classics', name_ta = 'எங்கள் உணவுகள்' where id = :'cz';
+select tests.ok((select name = 'Our classics' and name_ta = 'எங்கள் உணவுகள்' from public.cuisines where id = :'cz'), 'the Admin can rename her home''s own cuisine');
+insert into public.dishes (household_id, name, created_by, meal_types, cuisine_id) values (:'hh_a', 'Amma''s kootu', public.my_profile_id(), '{lunch}', :'cz') returning id as cz_dish \gset
+select tests.refused($$ delete from public.cuisines where id = '$$ || :'cz' || $$' $$, 'a cuisine with dishes cannot be deleted');
+select tests.ok((select cuisine_id = :'cz' from public.dishes where id = :'cz_dish'), 'and its dishes keep their cuisine');
+select tests.refused($$ update public.cuisines set name = 'Hacked' where household_id is null $$, 'the shared cuisines cannot be renamed');
+select tests.refused($$ delete from public.cuisines where household_id is null $$, 'the shared cuisines cannot be deleted');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ update public.cuisines set name = 'Mine now' where id = '$$ || :'cz' || $$' $$, 'a member cannot rename the home''s cuisine');
+select tests.refused($$ delete from public.cuisines where id = '$$ || :'cz' || $$' $$, 'a member cannot delete the home''s cuisine');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.refused($$ delete from public.cuisines where id = '$$ || :'cz' || $$' $$, 'another home cannot delete it either');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.dishes where id = :'cz_dish';
+delete from public.cuisines where id = :'cz';
+select tests.ok(not exists (select 1 from public.cuisines where id = :'cz'), 'once no dish uses it, the cuisine can be deleted');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

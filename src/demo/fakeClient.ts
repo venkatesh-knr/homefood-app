@@ -63,6 +63,11 @@ const SET_NULL: Record<string, [string, string][]> = {
 
 const nowIso = () => new Date().toISOString()
 
+/** Rules the real database refuses a delete for (migration 0027), so the demo says no in the same way. */
+const DELETE_GUARDS: Record<string, (db: Db, rows: Row[]) => string | null> = {
+  cuisines: (db, rows) => (rows.some((c) => (db.dishes ?? []).some((d) => same(d.cuisine_id, c.id))) ? 'This cuisine still has dishes. Change or remove them first.' : null),
+}
+
 const DEFAULTS: Record<string, () => Row> = {
   week_plans: () => ({ status: 'draft', published_at: null }),
   meal_slots: () => ({ source: 'home', place_name: null, main_dish_id: null, note: null, status: 'proposed', kept_despite_disagree: false, updated_at: nowIso() }),
@@ -310,6 +315,8 @@ class Query implements PromiseLike<Result> {
       }
     } else if (this.op === 'delete') {
       affected = this.rows().filter((r) => this.matches(r, node))
+      const refusal = DELETE_GUARDS[this.table]?.(this.db, affected)
+      if (refusal) return fail(refusal, 'P0001')
       this.db[this.table] = this.rows().filter((r) => !affected.includes(r))
       this.cascade(this.table, affected)
     } else {
