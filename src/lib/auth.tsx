@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     async signOut() {
       if (isDemoActive()) return stopDemo()
-      await supabase?.auth.signOut()
+      await supabase?.auth.signOut({ scope: 'local' }) // this device only; "Sign out on all devices" is on the Home tab
     },
   }
 

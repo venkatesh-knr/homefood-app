@@ -67,7 +67,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 - Migrations in `supabase/migrations/`. **0001–0030 are applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0031_….sql`) for the next change. 0029 (My extras tables, rules and family-totals function) and 0030 (82 shared everyday foods) were run on 11 Oct 2026, as were 0024–0028 (weekly balance, recipe edit, own-dish nutrition and meals out, cuisine guard, six photos). Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0032_….sql`) for the next change. **0031 (privacy controls: download my data, delete my account, delete household) is written but NOT yet run: Venkatesh must run it.** 0029 (My extras tables, rules and family-totals function) and 0030 (82 shared everyday foods) were run on 11 Oct 2026, as were 0024–0028 (weekly balance, recipe edit, own-dish nutrition and meals out, cuisine guard, six photos). Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -138,7 +138,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 168 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 221 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -421,6 +421,11 @@ Done:
   switcher via `useExtrasPeople`), `ProteinCard` (Today and My nutrition), `MyGoalsCard` (Home tab), My nutrition shows "meals X + extras Y kcal" per day, Family nutrition adds the totals + a note.
   The demo home gives Kavi and Appa a few private extras; its fake client enforces the same privacy (`PERSONAL_TABLES`) and has `family_extras_totals`. Not built: editing the time of a logged item,
   logging more than 7 days back, extras in the data export (comes with the privacy controls, still to do).
+- **Your data and account** (12 Oct 2026, migration 0031): Home tab → `AccountCard` (hidden in the demo): **Download my data** (`export_my_data()`, JSON of my profile, allergies, goals, extras, usuals,
+  votes, comments, suggestions, attendance, notifications, turns, dishes I added, and my home's plans; runs with my own rights so it can only contain what I can see), **Sign out on all devices**
+  (`signOut({scope:'global'})`; the ordinary Sign out now ends only this device), **Delete my account** (`delete_my_account()`: removes the login and personal rows, my profile stays as "Former member" with no
+  details so past plans and comments keep their history; the last Admin must hand over first), **Delete this household** (Admin; type the exact home name; the app first removes the home's photos from the
+  bucket, then `delete_household(name)` deletes the home and every login of it). Two guards honour a transaction-local flag `homefood.removing` that only these functions set. `lib/account.ts` (+ tests).
 
 Deferred, flagged rather than attempted half-done:
 - **Welcome tour.** A guided first-visit walkthrough is real UX design work (what gets highlighted, in what order, for

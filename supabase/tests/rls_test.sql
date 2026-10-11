@@ -417,6 +417,50 @@ select tests.ok((select protein_g = 6.3 and kcal = 72 and unit = 'piece' from pu
 select tests.ok((select default_quantity = 3 and unit = 'piece' from public.common_foods where name_en = 'Dates'), 'the usual amount of dates is 3');
 select tests.ok(not exists (select 1 from public.common_foods where abs(kcal - (4 * protein_g + 4 * carbs_g + 9 * fat_g)) > greatest(10, 0.15 * kcal) and name_en <> 'Test banana'), 'each food''s calories match its macros');
 
+-- ── Your data and account (0031): a fresh home E with Eve (Admin) and Fay (member) ──
+reset role;
+insert into auth.users (id) values ('eeeeeeee-0000-4000-8000-000000000005'), ('ffffffff-0000-4000-8000-000000000006');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'eeeeeeee-0000-4000-8000-000000000005', false);
+select public.create_household('Home E', 'Eve') as hh_e \gset
+insert into public.profiles (household_id, display_name, can_login) values (:'hh_e', 'Fay', true) returning id as fay \gset
+insert into public.invites (household_id, created_by) values (:'hh_e', public.my_profile_id()) returning token as tok_e \gset
+insert into public.cuisines (household_id, name) values (:'hh_e', 'E cuisine') returning id as cu_e \gset
+insert into public.dishes (household_id, name, created_by, cuisine_id, meal_types) values (:'hh_e', 'E dish', public.my_profile_id(), :'cu_e', '{lunch}');
+select set_config('request.jwt.claim.sub', 'ffffffff-0000-4000-8000-000000000006', false);
+select public.claim_profile(:'tok_e', :'fay') is not null as fay_joined \gset
+insert into public.profile_allergies (profile_id, allergen) values (:'fay', 'peanut');
+insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
+  values (:'hh_e', :'fay', public.kolkata_today(), :'cf', 'Test banana', 1, 'piece', 105, 1.3, public.my_profile_id());
+insert into public.personal_goals (profile_id, household_id, protein_goal_g) values (:'fay', :'hh_e', 55);
+select tests.ok(public.export_my_data() -> 'profile' ->> 'display_name' = 'Fay', 'Fay can download her data, and it is hers');
+select tests.ok(jsonb_array_length(public.export_my_data() -> 'extras') = 1 and public.export_my_data() -> 'allergies' ->> 0 = 'peanut' and (public.export_my_data() -> 'goals' ->> 'protein_goal_g')::int = 55, 'it includes her extras, allergies and goals');
+select tests.ok(jsonb_array_length(public.export_my_data() -> 'people_in_my_home') = 2 and not (public.export_my_data()::text like '%Our Home%'), 'and her own home only, never another home''s data');
+select tests.ok(not (public.export_my_data() ? 'user_id') and not ((public.export_my_data() -> 'profile') ? 'user_id'), 'the login id is not part of the download');
+select set_config('request.jwt.claim.sub', 'eeeeeeee-0000-4000-8000-000000000005', false);
+select tests.refused($$ select public.delete_my_account() $$, 'the last Admin cannot delete her account while she is the only Admin');
+select set_config('request.jwt.claim.sub', 'ffffffff-0000-4000-8000-000000000006', false);
+select public.delete_my_account();
+reset role;
+select tests.ok(not exists (select 1 from auth.users where id = 'ffffffff-0000-4000-8000-000000000006'), 'deleting an account removes the login');
+select tests.ok((select display_name = 'Former member' and user_id is null and birth_year is null and can_login = false and role = 'member' from public.profiles where id = :'fay'), 'the profile stays as "Former member" with no login or personal details');
+select tests.ok(not exists (select 1 from public.personal_intake where profile_id = :'fay') and not exists (select 1 from public.personal_goals where profile_id = :'fay') and not exists (select 1 from public.profile_allergies where profile_id = :'fay'), 'her extras, goals and allergies are gone');
+select tests.ok((select count(*) from public.profiles where household_id = :'hh_e') = 2 and exists (select 1 from auth.users where id = 'eeeeeeee-0000-4000-8000-000000000005'), 'the rest of the home is untouched');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ select public.delete_household('Our Home') $$, 'a member cannot delete the household');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.refused($$ select public.delete_household('Our Home') $$, 'an Admin cannot delete another home by typing its name');
+select set_config('request.jwt.claim.sub', 'eeeeeeee-0000-4000-8000-000000000005', false);
+select tests.refused($$ select public.delete_household('home e') $$, 'the name must be typed exactly');
+select public.delete_household('Home E');
+reset role;
+select tests.ok(not exists (select 1 from public.households where id = :'hh_e') and not exists (select 1 from public.profiles where household_id = :'hh_e') and not exists (select 1 from public.dishes where household_id = :'hh_e') and not exists (select 1 from public.cuisines where household_id = :'hh_e'), 'deleting the household removes everything in it, even a cuisine with dishes');
+select tests.ok(not exists (select 1 from auth.users where id = 'eeeeeeee-0000-4000-8000-000000000005'), 'and the logins that belonged to it');
+select tests.ok((select count(*) from public.profiles where household_id = :'hh_a') >= 4 and exists (select 1 from public.households where id = :'hh_c'), 'other homes are untouched');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

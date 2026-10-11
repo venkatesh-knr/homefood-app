@@ -10,6 +10,7 @@ import { HomeSettingsCard } from '../components/HomeSettingsCard'
 import { AppearanceCard } from '../components/AppearanceCard'
 import { TipsCard } from '../components/TipsCard'
 import { MyGoalsCard } from '../components/MyGoalsCard'
+import { AccountCard } from '../components/AccountCard'
 import { BalanceLimitsCard } from '../components/BalanceLimitsCard'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useCanPlanDate } from '../lib/useCanPlan'
@@ -87,6 +88,8 @@ export default function HomeTabPage() {
           <span aria-hidden="true" className="text-[20px] text-muted">›</span>
         </button>
       )}
+
+      {!demo.active && <AccountCard />}
 
       <Button variant="secondary" className="w-full" onClick={() => void signOut()}>
         {demo.active ? t('demo.start') : t('welcome.signOut')}

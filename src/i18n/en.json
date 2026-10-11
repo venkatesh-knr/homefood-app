@@ -853,5 +853,28 @@
     "toGo": "{{n}} g to go",
     "reached": "Goal reached",
     "mealsAndExtras": "Meals and extras together. An estimate, not medical advice."
+  },
+  "account": {
+    "title": "Your data and account",
+    "download": "Download my data",
+    "downloadHint": "Everything about you and your home's meal plans, as one file.",
+    "downloaded": "Your file has been downloaded.",
+    "signOutAll": "Sign out on all devices",
+    "signOutAllHint": "Ends every session of your login, on every phone and computer.",
+    "signOutAllBody": "You will be signed out here and on every other phone or computer, and asked for a new code the next time you sign in.",
+    "signOutAllYes": "Sign out everywhere",
+    "deleteAccount": "Delete my account",
+    "deleteAccountTitle": "Delete your account?",
+    "deleteAccountBody": "This cannot be undone. You will be signed out and your login will stop working.",
+    "removed": "Removed: your login, allergies, goals, usuals, extras, votes, attendance, suggestions and notifications.",
+    "kept": "Kept: your home's meal plans and comments. Your name on them becomes \"Former member\".",
+    "deleteAccountYes": "Yes, delete my account",
+    "lastAdmin": "You are the only Admin. Give the Admin role to someone else first (Home tab, People), or delete the household instead.",
+    "deleteHome": "Delete this household",
+    "deleteHomeTitle": "Delete {{name}}?",
+    "deleteHomeBody": "This removes the whole home for everyone: its people, plans, dishes, recipes, history, photos and every login that belongs to it. It cannot be undone.",
+    "typeName": "Type the home's name to confirm: {{name}}",
+    "deleteHomeYes": "Delete the household",
+    "nameMismatch": "The name does not match. Type it exactly as shown."
   }
 }
