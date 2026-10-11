@@ -14,6 +14,8 @@ import { PeriodControls, usePeriod } from '../components/PeriodControls'
 import { TargetBars } from '../components/TargetBars'
 import { BackHeader } from '../components/BackHeader'
 import { NutritionDisclaimer } from './NutritionPage'
+import { useFamilyExtras } from '../lib/intakeQueries'
+import { extrasDaysFromTotals, mergeMealsAndExtras } from '../lib/intake'
 
 /** "Family nutrition": a week or month summary per family member, for Admins and whoever is Planner today. */
 export default function FamilyNutritionPage() {
@@ -26,16 +28,19 @@ export default function FamilyNutritionPage() {
   const { data: byDish } = useAllNutrition()
   const { data: targets } = useNutritionTargets()
   const { data: attendance } = useAttendance(period.bounds.from, period.to)
+  // Each person's daily TOTALS of personal extras (never the items), from a database function only an Admin or today's Planner may call.
+  const { data: extras } = useFamilyExtras(period.bounds.from, period.to, allowed)
 
   const people = useMemo(() => (members ?? []).filter((m) => m.kind === 'family'), [members])
   const rows = useMemo(
     () =>
       people.map((p, i) => {
-        const days = dayTotalsFor(slots ?? [], p.id, byDish ?? new Map(), period.today, attendance ?? [])
+        const mealDays = dayTotalsFor(slots ?? [], p.id, byDish ?? new Map(), period.today, attendance ?? [])
+        const days = mergeMealsAndExtras(mealDays, extrasDaysFromTotals((extras ?? []).filter((e) => e.profile_id === p.id))).days
         const resolved = targets && targets.length > 0 ? targetFor(p, targets) : null
         return { p, i, resolved, summary: resolved ? summarisePeriod(days, resolved.target) : null }
       }),
-    [people, slots, byDish, targets, period.today, attendance],
+    [people, slots, byDish, targets, period.today, attendance, extras],
   )
 
   if (!allowed) {
@@ -88,6 +93,7 @@ export default function FamilyNutritionPage() {
           </section>
         ))
       )}
+      {(extras ?? []).length > 0 && <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">{t('extras.familyNote')}</p>}
       <NutritionDisclaimer />
     </main>
   )

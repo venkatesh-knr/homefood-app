@@ -161,6 +161,17 @@ export function mergeMealsAndExtras(days: DayTotals[], extras: Map<string, Extra
   return { days: merged, parts }
 }
 
+/** The family totals function's rows for one person, as days of extras (items are never sent, only sums). */
+export function extrasDaysFromTotals(rows: { eaten_on: string; totals: PerUnit; items: number; unknown_items: number }[]): Map<string, ExtrasDay> {
+  const out = new Map<string, ExtrasDay>()
+  for (const r of rows) {
+    const t = emptyTotals()
+    for (const k of NUTRIENTS) t[k] = r.totals[k] ?? 0
+    out.set(r.eaten_on, { totals: t, items: r.items, unknownItems: r.unknown_items })
+  }
+  return out
+}
+
 // ── same as yesterday ──
 export type IntakeDraft = Omit<IntakeRow, 'id' | 'eaten_on'>
 

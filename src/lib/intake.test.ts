@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  extrasDaysFromTotals,
   mergeMealsAndExtras,
   clampQuantity, extrasByDay, foodKey, goalFor, gramsOf100g, mergeDay, nutritionFor, parseGoal, progressOf, quantityStep, recentSources, sameAsYesterday, searchFoods,
   snapshotFor, stepQuantity, sumIntake, type FoodOption, type IntakeRow, type PerUnit,
@@ -175,5 +176,17 @@ describe('mergeMealsAndExtras', () => {
     const extras = extrasByDay([row({ kcal: null, protein_g: null }), row({ id: 'r2', kcal: 50 })])
     const { days } = mergeMealsAndExtras([day('2026-10-11', 1000)], extras)
     expect(days[0]!.totals.kcal).toBe(1050)
+  })
+})
+
+describe('extrasDaysFromTotals', () => {
+  it('turns the totals function rows into days of extras for one person', () => {
+    const days = extrasDaysFromTotals([
+      { eaten_on: '2026-10-11', totals: per(250, 9), items: 3, unknown_items: 1 },
+      { eaten_on: '2026-10-10', totals: per(100, 2), items: 1, unknown_items: 0 },
+    ])
+    expect(days.get('2026-10-11')).toMatchObject({ items: 3, unknownItems: 1 })
+    expect(days.get('2026-10-11')!.totals.kcal).toBe(250)
+    expect(days.get('2026-10-10')!.totals.protein_g).toBe(2)
   })
 })

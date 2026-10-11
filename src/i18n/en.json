@@ -815,6 +815,7 @@
     "previewUnknown": "No calories entered for this food, so it is not added up.",
     "estimateNote": "Estimates for planning at home, not medical advice.",
     "partsLine": "meals {{meals}} + extras {{extras}} kcal",
+    "familyNote": "Includes personal extras: only each person's daily totals are shown here, never what they ate.",
     "star": "Add to My usuals",
     "unstar": "Remove from My usuals",
     "back": "Back",
