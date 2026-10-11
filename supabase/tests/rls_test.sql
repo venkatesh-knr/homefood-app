@@ -410,6 +410,13 @@ select set_config('request.jwt.claim.sub', 'dddddddd-0000-4000-8000-000000000004
 select tests.refused($$ select * from public.family_extras_totals(public.kolkata_today(), public.kolkata_today()) $$, 'someone with no home cannot ask for family totals');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── The shared everyday foods (0030) ──
+select tests.ok((select count(*) from public.common_foods where name_en <> 'Test banana') >= 80, 'about 80 everyday foods are in the shared list');
+select tests.ok(not exists (select 1 from public.common_foods where btrim(name_ta) = '' or category not in ('dairy', 'eggs', 'fruit', 'nuts_seeds', 'pulses_sprouts', 'meat_fish', 'drinks', 'snacks_sweets', 'protein')), 'every food has a Tamil name and a known category (no supplements)');
+select tests.ok((select protein_g = 6.3 and kcal = 72 and unit = 'piece' from public.common_foods where name_en = 'Boiled egg'), 'a boiled egg is about 72 kcal and 6.3 g protein');
+select tests.ok((select default_quantity = 3 and unit = 'piece' from public.common_foods where name_en = 'Dates'), 'the usual amount of dates is 3');
+select tests.ok(not exists (select 1 from public.common_foods where abs(kcal - (4 * protein_g + 4 * carbs_g + 9 * fat_g)) > greatest(10, 0.15 * kcal) and name_en <> 'Test banana'), 'each food''s calories match its macros');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

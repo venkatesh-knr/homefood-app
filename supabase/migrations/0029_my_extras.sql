@@ -32,14 +32,15 @@ revoke execute on function public.kolkata_today() from public, anon;
 grant execute on function public.kolkata_today() to authenticated;
 
 -- ── Everyday foods (shared, read-only) ──
--- Per-UNIT nutrition: one piece, one glass (200 ml), one cup, one bowl (150 g), one tbsp, one scoop, or 100 g.
+-- Per-UNIT nutrition: one piece, one glass (200 ml), one cup, one bowl (150 g), one tbsp, one scoop, one handful (30 g), or 100 g.
 create table if not exists public.common_foods (
   id             uuid primary key default gen_random_uuid(),
   name_en        text not null unique check (char_length(btrim(name_en)) between 1 and 80),
   name_ta        text not null check (char_length(btrim(name_ta)) between 1 and 80),
   category       text not null check (category in ('dairy', 'eggs', 'fruit', 'nuts_seeds', 'pulses_sprouts', 'meat_fish', 'drinks', 'snacks_sweets', 'protein')),
-  unit           text not null check (unit in ('piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', '100g')),
+  unit           text not null check (unit in ('piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', 'handful', '100g')),
   grams_per_unit numeric(6, 1) not null check (grams_per_unit > 0),
+  default_quantity numeric(4, 1) not null default 1 check (default_quantity > 0),   -- the usual amount, e.g. 3 dates
   kcal           numeric(6, 1) not null check (kcal >= 0),
   protein_g      numeric(5, 1) not null check (protein_g >= 0),
   carbs_g        numeric(5, 1) not null check (carbs_g >= 0),
@@ -60,7 +61,7 @@ create table if not exists public.custom_foods (
   household_id uuid not null references public.households (id) on delete cascade,
   name         text not null check (char_length(btrim(name)) between 1 and 60),
   name_ta      text check (char_length(btrim(name_ta)) between 1 and 60),
-  unit         text not null default 'piece' check (unit in ('piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', '100g')),
+  unit         text not null default 'piece' check (unit in ('piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', 'handful', '100g')),
   kcal         numeric(6, 1) check (kcal >= 0),
   protein_g    numeric(5, 1) check (protein_g >= 0),
   carbs_g      numeric(5, 1) check (carbs_g >= 0),
@@ -98,7 +99,7 @@ create table if not exists public.personal_intake (
   dish_id        uuid references public.dishes (id) on delete set null,
   food_name      text not null check (char_length(btrim(food_name)) between 1 and 80),
   quantity       numeric(7, 2) not null check (quantity > 0 and quantity <= 1000),
-  unit           text not null check (unit in ('piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', '100g', 'serving')),
+  unit           text not null check (unit in ('piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', 'handful', '100g', 'serving')),
   kcal           numeric(7, 1) check (kcal >= 0),
   protein_g      numeric(6, 1) check (protein_g >= 0),
   carbs_g        numeric(6, 1) check (carbs_g >= 0),

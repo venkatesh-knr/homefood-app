@@ -1,0 +1,118 @@
+# Everyday foods people eat outside the planned family meals (migration 0030, "My extras"). One line per food, fields separated by " | ":
+# name | Tamil name | category | unit | grams per unit | usual amount | kcal | protein g | carbs g | fat g | fibre g | sugar g | sodium mg
+# ALL NUTRITION IS PER ONE UNIT and is a rounded ESTIMATE written from typical Indian servings with reference to IFCT 2017 (NIN) and USDA
+# FoodData Central ranges; not lab values. Brands and recipes vary, so the family should treat them as a guide and use "Something else…"
+# (with the packet label) for exact figures.
+# units: piece, glass (200 ml), cup (about 150 ml), bowl (150 g), tbsp, scoop (30 g), handful (30 g), 100g (one 100 g portion; 0.5 = 50 g)
+# categories: dairy, eggs, fruit, nuts_seeds, pulses_sprouts, meat_fish, drinks, snacks_sweets, protein  (no supplements: tablets are not loggable)
+TEXT = """
+# ── Dairy ──
+Milk, full-fat | பால் (முழு கொழுப்பு) | dairy | glass | 200 | 1 | 127 | 6.5 | 9.5 | 7 | 0 | 9.5 | 100
+Milk, toned | பால் (டோன்டு) | dairy | glass | 200 | 1 | 90 | 6.2 | 9.4 | 3 | 0 | 9.4 | 100
+Curd | தயிர் | dairy | bowl | 150 | 1 | 92 | 5.3 | 6.5 | 5 | 0 | 5.5 | 80
+Greek yoghurt | கிரேக்க தயிர் | dairy | bowl | 150 | 1 | 106 | 15 | 6 | 2.5 | 0 | 5 | 70
+Buttermilk | மோர் | dairy | glass | 200 | 1 | 36 | 2 | 3.5 | 1.5 | 0 | 3 | 200
+Paneer | பன்னீர் | dairy | 100g | 100 | 1 | 264 | 18 | 1.2 | 20.8 | 0 | 1 | 30
+Cheese slice | சீஸ் ஸ்லைஸ் | dairy | piece | 20 | 1 | 61 | 4 | 0.5 | 4.8 | 0 | 0.4 | 250
+Ghee | நெய் | dairy | tbsp | 13 | 1 | 117 | 0 | 0 | 13 | 0 | 0 | 0
+# ── Eggs ──
+Boiled egg | வேகவைத்த முட்டை | eggs | piece | 50 | 1 | 72 | 6.3 | 0.6 | 5 | 0 | 0.4 | 62
+Omelette (1 egg) | ஆம்லெட் (1 முட்டை) | eggs | piece | 60 | 1 | 96 | 6.5 | 0.8 | 7.5 | 0 | 0.5 | 160
+Egg white, boiled | வேகவைத்த முட்டை வெள்ளைக்கரு | eggs | piece | 33 | 1 | 17 | 3.6 | 0.2 | 0.1 | 0 | 0.2 | 55
+# ── Fruit ──
+Banana | வாழைப்பழம் | fruit | piece | 100 | 1 | 90 | 1.1 | 23 | 0.3 | 2.6 | 12 | 1
+Apple | ஆப்பிள் | fruit | piece | 150 | 1 | 78 | 0.4 | 20.5 | 0.3 | 3.6 | 15 | 2
+Guava | கொய்யாப்பழம் | fruit | piece | 100 | 1 | 68 | 2.6 | 14.3 | 1 | 5.4 | 8.9 | 2
+Orange | ஆரஞ்சு | fruit | piece | 130 | 1 | 61 | 1.2 | 15.4 | 0.2 | 3.1 | 12 | 0
+Papaya | பப்பாளி | fruit | bowl | 150 | 1 | 65 | 0.9 | 16 | 0.3 | 2.5 | 11 | 12
+Mango | மாம்பழம் | fruit | bowl | 150 | 1 | 90 | 1.2 | 22 | 0.6 | 2.4 | 20 | 2
+Watermelon | தர்பூசணி | fruit | bowl | 150 | 1 | 46 | 0.9 | 11.5 | 0.2 | 0.6 | 9.4 | 2
+Pineapple | அன்னாசிப்பழம் | fruit | bowl | 150 | 1 | 75 | 0.8 | 19.7 | 0.2 | 2 | 14 | 2
+Grapes | திராட்சை | fruit | cup | 100 | 1 | 69 | 0.7 | 18 | 0.2 | 0.9 | 15 | 2
+Chikoo (sapota) | சப்போட்டா | fruit | piece | 100 | 1 | 83 | 0.4 | 20 | 1.1 | 5.3 | 14 | 12
+Dates | பேரீச்சம்பழம் | fruit | piece | 8 | 3 | 23 | 0.2 | 6 | 0 | 0.7 | 5.4 | 0
+# ── Nuts and seeds ──
+Almonds | பாதாம் | nuts_seeds | piece | 1.2 | 10 | 7 | 0.25 | 0.26 | 0.6 | 0.15 | 0.05 | 0
+Cashews | முந்திரி | nuts_seeds | piece | 1.5 | 10 | 8.5 | 0.27 | 0.45 | 0.7 | 0.05 | 0.1 | 1
+Walnuts | அக்ரூட் | nuts_seeds | piece | 3 | 4 | 20 | 0.5 | 0.4 | 2 | 0.2 | 0.1 | 0
+Peanuts, roasted | வறுத்த வேர்க்கடலை | nuts_seeds | handful | 30 | 1 | 170 | 7.7 | 5 | 14.5 | 2.4 | 1.2 | 5
+Peanut butter | வேர்க்கடலை வெண்ணெய் | nuts_seeds | tbsp | 16 | 1 | 95 | 4 | 3 | 8 | 1 | 1.5 | 70
+Raisins | உலர் திராட்சை | nuts_seeds | tbsp | 10 | 1 | 30 | 0.3 | 8 | 0 | 0.4 | 6 | 1
+# ── Pulses and sprouts ──
+Roasted chana | வறுத்த கடலை | pulses_sprouts | handful | 30 | 1 | 111 | 6.6 | 18 | 1.5 | 5 | 3 | 15
+Sprouts (moong) | முளைகட்டிய பயறு | pulses_sprouts | bowl | 150 | 1 | 50 | 4.5 | 8 | 0.3 | 2.5 | 2 | 10
+Sundal (chickpea) | சுண்டல் (கொண்டைக்கடலை) | pulses_sprouts | bowl | 150 | 1 | 245 | 12 | 38 | 5 | 11 | 6 | 250
+Rajma, boiled | ராஜ்மா (வேகவைத்தது) | pulses_sprouts | bowl | 150 | 1 | 185 | 13 | 30 | 0.8 | 10 | 1.5 | 10
+# ── Meat and fish ──
+Chicken breast, cooked | கோழி மார்பகம் (சமைத்தது) | meat_fish | 100g | 100 | 1 | 160 | 31 | 0 | 3.6 | 0 | 0 | 74
+Fish, cooked | மீன் (சமைத்தது) | meat_fish | 100g | 100 | 1 | 128 | 22 | 0 | 4.5 | 0 | 0 | 80
+Tuna, canned in water | டுனா மீன் (டின்) | meat_fish | 100g | 100 | 1 | 109 | 25.5 | 0 | 0.8 | 0 | 0 | 350
+Mutton, cooked | மட்டன் (சமைத்தது) | meat_fish | 100g | 100 | 1 | 205 | 27 | 0 | 11 | 0 | 0 | 90
+Prawns, cooked | இறால் (சமைத்தது) | meat_fish | 100g | 100 | 1 | 99 | 21 | 0.5 | 1.5 | 0 | 0 | 250
+# ── Drinks ──
+Tea with milk and sugar | டீ (பால், சர்க்கரையுடன்) | drinks | cup | 150 | 1 | 70 | 1.5 | 11 | 2.2 | 0 | 10 | 25
+Tea with milk, no sugar | டீ (பாலுடன், சர்க்கரை இல்லாமல்) | drinks | cup | 150 | 1 | 34 | 1.5 | 2.5 | 2 | 0 | 2 | 25
+Black tea | கருப்பு டீ | drinks | cup | 150 | 1 | 2 | 0 | 0.4 | 0 | 0 | 0 | 5
+Green tea | கிரீன் டீ | drinks | cup | 150 | 1 | 2 | 0 | 0.3 | 0 | 0 | 0 | 2
+Coffee with milk and sugar | காபி (பால், சர்க்கரையுடன்) | drinks | cup | 150 | 1 | 81 | 2.5 | 11 | 3 | 0 | 10.5 | 30
+Coffee with milk, no sugar | காபி (பாலுடன், சர்க்கரை இல்லாமல்) | drinks | cup | 150 | 1 | 48 | 2.5 | 3.5 | 2.8 | 0 | 3 | 30
+Black coffee | கருப்புக் காபி | drinks | cup | 150 | 1 | 2 | 0.3 | 0 | 0 | 0 | 0 | 5
+Lemon juice with sugar | எலுமிச்சை சாறு (சர்க்கரையுடன்) | drinks | glass | 200 | 1 | 80 | 0.2 | 21 | 0 | 0.2 | 20 | 10
+Orange juice | ஆரஞ்சு சாறு | drinks | glass | 200 | 1 | 93 | 1.4 | 21 | 0.4 | 0.4 | 17 | 4
+Coconut water | இளநீர் | drinks | glass | 200 | 1 | 44 | 0.8 | 9.5 | 0.3 | 2 | 8 | 100
+Sugarcane juice | கரும்புச் சாறு | drinks | glass | 200 | 1 | 159 | 0.4 | 39 | 0.2 | 0 | 38 | 30
+Soft drink | குளிர்பானம் | drinks | glass | 200 | 1 | 84 | 0 | 21 | 0 | 0 | 21 | 15
+Malted milk drink (Horlicks / Bournvita) | மால்ட் பால் (ஹார்லிக்ஸ் / போர்ன்விட்டா) | drinks | glass | 220 | 1 | 191 | 8.5 | 28 | 5 | 1 | 24 | 150
+Badam milk | பாதாம் பால் | drinks | glass | 200 | 1 | 188 | 7 | 22 | 8 | 1 | 21 | 100
+Sweet lassi | இனிப்பு லஸ்ஸி | drinks | glass | 200 | 1 | 192 | 4.5 | 30 | 6 | 0 | 28 | 80
+Salted lassi | உப்பு லஸ்ஸி | drinks | glass | 200 | 1 | 84 | 4 | 8 | 4 | 0 | 6 | 300
+Soya milk, unsweetened | சோயா பால் | drinks | glass | 200 | 1 | 84 | 7 | 4 | 4.5 | 1 | 1 | 100
+# ── Protein ──
+Whey protein powder | வே புரத பவுடர் | protein | scoop | 30 | 1 | 121 | 24 | 3 | 1.5 | 0 | 2 | 150
+Protein shake (whey in toned milk) | புரத ஷேக் (பாலுடன்) | protein | glass | 280 | 1 | 220 | 30 | 15 | 4.5 | 0 | 14 | 250
+Soya chunks, cooked | சோயா துண்டுகள் (சமைத்தது) | protein | bowl | 150 | 1 | 171 | 26 | 16 | 0.3 | 5 | 1 | 20
+Protein bar | புரத பார் | protein | piece | 60 | 1 | 231 | 20 | 22 | 7 | 5 | 8 | 180
+# ── Snacks and sweets ──
+Marie biscuits | மேரி பிஸ்கட் | snacks_sweets | piece | 5 | 2 | 21 | 0.4 | 3.6 | 0.6 | 0.1 | 1 | 25
+Digestive biscuits | டைஜெஸ்டிவ் பிஸ்கட் | snacks_sweets | piece | 15 | 2 | 71 | 1 | 10 | 3 | 0.6 | 3 | 85
+Cream biscuits | கிரீம் பிஸ்கட் | snacks_sweets | piece | 12 | 2 | 62 | 0.7 | 8.5 | 2.8 | 0.2 | 4 | 40
+Cookies | குக்கீஸ் | snacks_sweets | piece | 15 | 2 | 76 | 0.9 | 10 | 3.6 | 0.3 | 5 | 60
+Rusk | ரஸ்க் | snacks_sweets | piece | 10 | 2 | 41 | 1 | 7.5 | 0.8 | 0.3 | 1.5 | 40
+Bread slice, white | பிரட் துண்டு (வெள்ளை) | snacks_sweets | piece | 28 | 1 | 75 | 2.5 | 14 | 1 | 0.7 | 1.5 | 140
+Bread slice, brown | பிரட் துண்டு (பிரவுன்) | snacks_sweets | piece | 28 | 1 | 70 | 3 | 12 | 1 | 2 | 1.5 | 140
+Murukku | முறுக்கு | snacks_sweets | handful | 30 | 1 | 160 | 3 | 18 | 8.5 | 1 | 0.5 | 250
+Mixture | மிக்சர் | snacks_sweets | handful | 30 | 1 | 162 | 4 | 14 | 10 | 1.5 | 1 | 220
+Poha chivda | அவல் மிக்சர் | snacks_sweets | handful | 30 | 1 | 137 | 3 | 20 | 5 | 1.5 | 2 | 200
+Banana chips | வாழைக்காய் சிப்ஸ் | snacks_sweets | handful | 30 | 1 | 160 | 0.9 | 17 | 10 | 1.5 | 1 | 120
+Potato chips | உருளைக்கிழங்கு சிப்ஸ் | snacks_sweets | handful | 30 | 1 | 158 | 2 | 15 | 10 | 1.2 | 0.3 | 170
+Khakhra | காக்ரா | snacks_sweets | piece | 20 | 1 | 80 | 2.5 | 13 | 2 | 1.5 | 0.5 | 120
+Peanut chikki | கடலை மிட்டாய் | snacks_sweets | piece | 25 | 1 | 128 | 3.4 | 15 | 6 | 1.2 | 12 | 15
+Roasted makhana | வறுத்த தாமரை விதை (மக்கானா) | snacks_sweets | cup | 20 | 1 | 69 | 2 | 14.5 | 0.3 | 1 | 0.2 | 3
+Boiled corn | வேகவைத்த சோளம் | snacks_sweets | cup | 150 | 1 | 145 | 4.5 | 30 | 1.7 | 3.5 | 6 | 15
+Sweet potato, boiled | சர்க்கரைவள்ளிக் கிழங்கு (வேகவைத்தது) | snacks_sweets | piece | 130 | 1 | 113 | 2 | 26 | 0.1 | 3.8 | 5.4 | 40
+Chocolate, milk | சாக்லேட் | snacks_sweets | piece | 10 | 2 | 53 | 0.75 | 5.8 | 3 | 0.3 | 5.5 | 12
+Ice cream | ஐஸ்கிரீம் | snacks_sweets | cup | 70 | 1 | 141 | 2.5 | 16 | 7.5 | 0.3 | 14 | 50
+Cake slice | கேக் துண்டு | snacks_sweets | piece | 60 | 1 | 222 | 3 | 30 | 10 | 0.7 | 20 | 190
+Laddu | லட்டு | snacks_sweets | piece | 30 | 1 | 132 | 1.5 | 18 | 6 | 0.5 | 14 | 15
+Gulab jamun | குலாப் ஜாமூன் | snacks_sweets | piece | 40 | 1 | 150 | 2 | 22 | 6 | 0.2 | 18 | 30
+Honey | தேன் | snacks_sweets | tbsp | 21 | 1 | 64 | 0 | 17.3 | 0 | 0 | 17 | 1
+Jaggery | வெல்லம் | snacks_sweets | piece | 10 | 1 | 38 | 0.1 | 9.5 | 0 | 0 | 9 | 3
+"""
+
+FIELDS = ('name_en', 'name_ta', 'category', 'unit', 'grams', 'usual', 'kcal', 'protein', 'carbs', 'fat', 'fibre', 'sugar', 'sodium')
+CATEGORIES = {'dairy', 'eggs', 'fruit', 'nuts_seeds', 'pulses_sprouts', 'meat_fish', 'drinks', 'snacks_sweets', 'protein'}
+UNITS = {'piece', 'glass', 'cup', 'bowl', 'tbsp', 'scoop', 'handful', '100g'}
+
+
+def rows():
+    out = []
+    for line in TEXT.strip().splitlines():
+        if not line.strip() or line.startswith('#'):
+            continue
+        parts = [p.strip() for p in line.split('|')]
+        assert len(parts) == len(FIELDS), (len(parts), line)
+        d = dict(zip(FIELDS, parts))
+        for k in ('grams', 'usual', 'kcal', 'protein', 'carbs', 'fat', 'fibre', 'sugar', 'sodium'):
+            d[k] = float(d[k])
+        out.append(d)
+    return out
