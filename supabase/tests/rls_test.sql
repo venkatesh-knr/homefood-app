@@ -352,6 +352,64 @@ select tests.ok(not exists (select 1 from public.cuisines where id = :'cz'), 'on
 select tests.ok((select count(*) from public.dishes where household_id is null and name in ('Pudina rice', 'Mango rice', 'Panakam', 'Brinjal chutney', 'Vazhaithandu poriyal', 'Vadam') and photo_path like 'static/%' and photo_credit like '%Wikimedia Commons') = 6, 'six more shared dishes carry a bundled photo with its credit');
 select tests.ok((select photo_path = 'static/idli.webp' from public.dishes where household_id is null and name = 'Idli'), 'photos that were already set are left alone');
 
+-- ── My extras (0029) ──
+reset role;
+insert into public.common_foods (name_en, name_ta, category, unit, grams_per_unit, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg)
+  values ('Test banana', 'வாழைப்பழம்', 'fruit', 'piece', 100, 105, 1.3, 27, 0.4, 3, 14, 1) returning id as cf \gset
+select tests.refused($$ insert into public.common_foods (name_en, name_ta, category, unit, grams_per_unit, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg) values ('Vitamin tablet', 'x', 'supplement', 'piece', 1, 0, 0, 0, 0, 0, 0, 0) $$, 'supplements are not a food category');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ insert into public.common_foods (name_en, name_ta, category, unit, grams_per_unit, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg) values ('Mine', 'x', 'fruit', 'piece', 1, 1, 1, 1, 1, 1, 1, 1) $$, 'nobody can add to the shared food list from the app');
+select tests.ok((select count(*) from public.common_foods where name_en = 'Test banana') = 1, 'everyone signed in can read the shared food list');
+insert into public.personal_intake (household_id, profile_id, eaten_on, eaten_at, common_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
+  values (:'hh_a', :'appa', public.kolkata_today(), '16:30', :'cf', 'Test banana', 1, 'piece', 105, 1.3, public.my_profile_id());
+select tests.ok((select count(*) from public.personal_intake) = 1, 'Appa logs an extra for himself and sees it');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'paati' || $$', public.kolkata_today(), '$$ || :'cf' || $$', 'x', 1, 'piece', public.my_profile_id()) $$, 'a member cannot log for Paati, only the Admin can');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, created_by) select '$$ || :'hh_a' || $$', id, public.kolkata_today(), '$$ || :'cf' || $$', 'x', 1, 'piece', public.my_profile_id() from public.profiles where display_name = 'Amma' $$, 'a member cannot log for another member');
+insert into public.personal_goals (profile_id, household_id, protein_goal_g, kcal_goal) values (:'appa', :'hh_a', 70, 2300);
+select tests.ok((select protein_goal_g = 70 from public.personal_goals where profile_id = :'appa'), 'Appa sets his own goals');
+insert into public.personal_usuals (profile_id, household_id, common_food_id) values (:'appa', :'hh_a', :'cf');
+select tests.refused($$ insert into public.personal_usuals (profile_id, household_id, common_food_id) values ('$$ || :'appa' || $$', '$$ || :'hh_a' || $$', '$$ || :'cf' || $$') $$, 'a food can be starred once');
+insert into public.custom_foods (household_id, name, unit, kcal, protein_g, created_by) values (:'hh_a', 'Amma''s laddu', 'piece', 150, 3, public.my_profile_id()) returning id as cust \gset
+insert into public.personal_intake (household_id, profile_id, eaten_on, custom_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
+  values (:'hh_a', :'appa', public.kolkata_today() - 7, :'cust', 'Amma''s laddu', 2, 'piece', 300, 6, public.my_profile_id());
+select tests.ok((select count(*) from public.personal_intake) = 2, 'a forgotten day up to 7 days back can be filled in');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'appa' || $$', public.kolkata_today() - 8, '$$ || :'cf' || $$', 'x', 1, 'piece', public.my_profile_id()) $$, 'older than a week cannot be logged');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'appa' || $$', public.kolkata_today() + 1, '$$ || :'cf' || $$', 'x', 1, 'piece', public.my_profile_id()) $$, 'the future cannot be logged');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'appa' || $$', public.kolkata_today(), 'x', 1, 'piece', public.my_profile_id()) $$, 'an item must say where it came from');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, custom_food_id, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'appa' || $$', public.kolkata_today(), '$$ || :'cf' || $$', '$$ || :'cust' || $$', 'x', 1, 'piece', public.my_profile_id()) $$, 'an item cannot be two foods at once');
+select tests.refused($$ insert into public.personal_goals (profile_id, household_id, protein_goal_g) values ('$$ || :'paati' || $$', '$$ || :'hh_a' || $$', 50) $$, 'a member cannot set Paati''s goals');
+select tests.refused($$ update public.personal_goals set protein_goal_g = 5 where profile_id = '$$ || :'appa' || $$' $$, 'a goal below 10 g is refused');
+update public.custom_foods set kcal = 999 where id = :'cust';
+select tests.ok((select kcal = 300 from public.personal_intake where custom_food_id = :'cust'), 'correcting a food later does not change what was logged on a past day');
+
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.ok((select count(*) from public.personal_intake where profile_id = :'appa') = 0, 'the Admin cannot read items of a member who has a login');
+select tests.ok((select count(*) from public.personal_goals where profile_id = :'appa') = 0 and (select count(*) from public.personal_usuals) = 0, 'nor his goals or usuals');
+select tests.ok((select kcal = 105 and items = 1 from public.family_extras_totals(public.kolkata_today(), public.kolkata_today()) where profile_id = :'appa'), 'but she gets his daily totals');
+select tests.ok((select count(*) from public.family_extras_totals(public.kolkata_today() - 7, public.kolkata_today()) where profile_id = :'appa') = 2, 'totals come one row per person per day');
+insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
+  values (:'hh_a', :'paati', public.kolkata_today(), :'cf', 'Test banana', 1, 'piece', 105, 1.3, public.my_profile_id());
+select tests.ok((select count(*) from public.personal_intake where profile_id = :'paati') = 1, 'the Admin logs an extra for Paati and sees it');
+insert into public.personal_goals (profile_id, household_id, protein_goal_g) values (:'paati', :'hh_a', 45);
+select tests.ok((select protein_goal_g = 45 from public.personal_goals where profile_id = :'paati'), 'and sets Paati''s goal');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'helper' || $$', public.kolkata_today(), '$$ || :'cf' || $$', 'x', 1, 'piece', public.my_profile_id()) $$, 'the helper is never included');
+select tests.refused($$ insert into public.personal_goals (profile_id, household_id, protein_goal_g) values ('$$ || :'appa' || $$', '$$ || :'hh_a' || $$', 90) on conflict (profile_id) do update set protein_goal_g = 90 $$, 'the Admin cannot change a member''s goals');
+update public.custom_foods set name = 'Laddu (home)' where id = :'cust';
+select tests.ok((select name = 'Laddu (home)' from public.custom_foods where id = :'cust'), 'the Admin can edit a custom food someone else added');
+
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.personal_intake where profile_id = :'paati') = 0, 'a member cannot read Paati''s items');
+
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.personal_intake) = 0 and (select count(*) from public.custom_foods) = 0 and (select count(*) from public.personal_goals) = 0, 'another home sees none of it');
+select tests.ok((select count(*) from public.family_extras_totals(public.kolkata_today() - 7, public.kolkata_today())) = 0, 'another home''s Admin gets only its own totals (none)');
+select tests.refused($$ insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'paati' || $$', public.kolkata_today(), '$$ || :'cf' || $$', 'x', 1, 'piece', public.my_profile_id()) $$, 'another home cannot log for Paati');
+select tests.refused($$ update public.custom_foods set name = 'Hacked' where id = '$$ || :'cust' || $$' $$, 'another home cannot change the home''s custom foods');
+select set_config('request.jwt.claim.sub', 'dddddddd-0000-4000-8000-000000000004', false);
+select tests.refused($$ select * from public.family_extras_totals(public.kolkata_today(), public.kolkata_today()) $$, 'someone with no home cannot ask for family totals');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;
