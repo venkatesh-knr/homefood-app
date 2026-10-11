@@ -1,6 +1,6 @@
 import { supabase } from './supabase'
 import { queryClient } from './queryClient'
-import { weekDates, type MealSource, type MealType, type TurnScope } from './planner'
+import { toISODate, weekDates, weekStartOf, type MealSource, type MealType, type TurnScope } from './planner'
 
 function client() {
   if (!supabase) throw new Error('Supabase is not configured')
@@ -97,6 +97,34 @@ export async function saveSlot(
 
   await invalidateWeek(weekPlanId, householdId)
   return slotId
+}
+
+/** "Cook this again": puts a dish (and optionally the sides it had) into a meal that is still free. Looks again first, so a meal planned in
+ * the meantime is never replaced; returns false in that case. */
+export async function planDishInFreeSlot(args: {
+  householdId: string
+  weekStartsOn: number
+  date: string
+  meal: MealType
+  dishId: string
+  sideDishIds: string[]
+  eaterProfileIds: string[]
+}): Promise<boolean> {
+  const { data: found, error } = await client().from('meal_slots').select('id, place_name, main_dish_id').eq('household_id', args.householdId).eq('date', args.date).eq('meal', args.meal).maybeSingle()
+  if (error) throw error
+  if (found && (found.main_dish_id || found.place_name)) return false
+  const [y, m, d] = args.date.split('-').map(Number)
+  const weekPlanId = await getOrCreateWeekPlan(args.householdId, toISODate(weekStartOf(new Date(y!, m! - 1, d!), args.weekStartsOn)))
+  await saveSlot(weekPlanId, args.householdId, args.date, args.meal, {
+    source: 'home',
+    place_name: '',
+    main_dish_id: args.dishId,
+    side_dish_ids: args.sideDishIds,
+    cook_profile_ids: [],
+    eater_profile_ids: args.eaterProfileIds,
+    note: '',
+  })
+  return true
 }
 
 export async function clearSlot(slotId: string, weekPlanId: string, householdId: string): Promise<void> {

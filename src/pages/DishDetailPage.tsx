@@ -14,6 +14,7 @@ import { joinNames } from '../lib/people'
 import { FullPageMessage, Pill } from '../components/ui'
 import { useRecipeDishIds } from '../lib/recipeQueries'
 import { FamilyNotesPanel, NutritionPanel } from '../components/NutritionPanel'
+import { CookAgainSheet } from '../components/CookAgainSheet'
 
 export default function DishDetailPage() {
   const { t, i18n } = useTranslation()
@@ -40,6 +41,7 @@ export default function DishDetailPage() {
   const { data: photoUrl } = useSignedPhotoUrl(photoPath)
   const photoInput = useRef<HTMLInputElement>(null)
   const [zoom, setZoom] = useState(false)
+  const [cookAgain, setCookAgain] = useState(false)
   const [removing, setRemoving] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -196,6 +198,14 @@ export default function DishDetailPage() {
 
         {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
 
+        <button
+          type="button"
+          onClick={() => setCookAgain(true)}
+          className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-ink text-[14.5px] font-semibold text-cream"
+        >
+          {t('cookAgain.buttonDish')}
+        </button>
+
         <div className="flex gap-2">
           <button
             type="button"
@@ -231,6 +241,8 @@ export default function DishDetailPage() {
           </div>
         )}
       </div>
+
+      {cookAgain && <CookAgainSheet dish={{ id: dish.id, name, meal_types: dish.meal_types }} onClose={() => setCookAgain(false)} />}
 
       {zoom && photoUrl && (
         <div role="dialog" aria-modal="true" aria-label={name} className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-[rgba(20,17,15,0.94)]">

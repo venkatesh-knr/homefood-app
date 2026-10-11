@@ -674,5 +674,23 @@
     "decrease": "Decrease",
     "increase": "Increase",
     "settingsHint": "The Week tab shows the Planner and Admin a gentle note when a week goes past these. It is only a suggestion; the Planner decides. Usual numbers: {{same}}, {{fried}} and {{run}}."
+  },
+  "cookAgain": {
+    "button": "Cook again",
+    "buttonDish": "Cook this again",
+    "title": "Cook {{dish}} again",
+    "hintPlanner": "Pick a free {{meal}} in the next 14 days. A meal that is already planned is never replaced.",
+    "hintMember": "Only the Planner can add a meal to an empty slot. You can suggest {{dish}} for a {{meal}} that is already planned, and the Planner decides.",
+    "meal": "Meal",
+    "free": "Free",
+    "freeNotYours": "Free · not your turn to plan",
+    "planned": "Planned: {{dish}}",
+    "plan": "Plan here",
+    "suggest": "Suggest",
+    "plannedDone": "Planned: {{day}}, {{meal}}. Open it to add sides and cooks.",
+    "suggestedDone": "Suggested: {{day}}, {{meal}}. The Planner will see it.",
+    "open": "Open",
+    "taken": "That meal was planned in the meantime. Pick another.",
+    "close": "Close"
   }
 }

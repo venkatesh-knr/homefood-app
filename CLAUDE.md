@@ -345,6 +345,10 @@ Trims, flagged rather than silently done:
   dine-out / order-in, most cooked dishes, **by cuisine**, who cooked, **meals each person ate**), a search box, and the meals grouped by day (tap one to open it), each with the
   "Did you eat this?" control. **Eaten counts come from attendance where recorded and fall back to the plan** (`summariseHistory(slots, attendance)`): a person's meal counts unless they
   skipped it or ate elsewhere; a meal counts as eaten unless everyone marked as eating it skipped it. The header says how many meals have anything recorded. No new tab (still 4).
+- **"Cook this again"** (12 Oct 2026): a button on each home-cooked History row and on Dish detail opens `CookAgainSheet` (`lib/cookAgain.ts`, `components/Dialog.tsx`): the next 14 days for the same
+  meal (History) or the dish's own meals (Dish detail). The Planner/Admin (on days their turn covers) can "Plan here" in a **free** slot (none, or one with no dish and no place): it saves the
+  dish, the sides it had (from History) and everyone eating, no cooks; it re-checks first and **never replaces a planned meal**. Everyone else gets "Suggest" on **planned** meals only (a
+  suggestion needs a slot row and only the Planner can create one, so a free slot cannot take a suggestion without a rules change). `Dialog` is the shared modal (focus trap, Escape, focus returns).
 - **Today's 5-tab nav** (`Today.png`: Today/Week/Dishes/Health/Family) **wasn't adopted** — kept the 4-tab shell from
   Step 2 (Today/Week/Dishes/Home). No Health tab exists in this build plan.
 

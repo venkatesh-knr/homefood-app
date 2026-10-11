@@ -13,6 +13,7 @@ import { useAttendance } from '../lib/attendanceQueries'
 import { useCuisines } from '../lib/dishQueries'
 import { cuisineLabel } from '../lib/dishes'
 import { AttendanceControl } from '../components/AttendanceControl'
+import { CookAgainSheet } from '../components/CookAgainSheet'
 
 const MEAL_BAND: Record<MealType, string> = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }
 const KINDS: HistoryRangeKind[] = ['week', 'month', 'year']
@@ -34,6 +35,7 @@ export default function HistoryPage() {
   const [kind, setKind] = useState<HistoryRangeKind>('month')
   const [anchor, setAnchor] = useState(today)
   const [query, setQuery] = useState('')
+  const [cookAgain, setCookAgain] = useState<SlotWithDetails | null>(null)
 
   const bounds = rangeBounds(kind, anchor, household.week_start)
   // Only meals up to today are history; a still-open current period just ends today.
@@ -246,7 +248,16 @@ export default function HistoryPage() {
                         </span>
                         {s.source !== 'home' && <Pill>{t(s.source === 'dine_out' ? 'planner.source.dineOut' : 'planner.source.orderIn')}</Pill>}
                       </button>
-                      <AttendanceControl slot={s} rows={attendance} />
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <AttendanceControl slot={s} rows={attendance} />
+                        </div>
+                        {s.source === 'home' && s.main_dish && (
+                          <button type="button" onClick={() => setCookAgain(s)} className="min-h-[44px] shrink-0 rounded-full px-2 text-[13px] font-semibold text-saffron-ink underline">
+                            {t('cookAgain.button')}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )
                 })}
@@ -254,6 +265,14 @@ export default function HistoryPage() {
             ))
           )}
         </>
+      )}
+      {cookAgain?.main_dish && (
+        <CookAgainSheet
+          dish={{ id: cookAgain.main_dish.id, name: dishNames(cookAgain.main_dish, lang).shown, meal_types: [cookAgain.meal] }}
+          meal={cookAgain.meal}
+          sideDishIds={[...cookAgain.meal_slot_sides].sort((a, b) => a.position - b.position).map((x) => x.dish.id)}
+          onClose={() => setCookAgain(null)}
+        />
       )}
     </main>
   )
