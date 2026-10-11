@@ -1,7 +1,7 @@
 // "My extras": the pure logic for a personal food log: units and amounts, the nutrition of an amount, what a day adds up to, copying
 // yesterday, search, and which goal applies. Framework-free, so every part is unit-tested without a database.
 // Everything here is an ESTIMATE for planning at home, not medical advice.
-import { addTotals, emptyTotals, NUTRIENTS, scaleTotals, type NutrientKey, type Totals } from './nutrition'
+import { addTotals, emptyTotals, NUTRIENTS, scaleTotals, type DayTotals, type NutrientKey, type Totals } from './nutrition'
 
 export type FoodUnit = 'piece' | 'glass' | 'cup' | 'bowl' | 'tbsp' | 'scoop' | 'handful' | '100g' | 'serving'
 /** The units a food can be counted in (a catalogue dish is counted in "servings"). */
@@ -143,6 +143,22 @@ export type DayParts = { meals: Totals; extras: Totals; total: Totals; extraItem
 export function mergeDay(meals: Totals, extras: ExtrasDay | undefined): DayParts {
   const e = extras?.totals ?? emptyTotals()
   return { meals, extras: e, total: addTotals(meals, e), extraItems: extras?.items ?? 0, unknownItems: extras?.unknownItems ?? 0 }
+}
+
+export type DayPart = { meals: Totals; extras: Totals; extraItems: number }
+
+/** The days of "My nutrition" with the extras added in, and for each day the two parts (meals, extras) so the screen can show both.
+ * A day with only extras counts too. Extras with no calories are not added (they stay "not counted"). */
+export function mergeMealsAndExtras(days: DayTotals[], extras: Map<string, ExtrasDay>): { days: DayTotals[]; parts: Map<string, DayPart> } {
+  const dates = [...new Set([...days.map((d) => d.date), ...extras.keys()])].sort()
+  const parts = new Map<string, DayPart>()
+  const merged = dates.map((date): DayTotals => {
+    const base = days.find((d) => d.date === date) ?? { date, totals: emptyTotals(), meals: 0, unknownMeals: 0 }
+    const e = extras.get(date)
+    parts.set(date, { meals: base.totals, extras: e?.totals ?? emptyTotals(), extraItems: e ? e.items - e.unknownItems : 0 })
+    return { date, totals: addTotals(base.totals, e?.totals ?? emptyTotals()), meals: base.meals + (e ? e.items - e.unknownItems : 0), unknownMeals: base.unknownMeals }
+  })
+  return { days: merged, parts }
 }
 
 // ── same as yesterday ──

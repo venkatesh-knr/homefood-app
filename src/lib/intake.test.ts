@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
+  mergeMealsAndExtras,
   clampQuantity, extrasByDay, foodKey, goalFor, gramsOf100g, mergeDay, nutritionFor, parseGoal, progressOf, quantityStep, recentSources, sameAsYesterday, searchFoods,
   snapshotFor, stepQuantity, sumIntake, type FoodOption, type IntakeRow, type PerUnit,
 } from './intake'
-import { emptyTotals } from './nutrition'
+import { emptyTotals, type DayTotals } from './nutrition'
 
 const per = (kcal: number | null, protein: number | null = 0): PerUnit => ({ kcal, protein_g: protein, carbs_g: kcal === null ? null : 10, fat_g: kcal === null ? null : 1, fibre_g: kcal === null ? null : 1, sugar_g: kcal === null ? null : 2, sodium_mg: kcal === null ? null : 50 })
 
@@ -150,5 +151,29 @@ describe('goals', () => {
     expect(parseGoal('500', 'kcal')).toBe('invalid')
     expect(parseGoal('60.5', 'protein')).toBe('invalid')
     expect(parseGoal('abc', 'kcal')).toBe('invalid')
+  })
+})
+
+describe('mergeMealsAndExtras', () => {
+  const day = (date: string, kcal: number): DayTotals => ({ date, totals: { ...emptyTotals(), kcal, protein_g: kcal / 30 }, meals: 2, unknownMeals: 0 })
+  it('adds each day\'s extras to its meals and keeps the two parts', () => {
+    const extras = extrasByDay([row({ eaten_on: '2026-10-10', kcal: 200, protein_g: 10 })])
+    const { days, parts } = mergeMealsAndExtras([day('2026-10-10', 1500), day('2026-10-11', 1400)], extras)
+    expect(days.map((d) => d.totals.kcal)).toEqual([1700, 1400])
+    expect(parts.get('2026-10-10')).toMatchObject({ extraItems: 1 })
+    expect(parts.get('2026-10-10')!.meals.kcal).toBe(1500)
+    expect(parts.get('2026-10-10')!.extras.kcal).toBe(200)
+    expect(parts.get('2026-10-11')!.extras.kcal).toBe(0)
+  })
+  it('counts a day with only extras', () => {
+    const { days } = mergeMealsAndExtras([], extrasByDay([row({ eaten_on: '2026-10-12', kcal: 90 })]))
+    expect(days).toHaveLength(1)
+    expect(days[0]!.meals).toBe(1)
+    expect(days[0]!.totals.kcal).toBe(90)
+  })
+  it('leaves extras with no calories out of the total', () => {
+    const extras = extrasByDay([row({ kcal: null, protein_g: null }), row({ id: 'r2', kcal: 50 })])
+    const { days } = mergeMealsAndExtras([day('2026-10-11', 1000)], extras)
+    expect(days[0]!.totals.kcal).toBe(1050)
   })
 })

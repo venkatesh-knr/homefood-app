@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dialog } from './Dialog'
 import { AddFoodSheet } from './AddFoodSheet'
 import { useHome } from '../lib/homeContext'
-import { useMembers } from '../lib/queries'
+import { useExtrasPeople } from '../lib/useExtrasPeople'
+import { ProteinCard } from './ProteinCard'
 import { useIntake } from '../lib/intakeQueries'
 import { changeIntakeAmount, removeIntake } from '../lib/intakeMutations'
 import { sumIntake, stepQuantity, type IntakeRow } from '../lib/intake'
@@ -13,12 +14,8 @@ import { describeError } from '../lib/errors'
 /** "My extras today": what a person ate outside the planned meals. Private to them; the Admin can also keep it for family members with no login. */
 export function ExtrasSection({ date }: { date: string }) {
   const { t } = useTranslation()
-  const { profile, household } = useHome()
-  const { data: members } = useMembers(household.id)
-  const people = useMemo(
-    () => [profile, ...(profile.role === 'admin' ? (members ?? []).filter((m) => m.kind === 'family' && !m.can_login && m.id !== profile.id) : [])],
-    [profile, members],
-  )
+  const { profile } = useHome()
+  const people = useExtrasPeople()
   const [personId, setPersonId] = useState(profile.id)
   const person = people.find((p) => p.id === personId) ?? profile
   const mine = person.id === profile.id
@@ -47,6 +44,8 @@ export function ExtrasSection({ date }: { date: string }) {
           </label>
         )}
       </div>
+
+      <ProteinCard person={person} date={date} />
 
       {items.length === 0 ? (
         <p className="rounded-2xl bg-sand px-4 py-3 text-[13.5px] text-ink-soft">{t('extras.empty')}</p>

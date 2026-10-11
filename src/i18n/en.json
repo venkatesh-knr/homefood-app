@@ -814,6 +814,7 @@
     "preview": "About {{kcal}} kcal · {{protein}} g protein (an estimate)",
     "previewUnknown": "No calories entered for this food, so it is not added up.",
     "estimateNote": "Estimates for planning at home, not medical advice.",
+    "partsLine": "meals {{meals}} + extras {{extras}} kcal",
     "star": "Add to My usuals",
     "unstar": "Remove from My usuals",
     "back": "Back",
@@ -829,5 +830,27 @@
       "handful_one": "handful", "handful_other": "handfuls",
       "serving_one": "serving", "serving_other": "servings"
     }
+  },
+  "goals": {
+    "title": "My goals",
+    "forLabel": "For",
+    "hint": "Optional. If you set a number it is used on your Today and My nutrition screens instead of the suggested value. Only you can see it.",
+    "hintAdmin": "Optional. Only you, as Admin, can see goals you keep for people without a login.",
+    "protein": "Protein goal (g a day)",
+    "kcal": "Calorie goal (kcal a day)",
+    "suggested": "Suggested: {{value}}",
+    "save": "Save my goals",
+    "saved": "Saved.",
+    "reset": "Use the suggested values",
+    "problem": "Protein: 10 to 400 g. Calories: 800 to 6000. Whole numbers only."
+  },
+  "protein": {
+    "title": "Protein today",
+    "of": "{{eaten}} of {{goal}} g",
+    "yourGoal": "your goal",
+    "suggestedGoal": "suggested for you",
+    "toGo": "{{n}} g to go",
+    "reached": "Goal reached",
+    "mealsAndExtras": "Meals and extras together. An estimate, not medical advice."
   }
 }

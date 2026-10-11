@@ -9,6 +9,9 @@ import { Card } from '../components/ui'
 import { BackHeader } from '../components/BackHeader'
 import { PeriodControls, usePeriod } from '../components/PeriodControls'
 import { TargetBars } from '../components/TargetBars'
+import { ProteinCard } from '../components/ProteinCard'
+import { useIntake } from '../lib/intakeQueries'
+import { extrasByDay, mergeMealsAndExtras } from '../lib/intake'
 
 export function NutritionDisclaimer() {
   const { t } = useTranslation()
@@ -30,16 +33,20 @@ export default function NutritionPage() {
   const { data: targets } = useNutritionTargets()
   const { data: attendance } = useAttendance(period.bounds.from, period.to)
 
-  const days = useMemo(() => dayTotalsFor(slots ?? [], profile.id, byDish ?? new Map(), period.today, attendance ?? []), [slots, profile.id, byDish, period.today, attendance])
+  const { data: intake } = useIntake(profile.id, period.bounds.from, period.to)
+  const mealDays = useMemo(() => dayTotalsFor(slots ?? [], profile.id, byDish ?? new Map(), period.today, attendance ?? []), [slots, profile.id, byDish, period.today, attendance])
+  const merged = useMemo(() => mergeMealsAndExtras(mealDays, extrasByDay(intake ?? [])), [mealDays, intake])
+  const days = merged.days
   const resolved = targets && targets.length > 0 ? targetFor(profile, targets) : null
   const summary = resolved ? summarisePeriod(days, resolved.target) : null
-  const unknown = days.reduce((n, d) => n + d.unknownMeals, 0)
+  const unknown = mealDays.reduce((n, d) => n + d.unknownMeals, 0)
   const dayFmt = new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short' })
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-3 px-5 pb-8">
       <BackHeader title={t('nutrition.mine')} subtitle={t('nutrition.mineSub')} to="/home" />
       <PeriodControls period={period} />
+      <ProteinCard person={profile} date={period.today} />
 
       {!resolved ? (
         <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('nutrition.unavailable')}</p>
@@ -88,6 +95,11 @@ export default function NutritionPage() {
                     <span className="font-semibold">{dayFmt.format(new Date(`${d.date}T00:00:00`))}</span>
                     <span className="text-ink-soft">
                       {Math.round(d.totals.kcal)} kcal · {Math.round(d.totals.protein_g)} g {t('nutrition.n.protein_g').toLowerCase()}
+                      {(merged.parts.get(d.date)?.extraItems ?? 0) > 0 && (
+                        <span className="block text-[12px] text-muted">
+                          {t('extras.partsLine', { meals: Math.round(merged.parts.get(d.date)!.meals.kcal), extras: Math.round(merged.parts.get(d.date)!.extras.kcal) })}
+                        </span>
+                      )}
                     </span>
                   </div>
                 ))}
