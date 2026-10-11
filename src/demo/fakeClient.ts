@@ -39,6 +39,7 @@ const PK: Record<string, string[]> = {
   nutrition_targets: ['age_band', 'sex', 'activity'],
   meal_attendance: ['slot_id', 'profile_id'],
   dish_favourites: ['household_id', 'dish_id'],
+  personal_goals: ['profile_id'],
 }
 
 /** Other uniqueness rules the real database enforces. */
@@ -81,10 +82,13 @@ const DEFAULTS: Record<string, () => Row> = {
   dishes: () => ({ household_id: null, cuisine_id: null, meal_types: [], course: 'main', diet: 'veg', tags: [], allergens: [], prep_minutes: null, photo_path: null, photo_credit: null, recipe_search: null, where_seen: null, created_by: null, created_at: nowIso() }),
   cuisines: () => ({ parent_id: null, name_ta: null, sort_order: 100 }),
   dish_favourites: () => ({ created_at: nowIso() }),
+  personal_intake: () => ({ eaten_at: null, common_food_id: null, custom_food_id: null, dish_id: null, kcal: null, protein_g: null, carbs_g: null, fat_g: null, fibre_g: null, sugar_g: null, sodium_mg: null, created_at: nowIso() }),
+  personal_usuals: () => ({ common_food_id: null, custom_food_id: null, dish_id: null, created_at: nowIso() }),
+  custom_foods: () => ({ name_ta: null, unit: 'piece', kcal: null, protein_g: null, carbs_g: null, fat_g: null, created_at: nowIso() }),
   dish_photo_overrides: () => ({ updated_at: nowIso() }),
 }
 
-const HAS_ID = new Set(['households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications'])
+const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications'])
 
 const NOT_IN_DEMO = 'This is not available in the demo.'
 

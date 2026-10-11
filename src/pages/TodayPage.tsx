@@ -13,6 +13,7 @@ import { useCanPlanDate } from '../lib/useCanPlan'
 import { useRecipeDishIds } from '../lib/recipeQueries'
 import { AttendanceControl } from '../components/AttendanceControl'
 import { useAttendance } from '../lib/attendanceQueries'
+import { ExtrasSection } from '../components/ExtrasSection'
 import type { AttendanceRow } from '../lib/attendance'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 
@@ -76,6 +77,8 @@ export default function TodayPage() {
           </div>
         </>
       )}
+
+      <ExtrasSection date={today} />
 
       <button
         type="button"
