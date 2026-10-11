@@ -4,6 +4,7 @@ import i18n from '../i18n'
 import { queryClient } from '../lib/queryClient'
 import { setDemoClient } from '../lib/supabase'
 import { setDemoActive } from './demoState'
+import { setTipsForDemo } from '../lib/tips'
 
 export async function startDemo(): Promise<void> {
   const [{ default: catalogue }, { buildDemoDb }, { createDemoClient }] = await Promise.all([import('./catalogue.json'), import('./demoData'), import('./fakeClient')])
@@ -27,6 +28,7 @@ export async function startDemo(): Promise<void> {
   setDemoClient(createDemoClient(db))
   queryClient.clear()
   setDemoActive(true)
+  setTipsForDemo(true)
 }
 
 /** Ends the demo: everything made up is dropped and the app goes back to the sign-in screen. */
@@ -34,4 +36,5 @@ export function stopDemo(): void {
   setDemoActive(false)
   setDemoClient(null)
   queryClient.clear()
+  setTipsForDemo(false)
 }

@@ -14,6 +14,7 @@ import { useRecipeDishIds } from '../lib/recipeQueries'
 import { AttendanceControl } from '../components/AttendanceControl'
 import { useAttendance } from '../lib/attendanceQueries'
 import type { AttendanceRow } from '../lib/attendance'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 
 const now = new Date()
 const today = toISODate(now)
@@ -51,6 +52,8 @@ export default function TodayPage() {
         <p className="text-[13px] text-muted">{dateLabel}</p>
         <h1 className="font-display text-[22px] font-bold">{t(`today.greeting${capitalize(greetingPeriod(now))}`, { name: profile.display_name })}</h1>
       </div>
+
+      <FirstVisitTip id="today" />
 
       <NextUpCard meal={nextUp} slot={nextSlot} lang={lang} attendance={attendance} counts={nextSlot ? (counts?.get(nextSlot.id) ?? EMPTY_COUNTS) : undefined} onClick={() => open(nextUp, nextSlot)} onDiscuss={() => navigate(`/week/${today}/${nextUp}/discuss`)} onRecipe={nextSlot?.main_dish && recipeIds?.has(nextSlot.main_dish.id) ? () => navigate(`/dishes/${nextSlot.main_dish!.id}/recipe`, { state: { servings: eatingCount(nextSlot) } }) : undefined} />
 

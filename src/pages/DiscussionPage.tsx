@@ -1,6 +1,7 @@
 import { RecipeIcon } from '../components/icons'
 import { useMemo, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
@@ -156,6 +157,8 @@ export default function DiscussionPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-3 px-5 pb-4">
       {header}
+
+      <FirstVisitTip id="discussion" />
 
       <div className="flex flex-col gap-3 rounded-[20px] border border-line bg-surface p-4">
         <div className="flex items-center gap-3.5">

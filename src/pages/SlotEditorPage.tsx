@@ -16,6 +16,7 @@ import { Button, FullPageMessage } from '../components/ui'
 import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
 import { DishPickerSheet } from '../components/DishPickerSheet'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
 
@@ -159,6 +160,8 @@ export default function SlotEditorPage() {
           {busy ? t('planner.saving') : t('common.save')}
         </button>
       </div>
+
+      <FirstVisitTip id="slotEditor" className="mx-4 mt-2.5" />
 
       <div className="px-4 pt-2.5">
         <div role="radiogroup" aria-label={t('planner.mainDish')} className="grid grid-cols-3 gap-1 rounded-2xl bg-sand p-1">

@@ -8,6 +8,8 @@ import { InviteCard } from '../components/InviteCard'
 import { GettingStartedChecklist } from '../components/GettingStartedChecklist'
 import { HomeSettingsCard } from '../components/HomeSettingsCard'
 import { AppearanceCard } from '../components/AppearanceCard'
+import { TipsCard } from '../components/TipsCard'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useCanPlanDate } from '../lib/useCanPlan'
 import { toISODate } from '../lib/planner'
 import { useDemoState } from '../demo/demoState'
@@ -23,6 +25,8 @@ export default function HomeTabPage() {
 
   return (
     <main className="flex flex-col gap-5 px-5 pb-8">
+      <FirstVisitTip id="home" />
+
       <PeopleSection householdId={household.id} myProfileId={profile.id} isAdmin={isAdmin} />
 
       {isAdmin && (
@@ -37,6 +41,8 @@ export default function HomeTabPage() {
       {isAdmin && <HomeSettingsCard household={household} />}
 
       <AppearanceCard />
+
+      <TipsCard />
 
       <button
         type="button"

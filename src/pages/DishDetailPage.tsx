@@ -1,5 +1,6 @@
 import { InstagramIcon, RecipeIcon, YouTubeIcon } from '../components/icons'
 import { FavouriteButton } from '../components/FavouriteButton'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -123,6 +124,7 @@ export default function DishDetailPage() {
       </button>
 
       <div className="flex flex-col gap-4 px-5 pt-4 pb-8">
+        <FirstVisitTip id="dishDetail" />
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h1 className="font-display text-[24px] font-bold">{name}</h1>

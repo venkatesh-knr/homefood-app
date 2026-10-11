@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
@@ -62,6 +63,7 @@ export default function DishesPage() {
 
   return (
     <main className="flex flex-col gap-3 px-5 pb-8">
+      <FirstVisitTip id="dishes" />
       <div className="flex items-center gap-2.5 rounded-2xl border border-line-strong bg-surface px-3.5 py-1">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-muted" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />

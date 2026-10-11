@@ -391,6 +391,10 @@ Done:
   `src/demo/catalogue.json` with `python -X utf8 scripts/gen-demo-catalogue.py` (edit its PICKS list; `demoData.ts` WEEK names must be among them). Anything that needs a server
   (`rpc`, photo upload) answers "not available in the demo". New tables or joins that screens read need a line in `fakeClient.ts` (REL / PK / CASCADE) and in `demoData.ts`.
   The demo's device flags (onboarding, poster opened) live in memory, not localStorage.
+- **First-visit tips** (12 Oct 2026, spec layer 4): one short tip the first time each main screen opens (Today, Week, slot editor, Dishes, Dish detail, Week at a glance,
+  Discussion, Home), dismissed with "Got it", never shown again on that device (`lib/tips.ts`, localStorage `homefood.tip.<id>`; `components/FirstVisitTip.tsx`, `role="note"`, in the page
+  flow, never an overlay; focus moves to the page when it goes). Home tab → Tips → "Show tips again" (`TipsCard`) brings them all back. In the demo home tips live in memory only and
+  start unseen. Add a tip: a `TipId` in `lib/tips.ts`, `tips.<id>` in en/ta, `<FirstVisitTip id="…" />` on the screen.
 
 Deferred, flagged rather than attempted half-done:
 - **Welcome tour.** A guided first-visit walkthrough is real UX design work (what gets highlighted, in what order, for

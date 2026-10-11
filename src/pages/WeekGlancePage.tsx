@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useNavigate } from 'react-router-dom'
 import { toPng } from 'html-to-image'
 import { useHome } from '../lib/homeContext'
@@ -128,6 +129,8 @@ export default function WeekGlancePage() {
           </button>
         </div>
       </div>
+
+      <FirstVisitTip id="glance" className="mb-3" />
 
       <div ref={posterRef} data-theme="light" className="flex flex-col gap-4 bg-cream py-3">
         <div className="flex items-end justify-between gap-4">

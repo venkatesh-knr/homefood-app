@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
@@ -124,6 +125,8 @@ export default function WeekPage() {
           {weekPlan?.status === 'published' ? t('planner.statusPublished', { date: weekPlan.published_at ? weekRangeFormatter.format(new Date(weekPlan.published_at)) : '' }) : t('planner.statusDraft')}
         </p>
       </div>
+
+      <FirstVisitTip id="week" />
 
       {canPlanSelected && (
         <div className="flex items-center gap-2 rounded-2xl bg-leaf-tint px-3.5 py-2.5 text-[13.5px] text-leaf">
