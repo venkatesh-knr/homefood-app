@@ -148,7 +148,8 @@ OTP expiry 600 s, minimum interval per user 60 s (the sign-in page resend timer 
 ## Code layout
 
 ```
-src/lib/supabase.ts     client (persistSession, autoRefreshToken, detectSessionInUrl: false)
+src/lib/supabase.ts     client (persistSession, autoRefreshToken, detectSessionInUrl: false); exported `supabase` is a Proxy that points at the demo's in-memory client while the demo is open
+src/demo/               demo home: fakeClient.ts (in-memory Supabase-shaped client), demoData.ts (the made-up family and weeks), demoState.ts (open/closed + Admin/Planner/Member view), demo.ts (startDemo/stopDemo), catalogue.json (generated)
 src/lib/auth.tsx        AuthProvider/useAuth: session, sendCode, verifyCode, signOut; AuthError kinds wrongCode/tooMany/generic
 src/lib/validation.ts   email/code/name/allergy helpers (+ tests)
 src/lib/people.ts       Household/Profile/Invite types + pure helpers (ageBand, avatarColor, personDetailText…) (+ tests)
@@ -380,13 +381,21 @@ Done:
   (`text-muted` on `bg-cream` measures ~5.6:1, clears AA's 4.5:1), touch target sizes. Found and fixed the "next week"
   mislabel above; bumped `WeekGlancePage`'s smallest touch targets from 28px to 36px.
 
+- **Demo home** (12 Oct 2026, spec "Welcome and demo"): "Explore a demo home" on the sign-in screen. It runs only on the device with made-up data: no Supabase
+  reads or writes, nothing stored, fresh every time it opens (a reload ends it). It is **one data layer, not a second set of screens**: `lib/supabase.ts` exports a Proxy,
+  and while the demo is open it forwards to `src/demo/fakeClient.ts`, a small in-memory client that understands the query calls the app makes (joined selects, filters,
+  order/limit, insert/update/upsert/delete with the same uniqueness and cascade rules, single/maybeSingle, counts). `AuthProvider` hands out a made-up session per view
+  (Admin = Amma, Planner = Appa who has this week's turn, Member = Kavi); the banner (`DemoBanner`, in `AppShell`, every screen) switches view and has "Start my household".
+  Sample family: Amma, Appa, Paati (no login, soy allergy), Kavi, Arun, Helper (cook only). Last week (done) and this week (published, with a dine-out lunch and an order-in dinner),
+  votes, comments, an open suggestion, attendance on today's meals, bell items. The 100 dishes with recipes, nutrition and photos are real catalogue entries: regenerate
+  `src/demo/catalogue.json` with `python -X utf8 scripts/gen-demo-catalogue.py` (edit its PICKS list; `demoData.ts` WEEK names must be among them). Anything that needs a server
+  (`rpc`, photo upload) answers "not available in the demo". New tables or joins that screens read need a line in `fakeClient.ts` (REL / PK / CASCADE) and in `demoData.ts`.
+  The demo's device flags (onboarding, poster opened) live in memory, not localStorage.
+
 Deferred, flagged rather than attempted half-done:
 - **Welcome tour.** A guided first-visit walkthrough is real UX design work (what gets highlighted, in what order, for
   which of the 4 tabs) — a placeholder tour would likely do more harm than good. Needs a decision on scope before
   building anything.
-- **Demo home.** A sandboxed household with fake data to explore before committing to a real one — bigger than it
-  sounds: either a real Supabase household seeded and reset per visitor, or a fully separate mock-data code path
-  parallel to everything built so far. Worth a decision on which before starting.
 - **Tamil everywhere, part 2: still no native-speaker review.** Every string has an `en`/`ta` pair and the
   parity test (`translations.test.ts`) guarantees neither language is missing a key mid-flight. On 11 Oct 2026 Claude read all 502 UI strings
   in Tamil and fixed 30 (wrong word "பரிமாணம்" for servings, "வேலைக்காரர்" for helper, "stock"/"ஆப்" left in English, sandhi on buttons,

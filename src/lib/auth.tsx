@@ -1,6 +1,8 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './supabase'
+import { DEMO_USER_IDS, isDemoActive, useDemoState } from '../demo/demoState'
+import { stopDemo } from '../demo/demo'
 
 type AuthState = {
   session: Session | null
@@ -29,7 +31,11 @@ function toAuthError(err: { status?: number; message?: string }): AuthError {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null)
+  const [realSession, setSession] = useState<Session | null>(null)
+  const demo = useDemoState()
+  // In the demo home there is no real login: a made-up session stands in, one per view (Admin / Planner / Member).
+  const demoSession = useMemo(() => ({ user: { id: DEMO_USER_IDS[demo.role] } }) as unknown as Session, [demo.role])
+  const session = demo.active ? demoSession : realSession
   const [loading, setLoading] = useState(Boolean(supabase))
 
   useEffect(() => {
@@ -59,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (error) throw toAuthError(error)
     },
     async signOut() {
+      if (isDemoActive()) return stopDemo()
       await supabase?.auth.signOut()
     },
   }

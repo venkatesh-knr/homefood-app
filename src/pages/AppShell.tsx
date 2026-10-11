@@ -5,6 +5,7 @@ import { useMyProfile, useHousehold } from '../lib/queries'
 import { HomeProvider } from '../lib/homeContext'
 import { FullPageMessage, LanguageSwitch, Logo } from '../components/ui'
 import { InstallBanner } from '../components/InstallBanner'
+import { DemoBanner } from '../components/DemoBanner'
 
 const TABS = [
   { to: '/today', labelKey: 'shell.nav.today', icon: IconToday },
@@ -29,6 +30,7 @@ export default function AppShell() {
   return (
     <HomeProvider value={{ profile, household }}>
       <div className="mx-auto flex min-h-screen max-w-md flex-col">
+        <DemoBanner />
         <header className="flex items-center justify-between gap-3 px-5 py-3 print:hidden">
           <div className="flex min-w-0 items-center gap-2.5">
             <Logo size={32} />

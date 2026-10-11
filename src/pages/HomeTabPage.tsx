@@ -10,12 +10,14 @@ import { HomeSettingsCard } from '../components/HomeSettingsCard'
 import { AppearanceCard } from '../components/AppearanceCard'
 import { useCanPlanDate } from '../lib/useCanPlan'
 import { toISODate } from '../lib/planner'
+import { useDemoState } from '../demo/demoState'
 
 export default function HomeTabPage() {
   const { t } = useTranslation()
   const { profile, household } = useHome()
   const { signOut } = useAuth()
   const navigate = useNavigate()
+  const demo = useDemoState()
   const isAdmin = profile.role === 'admin'
   const canSeeFamily = useCanPlanDate(toISODate(new Date()))
 
@@ -75,7 +77,7 @@ export default function HomeTabPage() {
       )}
 
       <Button variant="secondary" className="w-full" onClick={() => void signOut()}>
-        {t('welcome.signOut')}
+        {demo.active ? t('demo.start') : t('welcome.signOut')}
       </Button>
     </main>
   )

@@ -20,8 +20,15 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/apple-touch-icon.png'],
       workbox: {
-        // Catalogue photos (public/dish-photos, ~7 MB in all) are not pre-cached; each one is kept the first time it is seen.
+        // The demo home's code and sample catalogue (~220 KB) are loaded only when someone opens the demo, so they are not pre-cached;
+        // like the catalogue photos (public/dish-photos, ~7 MB in all) they are kept the first time they are used.
+        globIgnores: ['**/catalogue-*.js', '**/demoData-*.js', '**/fakeClient-*.js'],
         runtimeCaching: [
+          {
+            urlPattern: ({ url }) => /\/assets\/(catalogue|demoData|fakeClient)-[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'demo-code', expiration: { maxEntries: 6 } },
+          },
           {
             urlPattern: ({ url }) => url.pathname.includes('/dish-photos/'),
             handler: 'CacheFirst',

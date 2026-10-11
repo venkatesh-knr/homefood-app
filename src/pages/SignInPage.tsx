@@ -1,9 +1,21 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LanguageSwitch, Logo } from '../components/ui'
+import { Button, LanguageSwitch, Logo } from '../components/ui'
+import { startDemo } from '../demo/demo'
 import { SignInForm } from '../components/SignInForm'
 
 export default function SignInPage() {
   const { t } = useTranslation()
+  const [opening, setOpening] = useState(false)
+
+  async function openDemo() {
+    setOpening(true)
+    try {
+      await startDemo()
+    } finally {
+      setOpening(false)
+    }
+  }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col px-6">
@@ -18,6 +30,18 @@ export default function SignInPage() {
       </header>
 
       <SignInForm />
+
+      <div className="flex flex-col gap-2.5 pt-7">
+        <div className="flex items-center gap-3 text-[13px] text-muted" aria-hidden="true">
+          <span className="h-px flex-1 bg-line" />
+          {t('demo.or')}
+          <span className="h-px flex-1 bg-line" />
+        </div>
+        <Button variant="secondary" className="w-full" disabled={opening} onClick={() => void openDemo()}>
+          {opening ? t('demo.opening') : t('demo.explore')}
+        </Button>
+        <p className="text-center text-[12.5px] text-muted">{t('demo.exploreHint')}</p>
+      </div>
 
       <p className="mt-auto py-7 text-center text-[13px] text-muted">{t('signIn.joiningHint')}</p>
     </main>

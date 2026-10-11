@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useInstallPrompt } from '../lib/installPrompt'
 import { useDeviceFlag } from '../lib/onboarding'
 import { Button } from './ui'
+import { isDemoActive } from '../demo/demoState'
 
 /** A dismissible nudge to install the PWA — the browser's own menu buries this otherwise. */
 export function InstallBanner() {
@@ -9,7 +10,7 @@ export function InstallBanner() {
   const { canPromptInstall, canShowIOSInstructions, promptInstall } = useInstallPrompt()
   const [dismissed, dismiss] = useDeviceFlag('homefood.installBannerDismissed')
 
-  if (dismissed || (!canPromptInstall && !canShowIOSInstructions)) return null
+  if (isDemoActive() || dismissed || (!canPromptInstall && !canShowIOSInstructions)) return null
 
   return (
     <div className="mx-5 mt-2 flex items-start gap-3 rounded-2xl border border-line-strong bg-surface px-3.5 py-3 print:hidden">

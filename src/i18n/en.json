@@ -607,5 +607,34 @@
     "light": "Light",
     "dark": "Dark",
     "hint": "Applies to this phone or computer only."
+  },
+  "demo": {
+    "explore": "Explore a demo home",
+    "exploreHint": "Try the app with a made-up family. No sign-up, and nothing is saved.",
+    "or": "or",
+    "opening": "Opening the demo…",
+    "banner": "Demo · made-up family",
+    "start": "Start my household",
+    "viewAs": "View as",
+    "role": {
+      "admin": "Admin",
+      "planner": "Planner",
+      "member": "Member"
+    },
+    "roleHint": {
+      "admin": "Admin (Amma): plans any day, manages people and the home's settings.",
+      "planner": "Planner (Appa): plans the days of their turn. Everything else is view, vote and comment.",
+      "member": "Member (Kavi): votes, comments and suggests dishes. The Planner decides."
+    },
+    "unavailable": "This is not available in the demo.",
+    "data": {
+      "homeName": "Demo family",
+      "helper": "Helper",
+      "kaviSpicy": "Could we make it a little less spicy tonight?",
+      "ammaSure": "Sure, I will go easy on the chilli.",
+      "appaGood": "Looks good to me.",
+      "appaBiryani": "Biryani on Saturday, yes please!",
+      "kaviBiryani": "Can we have extra raita with it?"
+    }
   }
 }

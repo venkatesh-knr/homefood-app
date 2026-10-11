@@ -2,6 +2,7 @@
 // only need to survive on this device (a phone, a laptop) and are harmless to lose
 // or re-show once on a new one, unlike real household state.
 import { useCallback, useState } from 'react'
+import { isDemoActive } from '../demo/demoState'
 
 function readFlag(key: string): boolean {
   try {
@@ -12,12 +13,15 @@ function readFlag(key: string): boolean {
 }
 
 export function useDeviceFlag(key: string) {
-  const [on, setOn] = useState(() => readFlag(key))
+  const [on, setOn] = useState(() => !isDemoActive() && readFlag(key))
   const markDone = useCallback(() => {
-    try {
-      localStorage.setItem(key, '1')
-    } catch {
-      /* private mode or storage disabled — just keep it in memory for this visit */
+    // The demo home keeps nothing on the device: its flags live in memory for the visit.
+    if (!isDemoActive()) {
+      try {
+        localStorage.setItem(key, '1')
+      } catch {
+        /* private mode or storage disabled — just keep it in memory for this visit */
+      }
     }
     setOn(true)
   }, [key])
@@ -28,7 +32,8 @@ export function useDeviceFlag(key: string) {
  * People + Invite stay reachable from the Home tab either way — re-showing the wizard
  * once on a new device is harmless, so this isn't database state. */
 export function useOnboarded(householdId: string) {
-  return useDeviceFlag(`homefood.onboarded.${householdId}`)
+  const flag = useDeviceFlag(`homefood.onboarded.${householdId}`)
+  return isDemoActive() ? ([true, flag[1]] as const) : flag
 }
 
 /** Whether this device has opened Week at a glance — the last item on the getting-

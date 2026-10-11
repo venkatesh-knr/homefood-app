@@ -50,10 +50,12 @@ export function VoteRow({
         aria-pressed={on}
         disabled={busy}
         onClick={() => void vote(v)}
-        className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] text-[14.5px] font-semibold ${tone}`}
+        className={`flex min-h-11 min-w-0 flex-auto flex-wrap items-center justify-center gap-x-1.5 rounded-2xl border-[1.5px] px-1.5 py-1 text-center text-[13px] leading-tight font-semibold ${tone}`}
       >
         <VoteIcon kind={v} size={17} />
-        {t(agree ? 'discussion.agree' : 'discussion.disagree')} · {n}
+        <span>
+          {t(agree ? 'discussion.agree' : 'discussion.disagree')} · {n}
+        </span>
       </button>
     ) : (
       <button
@@ -76,7 +78,7 @@ export function VoteRow({
     <div className="flex flex-col gap-2 border-t border-line pt-3">
       {variant === 'full' ? (
         <>
-          <div className="flex gap-2.5">
+          <div className="flex gap-2">
             {button('agree')}
             {button('disagree')}
           </div>
