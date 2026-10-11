@@ -65,9 +65,9 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0030 are applied** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0031 are applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0032_….sql`) for the next change. **0031 (privacy controls: download my data, delete my account, delete household) is written but NOT yet run: Venkatesh must run it.** 0029 (My extras tables, rules and family-totals function) and 0030 (82 shared everyday foods) were run on 11 Oct 2026, as were 0024–0028 (weekly balance, recipe edit, own-dish nutrition and meals out, cuisine guard, six photos). Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0032_….sql`) for the next change. 0031 (privacy controls) was run on 12 Oct 2026. 0029 (My extras tables, rules and family-totals function) and 0030 (82 shared everyday foods) were run on 11 Oct 2026, as were 0024–0028 (weekly balance, recipe edit, own-dish nutrition and meals out, cuisine guard, six photos). Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
