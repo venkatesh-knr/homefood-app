@@ -7,11 +7,11 @@ What was checked, what was fixed, and what is still open. Target: WCAG 2.1 AA, o
 | Check | How | Re-run with |
 | --- | --- | --- |
 | Colour contrast, every pair the app uses, light and dark | `scripts/check-contrast.mjs` reads the tokens in `src/index.css` | `node scripts/check-contrast.mjs` (`npm run contrast`) |
-| Names, headings, touch targets, images, horizontal scroll | A small script run on 16 screens of the demo home at 375 px (fields without a label, buttons without a name, targets under 44 px, images without `alt`, missing `h1`, page wider than the screen) | Open the demo, run the snippet in the browser console (see below) |
+| Names, headings, touch targets, images, horizontal scroll | A small script run on 16 screens of the demo home at 375 px (fields without a label, buttons without a name, targets under 44 px, images without `alt`, missing `h1`, page wider than the screen) | `scripts/a11y-audit.js` in the browser console |
 | Reflow | The same 16 screens at 320 px wide (what 400 % zoom on a 1280 px screen gives), English and Tamil: no horizontal scrolling | as above |
 | Dialogs | The dish picker and the "Cook this again" sheet driven with Tab and Escape: Tab stays inside, Escape closes, focus goes in and (when the opener still exists) back | by hand |
 
-The audit snippet is kept short on purpose; it is in the commit message of "Accessibility pass" and easy to rewrite: loop over the routes, `querySelectorAll('button, a[href], input, select, textarea, img')`, and flag the five problems above.
+The audit snippet is `scripts/a11y-audit.js`: paste it into the browser console on any screen and call `window.__audit()`.
 
 ## Fixed
 
