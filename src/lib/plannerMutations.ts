@@ -1,6 +1,6 @@
 import { supabase } from './supabase'
 import { queryClient } from './queryClient'
-import { toISODate, weekDates, weekStartOf, type MealSource, type MealType, type TurnScope } from './planner'
+import { toISODate, weekDates, weekStartOf, type MealSource, type MealType, type OutsideMealSize, type TurnScope } from './planner'
 
 function client() {
   if (!supabase) throw new Error('Supabase is not configured')
@@ -42,6 +42,8 @@ export type SlotInput = {
   cook_profile_ids: string[]
   eater_profile_ids: string[]
   note: string
+  /** Dine-out / order-in only; empty for "not sure". */
+  outside_size?: OutsideMealSize | ''
 }
 
 /** Upserts one meal slot and replaces its sides/cooks/eaters with exactly this list. */
@@ -61,14 +63,19 @@ export async function saveSlot(
   // A meal planned before the home changed its first day of the week lives in an older week plan: edit it where it is.
   const { data: found, error: findError } = await client().from('meal_slots').select('id').eq('household_id', householdId).eq('date', date).eq('meal', meal).maybeSingle()
   if (findError) throw findError
-  const { data: slot, error } = found
-    ? await client().from('meal_slots').update(fields).eq('id', found.id).select('id').single()
-    : await client()
-        .from('meal_slots')
-        .insert({ week_plan_id: weekPlanId, household_id: householdId, date, meal, ...fields })
-        .select('id')
-        .single()
-  if (error) throw error
+  const write = (extra: Record<string, unknown>) =>
+    found
+      ? client().from('meal_slots').update({ ...fields, ...extra }).eq('id', found.id).select('id').single()
+      : client()
+          .from('meal_slots')
+          .insert({ week_plan_id: weekPlanId, household_id: householdId, date, meal, ...fields, ...extra })
+          .select('id')
+          .single()
+  // The size of a meal out is a column from migration 0026; until that has been run the slot is saved without it.
+  const size = input.source === 'home' ? null : input.outside_size || null
+  let { data: slot, error } = await write({ outside_meal_size: size })
+  if (error && /outside_meal_size/.test(error.message ?? '')) ({ data: slot, error } = await write({}))
+  if (error || !slot) throw error ?? new Error('The meal was not saved')
   const slotId = slot.id as string
 
   await client().from('meal_slot_sides').delete().eq('slot_id', slotId)

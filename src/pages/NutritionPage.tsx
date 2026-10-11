@@ -14,7 +14,7 @@ export function NutritionDisclaimer() {
   const { t } = useTranslation()
   return (
     <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">
-      {t('nutrition.disclaimer')} {t('attendance.nutritionNote')}
+      {t('nutrition.disclaimer')} {t('attendance.nutritionNote')} {t('outsideNutrition.note')}
     </p>
   )
 }

@@ -2,6 +2,7 @@ import { supabase } from './supabase'
 import { queryClient } from './queryClient'
 import { stripPhotoMetadata } from './photo'
 import type { DishCourse, DietType, MealType } from './dishes'
+import type { NutritionPayload } from './dishNutrition'
 
 function client() {
   if (!supabase) throw new Error('Supabase is not configured')
@@ -112,4 +113,19 @@ export async function uploadDishPhoto(householdId: string, dishId: string, file:
     await client().storage.from('dish-photos').remove([existing.photo_path]) // best-effort cleanup
   }
   await queryClient.invalidateQueries({ queryKey: ['dish-photo-overrides', householdId] })
+}
+
+/** Saves the per-serving estimate typed in on Add / Edit dish, or removes it when the boxes were cleared. Always marked as an estimate. */
+export async function saveDishNutrition(dishId: string, value: NutritionPayload | null): Promise<void> {
+  if (value === null) {
+    const { error } = await client().from('dish_nutrition').delete().eq('dish_id', dishId)
+    if (error) throw error
+  } else {
+    const { error } = await client()
+      .from('dish_nutrition')
+      .upsert({ dish_id: dishId, ...value, is_estimate: true, source: 'Entered by your home (an estimate).' }, { onConflict: 'dish_id' })
+    if (error) throw error
+  }
+  await queryClient.invalidateQueries({ queryKey: ['dish-nutrition', dishId] })
+  await queryClient.invalidateQueries({ queryKey: ['dish-nutrition-all'] })
 }

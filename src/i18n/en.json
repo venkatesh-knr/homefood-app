@@ -248,7 +248,16 @@
     "dineOutPlaceholder": "Restaurant name (optional)",
     "orderInPrompt": "Ordering from",
     "orderInPlaceholder": "Restaurant or app (optional)",
-    "outHint": "No cooks needed. This meal still goes into your history."
+    "outHint": "No cooks needed. This meal still goes into your history.",
+    "outsideSize": {
+      "label": "How big was it?",
+      "none": "Not sure",
+      "light": "Light",
+      "normal": "Normal",
+      "heavy": "Heavy",
+      "hint": "Optional. A rough size is added to My and Family nutrition as an estimate.",
+      "about": "Counted as about {{kcal}} kcal each (a rough estimate)."
+    }
   },
   "rota": {
     "title": "Planner rota",
@@ -378,7 +387,22 @@
       "course": "Course",
       "diet": "Diet",
       "tags": "Tags (optional)",
-      "tagsPlaceholder": "e.g. fried, spicy — press Enter",
+      "tagsPlaceholder": "e.g. fried, vegetable, spicy — press Enter",
+      "nutritionTitle": "Nutrition per serving (optional)",
+      "nutritionHint": "An estimate you type in yourself. It is always shown as an estimate. Leave it empty if you are not sure.",
+      "nutrition": {
+        "serving": "One serving is",
+        "servingPlaceholder": "e.g. 1 plate",
+        "kcal": "Calories (kcal)",
+        "protein_g": "Protein (g)",
+        "carbs_g": "Carbs (g)",
+        "fat_g": "Fat (g)",
+        "fibre_g": "Fibre (g)",
+        "sugar_g": "Sugar (g)",
+        "sodium_mg": "Salt, as sodium (mg)",
+        "optional": "optional",
+        "problem": "Calories, protein, carbs and fat are needed, as plain numbers (for example 450 or 12.5)."
+      },
       "allergens": "Allergens (optional)",
       "allergensPlaceholder": "e.g. milk, wheat — press Enter",
       "prepMinutes": "Prep time in minutes (optional)",
@@ -735,5 +759,8 @@
     "confirmYes": "Yes, remove it",
     "confirmNo": "Keep it",
     "onlyAdmin": "Only an Admin can edit the family's recipes."
+  },
+  "outsideNutrition": {
+    "note": "A dine-out or order-in meal is counted only if you said how big it was (light, normal or heavy), as a rough estimate."
   }
 }

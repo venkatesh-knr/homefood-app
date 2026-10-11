@@ -303,6 +303,31 @@ delete from public.recipes where id = :'own_rec';
 select tests.ok(not exists (select 1 from public.recipe_ingredients where recipe_id = :'own_rec') and not exists (select 1 from public.recipe_steps where recipe_id = :'own_rec'), 'back to the original: deleting the copy removes its ingredients and steps');
 select tests.ok(exists (select 1 from public.recipes where household_id is null and dish_id = (select id from public.dishes where name = 'Idli' and household_id is null)), 'and the standard recipe is still there');
 
+-- ── Nutrition for own dishes and meals out (0026) ──
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+insert into public.dishes (household_id, name, created_by, meal_types) values (:'hh_a', 'Appa''s special', public.my_profile_id(), '{dinner}') returning id as appa_dish \gset
+insert into public.dish_nutrition (dish_id, serving, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg) values (:'appa_dish', '1 plate', 450, 20, 50, 18, 5, 4, 900);
+select tests.ok((select kcal = 450 from public.dish_nutrition where dish_id = :'appa_dish'), 'a member can add an estimate for the dish they added');
+update public.dish_nutrition set kcal = 500 where dish_id = :'appa_dish';
+select tests.ok((select kcal = 500 from public.dish_nutrition where dish_id = :'appa_dish'), 'and change it');
+select tests.refused($$ insert into public.dish_nutrition (dish_id, serving, kcal, protein_g, carbs_g, fat_g, fibre_g, sugar_g, sodium_mg) select id, 'x', 1, 1, 1, 1, 1, 1, 1 from public.dishes where name = 'Pongal' and household_id = '$$ || :'hh_a' || $$' $$, 'a member cannot add an estimate to a dish another member added');
+select tests.refused($$ update public.dish_nutrition set kcal = 1 where dish_id = (select id from public.dishes where name = 'Idli' and household_id is null) $$, 'nobody changes the shared catalogue''s estimates');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.dish_nutrition set kcal = 480 where dish_id = :'appa_dish';
+select tests.ok((select kcal = 480 from public.dish_nutrition where dish_id = :'appa_dish'), 'the Admin can change an estimate for any of her home''s dishes');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok(not exists (select 1 from public.dish_nutrition where dish_id = :'appa_dish'), 'another home cannot see the estimate');
+select tests.refused($$ update public.dish_nutrition set kcal = 1 where dish_id = '$$ || :'appa_dish' || $$' $$, 'another home cannot change it');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.meal_slots (week_plan_id, household_id, date, meal, source) values (:'wk_sun', :'hh_a', '2020-01-09', 'dinner', 'dine_out') returning id as out_slot \gset
+update public.meal_slots set outside_meal_size = 'heavy' where id = :'out_slot';
+select tests.ok((select outside_meal_size = 'heavy' from public.meal_slots where id = :'out_slot'), 'a dine-out meal can be marked light, normal or heavy');
+select tests.refused($$ update public.meal_slots set outside_meal_size = 'huge' where id = '$$ || :'out_slot' || $$' $$, 'only light, normal or heavy are accepted');
+select tests.refused($$ update public.meal_slots set source = 'home' where id = '$$ || :'out_slot' || $$' $$, 'a meal cannot become a home meal while it still has a meal-out size');
+update public.meal_slots set source = 'home', outside_meal_size = null where id = :'out_slot';
+select tests.ok((select source = 'home' and outside_meal_size is null from public.meal_slots where id = :'out_slot'), 'clearing the size and switching to home works together');
+select tests.refused($$ update public.meal_slots set outside_meal_size = 'light' where id = '$$ || :'out_slot' || $$' $$, 'a home-cooked meal has no meal-out size');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

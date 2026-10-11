@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useCuisines, useDish } from '../lib/dishQueries'
-import { addDish, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
+import { addDish, saveDishNutrition, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
+import { useDishNutrition } from '../lib/nutritionQueries'
+import { blankNutrition, formFromRow, NUTRITION_NUMBER_FIELDS, parseNutrition, REQUIRED_NUTRITION_FIELDS, type NutritionField, type NutritionForm } from '../lib/dishNutrition'
 import { describeError } from '../lib/errors'
 import { assignableCuisines, cuisineLabel, dishDisplayName, type DishCourse, type DietType, type MealType } from '../lib/dishes'
 import { isValidAllergen, isValidDisplayName, normaliseAllergen } from '../lib/validation'
@@ -24,10 +26,13 @@ export default function AddDishPage() {
   const { household, profile } = useHome()
   const { data: cuisines } = useCuisines()
   const { data: existing } = useDish(dishId)
+  const { data: existingNutrition } = useDishNutrition(dishId)
   const initialPhoto = (location.state as { initialPhoto?: File } | null)?.initialPhoto
 
   const [values, setValues] = useState<DishInput>(blank())
   const [photo, setPhoto] = useState<File | undefined>(initialPhoto)
+  const [nutrition, setNutrition] = useState<NutritionForm>(blankNutrition())
+  const [createdId, setCreatedId] = useState<string | null>(null)
   const [showErrors, setShowErrors] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -47,6 +52,12 @@ export default function AddDishPage() {
     })
   }, [existing])
 
+  useEffect(() => {
+    if (existingNutrition) setNutrition(formFromRow(existingNutrition))
+  }, [existingNutrition])
+
+  const parsedNutrition = parseNutrition(nutrition)
+  const badNutrition = new Set<NutritionField>(parsedNutrition.kind === 'invalid' ? parsedNutrition.fields : [])
   const nameValid = isValidDisplayName(values.name_en) && values.name_en.trim().length <= 80
   const mealTypesValid = values.meal_types.length > 0
   const leafCuisines = assignableCuisines(cuisines ?? [])
@@ -68,19 +79,23 @@ export default function AddDishPage() {
 
   async function onSave() {
     setError(null)
-    if (!nameValid || !mealTypesValid) {
+    if (!nameValid || !mealTypesValid || parsedNutrition.kind === 'invalid') {
       setShowErrors(true)
       return
     }
     setBusy(true)
     try {
       let id: string
-      if (dishId) {
-        await updateDish(dishId, household.id, values)
-        id = dishId
+      const known = dishId ?? createdId
+      if (known) {
+        await updateDish(known, household.id, values)
+        id = known
       } else {
         id = await addDish(household.id, profile.id, values)
+        setCreatedId(id) // if a later step fails, saving again edits this dish instead of adding a second one
       }
+      if (parsedNutrition.kind === 'ok') await saveDishNutrition(id, parsedNutrition.value)
+      else if (dishId || createdId) await saveDishNutrition(id, null)
       if (photo) await uploadDishPhoto(household.id, id, photo)
       navigate(`/dishes/${id}`, { replace: true })
     } catch (err) {
@@ -218,6 +233,36 @@ export default function AddDishPage() {
           className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[15px]"
         />
       </div>
+
+      <fieldset className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-3.5">
+        <legend className="px-1 text-[13px] font-semibold">{t('dishes.form.nutritionTitle')}</legend>
+        <p className="text-[12.5px] text-muted">{t('dishes.form.nutritionHint')}</p>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="nut-serving" className="text-[12.5px] font-semibold text-ink-soft">
+            {t('dishes.form.nutrition.serving')}
+          </label>
+          <input id="nut-serving" value={nutrition.serving} onChange={(e) => setNutrition((n) => ({ ...n, serving: e.target.value }))} placeholder={t('dishes.form.nutrition.servingPlaceholder')} aria-invalid={showErrors && badNutrition.has('serving')} className="min-h-[48px] rounded-xl border border-line-strong bg-surface px-3 text-[16px]" />
+        </div>
+        <div className="grid grid-cols-2 gap-2.5">
+          {NUTRITION_NUMBER_FIELDS.map((f) => (
+            <div key={f} className="flex flex-col gap-1">
+              <label htmlFor={`nut-${f}`} className="text-[12.5px] font-semibold text-ink-soft">
+                {t(`dishes.form.nutrition.${f}`)}
+                {REQUIRED_NUTRITION_FIELDS.includes(f) ? '' : ` · ${t('dishes.form.nutrition.optional')}`}
+              </label>
+              <input
+                id={`nut-${f}`}
+                value={nutrition[f]}
+                onChange={(e) => setNutrition((n) => ({ ...n, [f]: e.target.value }))}
+                inputMode="decimal"
+                aria-invalid={showErrors && badNutrition.has(f)}
+                className="min-h-[48px] rounded-xl border border-line-strong bg-surface px-3 text-[16px] aria-[invalid=true]:border-alert"
+              />
+            </div>
+          ))}
+        </div>
+        {showErrors && parsedNutrition.kind === 'invalid' && <p className="text-[12.5px] text-alert">{t('dishes.form.nutrition.problem')}</p>}
+      </fieldset>
 
       {error && <p className="rounded-xl bg-alert-tint px-4 py-3 text-[14px] text-alert">{error}</p>}
 

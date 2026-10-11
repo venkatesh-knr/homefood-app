@@ -4,6 +4,7 @@
 
 import { ageBand, type AgeBand } from './people'
 import { attendanceFor, attendanceMap, portionFactor, type AttendanceRow } from './attendance'
+import type { OutsideMealSize } from './planner'
 
 export type NutrientKey = 'kcal' | 'protein_g' | 'carbs_g' | 'fat_g' | 'fibre_g' | 'sugar_g' | 'sodium_mg'
 export type Totals = Record<NutrientKey, number>
@@ -42,15 +43,26 @@ export function percentOf(value: number, reference: number): number {
   return reference <= 0 ? 0 : Math.round((value / reference) * 100)
 }
 
+/** A rough estimate for a restaurant or ordered-in meal, by how big it was (one person, typical figures; shown to people as a rough estimate). */
+export const OUTSIDE_MEAL_ESTIMATES: Record<OutsideMealSize, Totals> = {
+  light: { kcal: 350, protein_g: 12, carbs_g: 45, fat_g: 13, fibre_g: 4, sugar_g: 6, sodium_mg: 700 },
+  normal: { kcal: 650, protein_g: 22, carbs_g: 80, fat_g: 25, fibre_g: 6, sugar_g: 9, sodium_mg: 1200 },
+  heavy: { kcal: 950, protein_g: 32, carbs_g: 110, fat_g: 40, fibre_g: 8, sugar_g: 14, sodium_mg: 1800 },
+}
+
 type MealLike = {
   source: string
+  outside_meal_size?: OutsideMealSize | null
   main_dish_id: string | null
   meal_slot_sides: { dish: { id: string } }[]
 }
 
-/** One serving of the main dish plus one of each side — only home-cooked meals have an estimate. */
+/** One serving of the main dish plus one of each side for a home-cooked meal; a meal out has an estimate only if someone said how big it was. */
 export function mealTotals(meal: MealLike, byDish: Map<string, Totals>): { totals: Totals; known: boolean } {
-  if (meal.source !== 'home') return { totals: emptyTotals(), known: false }
+  if (meal.source !== 'home') {
+    const size = meal.outside_meal_size
+    return size ? { totals: { ...OUTSIDE_MEAL_ESTIMATES[size] }, known: true } : { totals: emptyTotals(), known: false }
+  }
   const ids = [...(meal.main_dish_id ? [meal.main_dish_id] : []), ...meal.meal_slot_sides.map((s) => s.dish.id)]
   let totals = emptyTotals()
   let found = 0

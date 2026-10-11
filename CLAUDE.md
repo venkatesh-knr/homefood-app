@@ -67,7 +67,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 - Migrations in `supabase/migrations/`. **0001–0023 are applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0026_….sql`) for the next change. **0024 (weekly balance limits + the `vegetable` tag) and 0025 (`save_household_recipe`, for "Edit our version") are written but NOT yet run: Venkatesh must run them in the SQL Editor, in order.** Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0027_….sql`) for the next change. **0024 (weekly balance limits + the `vegetable` tag) 0025 (`save_household_recipe`, for "Edit our version") and 0026 (own-dish nutrition + meals-out size) are written but NOT yet run: Venkatesh must run them in the SQL Editor, in order.** Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -132,7 +132,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 145 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 157 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -252,9 +252,10 @@ Trims from the mockups/CLAUDE.md wording, flagged rather than silently done — 
   target for your age band, sex and activity (ICMR-NIN 2020, rounded; missing details are assumed and the screen says so) with a few
   gentle tips. Home tab → **Family nutrition** (`/nutrition/family`, Admin or whoever is Planner today): the same per person.
   Logic in `lib/nutrition.ts` (+ tests). Every figure is an estimate: one serving of the main dish plus one of each side, a normal
-  portion, home meals only. Parked: no small/large portion or "skipped" tracking (the attendance table isn't built), dine-out and
-  order-in get no estimate (the screen says how many meals were left out), no way yet to enter nutrition for a home's own dish
-  (the table and rule exist), and it hangs off the Home tab because the 5-tab Health/Family nav wasn't adopted.
+  portion (adjusted by attendance, see 0019). **Since 12 Oct 2026 (migration 0026): a home's own dishes can carry an estimate** (optional "Nutrition per serving" boxes on Add / Edit dish: calories,
+  protein, carbs and fat are needed, fibre / sugar / salt count as 0 if left out; `lib/dishNutrition.ts`; the Admin or whoever added the dish may write it), **and a dine-out / order-in meal can be marked light /
+  normal / heavy in the slot editor** (`meal_slots.outside_meal_size`, only for meals not cooked at home): My / Family nutrition add a rough, labelled estimate (`OUTSIDE_MEAL_ESTIMATES`: 350 / 650 / 950 kcal
+  with macros). A meal out with no size is still left out and counted in "meals left out". `saveSlot` saves without the size until 0026 is run. It hangs off the Home tab because the 5-tab Health/Family nav wasn't adopted.
 - **"Snap a dish" uses `<input type="file" capture="environment">`**, which opens the phone's own camera app, instead of a
   custom full-screen viewfinder with a plate-shaped frame like `SnapDish.png`. Same result (attach a photo to a new dish),
   much less code/risk.

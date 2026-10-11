@@ -5,6 +5,9 @@
 export type MealType = 'breakfast' | 'lunch' | 'snacks' | 'dinner'
 export type MealSource = 'home' | 'dine_out' | 'order_in'
 export type SlotStatus = 'proposed' | 'confirmed' | 'done'
+/** How big a dine-out / order-in meal was (migration 0026); used for a rough nutrition estimate. */
+export type OutsideMealSize = 'light' | 'normal' | 'heavy'
+export const OUTSIDE_MEAL_SIZES: OutsideMealSize[] = ['light', 'normal', 'heavy']
 export type PlanStatus = 'draft' | 'published'
 export type TurnScope = 'day' | 'week' | 'month'
 export type TurnStatus = 'requested' | 'approved' | 'declined'
@@ -32,6 +35,8 @@ export type MealSlot = {
   status: SlotStatus
   kept_despite_disagree: boolean
   updated_at: string
+  /** Only for dine-out / order-in meals; absent until migration 0026 has been run. */
+  outside_meal_size?: OutsideMealSize | null
 }
 
 export type PlannerTurn = {

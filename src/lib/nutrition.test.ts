@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addTotals, dayTotalsFor, emptyTotals, familyNotes, mealTotals, percentOf, summarisePeriod, targetFor, type TargetRow, type Totals } from './nutrition'
+import { addTotals, dayTotalsFor, emptyTotals, familyNotes, mealTotals, OUTSIDE_MEAL_ESTIMATES, percentOf, summarisePeriod, targetFor, type TargetRow, type Totals } from './nutrition'
 
 const t = (kcal: number, protein_g = 0, sodium_mg = 0, fibre_g = 0, sugar_g = 0): Totals => ({ ...emptyTotals(), kcal, protein_g, sodium_mg, fibre_g, sugar_g })
 
@@ -20,6 +20,31 @@ describe('mealTotals', () => {
   it('has no estimate for dine-out / order-in, or a dish we know nothing about', () => {
     expect(mealTotals({ source: 'dine_out', main_dish_id: 'dosa', meal_slot_sides: [] }, byDish).known).toBe(false)
     expect(mealTotals({ source: 'home', main_dish_id: 'mystery', meal_slot_sides: [] }, byDish).known).toBe(false)
+  })
+})
+
+describe('meals out', () => {
+  const byDish = new Map<string, Totals>()
+  it('counts a dine-out or order-in meal as a rough estimate once someone says how big it was', () => {
+    const m = mealTotals({ source: 'dine_out', outside_meal_size: 'heavy', main_dish_id: null, meal_slot_sides: [] }, byDish)
+    expect(m.known).toBe(true)
+    expect(m.totals).toEqual(OUTSIDE_MEAL_ESTIMATES.heavy)
+    expect(mealTotals({ source: 'order_in', outside_meal_size: 'light', main_dish_id: null, meal_slot_sides: [] }, byDish).totals.kcal).toBe(OUTSIDE_MEAL_ESTIMATES.light.kcal)
+    expect(mealTotals({ source: 'dine_out', outside_meal_size: null, main_dish_id: null, meal_slot_sides: [] }, byDish).known).toBe(false)
+  })
+  it('has light, normal and heavy in a sensible order', () => {
+    expect(OUTSIDE_MEAL_ESTIMATES.light.kcal).toBeLessThan(OUTSIDE_MEAL_ESTIMATES.normal.kcal)
+    expect(OUTSIDE_MEAL_ESTIMATES.normal.kcal).toBeLessThan(OUTSIDE_MEAL_ESTIMATES.heavy.kcal)
+  })
+  it('adds into the day, scaled by portion, and leaves unsized meals out as before', () => {
+    const eaters = [{ profile_id: 'me' }]
+    const slots = [
+      { id: 'a', date: '2026-10-01', source: 'dine_out', outside_meal_size: 'normal' as const, main_dish_id: null, meal_slot_sides: [], meal_slot_eaters: eaters },
+      { id: 'b', date: '2026-10-01', source: 'order_in', outside_meal_size: null, main_dish_id: null, meal_slot_sides: [], meal_slot_eaters: eaters },
+    ]
+    const days = dayTotalsFor(slots, 'me', byDish, '2026-10-03', [{ slot_id: 'a', profile_id: 'me', status: 'ate', portion: 'small' }])
+    expect(days[0]!.totals.kcal).toBeCloseTo(OUTSIDE_MEAL_ESTIMATES.normal.kcal * 0.75)
+    expect(days[0]!.unknownMeals).toBe(1)
   })
 })
 

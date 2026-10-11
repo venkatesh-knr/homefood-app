@@ -7,7 +7,8 @@ import { useAllergies, useMembers } from '../lib/queries'
 import { useWeekPlan, useWeekSlots } from '../lib/plannerQueries'
 import { clearSlot, getOrCreateWeekPlan, saveSlot, type SlotInput } from '../lib/plannerMutations'
 import { describeError } from '../lib/errors'
-import { mealAllergyConflicts, weekStartOf, toISODate, type MealSource, type MealType } from '../lib/planner'
+import { mealAllergyConflicts, OUTSIDE_MEAL_SIZES, weekStartOf, toISODate, type MealSource, type MealType } from '../lib/planner'
+import { OUTSIDE_MEAL_ESTIMATES } from '../lib/nutrition'
 import { cuisineLabel, dishDisplayName } from '../lib/dishes'
 import { useCuisines } from '../lib/dishQueries'
 import type { DishWithNames } from '../lib/dishQueries'
@@ -53,6 +54,7 @@ export default function SlotEditorPage() {
     cook_profile_ids: [],
     eater_profile_ids: [],
     note: '',
+    outside_size: '',
   })
   const [mainDish, setMainDish] = useState<DishWithNames | null>(null)
   const [sideDishes, setSideDishes] = useState<DishWithNames[]>([])
@@ -72,6 +74,7 @@ export default function SlotEditorPage() {
         cook_profile_ids: existing.meal_slot_cooks.map((c) => c.profile_id),
         eater_profile_ids: existing.meal_slot_eaters.map((e) => e.profile_id),
         note: existing.note ?? '',
+        outside_size: existing.outside_meal_size ?? '',
       })
       if (existing.main_dish) setMainDish(existing.main_dish as unknown as DishWithNames)
       setSideDishes(existing.meal_slot_sides.sort((a, b) => a.position - b.position).map((s) => s.dish) as unknown as DishWithNames[])
@@ -366,6 +369,27 @@ export default function SlotEditorPage() {
             className="h-12 rounded-2xl border border-line-strong bg-surface px-3.5 text-[15px]"
           />
           <p className="px-1 text-[13px] text-muted">{t('planner.outHint')}</p>
+
+          <span id="outside-size" className="px-1 pt-2 text-[12px] font-semibold uppercase tracking-wide text-muted">
+            {t('planner.outsideSize.label')}
+          </span>
+          <div role="radiogroup" aria-labelledby="outside-size" className="grid grid-cols-4 gap-1 rounded-2xl bg-sand p-1">
+            {(['', ...OUTSIDE_MEAL_SIZES] as const).map((size) => (
+              <button
+                key={size || 'none'}
+                type="button"
+                role="radio"
+                aria-checked={(values.outside_size ?? '') === size}
+                onClick={() => setValues((v) => ({ ...v, outside_size: size }))}
+                className={`min-h-[44px] rounded-[11px] px-1 text-[13.5px] ${(values.outside_size ?? '') === size ? 'bg-surface font-semibold shadow-sm' : 'font-medium text-ink-soft'}`}
+              >
+                {t(`planner.outsideSize.${size || 'none'}`)}
+              </button>
+            ))}
+          </div>
+          <p className="px-1 text-[12.5px] text-muted" aria-live="polite">
+            {values.outside_size ? t('planner.outsideSize.about', { kcal: OUTSIDE_MEAL_ESTIMATES[values.outside_size].kcal }) : t('planner.outsideSize.hint')}
+          </p>
         </div>
       )}
 

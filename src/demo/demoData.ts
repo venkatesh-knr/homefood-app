@@ -24,7 +24,7 @@ export const DEMO_HOUSEHOLD_ID = 'demo-household'
 export const DEMO_IDS = { amma: 'demo-amma', appa: 'demo-appa', paati: 'demo-paati', kavi: 'demo-kavi', arun: 'demo-arun', helper: 'demo-helper' } as const
 const FAMILY = [DEMO_IDS.amma, DEMO_IDS.appa, DEMO_IDS.paati, DEMO_IDS.kavi, DEMO_IDS.arun]
 
-type Plan = { main?: string; sides?: string[]; source?: 'dine_out' | 'order_in'; place?: string }
+type Plan = { main?: string; sides?: string[]; source?: 'dine_out' | 'order_in'; place?: string; size?: 'light' | 'normal' | 'heavy' }
 type Day = { breakfast: Plan; lunch: Plan; snacks: Plan; dinner: Plan }
 
 /** One week of meals, Monday first. A dine-out lunch and an order-in dinner are in there on purpose. */
@@ -33,8 +33,8 @@ const WEEK: Day[] = [
   { breakfast: { main: 'Dosa', sides: ['Tomato chutney', 'Sambar'] }, lunch: { main: 'Lemon rice', sides: ['Potato roast', 'Curd'] }, snacks: { main: 'Sundal', sides: ['Filter coffee'] }, dinner: { main: 'Parotta', sides: ['Veg kurma'] } },
   { breakfast: { main: 'Ven Pongal', sides: ['Coconut chutney', 'Sambar'] }, lunch: { main: 'Curd rice', sides: ['Vendakkai fry', 'Mango pickle'] }, snacks: { main: 'Murukku', sides: ['Masala chai'] }, dinner: { main: 'Idiyappam with stew', sides: ['Peanut chutney'] } },
   { breakfast: { main: 'Upma', sides: ['Coconut chutney'] }, lunch: { main: 'Tomato rice', sides: ['Cabbage kootu', 'Appalam'] }, snacks: { main: 'Dhokla', sides: ['Mint chutney'] }, dinner: { main: 'Chole', sides: ['Phulka', 'Kachumber salad'] } },
-  { breakfast: { main: 'Poori', sides: ['Veg kurma'] }, lunch: { main: 'Bisi bele bath', sides: ['Boondi raita', 'Appalam'] }, snacks: { main: 'Mirchi bajji', sides: ['Filter coffee'] }, dinner: { source: 'order_in', place: 'Pizza night' } },
-  { breakfast: { main: 'Masala dosa', sides: ['Coconut chutney', 'Sambar'] }, lunch: { source: 'dine_out', place: 'Udupi Grand' }, snacks: { main: 'Samosa', sides: ['Masala chai'] }, dinner: { main: 'Chicken biryani', sides: ['Cucumber raita', 'Kachumber salad'] } },
+  { breakfast: { main: 'Poori', sides: ['Veg kurma'] }, lunch: { main: 'Bisi bele bath', sides: ['Boondi raita', 'Appalam'] }, snacks: { main: 'Mirchi bajji', sides: ['Filter coffee'] }, dinner: { source: 'order_in', place: 'Pizza night', size: 'heavy' } },
+  { breakfast: { main: 'Masala dosa', sides: ['Coconut chutney', 'Sambar'] }, lunch: { source: 'dine_out', place: 'Udupi Grand', size: 'normal' }, snacks: { main: 'Samosa', sides: ['Masala chai'] }, dinner: { main: 'Chicken biryani', sides: ['Cucumber raita', 'Kachumber salad'] } },
   { breakfast: { main: 'Aloo paratha', sides: ['Curd', 'Mango pickle'] }, lunch: { main: 'Chicken curry', sides: ['Jeera rice', 'Beetroot poriyal'] }, snacks: { main: 'Kozhukattai', sides: ['Filter coffee'] }, dinner: { main: 'Chicken teriyaki', sides: ['Miso soup', 'Jeera rice'] } },
 ]
 
@@ -114,7 +114,7 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
         const id = slotId(date, meal)
         put('meal_slots', {
           id, week_plan_id: planId, household_id: DEMO_HOUSEHOLD_ID, date, meal, source: p.source ?? 'home', place_name: p.place ?? null,
-          main_dish_id: p.main ? dishId(p.main) : null, note: null, status, kept_despite_disagree: false, updated_at: minutesAgo(now, 3 * 1440),
+          main_dish_id: p.main ? dishId(p.main) : null, outside_meal_size: p.size ?? null, note: null, status, kept_despite_disagree: false, updated_at: minutesAgo(now, 3 * 1440),
         })
         ;(p.sides ?? []).forEach((s, k) => put('meal_slot_sides', { slot_id: id, position: k + 1, dish_id: dishId(s) }))
         const weekend = di >= 5
