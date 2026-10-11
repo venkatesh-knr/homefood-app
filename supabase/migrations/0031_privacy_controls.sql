@@ -127,9 +127,9 @@ begin
   delete from public.meal_slot_suggestions where profile_id = me.id;
   delete from public.planner_turns where profile_id = me.id;
   update public.profiles
-     set display_name = 'Former member', birth_year = null, sex = null, activity = null, photo_path = null, can_login = false, role = 'member'
+     set display_name = 'Former member', birth_year = null, sex = null, activity = null, photo_path = null, can_login = false, role = 'member', user_id = null
    where id = me.id;
-  delete from auth.users where id = v_uid;   -- the profile's login link is cleared by the foreign key (set null)
+  delete from auth.users where id = v_uid;
 end $$;
 revoke execute on function public.delete_my_account() from public, anon;
 grant execute on function public.delete_my_account() to authenticated;
