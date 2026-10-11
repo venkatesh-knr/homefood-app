@@ -52,6 +52,8 @@ export default function DiscussionPage() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [picking, setPicking] = useState(false)
+  const [freeOpen, setFreeOpen] = useState(false)
+  const [freeText, setFreeText] = useState('')
 
   const memberById = useMemo(() => new Map((members ?? []).map((m, i) => [m.id, { name: m.display_name, color: avatarColor(i, m.kind) }])), [members])
 
@@ -132,6 +134,17 @@ export default function DiscussionPage() {
     void run(async () => {
       await addComment(slotId, profile.id, body)
       setText('')
+    })
+  }
+
+  const onSuggestText = (e: FormEvent) => {
+    e.preventDefault()
+    const words = freeText.trim()
+    if (!words) return
+    void run(async () => {
+      await addSuggestion(slotId, profile.id, { freeText: words })
+      setFreeText('')
+      setFreeOpen(false)
     })
   }
 
@@ -306,14 +319,40 @@ export default function DiscussionPage() {
             </svg>
           </Button>
         </form>
-        <button
-          type="button"
-          onClick={() => setPicking(true)}
-          className="flex h-11 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14px] font-semibold text-saffron-ink"
-        >
-          <span aria-hidden="true">+</span>
-          {t('discussion.suggestDifferent')}
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setPicking(true)}
+            className="flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 px-2 text-[14px] font-semibold text-saffron-ink"
+          >
+            <span aria-hidden="true">+</span>
+            {t('discussion.suggestDifferent')}
+          </button>
+          <button
+            type="button"
+            aria-expanded={freeOpen}
+            onClick={() => setFreeOpen((o) => !o)}
+            className="flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 px-2 text-[14px] font-semibold text-saffron-ink"
+          >
+            <span aria-hidden="true">✎</span>
+            {t('discussion.somethingElse')}
+          </button>
+        </div>
+        {freeOpen && (
+          <form onSubmit={onSuggestText} className="flex gap-2">
+            <input
+              value={freeText}
+              onChange={(e) => setFreeText(e.target.value)}
+              maxLength={120}
+              aria-label={t('discussion.somethingElse')}
+              placeholder={t('discussion.somethingElsePlaceholder')}
+              className="min-h-[48px] min-w-0 flex-1 rounded-2xl border border-line-strong bg-surface px-3.5 text-[16px]"
+            />
+            <Button type="submit" disabled={busy || !freeText.trim()} className="min-h-[48px]! px-4!">
+              {t('discussion.suggestSend')}
+            </Button>
+          </form>
+        )}
       </div>
 
       {picking && (

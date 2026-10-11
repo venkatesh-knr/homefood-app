@@ -292,7 +292,7 @@ Trims, flagged rather than silently done — ask before expanding any of these:
   tally bar, comments, and "suggest a different dish" via the same dish picker; the Planner/Admin sees "Swap in X" (replaces the
   main dish and clears the old votes) / "Keep Y" (marks it kept) / withdraw, everyone else sees "The Planner decides". Week cards
   show agree / disagree / comment counts (tap → thread; a non-planner's tap on a card goes to the thread), Today cards have inline Agree/Disagree and a
-  comments link. Parked: suggestions are catalogue dishes only (the table also allows free text, no UI yet); comments can't be
+  comments link. Free-text suggestions ("Something else…", up to 120 characters, next to "Suggest a dish"; the Planner can only mark them "Noted" because there is no dish to swap in) were added 12 Oct 2026. Parked: comments can't be
   edited; changing a dish in the slot editor doesn't clear votes; the notification bell is built (see below).
 - **Weekly balance banner (migration 0024, built 12 Oct 2026)**: a gentle, dismissible note on the Week tab for the Planner and Admin only (`BalanceBanner`, `lib/balance.ts`): the same main dish
   3+ times, fried dishes (tag `fried`) in more than 4 meals, a day still to come with a home lunch/dinner but no vegetable dish (tag `vegetable`, set on 50 shared dishes from
