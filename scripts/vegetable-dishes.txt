@@ -1,0 +1,57 @@
+# Shared dishes that count as a vegetable dish for the weekly balance banner ("a day with no vegetable side").
+# One name per line, exactly as in the catalogue. Sambar, rasam, raitas, chutneys, fruit pachadis and rice dishes are not on it.
+# scripts/gen-balance-tags.py turns this into migration 0024 (adds the tag "vegetable"); scripts/gen-demo-catalogue.py reads it too.
+
+# Poriyal, fry, roast and dry curries
+Beans poriyal
+Cabbage poriyal
+Carrot poriyal
+Beetroot poriyal
+Potato roast
+Vendakkai fry
+Raw banana fry
+Cabbage thoran
+Beans usili
+Cluster beans poriyal
+Kovakkai fry
+Senaikizhangu fry
+Chepankizhangu roast
+Kathirikai poriyal
+Vazhaipoo poriyal
+Vazhaithandu poriyal
+Vazhakkai podimas
+Murungai keerai poriyal
+Pudalangai poriyal
+Mochai poriyal
+Gutti vankaya
+Aloo gobi
+Baingan bharta
+Bhindi masala
+Mixed vegetable curry
+Jeera aloo
+# Kootu, masiyal, stews and gravies made mostly of vegetables
+Keerai masiyal
+Cabbage kootu
+Pumpkin kootu
+Chow chow kootu
+Avarakkai kootu
+Poricha kootu
+Peerkangai kootu
+Pudalangai kootu
+Suraikkai kootu
+Keerai kootu
+Avial
+Veg kurma
+Veg stew
+Olan
+Erissery
+Thakkali kothsu
+Kathirikai kothsu
+Paagarkai pitlai
+Palak paneer
+Matar paneer
+# Salads and raw vegetable pachadis
+Kachumber salad
+Cucumber pachadi
+Beetroot pachadi
+Vegetable soup

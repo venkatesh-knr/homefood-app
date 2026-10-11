@@ -9,6 +9,7 @@ import { GettingStartedChecklist } from '../components/GettingStartedChecklist'
 import { HomeSettingsCard } from '../components/HomeSettingsCard'
 import { AppearanceCard } from '../components/AppearanceCard'
 import { TipsCard } from '../components/TipsCard'
+import { BalanceLimitsCard } from '../components/BalanceLimitsCard'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useCanPlanDate } from '../lib/useCanPlan'
 import { toISODate } from '../lib/planner'
@@ -39,6 +40,8 @@ export default function HomeTabPage() {
       {isAdmin && <GettingStartedChecklist householdId={household.id} />}
 
       {isAdmin && <HomeSettingsCard household={household} />}
+
+      {isAdmin && <BalanceLimitsCard household={household} />}
 
       <AppearanceCard />
 

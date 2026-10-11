@@ -260,6 +260,23 @@ select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001
 update public.households set week_start = 1 where id = :'hh_a';
 select tests.ok((select week_start from public.households where id = :'hh_a') = 1, 'the Admin can switch back to Monday');
 
+-- ── Weekly balance limits (0024) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.ok((select balance_same_main = 3 and balance_fried = 4 and balance_out_run = 3 from public.households where id = :'hh_a'), 'a home starts with the usual balance limits (3, 4, 3)');
+update public.households set balance_same_main = 4, balance_fried = 6, balance_out_run = 2 where id = :'hh_a';
+select tests.ok((select balance_same_main = 4 and balance_fried = 6 and balance_out_run = 2 from public.households where id = :'hh_a'), 'the Admin can change the balance limits');
+select tests.refused($$ update public.households set balance_same_main = 1 where id = '$$ || :'hh_a' || $$' $$, 'a main dish limit below 2 is refused');
+select tests.refused($$ update public.households set balance_fried = 99 where id = '$$ || :'hh_a' || $$' $$, 'a fried limit above 28 is refused');
+select tests.refused($$ update public.households set balance_out_run = 1 where id = '$$ || :'hh_a' || $$' $$, 'an eating-out run below 2 is refused');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ update public.households set balance_fried = 5 where id = '$$ || :'hh_a' || $$' $$, 'a member cannot change the balance limits');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.households set balance_same_main = 3, balance_fried = 4, balance_out_run = 3 where id = :'hh_a';
+select tests.ok((select count(*) from public.dishes where household_id is null and 'vegetable' = any (tags)) >= 45, 'the shared vegetable dishes carry the vegetable tag');
+select tests.ok((select 'vegetable' = any (tags) from public.dishes where household_id is null and name = 'Avial'), 'Avial is a vegetable dish');
+select tests.ok((select not ('vegetable' = any (tags)) from public.dishes where household_id is null and name = 'Sambar'), 'Sambar is not tagged as a vegetable dish');
+select tests.ok((select not ('vegetable' = any (tags)) from public.dishes where name = 'Pongal' and household_id = :'hh_a'), 'a home''s own dishes were not tagged by the migration');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

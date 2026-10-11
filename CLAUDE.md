@@ -65,9 +65,9 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 ## Database
 
-- Migrations in `supabase/migrations/`. **0001–0023 are all applied** to the live project `homefood-prod` (Mumbai) —
+- Migrations in `supabase/migrations/`. **0001–0023 are applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0024_….sql`) for the next change. Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0025_….sql`) for the next change. **0024 (weekly balance limits + the `vegetable` tag) is written but NOT yet run: Venkatesh must run it in the SQL Editor.** Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -132,7 +132,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 121 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 131 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -293,8 +293,11 @@ Trims, flagged rather than silently done — ask before expanding any of these:
   show agree / disagree / comment counts (tap → thread; a non-planner's tap on a card goes to the thread), Today cards have inline Agree/Disagree and a
   comments link. Parked: suggestions are catalogue dishes only (the table also allows free text, no UI yet); comments can't be
   edited; changing a dish in the slot editor doesn't clear votes; the notification bell is built (see below).
-- **No "fried dishes this week" balance banner** (`Planner.png`) — needs a per-household limit that hasn't been decided
-  (configurable? fixed?).
+- **Weekly balance banner (migration 0024, built 12 Oct 2026)**: a gentle, dismissible note on the Week tab for the Planner and Admin only (`BalanceBanner`, `lib/balance.ts`): the same main dish
+  3+ times, fried dishes (tag `fried`) in more than 4 meals, a day still to come with a home lunch/dinner but no vegetable dish (tag `vegetable`, set on 50 shared dishes from
+  `scripts/vegetable-dishes.txt`; a home can tag its own), 3+ dine-out/order-in meals in a row (an unplanned meal breaks the run). The three numbers are `households.balance_same_main/fried/out_run`
+  (defaults 3/4/3, ranges 2–14 / 0–28 / 2–14), edited by the Admin in Home tab → Weekly balance (`BalanceLimitsCard`). Dismissed per device per week, and it comes back only if what it says changes.
+  Until 0024 is run the limits default and the vegetable rule is skipped. Regenerate with `python -X utf8 scripts/gen-balance-tags.py`.
 - **Notifications: an in-app bell, no phone push (migration 0013).** The bell in the header shows a red dot while anything is unread
   (checked every minute and when the app opens); `/notifications` lists them, tapping one marks it read and opens the meal thread, the
   poster or the rota. Not built: web/native push (needs a push key and a server function), per-person muting of event types, allergen

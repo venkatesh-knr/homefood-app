@@ -21,7 +21,7 @@ export function useWeekPlan(householdId: string | undefined, weekStart: string |
   })
 }
 
-export type SlotDish = { id: string; name: string; diet: DietType; allergens: string[]; photo_path: string | null; cuisine_id: string | null; dish_names: DishNameRow[] }
+export type SlotDish = { id: string; name: string; diet: DietType; allergens: string[]; photo_path: string | null; cuisine_id: string | null; dish_names: DishNameRow[]; tags?: string[] }
 export type SlotWithDetails = MealSlot & {
   main_dish: SlotDish | null
   meal_slot_sides: { position: number; dish: SlotDish }[]
@@ -30,8 +30,8 @@ export type SlotWithDetails = MealSlot & {
 }
 
 const SLOT_SELECT = `*,
-  main_dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, dish_names(language, name)),
-  meal_slot_sides(position, dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, dish_names(language, name))),
+  main_dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name)),
+  meal_slot_sides(position, dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name))),
   meal_slot_cooks(profile_id),
   meal_slot_eaters(profile_id)`
 

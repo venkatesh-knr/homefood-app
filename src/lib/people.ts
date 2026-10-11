@@ -14,6 +14,10 @@ export type Household = {
   timezone: string
   default_language: 'en' | 'ta'
   snacks_enabled: boolean
+  /** Weekly balance banner limits (migration 0024); undefined until that has been run. */
+  balance_same_main?: number
+  balance_fried?: number
+  balance_out_run?: number
   created_at: string
 }
 

@@ -53,7 +53,7 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   const year = now.getFullYear()
 
   // ── the home and its people ──
-  put('households', { id: DEMO_HOUSEHOLD_ID, name: text.homeName, week_start: 1, timezone: 'Asia/Kolkata', default_language: 'en', snacks_enabled: true, created_at: created })
+  put('households', { id: DEMO_HOUSEHOLD_ID, name: text.homeName, week_start: 1, timezone: 'Asia/Kolkata', default_language: 'en', snacks_enabled: true, balance_same_main: 3, balance_fried: 4, balance_out_run: 3, created_at: created })
   const person = (key: keyof typeof DEMO_IDS, name: string, extra: Row): Row => ({
     id: DEMO_IDS[key], household_id: DEMO_HOUSEHOLD_ID, user_id: null, display_name: name, kind: 'family', role: 'member', can_login: false,
     birth_year: null, sex: null, activity: null, language: 'en', photo_path: null,

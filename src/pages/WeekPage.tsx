@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FirstVisitTip } from '../components/FirstVisitTip'
+import { BalanceBanner } from '../components/BalanceBanner'
+import { limitsOf } from '../lib/balance'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
@@ -127,6 +129,8 @@ export default function WeekPage() {
       </div>
 
       <FirstVisitTip id="week" />
+
+      {canPlanWeek && slots && <BalanceBanner slots={slots} weekStart={weekStart} today={today} meals={mealTypes} limits={limitsOf(household)} checkVegetables={household.balance_same_main !== undefined} />}
 
       {canPlanSelected && (
         <div className="flex items-center gap-2 rounded-2xl bg-leaf-tint px-3.5 py-2.5 text-[13.5px] text-leaf">

@@ -42,6 +42,11 @@ for f in ('0005_seed_dishes.sql', '0009_more_indian_dishes.sql'):
 for r in south_rows():
     catalogue[r['name']] = dict(name=r['name'], ta=r['ta'] if 'ta' in r else r.get('name_ta', ''), cuisine_id=SI, meal_types=r['meals'].split(','), course=r['course'], diet=r['diet'],
                                 tags=[t for t in r['tags'].split(',') if t], allergens=[a for a in r['allergens'].split(',') if a], prep_minutes=r['prep'])
+# tag "vegetable" (migration 0024) on the shared dishes in scripts/vegetable-dishes.txt, as the app's balance banner expects
+vegetable = {l.strip() for l in (root / 'scripts/vegetable-dishes.txt').read_text(encoding='utf-8').splitlines() if l.strip() and not l.startswith('#')}
+for name in vegetable:
+    if name in catalogue and 'vegetable' not in catalogue[name]['tags']:
+        catalogue[name]['tags'].append('vegetable')
 missing = [p for p in picks if p not in catalogue]
 assert not missing, 'not in the catalogue: %s' % missing
 
