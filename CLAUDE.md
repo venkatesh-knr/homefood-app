@@ -437,8 +437,14 @@ Deferred, flagged rather than attempted half-done:
   "சமையல் பாணி" for cuisine everywhere, clunky allergy warning). Recipes: Claude read a sample closely (all of the first 46 and the first 30 North Indian ones),
   checked every step and note mechanically (numbers match the English, no English left in Tamil text, formatting) and harmonised 34 ingredient
   names and 3 dish names (migration 0020). No errors of meaning were found, but a real native read of the recipes is still the thing the family should do.
-- **No deeper accessibility pass** (full keyboard-navigation walkthrough, screen-reader testing with VoiceOver/TalkBack,
-  a systematic contrast check of every colour pair rather than the handful of most-used ones above).
+- **Tamil review kit** (12 Oct 2026): `docs/tamil-review.html` lists every screen text, dish name, recipe line and everyday food (4,500+ lines) with English and Tamil side by side, numbered, with an empty
+  correction column; it prints well. Regenerate any time with `python -X utf8 scripts/gen-tamil-review.py` (it reads en/ta.json, the dish seeds, the recipe text files and `common_foods_data.py`). **Getting corrections
+  back:** the family sends `number: corrected Tamil` lines (the small grey `ui:…` / `recipe:…` / `dish:…` / `food:…` reference under each number is the exact place). Claude applies screen texts in `src/i18n/ta.json`;
+  dish names, recipes and foods go into the source files (`south_indian_data.py`, `recipes_*.txt`, `common_foods_data.py`) and a new migration (use `scripts/gen-tamil-fixes.py`, never regenerate an applied migration).
+- **Accessibility pass done 12 Oct 2026** (`docs/accessibility.md`): every colour pair checked against AA in light and dark by `node scripts/check-contrast.mjs` (`npm run contrast`; keep it passing when adding
+  colours: new colours must be tokens, text on saffron uses `text-on-saffron`, text on red/green blocks `text-on-solid`); every button, field and select is >= 44 px (one rule in `index.css`); every screen has an
+  `h1`; fields and chips have names; the shared `Dialog` (focus trap, Escape, focus return) is used for all modals; errors are `role=alert`; Tamil text inside English screens has `lang="ta"`; no horizontal scroll at 320 px.
+  `scripts/a11y-audit.js` re-checks names/targets/headings on any screen. Still open: real screen-reader testing by a person and a full keyboard walkthrough of every control.
 
 ## Working agreements
 
