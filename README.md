@@ -27,8 +27,8 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [x] Step 3 · Dish catalogue: 298 dishes (English + Tamil) with photos, recipes and nutrition estimates, search and filters, add a dish, Snap a dish — tested live
 - [x] Step 4 · Planning: week planner, meal editor, cooks, dine-out/order-in, allergy warnings, publish, rota — tested live end to end
 - [x] Step 5 · Everyday view: Today, Week at a glance poster, history — tested live
-- [ ] Step 6 · Polish: getting-started checklist (real now), safer error messages, install prompt, a11y fixes done;
-      demo home built (sign-in screen → "Explore a demo home"); welcome tour still deferred — see CLAUDE.md
+- [ ] Step 6 · Polish: demo home, first-visit tips, weekly balance banner, "Cook this again", recipe editing, My extras (a private food log), your data and account controls, accessibility pass, Tamil review kit
+      built; welcome tour still deferred — see CLAUDE.md
 - [ ] Step 7 · Family trial (2 weeks)
 
 ## One-time setup
