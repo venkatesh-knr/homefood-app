@@ -1,0 +1,44 @@
+[
+ {
+  "dish": "Pudina rice",
+  "file": "pudina-rice.webp",
+  "credit": "Deviselvam, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Pudina_(Mint)_Rice.jpg",
+  "bytes": 60120
+ },
+ {
+  "dish": "Mango rice",
+  "file": "mango-rice.webp",
+  "credit": "Vidya pmysore, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Raw_mango_chitranna_and_bhajji.jpg",
+  "bytes": 99184
+ },
+ {
+  "dish": "Panakam",
+  "file": "panakam.webp",
+  "credit": "Nithyasrm, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Panagam_picture.JPG",
+  "bytes": 62132
+ },
+ {
+  "dish": "Brinjal chutney",
+  "file": "brinjal-chutney.webp",
+  "credit": "Booradleyp1, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Brinjal_Chutney.jpg",
+  "bytes": 72468
+ },
+ {
+  "dish": "Vazhaithandu poriyal",
+  "file": "vazhaithandu-poriyal.webp",
+  "credit": "Ranjithsiji, CC BY-SA 4.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Banana_stem_thoran_from_Kerala_DSC_4677.jpg",
+  "bytes": 28024
+ },
+ {
+  "dish": "Vadam",
+  "file": "vadam.webp",
+  "credit": "Niveda, CC BY-SA 3.0, via Wikimedia Commons",
+  "source": "https://commons.wikimedia.org/wiki/File:Vadagam.JPG",
+  "bytes": 93570
+ }
+]

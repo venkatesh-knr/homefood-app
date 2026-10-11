@@ -1,0 +1,8 @@
+# One line per dish: dish name (as in the shared catalogue) | Wikimedia Commons file title. Used by scripts/build-photos.py.
+# Free licences only (CC BY, CC BY-SA, CC0, public domain). Dishes not listed keep the coloured-initial placeholder.
+Pudina rice | Pudina (Mint) Rice.jpg
+Mango rice | Raw mango chitranna and bhajji.jpg
+Panakam | Panagam picture.JPG
+Brinjal chutney | Brinjal Chutney.jpg
+Vazhaithandu poriyal | Banana stem thoran from Kerala DSC 4677.jpg
+Vadam | Vadagam.JPG

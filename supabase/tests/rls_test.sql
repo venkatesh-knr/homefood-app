@@ -348,6 +348,10 @@ delete from public.dishes where id = :'cz_dish';
 delete from public.cuisines where id = :'cz';
 select tests.ok(not exists (select 1 from public.cuisines where id = :'cz'), 'once no dish uses it, the cuisine can be deleted');
 
+-- ── Bundled photos, batch 3 (0028) ──
+select tests.ok((select count(*) from public.dishes where household_id is null and name in ('Pudina rice', 'Mango rice', 'Panakam', 'Brinjal chutney', 'Vazhaithandu poriyal', 'Vadam') and photo_path like 'static/%' and photo_credit like '%Wikimedia Commons') = 6, 'six more shared dishes carry a bundled photo with its credit');
+select tests.ok((select photo_path = 'static/idli.webp' from public.dishes where household_id is null and name = 'Idli'), 'photos that were already set are left alone');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;
