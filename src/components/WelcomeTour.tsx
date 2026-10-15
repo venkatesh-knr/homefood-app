@@ -6,7 +6,8 @@ import { cardAt, TOUR_CARDS } from '../lib/tour'
 
 // The photos come from the HomeFood onboarding design (public/tour/*.webp, cropped from its four pages); the words stay live so they follow the language.
 const photo = (card: string) => `${import.meta.env.BASE_URL}tour/${card}.webp`
-const FADE = '[mask-image:linear-gradient(to_bottom,transparent_0%,black_16%,black_84%,transparent_100%)]'
+const WHOLE = ['say', 'safe']
+const FADE ='[mask-image:linear-gradient(to_bottom,transparent_0%,black_16%,black_84%,transparent_100%)]'
 
 /** Four swipeable cards: plan the week, everyone has a say, the poster, and nutrition with allergy warnings. Skippable, English and Tamil.
  * `onDemo` adds the first-open choice at the end ("Explore a demo home" / "Start my household"); without it the last card just says "Done". */
@@ -117,9 +118,16 @@ export function WelcomeTour({ onClose, onDemo }: { onClose: () => void; onDemo?:
               <h2 className="pt-2 font-display text-[26px] font-bold leading-tight">{t(`tour.${card}.title`)}</h2>
               <span className="h-[3px] w-14 rounded-full bg-saffron" aria-hidden="true" />
               <p className="max-w-[320px] text-[16px] leading-relaxed text-ink-soft">{t(`tour.${card}.body`)}</p>
-              <div className="relative min-h-0 w-full flex-1">
-                <img src={photo(card)} alt="" loading={i === 0 ? 'eager' : 'lazy'} className={`absolute inset-0 h-full w-full object-cover ${FADE}`} />
-              </div>
+              {WHOLE.includes(card) ? (
+                // family photos: shown whole so every face stays in frame (cropping to the tall card cut people off)
+                <div className="flex min-h-0 w-full flex-1 items-center">
+                  <img src={photo(card)} alt="" loading="lazy" className="max-h-full w-full rounded-2xl object-contain" />
+                </div>
+              ) : (
+                <div className="relative min-h-0 w-full flex-1">
+                  <img src={photo(card)} alt="" loading={i === 0 ? 'eager' : 'lazy'} className={`absolute inset-0 h-full w-full object-cover ${FADE}`} />
+                </div>
+              )}
             </div>
           ))}
         </div>
