@@ -888,20 +888,20 @@
     "replay": "Show the welcome tour",
     "replayHint": "The four short cards you see when you first open HomeFood.",
     "plan": {
-      "title": "Plan the week together",
-      "body": "Pick breakfast, lunch, snacks and dinner for each day in three taps: the meal, the dish, save. The Planner publishes the week when it is ready."
+      "title": "Plan the whole week in minutes",
+      "body": "Breakfast, lunch, snacks and dinner for your family."
     },
     "say": {
-      "title": "Everyone has a say",
-      "body": "Family members agree, disagree, comment or suggest another dish. The Planner has the final say, and everyone is told what changed."
+      "title": "Everyone gets a say",
+      "body": "Agree, comment or suggest a dish."
     },
     "glance": {
-      "title": "The week at a glance",
-      "body": "One colourful poster of the whole week. Save it as a picture, share it to the family WhatsApp group, or print it for the fridge."
+      "title": "Your week at a glance",
+      "body": "A colourful menu poster to share with the family."
     },
     "safe": {
-      "title": "Eat well, stay safe",
-      "body": "Recipes scale to who is eating, nutrition is shown as gentle estimates, and allergy warnings appear for whoever plans or cooks the meal."
+      "title": "Eat well together",
+      "body": "Nutrition tips and allergy warnings for every member."
     }
   }
 }

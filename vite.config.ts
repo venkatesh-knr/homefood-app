@@ -25,6 +25,11 @@ export default defineConfig({
         globIgnores: ['**/catalogue-*.js', '**/demoData-*.js', '**/fakeClient-*.js'],
         runtimeCaching: [
           {
+            urlPattern: ({ url }) => url.pathname.includes('/tour/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'tour-photos', expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 180 } },
+          },
+          {
             urlPattern: ({ url }) => /\/assets\/(catalogue|demoData|fakeClient)-[^/]+\.js$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'demo-code', expiration: { maxEntries: 6 } },

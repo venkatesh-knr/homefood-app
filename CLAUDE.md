@@ -429,7 +429,7 @@ Done:
 
 Deferred, flagged rather than attempted half-done:
 - **Welcome tour** (15 Oct 2026, spec layer 1): four swipeable cards (plan the week, everyone has a say, the poster, nutrition + allergy warnings), skippable, English and Tamil
-  (`WelcomeTour`, `lib/tour.ts`; pictures are inline SVG, no image files). It opens the first time the app is opened on a device (the sign-in screen; the per-device flag `homefood.tour.seen`), where its
+  (`WelcomeTour`, `lib/tour.ts`). **Backgrounds and copy come from the Canva design "HomeFood onboarding screens"** (https://canva.link/hlg8r5txhb0wmtt, linked in the spec): the four photos are cropped from its pages into `public/tour/{plan,say,glance,safe}.webp` (~55 KB each, fading into the page with a CSS mask; the words stay live text so they follow the language; titles/subtitles are the design's, English and Tamil). To change a photo, export the page from Canva, crop to the photo area and overwrite the file; the PWA caches them on first use. It opens the first time the app is opened on a device (the sign-in screen; the per-device flag `homefood.tour.seen`), where its
   last card offers "Explore a demo home" / "Start my household"; "Take the tour" on the sign-in screen and **Home tab → "Tips and welcome tour" → "Show the welcome tour"** (`TipsCard`) bring it back
   (that copy ends with "Done"). Swipe, Next/Back buttons or the arrow keys; reduced motion respected. Cards live under `tour.*` in en/ta.
 - **Tamil everywhere, part 2: still no native-speaker review.** Every string has an `en`/`ta` pair and the
