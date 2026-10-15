@@ -428,9 +428,10 @@ Done:
   bucket, then `delete_household(name)` deletes the home and every login of it). Two guards honour a transaction-local flag `homefood.removing` that only these functions set. `lib/account.ts` (+ tests).
 
 Deferred, flagged rather than attempted half-done:
-- **Welcome tour.** A guided first-visit walkthrough is real UX design work (what gets highlighted, in what order, for
-  which of the 4 tabs) — a placeholder tour would likely do more harm than good. Needs a decision on scope before
-  building anything.
+- **Welcome tour** (15 Oct 2026, spec layer 1): four swipeable cards (plan the week, everyone has a say, the poster, nutrition + allergy warnings), skippable, English and Tamil
+  (`WelcomeTour`, `lib/tour.ts`; pictures are inline SVG, no image files). It opens the first time the app is opened on a device (the sign-in screen; the per-device flag `homefood.tour.seen`), where its
+  last card offers "Explore a demo home" / "Start my household"; "Take the tour" on the sign-in screen and **Home tab → "Tips and welcome tour" → "Show the welcome tour"** (`TipsCard`) bring it back
+  (that copy ends with "Done"). Swipe, Next/Back buttons or the arrow keys; reduced motion respected. Cards live under `tour.*` in en/ta.
 - **Tamil everywhere, part 2: still no native-speaker review.** Every string has an `en`/`ta` pair and the
   parity test (`translations.test.ts`) guarantees neither language is missing a key mid-flight. On 11 Oct 2026 Claude read all 502 UI strings
   in Tamil and fixed 30 (wrong word "பரிமாணம்" for servings, "வேலைக்காரர்" for helper, "stock"/"ஆப்" left in English, sandhi on buttons,

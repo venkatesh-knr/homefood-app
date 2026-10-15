@@ -3,10 +3,19 @@ import { useTranslation } from 'react-i18next'
 import { Button, LanguageSwitch, Logo } from '../components/ui'
 import { startDemo } from '../demo/demo'
 import { SignInForm } from '../components/SignInForm'
+import { WelcomeTour } from '../components/WelcomeTour'
+import { hasSeenTour, markTourSeen } from '../lib/tour'
 
 export default function SignInPage() {
   const { t } = useTranslation()
   const [opening, setOpening] = useState(false)
+  // The first time the app opens on this device, the four-card tour comes first; "Take the tour" brings it back.
+  const [touring, setTouring] = useState(() => !hasSeenTour())
+
+  function closeTour() {
+    markTourSeen()
+    setTouring(false)
+  }
 
   async function openDemo() {
     setOpening(true)
@@ -43,7 +52,21 @@ export default function SignInPage() {
         <p className="text-center text-[12.5px] text-muted">{t('demo.exploreHint')}</p>
       </div>
 
+      <button type="button" onClick={() => setTouring(true)} className="mt-4 self-center rounded-xl px-3 text-[14px] font-semibold text-saffron-ink">
+        {t('tour.takeTour')}
+      </button>
+
       <p className="mt-auto py-7 text-center text-[13px] text-muted">{t('signIn.joiningHint')}</p>
+
+      {touring && (
+        <WelcomeTour
+          onClose={closeTour}
+          onDemo={() => {
+            closeTour()
+            void openDemo()
+          }}
+        />
+      )}
     </main>
   )
 }

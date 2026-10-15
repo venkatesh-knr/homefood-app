@@ -671,7 +671,7 @@
   "tips": {
     "label": "Tip",
     "gotIt": "Got it",
-    "title": "Tips",
+    "title": "Tips and welcome tour",
     "showAgain": "Show tips again",
     "showAgainHint": "Brings back the short tips on each screen. This phone or computer only.",
     "showAgainDone": "Done. Each tip will show again the next time you open its screen.",
@@ -876,5 +876,32 @@
     "typeName": "Type the home's name to confirm: {{name}}",
     "deleteHomeYes": "Delete the household",
     "nameMismatch": "The name does not match. Type it exactly as shown."
+  },
+  "tour": {
+    "title": "Welcome tour",
+    "skip": "Skip",
+    "next": "Next",
+    "back": "Back",
+    "done": "Done",
+    "of": "{{n}} of {{total}}",
+    "takeTour": "Take the tour",
+    "replay": "Show the welcome tour",
+    "replayHint": "The four short cards you see when you first open HomeFood.",
+    "plan": {
+      "title": "Plan the week together",
+      "body": "Pick breakfast, lunch, snacks and dinner for each day in three taps: the meal, the dish, save. The Planner publishes the week when it is ready."
+    },
+    "say": {
+      "title": "Everyone has a say",
+      "body": "Family members agree, disagree, comment or suggest another dish. The Planner has the final say, and everyone is told what changed."
+    },
+    "glance": {
+      "title": "The week at a glance",
+      "body": "One colourful poster of the whole week. Save it as a picture, share it to the family WhatsApp group, or print it for the fridge."
+    },
+    "safe": {
+      "title": "Eat well, stay safe",
+      "body": "Recipes scale to who is eating, nutrition is shown as gentle estimates, and allergy warnings appear for whoever plans or cooks the meal."
+    }
   }
 }
