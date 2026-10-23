@@ -59,8 +59,9 @@ export function useFoodOptions(householdId: string | undefined, lang: 'en' | 'ta
       key: foodKey({ kind: 'custom', id: c.id }), source: { kind: 'custom', id: c.id }, name_en: c.name, name_ta: c.name_ta, category: null, unit: c.unit, usual: 1,
       per: { kcal: c.kcal, protein_g: c.protein_g, carbs_g: c.carbs_g, fat_g: c.fat_g, fibre_g: null, sugar_g: null, sodium_mg: null },
     }))
-    const snacks: FoodOption[] = (dishes ?? [])
-      .filter((d) => d.meal_types.includes('snacks') && nutrition?.has(d.id))
+    // any dish with an estimate: a lunch eaten out or a missed dinner can be added afterwards, as well as a snack
+    const dishOptions: FoodOption[] = (dishes ?? [])
+      .filter((d) => nutrition?.has(d.id))
       .map((d) => {
         const t = nutrition!.get(d.id)!
         return {
@@ -68,7 +69,7 @@ export function useFoodOptions(householdId: string | undefined, lang: 'en' | 'ta
           category: null, unit: 'serving' as const, usual: 1, per: { ...t },
         }
       })
-    const all = [...own, ...(common ?? []), ...snacks]
+    const all = [...own, ...(common ?? []), ...dishOptions]
     const byKey = new Map(all.map((o) => [o.key, o]))
     return { options: all, byKey, label: (o: FoodOption) => (lang === 'ta' && o.name_ta ? o.name_ta : o.name_en), dishName: (d: Parameters<typeof dishDisplayName>[0], names: Parameters<typeof dishDisplayName>[1]) => dishDisplayName(d, names, lang) }
   }, [common, custom, dishes, nutrition, lang])

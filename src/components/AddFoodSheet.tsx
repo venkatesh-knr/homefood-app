@@ -9,7 +9,10 @@ import {
   type FoodOption, type FoodUnit, type IntakeDraft,
 } from '../lib/intake'
 import { amountText, nowHHMM } from '../lib/intakeUi'
-import { addDays } from '../lib/planner'
+
+/** Which meal it was: sets the time, so a meal added afterwards still lands in the right place in the day. */
+const MEAL_TIME = { breakfast: '08:00', lunch: '13:00', snacks: '17:00', dinner: '20:00' } as const
+import { addDays, toISODate } from '../lib/planner'
 import { describeError } from '../lib/errors'
 
 type Step = { kind: 'pick' } | { kind: 'amount'; food: FoodOption } | { kind: 'custom' } | { kind: 'yesterday' }
@@ -26,6 +29,7 @@ export function AddFoodSheet({ personId, personName, date, onClose }: { personId
   const { data: recentRows } = useIntake(personId, addDays(date, -14), date)
   const { data: yesterdayRows } = useIntake(personId, addDays(date, -1), addDays(date, -1))
   const { data: todayRows } = useIntake(personId, date, date)
+  const past = date < toISODate(new Date())
   const [step, setStep] = useState<Step>({ kind: 'pick' })
   const [query, setQuery] = useState('')
   const [busy, setBusy] = useState(false)
@@ -81,6 +85,7 @@ export function AddFoodSheet({ personId, personName, date, onClose }: { personId
       <Dialog title={title} onClose={onClose}>
         {header}
         <AmountStep
+          past={past}
           food={step.food}
           name={label(step.food)}
           starred={usualKeys.has(step.food.key)}
@@ -218,10 +223,10 @@ function StarButton({ on, name, onToggle }: { on: boolean; name: string; onToggl
   )
 }
 
-function AmountStep({ food, name, starred, busy, error, onStar, onBack, onSave }: { food: FoodOption; name: string; starred: boolean; busy: boolean; error: string | null; onStar: () => void; onBack: () => void; onSave: (quantity: number, time: string) => void }) {
+function AmountStep({ food, name, starred, busy, error, onStar, onBack, onSave, past }: { past: boolean; food: FoodOption; name: string; starred: boolean; busy: boolean; error: string | null; onStar: () => void; onBack: () => void; onSave: (quantity: number, time: string) => void }) {
   const { t } = useTranslation()
   const [quantity, setQuantity] = useState(clampQuantity(food.unit, food.usual))
-  const [time, setTime] = useState(nowHHMM())
+  const [time, setTime] = useState(past ? '12:00' : nowHHMM())
   const n = nutritionFor(food.per, quantity)
   return (
     <div className="flex flex-col gap-3 overflow-y-auto px-5 pb-5 pt-3">
@@ -248,6 +253,13 @@ function AmountStep({ food, name, starred, busy, error, onStar, onBack, onSave }
         {t('extras.time')}
         <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="min-h-[44px] rounded-xl border border-line-strong bg-surface px-3 text-[16px]" />
       </label>
+      <div role="group" aria-label={t('extras.whichMeal')} className="flex flex-wrap gap-1.5">
+        {(['breakfast', 'lunch', 'snacks', 'dinner'] as const).map((m) => (
+          <button key={m} type="button" aria-pressed={time === MEAL_TIME[m]} onClick={() => setTime(MEAL_TIME[m])} className={`min-h-[44px] rounded-full px-3.5 text-[13px] font-semibold ${time === MEAL_TIME[m] ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`}>
+            {t(`meal.${m}`)}
+          </button>
+        ))}
+      </div>
       <p className="rounded-2xl bg-sand px-4 py-3 text-[14px]" aria-live="polite">
         {n.kcal === null ? t('extras.previewUnknown') : t('extras.preview', { kcal: Math.round(n.kcal), protein: n.protein_g === null ? 0 : Math.round(n.protein_g * 10) / 10 })}
       </p>

@@ -9,11 +9,16 @@ import { useIntake } from '../lib/intakeQueries'
 import { changeIntakeAmount, removeIntake } from '../lib/intakeMutations'
 import { sumIntake, stepQuantity, type IntakeRow } from '../lib/intake'
 import { amountText, timeText } from '../lib/intakeUi'
+import { addDays } from '../lib/planner'
 import { describeError } from '../lib/errors'
 
 /** "My extras today": what a person ate outside the planned meals. Private to them; the Admin can also keep it for family members with no login. */
-export function ExtrasSection({ date }: { date: string }) {
-  const { t } = useTranslation()
+export function ExtrasSection({ date: today }: { date: string }) {
+  const { t, i18n } = useTranslation()
+  // Today, or up to 7 days back (the database allows exactly that): a meal missed earlier can be added afterwards
+  const [back, setBack] = useState(0)
+  const date = addDays(today, -back)
+  const dayName = back === 0 ? t('extras.dayToday') : back === 1 ? t('extras.dayYesterday') : new Intl.DateTimeFormat(i18n.language === 'ta' ? 'ta-IN' : 'en-IN', { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(`${date}T00:00:00`))
   const { profile } = useHome()
   const people = useExtrasPeople()
   const [personId, setPersonId] = useState(profile.id)
@@ -29,7 +34,7 @@ export function ExtrasSection({ date }: { date: string }) {
     <section className="flex flex-col gap-2.5 pt-1" aria-labelledby="extras-title">
       <div className="flex items-center justify-between gap-3">
         <h2 id="extras-title" className="font-display text-[16px] font-semibold">
-          {t('extras.title')}
+          {back === 0 ? t('extras.title') : t('extras.titleDay', { day: dayName })}
         </h2>
         {people.length > 1 && (
           <label className="flex items-center gap-2 text-[12.5px] font-semibold text-ink-soft">
@@ -44,6 +49,13 @@ export function ExtrasSection({ date }: { date: string }) {
           </label>
         )}
       </div>
+
+      <div className="flex items-center justify-between rounded-2xl border border-line bg-surface px-1">
+        <button type="button" aria-label={t('extras.dayEarlier')} disabled={back >= 7} onClick={() => setBack(back + 1)} className="flex h-11 w-11 items-center justify-center rounded-full text-[22px] disabled:opacity-30">‹</button>
+        <span className="text-[14px] font-semibold" aria-live="polite">{dayName}</span>
+        <button type="button" aria-label={t('extras.dayLater')} disabled={back <= 0} onClick={() => setBack(back - 1)} className="flex h-11 w-11 items-center justify-center rounded-full text-[22px] disabled:opacity-30">›</button>
+      </div>
+      {back > 0 && <p className="px-1 text-[12.5px] text-muted">{t('extras.pastHint')}</p>}
 
       <ProteinCard person={person} date={date} />
 
@@ -80,7 +92,7 @@ export function ExtrasSection({ date }: { date: string }) {
 
       <button type="button" onClick={() => setAdding(true)} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14.5px] font-semibold text-saffron-ink">
         <span aria-hidden="true">+</span>
-        {t('extras.add')}
+        {back === 0 ? t('extras.add') : t('extras.addPast', { day: dayName })}
       </button>
       <p className="px-1 text-[12px] text-muted">{mine ? t('extras.privateMine') : t('extras.privateAdmin', { name: person.display_name })}</p>
 
