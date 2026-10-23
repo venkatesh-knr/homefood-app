@@ -1,7 +1,7 @@
 import { supabase } from './supabase'
 import { queryClient } from './queryClient'
 import { shoppingKey } from './shoppingQueries'
-import { findExisting, isTamil, sleepingRegulars, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
+import { TAB_OF_SECTION, findExisting, isPerishableSection, isTamil, sleepingRegulars, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
 
 function client() {
   if (!supabase) throw new Error('Supabase is not configured')
@@ -10,7 +10,8 @@ function client() {
 
 const refresh = (householdId: string) => queryClient.invalidateQueries({ queryKey: shoppingKey(householdId) })
 
-export type NewItem = { name: string; name_ta?: string | null; section?: ShopSection; amount?: number | null; unit?: ShopUnit | null }
+/** `amountIsDefault`: the amount is only the item's usual one (not typed or chosen), so it must not replace the amount of an item that is put back. */
+export type NewItem = { name: string; name_ta?: string | null; section?: ShopSection; amount?: number | null; unit?: ShopUnit | null; amountIsDefault?: boolean }
 
 /** What adding a typed item did: it made a new row, or it found the same name already there (on the list → just open it; ticked or asleep → put it back). */
 export type AddResult = { kind: 'added' | 'opened' | 'restored'; id: string }
@@ -23,7 +24,7 @@ export async function addShoppingItem(args: { householdId: string; profileId: st
   if (existing) {
     if (existing.bought_at === null) return { kind: 'opened', id: existing.id }
     const patch: Record<string, unknown> = { bought_at: null, bought_by: null, source: 'manual' }
-    if (item.amount != null && item.unit) Object.assign(patch, { amount: item.amount, unit: item.unit })
+    if (item.amount != null && item.unit && !item.amountIsDefault) Object.assign(patch, { amount: item.amount, unit: item.unit })
     const { error } = await client().from('shopping_items').update(patch).eq('id', existing.id)
     if (error) throw error
     await refresh(householdId)
@@ -110,5 +111,40 @@ export async function pruneBought(householdId: string, items: ShopItem[]): Promi
   if (stale.length === 0) return
   const { error } = await client().from('shopping_items').delete().in('id', stale.map((i) => i.id))
   if (!error) await refresh(householdId)
+}
+
+// ── The home's own items ("Our common items") ──
+export type OurItemInput = { name: string; name_ta?: string | null; section: ShopSection; amount: number | null; unit: ShopUnit | null }
+
+const refreshOurs = (householdId: string) => queryClient.invalidateQueries({ queryKey: ['household-shop-items', householdId] })
+
+/** Saves an item for next time. Saving a name that is already saved is fine (nothing changes). */
+export async function saveOurItem(args: { householdId: string; profileId: string; item: OurItemInput }): Promise<void> {
+  const { householdId, profileId, item } = args
+  const { error } = await client().from('household_shop_items').insert({
+    household_id: householdId,
+    name_en: item.name.trim(),
+    name_ta: item.name_ta?.trim() || (isTamil(item.name) ? item.name.trim() : null),
+    section: item.section,
+    browse_tab: TAB_OF_SECTION[item.section],
+    usual_amount: item.amount ?? 1,
+    usual_unit: item.unit ?? 'pcs',
+    perishable: isPerishableSection(item.section),
+    created_by: profileId,
+  })
+  if (error && error.code !== '23505') throw error
+  await refreshOurs(householdId)
+}
+
+export async function renameOurItem(householdId: string, id: string, patch: { name_en: string; name_ta: string | null }): Promise<void> {
+  const { error } = await client().from('household_shop_items').update({ name_en: patch.name_en.trim(), name_ta: patch.name_ta?.trim() || null }).eq('id', id)
+  if (error) throw error
+  await refreshOurs(householdId)
+}
+
+export async function removeOurItem(householdId: string, id: string): Promise<void> {
+  const { error } = await client().from('household_shop_items').delete().eq('id', id)
+  if (error) throw error
+  await refreshOurs(householdId)
 }
 

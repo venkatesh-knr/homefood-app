@@ -3,6 +3,7 @@
 // the family, the planned weeks, votes, comments and attendance are invented and relative to today's date.
 import { addDays, toISODate, weekStartOf } from '../lib/planner'
 import type { Db, Row } from './fakeClient'
+import shopItems from './shopItems.json'
 
 export type Catalogue = {
   cuisines: { id: string; parent_id: string | null; name: string; name_ta: string | null; sort_order: number }[]
@@ -193,6 +194,10 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   extra(7, DEMO_IDS.appa, yesterdayIso, '16:00', 'Peanuts, roasted', 1)
   put('personal_usuals', { id: 'usual-1', household_id: DEMO_HOUSEHOLD_ID, profile_id: DEMO_IDS.kavi, common_food_id: food('Boiled egg').id, custom_food_id: null, dish_id: null, created_at: created })
   put('personal_goals', { profile_id: DEMO_IDS.kavi, household_id: DEMO_HOUSEHOLD_ID, protein_goal_g: 60, kcal_goal: null, updated_at: created })
+
+  // ── common shopping items (the shared list) and one the home saved itself ──
+  put('common_shop_items', ...(shopItems as Row[]))
+  put('household_shop_items', { id: 'ours-foxtail', household_id: DEMO_HOUSEHOLD_ID, name_en: 'Foxtail millet', name_ta: 'தினை', aliases: [], section: 'grocery', browse_tab: 'groceries', usual_amount: 500, usual_unit: 'g', perishable: false, staple: false, pack_sizes: null, g_per_cup: null, g_per_piece: null, created_by: DEMO_IDS.amma, created_at: created })
 
   // ── the shopping list (items for the week, two ticked already, a regular that is asleep) ──
   const shop = (id: string, name: string, ta: string, section: string, amount: number | null, unit: string | null, o: Row = {}, ago = 300) =>

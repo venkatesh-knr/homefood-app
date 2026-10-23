@@ -1,6 +1,7 @@
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from './supabase'
-import type { ShopItem, ShopSection, ShopSource, ShopUnit } from './shopping'
+import { catalogIndex, type CatalogItem, type ShopItem, type ShopSection, type ShopSource, type ShopTab, type ShopUnit } from './shopping'
 
 const num = (v: unknown): number | null => (v === null || v === undefined ? null : Number(v))
 
@@ -39,3 +40,66 @@ export function useShoppingItems(householdId: string | undefined, opts: { live?:
     },
   })
 }
+
+const numArray = (v: unknown): number[] | null => (Array.isArray(v) ? v.map(Number) : null)
+
+function catalogRow(r: Record<string, unknown>, source: 'common' | 'ours'): CatalogItem {
+  return {
+    key: `${source}:${r.id as string}`,
+    source,
+    id: r.id as string,
+    name_en: r.name_en as string,
+    name_ta: (r.name_ta as string | null) ?? null,
+    aliases: (r.aliases as string[] | null) ?? [],
+    section: r.section as ShopSection,
+    tab: r.browse_tab as ShopTab,
+    usual_amount: Number(r.usual_amount),
+    usual_unit: r.usual_unit as ShopUnit,
+    perishable: Boolean(r.perishable),
+    staple: Boolean(r.staple),
+    pack_sizes: numArray(r.pack_sizes),
+    g_per_cup: num(r.g_per_cup),
+    g_per_piece: num(r.g_per_piece),
+    created_by: (r.created_by as string | null) ?? null,
+  }
+}
+
+/** The shared common items. Empty (not an error) before migration 0033 is run, so the list still works without them. */
+export function useCommonShopItems() {
+  return useQuery({
+    queryKey: ['common-shop-items'],
+    enabled: Boolean(supabase),
+    staleTime: 60 * 60 * 1000,
+    retry: false,
+    queryFn: async (): Promise<CatalogItem[]> => {
+      const { data, error } = await supabase!.from('common_shop_items').select('*').order('name_en')
+      if (error) return []
+      return data.map((r) => catalogRow(r, 'common'))
+    },
+  })
+}
+
+/** The home's own items ("Our item"). */
+export function useHouseholdShopItems(householdId: string | undefined) {
+  return useQuery({
+    queryKey: ['household-shop-items', householdId],
+    enabled: Boolean(supabase && householdId),
+    retry: false,
+    queryFn: async (): Promise<CatalogItem[]> => {
+      const { data, error } = await supabase!.from('household_shop_items').select('*').eq('household_id', householdId).order('name_en')
+      if (error) return []
+      return data.map((r) => catalogRow(r, 'ours'))
+    },
+  })
+}
+
+/** Common and own items together, with the lookup used to match typed names. */
+export function useShopCatalogue(householdId: string | undefined): { items: CatalogItem[]; index: Map<string, CatalogItem> } {
+  const { data: common } = useCommonShopItems()
+  const { data: ours } = useHouseholdShopItems(householdId)
+  return useMemo(() => {
+    const items = [...(common ?? []), ...(ours ?? [])]
+    return { items, index: catalogIndex(items) }
+  }, [common, ours])
+}
+

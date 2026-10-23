@@ -12,6 +12,7 @@ import { TipsCard } from '../components/TipsCard'
 import { MyGoalsCard } from '../components/MyGoalsCard'
 import { AccountCard } from '../components/AccountCard'
 import { BalanceLimitsCard } from '../components/BalanceLimitsCard'
+import { OurShopItemsCard } from '../components/OurShopItemsCard'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useCanPlanDate } from '../lib/useCanPlan'
 import { toISODate } from '../lib/planner'
@@ -45,6 +46,8 @@ export default function HomeTabPage() {
       {isAdmin && <HomeSettingsCard household={household} />}
 
       {isAdmin && <BalanceLimitsCard household={household} />}
+
+      <OurShopItemsCard householdId={household.id} profileId={profile.id} isAdmin={isAdmin} />
 
       <MyGoalsCard />
 

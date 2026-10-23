@@ -179,3 +179,93 @@ export function shareText(items: ShopItem[], lang: 'en' | 'ta', labels: { title:
 
 /** wa.me link that opens WhatsApp with the text ready to send (used when the phone has no share sheet). */
 export const whatsappLink = (text: string) => `https://wa.me/?text=${encodeURIComponent(text)}`
+
+// ── Common items and "our" items (the catalogue) ──
+export type ShopTab = 'vegetables' | 'fruits' | 'groceries' | 'dairy_eggs' | 'other'
+export const TABS: ShopTab[] = ['vegetables', 'fruits', 'groceries', 'dairy_eggs', 'other']
+
+/** The section a browse tab belongs to (and the tab an own item gets from its section). */
+export const SECTION_OF_TAB: Record<ShopTab, ShopSection> = { vegetables: 'veg_fruit', fruits: 'veg_fruit', groceries: 'grocery', dairy_eggs: 'dairy_eggs', other: 'other' }
+export const TAB_OF_SECTION: Record<ShopSection, ShopTab> = { veg_fruit: 'vegetables', grocery: 'groceries', dairy_eggs: 'dairy_eggs', other: 'other' }
+
+/** A shared common item or one of the home's own ("Our item"). */
+export type CatalogItem = {
+  key: string
+  source: 'common' | 'ours'
+  id: string
+  name_en: string
+  name_ta: string | null
+  aliases: string[]
+  section: ShopSection
+  tab: ShopTab
+  usual_amount: number
+  usual_unit: ShopUnit
+  perishable: boolean
+  staple: boolean
+  pack_sizes: number[] | null
+  g_per_cup: number | null
+  g_per_piece: number | null
+  created_by: string | null
+}
+
+function singular(w: string): string {
+  if (w.length > 4 && w.endsWith('oes')) return w.slice(0, -2)
+  if (w.length > 4 && w.endsWith('ies')) return `${w.slice(0, -3)}y`
+  if (w.length > 3 && w.endsWith('s') && !/(ss|us|is)$/.test(w)) return w.slice(0, -1)
+  return w
+}
+
+/** The spelling two names are compared by: lower case, no brackets, hyphens or apostrophes, each word singular
+ * ("Tomatoes" = "tomato", "Lady's finger" = "lady finger"). Mirrors canon() in scripts/gen-shop-items.py. */
+export function canon(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/['’]/g, '')
+    .replace(/-/g, ' ')
+    .replace(/[^\p{L}\p{M}\p{N}_\s]/gu, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(singular)
+    .join(' ')
+}
+
+/** Name, Tamil name and every alias of every item → the item. The home's own items come first, so they win over a common item of the same name. */
+export function catalogIndex(items: CatalogItem[]): Map<string, CatalogItem> {
+  const index = new Map<string, CatalogItem>()
+  const ordered = [...items].sort((a, b) => Number(b.source === 'ours') - Number(a.source === 'ours'))
+  for (const c of ordered) {
+    for (const k of [c.name_en, c.name_ta ?? '', ...c.aliases]) {
+      const key = canon(k)
+      if (key && !index.has(key)) index.set(key, c)
+    }
+  }
+  return index
+}
+
+export const matchCatalog = (index: Map<string, CatalogItem>, name: string): CatalogItem | undefined => index.get(canon(name))
+
+/** Up to `limit` items whose name, Tamil name or an alias starts with, or contains, what is being typed (best matches first). */
+export function suggestItems(items: CatalogItem[], query: string, limit = 4): CatalogItem[] {
+  const q = query.trim().toLowerCase()
+  if (q.length < 2) return []
+  const scored: { c: CatalogItem; score: number }[] = []
+  for (const c of items) {
+    const names = [c.name_en, c.name_ta ?? '', ...c.aliases].map((n) => n.toLowerCase())
+    let score = Infinity
+    for (const n of names) {
+      if (n.startsWith(q)) score = Math.min(score, 0)
+      else if (n.split(/\s+/).some((w) => w.startsWith(q))) score = Math.min(score, 1)
+      else if (n.includes(q)) score = Math.min(score, 2)
+    }
+    if (score < Infinity) scored.push({ c, score })
+  }
+  return scored.sort((a, b) => a.score - b.score || a.c.name_en.length - b.c.name_en.length || a.c.name_en.localeCompare(b.c.name_en)).slice(0, limit).map((s) => s.c)
+}
+
+/** The items of one browse tab, the home's own after the common ones. */
+export const itemsOfTab = (items: CatalogItem[], tab: ShopTab): CatalogItem[] =>
+  items.filter((c) => c.tab === tab).sort((a, b) => Number(a.source === 'ours') - Number(b.source === 'ours') || a.name_en.localeCompare(b.name_en))
+
+/** What a saved own item gets for the facts the app does not ask about: vegetables, fruit and dairy are perishable, nothing is a staple. */
+export const isPerishableSection = (s: ShopSection): boolean => s === 'veg_fruit' || s === 'dairy_eggs'

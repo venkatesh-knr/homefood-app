@@ -499,6 +499,37 @@ select tests.ok((select bought_at is null from public.shopping_items where id = 
 delete from public.shopping_items where id = :'shop_milk';
 select tests.ok((select count(*) from public.shopping_items) = 0, 'any member can remove a single item');
 
+-- ── Common shopping items and a home's own (migration 0033) ──
+select tests.ok((select count(*) from public.common_shop_items) >= 140, 'the shared common shopping items are visible');
+select tests.ok(not exists (select 1 from public.common_shop_items where btrim(name_ta) = ''), 'every common shopping item has a Tamil name');
+select tests.ok(not exists (select 1 from public.common_shop_items where perishable and pack_sizes is not null), 'perishables are rounded, never packed');
+select tests.ok((select pack_sizes = array[1000, 5000] and staple from public.common_shop_items where name_en = 'Oil'), 'oil is a staple sold in 1 L and 5 L');
+select tests.refused($$ insert into public.common_shop_items (name_en, name_ta, section, browse_tab, usual_amount, usual_unit) values ('Spam', 'x', 'other', 'other', 1, 'pack') $$, 'a home cannot add to the shared common items');
+select tests.refused($$ update public.common_shop_items set name_en = 'Hacked' where name_en = 'Tomato' $$, 'nor change them');
+select tests.refused($$ delete from public.common_shop_items where name_en = 'Tomato' $$, 'nor delete them');
+select tests.refused($$ insert into public.household_shop_items (household_id, name_en, created_by) values ('$$ || :'hh_a' || $$', 'X', '$$ || :'appa' || $$') $$, 'an own item cannot be created in someone else''s name');
+insert into public.household_shop_items (household_id, name_en, name_ta, section, browse_tab, usual_amount, usual_unit, created_by) values (:'hh_a', 'Foxtail millet', 'தினை', 'grocery', 'groceries', 500, 'g', :'amma_p') returning id as hs1 \gset
+select tests.refused($$ insert into public.household_shop_items (household_id, name_en, created_by) values ('$$ || :'hh_a' || $$', ' foxtail MILLET', '$$ || :'amma_p' || $$') $$, 'the same own item name cannot be saved twice (any capitals)');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.household_shop_items) = 1, 'a member sees the home''s own items');
+insert into public.household_shop_items (household_id, name_en, created_by) values (:'hh_a', 'Banana stem', :'appa') returning id as hs2 \gset
+select tests.refused($$ update public.household_shop_items set name_en = 'Renamed' where id = '$$ || :'hs1' || $$' $$, 'a member cannot rename an item someone else saved');
+select tests.refused($$ delete from public.household_shop_items where id = '$$ || :'hs1' || $$' $$, 'nor delete it');
+update public.household_shop_items set name_ta = 'வாழைத்தண்டு' where id = :'hs2';
+select tests.ok((select name_ta = 'வாழைத்தண்டு' from public.household_shop_items where id = :'hs2'), 'the creator can rename her own item');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.household_shop_items) = 0, 'another home cannot read this home''s own items');
+select tests.refused($$ insert into public.household_shop_items (household_id, name_en, created_by) values ('$$ || :'hh_a' || $$', 'Spam', public.my_profile_id()) $$, 'nor add to them');
+select tests.refused($$ update public.household_shop_items set name_en = 'Hacked' where id = '$$ || :'hs1' || $$' $$, 'nor change them');
+select tests.refused($$ delete from public.household_shop_items where id = '$$ || :'hs1' || $$' $$, 'nor delete them');
+insert into public.household_shop_items (household_id, name_en, created_by) values (:'hh_c', 'Foxtail millet', public.my_profile_id());
+select tests.ok(true, 'another home can save an item with the same name');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.household_shop_items set name_en = 'Banana stem (fresh)' where id = :'hs2';
+select tests.ok((select name_en = 'Banana stem (fresh)' from public.household_shop_items where id = :'hs2'), 'the Admin can rename anyone''s item');
+delete from public.household_shop_items where id = :'hs2';
+select tests.ok(not exists (select 1 from public.household_shop_items where id = :'hs2'), 'and delete it');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;
