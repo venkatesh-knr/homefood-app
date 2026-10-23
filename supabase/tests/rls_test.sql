@@ -503,7 +503,7 @@ select tests.ok((select count(*) from public.shopping_items) = 0, 'any member ca
 select tests.ok((select count(*) from public.common_shop_items) >= 140, 'the shared common shopping items are visible');
 select tests.ok(not exists (select 1 from public.common_shop_items where btrim(name_ta) = ''), 'every common shopping item has a Tamil name');
 select tests.ok(not exists (select 1 from public.common_shop_items where perishable and pack_sizes is not null), 'perishables are rounded, never packed');
-select tests.ok((select pack_sizes = array[1000, 5000] and staple from public.common_shop_items where name_en = 'Oil'), 'oil is a staple sold in 1 L and 5 L');
+select tests.ok((select pack_sizes = array[1000, 5000]::numeric[] and staple from public.common_shop_items where name_en = 'Oil'), 'oil is a staple sold in 1 L and 5 L');
 select tests.refused($$ insert into public.common_shop_items (name_en, name_ta, section, browse_tab, usual_amount, usual_unit) values ('Spam', 'x', 'other', 'other', 1, 'pack') $$, 'a home cannot add to the shared common items');
 select tests.refused($$ update public.common_shop_items set name_en = 'Hacked' where name_en = 'Tomato' $$, 'nor change them');
 select tests.refused($$ delete from public.common_shop_items where name_en = 'Tomato' $$, 'nor delete them');
