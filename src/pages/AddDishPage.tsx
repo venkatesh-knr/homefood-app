@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useCuisines, useDish } from '../lib/dishQueries'
 import { addDish, saveDishNutrition, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
+import { WebPhotoSheet } from '../components/WebPhotoSheet'
 import { useDishNutrition } from '../lib/nutritionQueries'
 import { blankNutrition, formFromRow, NUTRITION_NUMBER_FIELDS, parseNutrition, REQUIRED_NUTRITION_FIELDS, type NutritionField, type NutritionForm } from '../lib/dishNutrition'
 import { describeError } from '../lib/errors'
@@ -31,6 +32,8 @@ export default function AddDishPage() {
 
   const [values, setValues] = useState<DishInput>(blank())
   const [photo, setPhoto] = useState<File | undefined>(initialPhoto)
+  const [photoCredit, setPhotoCredit] = useState<string | null>(null)
+  const [webPhoto, setWebPhoto] = useState(false)
   const [nutrition, setNutrition] = useState<NutritionForm>(blankNutrition())
   const [createdId, setCreatedId] = useState<string | null>(null)
   const [showErrors, setShowErrors] = useState(false)
@@ -96,7 +99,7 @@ export default function AddDishPage() {
       }
       if (parsedNutrition.kind === 'ok') await saveDishNutrition(id, parsedNutrition.value)
       else if (dishId || createdId) await saveDishNutrition(id, null)
-      if (photo) await uploadDishPhoto(household.id, id, photo)
+      if (photo) await uploadDishPhoto(household.id, id, photo, photoCredit)
       navigate(`/dishes/${id}`, { replace: true })
     } catch (err) {
       setError(describeError(err, t))
@@ -116,8 +119,23 @@ export default function AddDishPage() {
       ) : null}
       <label className="flex h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14px] font-semibold text-saffron-ink">
         {t('dishes.form.addPhoto')}
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => setPhoto(e.target.files?.[0])} />
+        <input type="file" accept="image/*" className="hidden" onChange={(e) => { setPhoto(e.target.files?.[0]); setPhotoCredit(null) }} />
       </label>
+      <button type="button" onClick={() => setWebPhoto(true)} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14px] font-semibold">
+        {t('webPhoto.open')}
+      </button>
+      {photoCredit && <p className="text-[12.5px] text-muted">{t('webPhoto.chosen', { credit: photoCredit })}</p>}
+      {webPhoto && (
+        <WebPhotoSheet
+          initialQuery={values.name_en}
+          onClose={() => setWebPhoto(false)}
+          onPick={(file, credit) => {
+            setPhoto(file)
+            setPhotoCredit(credit)
+            setWebPhoto(false)
+          }}
+        />
+      )}
       <p className="text-[12.5px] text-muted">{t('dishes.form.photoHint')}</p>
 
       <div className="flex flex-col gap-1.5">

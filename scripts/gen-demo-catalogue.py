@@ -56,6 +56,9 @@ photos = {}
 for f in ('dish-photos.json', 'south-indian-photos.json'):
     for p in json.loads((root / 'scripts' / f).read_text(encoding='utf-8')):
         photos[p['dish']] = p
+# photos replaced by a later migration (0036 and on): scripts/photo-replacements.json, newest wins
+for p in json.loads((root / 'scripts' / 'photo-replacements.json').read_text(encoding='utf-8')):
+    photos[p['dish']] = p
 nutrition = {r[0]: r for r in N}
 for r in south_rows():
     nutrition[r['name']] = (r['name'], r['serving'], r['kcal'], r['protein'], r['carbs'], r['fat'], r['fibre'], r['sugar'], r['sodium'])

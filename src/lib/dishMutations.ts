@@ -105,10 +105,10 @@ export async function removeDish(dishId: string, householdId: string): Promise<v
 }
 
 /** Replaces this household's photo for a dish — the shared catalogue's own photo is untouched. */
-export async function uploadDishPhoto(householdId: string, dishId: string, file: File): Promise<void> {
+export async function uploadDishPhoto(householdId: string, dishId: string, file: File, credit?: string | null): Promise<void> {
   const { data: existing } = await client()
     .from('dish_photo_overrides')
-    .select('photo_path')
+    .select('*') // (all columns: photo_credit only exists once migration 0037 is run)
     .eq('household_id', householdId)
     .eq('dish_id', dishId)
     .maybeSingle()
@@ -120,9 +120,14 @@ export async function uploadDishPhoto(householdId: string, dishId: string, file:
 
   const { error: dbError } = await client()
     .from('dish_photo_overrides')
-    .upsert({ dish_id: dishId, household_id: householdId, photo_path: path, updated_at: new Date().toISOString() })
+    // a credit is only sent for a photo from the web (CC BY / BY-SA need it)
+    .upsert({ dish_id: dishId, household_id: householdId, photo_path: path, updated_at: new Date().toISOString(), ...(credit ? { photo_credit: credit } : {}) })
   if (dbError) throw dbError
 
+  if (!credit && existing?.photo_credit) {
+    // the home's own photo replaces a web photo: its credit goes too (best effort)
+    await client().from('dish_photo_overrides').update({ photo_credit: null }).eq('dish_id', dishId).eq('household_id', householdId)
+  }
   if (existing?.photo_path) {
     await client().storage.from('dish-photos').remove([existing.photo_path]) // best-effort cleanup
   }

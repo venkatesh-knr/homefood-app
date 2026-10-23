@@ -8,6 +8,7 @@ import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
 import { useCuisines, useDish, useDishPhotoOverrides, useSignedPhotoUrl } from '../lib/dishQueries'
 import { removeDish, uploadDishPhoto } from '../lib/dishMutations'
+import { WebPhotoSheet } from '../components/WebPhotoSheet'
 import { describeError } from '../lib/errors'
 import { cuisineLabel, dishDisplayName, dishTone } from '../lib/dishes'
 import { joinNames } from '../lib/people'
@@ -35,7 +36,9 @@ export default function DishDetailPage() {
   const { data: recipeIds } = useRecipeDishIds()
   const hasRecipe = Boolean(dishId && recipeIds?.has(dishId))
 
-  const overridePath = (overrides ?? []).find((o) => o.dish_id === dishId)?.photo_path
+  const override = (overrides ?? []).find((o) => o.dish_id === dishId)
+  const overridePath = override?.photo_path
+  const shownCredit = override ? override.photo_credit : dish?.photo_credit
   const hasOverride = Boolean(overridePath)
   // Seed drawings (clip-art) are tagged "(illustration)" in photo_credit; they'd be cropped badly by object-cover.
   const isDrawing = !hasOverride && Boolean(dish?.photo_credit?.includes('(illustration)'))
@@ -43,6 +46,7 @@ export default function DishDetailPage() {
   const { data: photoUrl } = useSignedPhotoUrl(photoPath)
   const photoInput = useRef<HTMLInputElement>(null)
   const [zoom, setZoom] = useState(false)
+  const [webPhoto, setWebPhoto] = useState(false)
   const [cookAgain, setCookAgain] = useState(false)
   const [removing, setRemoving] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -73,12 +77,12 @@ export default function DishDetailPage() {
   const dietWord = dish.diet === 'veg' ? t('dishes.filters.dietVeg') : dish.diet === 'egg' ? t('dishes.filters.dietEgg') : t('dishes.filters.dietNonVeg')
   const searchTerm = dish.recipe_search || name
 
-  async function onReplacePhoto(file: File | undefined) {
+  async function onReplacePhoto(file: File | undefined, credit?: string | null) {
     if (!file || !dishId) return
     setBusy(true)
     setError(null)
     try {
-      await uploadDishPhoto(household.id, dishId, file)
+      await uploadDishPhoto(household.id, dishId, file, credit)
     } catch (err) {
       setError(describeError(err, t))
     } finally {
@@ -120,9 +124,9 @@ export default function DishDetailPage() {
           </svg>
         </button>
         {!photoUrl && <span className="absolute bottom-3 left-3.5 text-[11px] text-ink-soft">{t('dishes.detail.stockPhoto')}</span>}
-        {photoUrl && !hasOverride && dish.photo_credit && (
+        {photoUrl && shownCredit && (
           <span className="absolute bottom-3 left-3.5 max-w-[70%] rounded-md bg-ink/60 px-2 py-0.5 text-left text-[10.5px] leading-snug text-cream">
-            {t('dishes.detail.photoCredit', { credit: dish.photo_credit })}
+            {t('dishes.detail.photoCredit', { credit: shownCredit })}
           </span>
         )}
       </button>
@@ -220,6 +224,19 @@ export default function DishDetailPage() {
           </button>
           <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={(e) => onReplacePhoto(e.target.files?.[0])} />
         </div>
+        <button type="button" disabled={busy} onClick={() => setWebPhoto(true)} className="flex h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium">
+          {t('webPhoto.open')}
+        </button>
+        {webPhoto && (
+          <WebPhotoSheet
+            initialQuery={name}
+            onClose={() => setWebPhoto(false)}
+            onPick={(file, credit) => {
+              setWebPhoto(false)
+              void onReplacePhoto(file, credit)
+            }}
+          />
+        )}
 
         {canEdit && (
           <div className="flex gap-4 border-t border-line pt-3 text-[13.5px] font-semibold text-saffron-ink">

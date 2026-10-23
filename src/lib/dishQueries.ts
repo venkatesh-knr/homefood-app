@@ -45,7 +45,7 @@ export function useDish(dishId: string | undefined) {
   })
 }
 
-export type PhotoOverrideRow = { dish_id: string; household_id: string; photo_path: string; updated_at: string }
+export type PhotoOverrideRow = { dish_id: string; household_id: string; photo_path: string; photo_credit?: string | null; updated_at: string }
 
 export function useDishPhotoOverrides(householdId: string | undefined) {
   return useQuery({

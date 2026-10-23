@@ -350,7 +350,7 @@ select tests.ok(not exists (select 1 from public.cuisines where id = :'cz'), 'on
 
 -- ── Bundled photos, batch 3 (0028) ──
 select tests.ok((select count(*) from public.dishes where household_id is null and name in ('Pudina rice', 'Mango rice', 'Panakam', 'Brinjal chutney', 'Vazhaithandu poriyal', 'Vadam') and photo_path like 'static/%' and photo_credit like '%Wikimedia Commons') = 6, 'six more shared dishes carry a bundled photo with its credit');
-select tests.ok((select photo_path = 'static/idli.webp' from public.dishes where household_id is null and name = 'Idli'), 'photos that were already set are left alone');
+select tests.ok((select photo_path = 'static/idli-2.webp' and photo_credit like 'Sutapa Pal%' from public.dishes where household_id is null and name = 'Idli'), 'the Idli photo was replaced by 0036 (and other photos already set are left alone by 0028)');
 
 -- ── My extras (0029) ──
 reset role;
@@ -640,6 +640,15 @@ delete from public.recipe_prep where id = :'own1';
 reset role;
 select tests.ok((select count(*) = 1 from public.prep_for_dish(:'prep_idli', :'hh_a')), 'removing our own reminder leaves the standard one');
 set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+
+-- ── The credit of a photo chosen from the web (migration 0037) ──
+insert into public.dish_photo_overrides (dish_id, household_id, photo_path, photo_credit) values (:'prep_idli', :'hh_a', 'home-a/idli.jpg', 'Sutapa Pal, CC BY-SA 4.0, via Wikimedia Commons')
+  on conflict (dish_id, household_id) do update set photo_credit = excluded.photo_credit, photo_path = excluded.photo_path;
+select tests.ok((select photo_credit like 'Sutapa Pal%' from public.dish_photo_overrides where household_id = :'hh_a' and dish_id = :'prep_idli'), 'a photo chosen from the web keeps its credit');
+select tests.refused($$ update public.dish_photo_overrides set photo_credit = repeat('x', 301) where household_id = '$$ || :'hh_a' || $$' $$, 'a credit is a short line, not an essay');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.dish_photo_overrides where photo_credit is not null) = 0, 'another home cannot see that credit');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
 -- ── Not signed in ──

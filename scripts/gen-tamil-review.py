@@ -14,6 +14,8 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from common_foods_data import rows as common_food_rows  # noqa: E402
 from recipes_data import R as RECIPES_0011  # noqa: E402
 from south_indian_data import rows as south_rows  # noqa: E402
+from shop_items_data import rows as shop_rows  # noqa: E402
+from prep_data import TEXTS as PREP_TEXTS  # noqa: E402
 
 root = pathlib.Path(__file__).parent.parent
 esc = html.escape
@@ -44,6 +46,7 @@ SECTION_TITLES = {
     'recipe': 'Recipe', 'nutrition': 'Nutrition', 'notifications': 'Notifications', 'history': 'Meal history', 'common': 'Common words', 'theme': 'Appearance', 'demo': 'Demo home', 'tips': 'First-visit tips',
     'balance': 'Weekly balance', 'cookAgain': 'Cook this again', 'recipeEdit': 'Edit our recipe', 'outsideNutrition': 'Meals out (nutrition note)', 'cuisines': 'Manage cuisines', 'extras': 'My extras',
     'goals': 'My goals', 'protein': 'Protein card', 'account': 'Your data and account',
+    'tour': 'Welcome tour', 'shopping': 'Shopping list', 'prep': 'Prep reminders', 'cook': "Cook's sheet",
 }
 
 # ── dishes (names) ──
@@ -142,6 +145,38 @@ for cu in ['South Indian', 'North Indian', 'European', 'Japanese']:
 foods = common_food_rows()
 section('foods', 'Everyday foods (My extras)', [row('food:' + f['name_en'], f['name_en'], f['name_ta'], f"{f['unit']}") for f in foods], len(foods))
 
+# shopping: the common items (names the family will see and type)
+shop = shop_rows()
+TAB_NAMES = {'vegetables': 'Vegetables', 'fruits': 'Fruits', 'groceries': 'Groceries', 'dairy_eggs': 'Dairy and eggs', 'other': 'Other'}
+for tab, title in TAB_NAMES.items():
+    items = [s for s in shop if s['tab'] == tab]
+    section('shop-' + tab, 'Shopping items · ' + title, [row('shop:' + s['name_en'], s['name_en'], s['name_ta'], 'usual ' + ('%g' % s['usual']) + ' ' + s['unit']) for s in items], len(items))
+
+# prep reminder wording (what to do ahead of cooking)
+prep_rows = [row('prep:' + k, en_t, ta_t) for k, (en_t, ta_t) in PREP_TEXTS.items()]
+section('prep-texts', 'Prep reminder wording', prep_rows, len(prep_rows))
+
+# words and phrases that live in the code, not on a screen (the cook's sheet message, shopping units)
+WORDS = [
+    ('cooksheet:eating', 'Eating out', 'வெளியில் சாப்பிடுகிறோம்', "cook's sheet, a meal not cooked at home"),
+    ('cooksheet:ordering', 'Ordering in', 'ஆர்டர் செய்கிறோம்', "cook's sheet, a meal ordered in"),
+    ('cooksheet:note', 'Note', 'கவனிக்க', "cook's sheet, before the allergy note"),
+    ('cooksheet:tonight', 'Tonight', 'இன்றிரவு', "cook's sheet, before tonight's prep"),
+    ('cooksheet:people', '5 (people eating)', '5 பேர்', "cook's sheet, after a meal name"),
+    ('cooksheet:one-person', '1 person: no soy', 'ஒருவருக்கு சோயா கூடாது', "cook's sheet, allergy note without names"),
+    ('cooksheet:many-people', '2 people: no soy', '2 பேருக்கு சோயா கூடாது', "cook's sheet, allergy note without names"),
+    ('cooksheet:names', 'no soy for Paati', 'சோயா கூடாது — பாட்டி', "cook's sheet, allergy note with names"),
+    ('cooksheet:helper', 'Helper', 'உதவியாளர்', "cook's sheet, a helper profile named Helper"),
+    ('unit:g', 'g (gram)', 'கி', 'shopping amount'),
+    ('unit:kg', 'kg', 'கிலோ', 'shopping amount'),
+    ('unit:ml', 'ml', 'மிலி', 'shopping amount'),
+    ('unit:L', 'L (litre)', 'லி', 'shopping amount'),
+    ('unit:pcs', 'pc / pcs', 'எண்', 'shopping amount'),
+    ('unit:bunch', 'bunch', 'கட்டு', 'shopping amount'),
+    ('unit:pack', 'pack', 'பாக்கெட்', 'shopping amount'),
+]
+section('words', 'Words in messages and amounts (not on screens)', [row(r, e, t_, n) for r, e, t_, n in WORDS], len(WORDS))
+
 total = counter['n']
 toc_html = ''.join(f'<li><a href="#{a}">{esc(t)}</a> <span>{c}</span></li>' for a, t, c in toc)
 doc = f"""<!doctype html>
@@ -161,7 +196,7 @@ doc = f"""<!doctype html>
   @media print {{ body {{ max-width: none; margin: 0; }} h2 {{ break-after: avoid; page-break-after: avoid; }} tr {{ break-inside: avoid; page-break-inside: avoid; }} th {{ position: static; }} .toc {{ columns: 2; }} .fix {{ height: 40px; }} .meta input {{ border-bottom: 1px solid #000; }} }}
 </style></head><body>
 <h1>HomeFood · Tamil review kit</h1>
-<p>Generated from the app's own text. <strong>{total}</strong> lines to read: {ui_total} screen texts, {dish_total} dish names, {recipe_rows_total} recipe lines (notes, ingredients, steps), {len(foods)} everyday foods.</p>
+<p>Generated from the app's own text. <strong>{total}</strong> lines to read: {ui_total} screen texts, {dish_total} dish names, {recipe_rows_total} recipe lines (notes, ingredients, steps), {len(foods)} everyday foods, {len(shop)} shopping items, {len(prep_rows)} prep reminder wordings and {len(WORDS)} words used in messages.</p>
 <p class="meta">Reviewer: <input aria-label="Reviewer"> &nbsp; Date: <input aria-label="Date"></p>
 <div class="how"><strong>How to review</strong>
 <ol>
@@ -177,4 +212,4 @@ doc = f"""<!doctype html>
 """
 dest = root / 'docs/tamil-review.html'
 dest.write_text(doc, encoding='utf-8', newline='\n')
-print(f'{total} lines ({ui_total} screen texts, {dish_total} dish names, {recipe_rows_total} recipe lines, {len(foods)} foods) -> docs/tamil-review.html, {dest.stat().st_size // 1024} KB')
+print(f'{total} lines ({ui_total} screen texts, {dish_total} dish names, {recipe_rows_total} recipe lines, {len(foods)} foods, {len(shop)} shop items, {len(prep_rows)} prep texts) -> docs/tamil-review.html, {dest.stat().st_size // 1024} KB')

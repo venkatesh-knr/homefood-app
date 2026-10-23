@@ -1111,5 +1111,22 @@
     "cardHint": "Send {{day}} cooking as one message",
     "cardHintTo": "Send {{day}} cooking to {{name}}",
     "weekButton": "Cook's sheet"
+  },
+  "webPhoto": {
+    "open": "Find a free photo online",
+    "title": "Find a free photo",
+    "searchLabel": "What to look for",
+    "search": "Search",
+    "note": "Photos from Wikimedia Commons, free licences only. Only the words you search for are sent.",
+    "searching": "Searching…",
+    "none": "No free photos found. Try another word, for example the dish's usual name.",
+    "error": "Could not reach Wikimedia Commons. Check your connection and try again.",
+    "credit": "Photo: {{credit}}",
+    "licenceNote": "Free to use. The credit is saved with the photo and shown on the dish.",
+    "use": "Use this photo",
+    "loading": "Getting the photo…",
+    "back": "Back to results",
+    "close": "Close",
+    "chosen": "Photo: {{credit}}"
   }
 }
