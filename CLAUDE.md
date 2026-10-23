@@ -196,7 +196,7 @@ src/App.tsx             routes: /join/:token is public; everything else needs a 
 - [x] Step 4 · Planning — tested live end to end (see scope below)
 - [x] Step 5 · Everyday view — tested live (see scope below)
 - [ ] Step 6 · Polish — partly built (see scope below for what's done vs. deferred)
-- [ ] Step 7 · Family trial (2 weeks)
+- [ ] Step 7 · Family trial (2 weeks): the checklist, what to watch for and the day-14 review are in `docs/family-trial.md`
 
 ### Step 2 · Home setup — scope
 
