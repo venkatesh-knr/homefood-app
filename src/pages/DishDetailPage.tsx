@@ -15,6 +15,7 @@ import { FullPageMessage, Pill } from '../components/ui'
 import { useRecipeDishIds } from '../lib/recipeQueries'
 import { FamilyNotesPanel, NutritionPanel } from '../components/NutritionPanel'
 import { CookAgainSheet } from '../components/CookAgainSheet'
+import { PrepSection } from '../components/PrepSection'
 import { Dialog } from '../components/Dialog'
 
 export default function DishDetailPage() {
@@ -192,6 +193,7 @@ export default function DishDetailPage() {
 
         {dishId && <NutritionPanel dishId={dishId} />}
         {dishId && <FamilyNotesPanel dishId={dishId} tags={dish.tags} />}
+        {dishId && <PrepSection dishId={dishId} />}
 
         <p className="text-[13px] text-muted">
           {isOwn ? t('dishes.rowAddedBy', { name: members?.find((m) => m.id === dish.created_by)?.display_name ?? '' }) : t('dishes.detail.addedByStock')}

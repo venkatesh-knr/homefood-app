@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { leadNote, prepByDish, prepTasks, taskDish, taskKey, taskText, zonedParts, type PrepRow, type PrepSlot } from './prep'
+import { leadNote, prepByDish, prepOptions, prepTasks, taskDish, taskKey, taskText, zonedParts, type PrepRow, type PrepSlot } from './prep'
 
 const row = (over: Partial<PrepRow> & { id: string; dish_id: string }): PrepRow => ({ recipe_id: `r-${over.dish_id}`, household_id: null, kind: 'soak', lead: 'night_before', hours: null, text_en: 'Soak', text_ta: 'ஊற வைக்கவும்', ...over })
 const dish = (id: string, en: string, ta: string | null = null) => ({ id, name: en, dish_names: [{ language: 'en', name: en }, ...(ta ? [{ language: 'ta', name: ta }] : [])] })
@@ -111,5 +111,38 @@ describe('the line under a task', () => {
     expect(taskText(t, 'ta')).toBe('ஊற வைக்கவும்')
     expect(taskText({ text: { en: 'Soak', ta: null } }, 'ta')).toBe('Soak')
     expect(taskDish(t, 'ta')).toBe('Chole')
+  })
+})
+
+describe('switching defaults off and adding our own', () => {
+  const all = [
+    row({ id: 'std-a', dish_id: 'Idli', text_en: 'Grind the batter' }),
+    row({ id: 'std-b', dish_id: 'Idli', text_en: 'Second standard' }),
+    row({ id: 'ours', dish_id: 'Idli', recipe_id: null, household_id: 'h', text_en: 'Our own reminder' }),
+    row({ id: 'theirs', dish_id: 'Idli', recipe_id: null, household_id: 'other-home', text_en: 'Not ours' }),
+    row({ id: 'only-own', dish_id: 'Upma', recipe_id: null, household_id: 'h', text_en: 'Roast the rava' }),
+  ]
+  it('shows the standard reminders and our own, never another home\'s', () => {
+    expect(prepOptions(all, 'Idli', 'h').active.map((r) => r.id)).toEqual(['std-a', 'std-b', 'ours'])
+  })
+  it('hides a standard reminder that was switched off, but keeps it listed as hidden', () => {
+    const o = prepOptions(all, 'Idli', 'h', new Set(['std-a']))
+    expect(o.active.map((r) => r.id)).toEqual(['std-b', 'ours'])
+    expect(o.hidden.map((r) => r.id)).toEqual(['std-a'])
+    expect(o.own.map((r) => r.id)).toEqual(['ours'])
+  })
+  it('works for a dish that has only our own reminder', () => {
+    expect(prepOptions(all, 'Upma', 'h').active.map((r) => r.id)).toEqual(['only-own'])
+    expect(prepByDish(all, 'h').get('Upma')!.map((r) => r.id)).toEqual(['only-own'])
+  })
+  it('leaves a dish with every reminder switched off out of the map', () => {
+    expect(prepByDish([row({ id: 'x', dish_id: 'Dosa' })], 'h', new Set(['x'])).has('Dosa')).toBe(false)
+  })
+  it('keeps what Today shows in step: a switched-off task is not listed', () => {
+    const slots = [slot('s', '2026-10-01', 'breakfast', 'Idli')]
+    const withAll = prepTasks({ now: EVENING, timeZone: 'Asia/Kolkata', slots, prep: prepByDish(all, 'h') }).tonight.map((t) => t.prepId)
+    const withOff = prepTasks({ now: EVENING, timeZone: 'Asia/Kolkata', slots, prep: prepByDish(all, 'h', new Set(['std-a'])) }).tonight.map((t) => t.prepId)
+    expect(withAll).toEqual(['std-a', 'std-b', 'ours'])
+    expect(withOff).toEqual(['std-b', 'ours'])
   })
 })

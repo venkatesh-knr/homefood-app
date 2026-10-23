@@ -1034,6 +1034,38 @@
     "doneAria": "Mark done: {{task}}",
     "undoAria": "Undo: {{task}}",
     "footerTonight": "The cooks for these meals get a reminder at 7 pm. Anyone can tick it done.",
-    "footerToday": "Anyone can tick it done."
+    "footerToday": "Anyone can tick it done.",
+    "sectionTitle": "Prep reminders",
+    "sectionHint": "Things to do ahead of cooking this dish. They show on Today, and the cooks get a reminder at 7 pm.",
+    "none": "Nothing to prep for this dish.",
+    "ours": "Our own",
+    "remindAria": "Remind us: {{task}}",
+    "offNote": "Off for our home",
+    "add": "Add our own reminder",
+    "edit": "Edit",
+    "remove": "Remove",
+    "removeAsk": "Remove “{{task}}”?",
+    "readOnly": "Ask your Admin or today's Planner to change these.",
+    "formTitle": "Our reminder",
+    "what": "What to do",
+    "whatTa": "In Tamil (optional)",
+    "kindLabel": "Kind",
+    "whenLabel": "When",
+    "hoursNeedsLabel": "How long it needs (hours, optional)",
+    "hoursBeforeLabel": "Hours before the meal",
+    "needText": "Write what to do.",
+    "kind": {
+      "soak": "Soak",
+      "batter_ferment": "Ferment batter",
+      "set_curd": "Set curd",
+      "thaw": "Thaw",
+      "marinate": "Marinate",
+      "sprout": "Sprout",
+      "other": "Other"
+    },
+    "lead": {
+      "night_before": "The night before",
+      "hours_before": "Hours before the meal"
+    }
   }
 }

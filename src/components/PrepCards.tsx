@@ -5,7 +5,7 @@ import { useMembers } from '../lib/queries'
 import { useHistorySlots } from '../lib/plannerQueries'
 import { addDays } from '../lib/planner'
 import { leadNote, prepByDish, prepTasks, taskDish, taskText, zonedParts, type PrepSlot, type PrepTask } from '../lib/prep'
-import { setPrepDone, usePrepDone, usePrepRows, type PrepDone } from '../lib/prepQueries'
+import { setPrepDone, usePrepDone, usePrepOff, usePrepRows, type PrepDone } from '../lib/prepQueries'
 import { useDemoState } from '../demo/demoState'
 import { describeError } from '../lib/errors'
 
@@ -22,7 +22,8 @@ export function PrepCards() {
   const { date } = zonedParts(now, household.timezone)
   const { data: slots } = useHistorySlots(household.id, date, addDays(date, 1))
   const { data: rows } = usePrepRows()
-  const prep = useMemo(() => prepByDish(rows ?? [], household.id), [rows, household.id])
+  const { data: off } = usePrepOff(household.id)
+  const prep = useMemo(() => prepByDish(rows ?? [], household.id, off), [rows, household.id, off])
   // The demo home has no real evening: treat the clock as 4 pm so the evening card can be seen.
   const { tonight, today } = useMemo(() => prepTasks({ now, timeZone: household.timezone, slots: (slots ?? []) as unknown as PrepSlot[], prep, minHour: demo.active ? 16 : 0 }), [now, household.timezone, slots, prep, demo.active])
   const { data: done } = usePrepDone([...tonight, ...today].map((t) => t.slotId))

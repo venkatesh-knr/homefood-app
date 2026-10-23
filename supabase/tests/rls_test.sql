@@ -579,6 +579,69 @@ select tests.ok((select count(*) = 1 and bool_and(text_en like 'Grind%') from pu
 set role authenticated;
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── Own prep reminders and switching the default ones off (migration 0035) ──
+delete from public.recipe_prep where text_en = 'Our own prep';
+insert into public.recipe_prep (household_id, dish_id, kind, lead, hours, text_en, text_ta, created_by)
+  values (:'hh_a', :'prep_idli', 'other', 'night_before', null, 'Take the dosa batter out of the fridge', null, :'amma_p') returning id as own1 \gset
+select tests.ok((select household_id = :'hh_a' and recipe_id is null from public.recipe_prep where id = :'own1'), 'the Admin adds her home''s own reminder for a dish');
+select tests.refused($$ insert into public.recipe_prep (household_id, kind, lead, text_en, created_by) values ('$$ || :'hh_a' || $$', 'other', 'night_before', 'No dish', '$$ || :'amma_p' || $$') $$, 'an own reminder must belong to a dish');
+select tests.refused($$ insert into public.recipe_prep (recipe_id, household_id, dish_id, kind, lead, text_en, created_by) select id, '$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'other', 'night_before', 'Both', '$$ || :'amma_p' || $$' from public.recipes where household_id is null limit 1 $$, 'a reminder is either a recipe''s or a home''s own, never both');
+select tests.refused($$ insert into public.recipe_prep (household_id, dish_id, kind, lead, text_en, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'other', 'hours_before', 'No hours', '$$ || :'amma_p' || $$') $$, 'an hours-before reminder must say how many hours');
+select tests.refused($$ insert into public.recipe_prep (household_id, dish_id, kind, lead, text_en, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'other', 'night_before', 'In someone''s name', '$$ || :'appa' || $$') $$, 'an own reminder cannot be created in someone else''s name');
+-- a member with no Planner turn today cannot change them
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.recipe_prep where household_id = :'hh_a') = 1, 'every member sees the home''s own reminders');
+select tests.refused($$ insert into public.recipe_prep (household_id, dish_id, kind, lead, text_en, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'other', 'night_before', 'Member', '$$ || :'appa' || $$') $$, 'a member with no Planner turn today cannot add one');
+select tests.refused($$ update public.recipe_prep set text_en = 'Changed' where id = '$$ || :'own1' || $$' $$, 'nor change one');
+select tests.refused($$ delete from public.recipe_prep where id = '$$ || :'own1' || $$' $$, 'nor remove one');
+select tests.refused($$ insert into public.household_prep_off (household_id, prep_id, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_task' || $$', '$$ || :'appa' || $$') $$, 'nor switch a default reminder off');
+-- ...but the Planner can: someone with an approved turn that covers today
+reset role;
+insert into public.planner_turns (household_id, profile_id, scope, start_date, end_date) values (:'hh_a', :'appa', 'week', current_date - 1, current_date + 1) returning id as turn_prep \gset
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+insert into public.recipe_prep (household_id, dish_id, kind, lead, hours, text_en, created_by) values (:'hh_a', :'prep_idli', 'soak', 'hours_before', 2, 'Planner''s reminder', :'appa') returning id as own2 \gset
+select tests.ok(exists (select 1 from public.recipe_prep where id = :'own2'), 'whoever is the Planner today can add one');
+update public.recipe_prep set text_en = 'Planner''s reminder, edited' where id = :'own2';
+select tests.ok((select text_en = 'Planner''s reminder, edited' from public.recipe_prep where id = :'own2'), 'and edit it');
+delete from public.recipe_prep where id = :'own2';
+select tests.ok(not exists (select 1 from public.recipe_prep where id = :'own2'), 'and remove it');
+reset role;
+delete from public.planner_turns where id = :'turn_prep';
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ insert into public.recipe_prep (household_id, dish_id, kind, lead, text_en, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'other', 'night_before', 'Turn is over', '$$ || :'appa' || $$') $$, 'once the turn is over, they cannot');
+-- another home sees and changes nothing
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.recipe_prep where household_id is not null) = 0, 'another home cannot see this home''s own reminders');
+select tests.refused($$ insert into public.recipe_prep (household_id, dish_id, kind, lead, text_en, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'other', 'night_before', 'Spam', public.my_profile_id()) $$, 'nor add to them');
+select tests.refused($$ update public.recipe_prep set text_en = 'Hacked' where id = '$$ || :'own1' || $$' $$, 'nor change them');
+select tests.refused($$ delete from public.recipe_prep where id = '$$ || :'own1' || $$' $$, 'nor remove them');
+select tests.refused($$ insert into public.household_prep_off (household_id, prep_id, created_by) values ('$$ || :'hh_a' || $$', '$$ || :'prep_task' || $$', public.my_profile_id()) $$, 'nor switch off defaults for this home');
+-- the Admin switches a default off
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.household_prep_off (household_id, prep_id, created_by) values (:'hh_a', :'prep_task', :'amma_p');
+select tests.refused($$ insert into public.household_prep_off (household_id, prep_id, created_by) select '$$ || :'hh_a' || $$', id, '$$ || :'amma_p' || $$' from public.recipe_prep where household_id is not null limit 1 $$, 'only a standard reminder can be switched off (not an own one)');
+reset role;
+select tests.ok((select count(*) = 1 and bool_and(text_en like 'Take the dosa%') from public.prep_for_dish(:'prep_idli', :'hh_a')), 'with the standard idli reminder off, this home gets only its own reminder for idli');
+select tests.ok((select count(*) = 1 and bool_and(text_en like 'Grind%') from public.prep_for_dish(:'prep_idli', :'hh_c')), 'another home still gets the standard one and none of ours');
+select tests.ok(public.create_prep_reminders('2030-01-09 19:55:00+05:30') = 1, 'the 7 pm reminder follows: Appa gets our own idli reminder, not the switched-off one (the curd was already sent)');
+select tests.ok(exists (select 1 from public.notifications where type = 'prep_reminder' and profile_id = :'appa' and data->>'task_en' = 'Take the dosa batter out of the fridge'), 'and it carries our wording');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ delete from public.household_prep_off $$, 'a member cannot switch it back on');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.household_prep_off where household_id = :'hh_a' and prep_id = :'prep_task';
+reset role;
+select tests.ok((select count(*) = 2 from public.prep_for_dish(:'prep_idli', :'hh_a')), 'switched back on, the standard reminder returns beside our own');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.recipe_prep where id = :'own1';
+reset role;
+select tests.ok((select count(*) = 1 from public.prep_for_dish(:'prep_idli', :'hh_a')), 'removing our own reminder leaves the standard one');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

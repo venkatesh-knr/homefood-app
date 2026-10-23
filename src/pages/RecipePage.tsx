@@ -9,6 +9,7 @@ import { useRecipe } from '../lib/recipeQueries'
 import { clampServings, formatQuantity, isPlural, scaleQuantity } from '../lib/recipes'
 import { dishDisplayName } from '../lib/dishes'
 import { FullPageMessage, Toggle } from '../components/ui'
+import { PrepSection } from '../components/PrepSection'
 
 /** Keeps the screen on while cook mode is on (where the browser supports it); released on turn-off or leaving. */
 function useWakeLock(on: boolean) {
@@ -185,6 +186,8 @@ export default function RecipePage() {
           )
         })}
       </div>
+
+      {dishId && <PrepSection dishId={dishId} />}
 
       <div className="rounded-2xl bg-sand p-3.5 text-[13px] leading-relaxed text-ink-soft">
         {note && <p>{note}</p>}

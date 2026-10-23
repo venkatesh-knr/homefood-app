@@ -43,6 +43,7 @@ const PK: Record<string, string[]> = {
   dish_favourites: ['household_id', 'dish_id'],
   personal_goals: ['profile_id'],
   prep_done: ['slot_id', 'prep_id'],
+  household_prep_off: ['household_id', 'prep_id'],
 }
 
 /** Other uniqueness rules the real database enforces. */
@@ -61,7 +62,7 @@ const CASCADE: Record<string, [string, string][]> = {
   dishes: [['dish_names', 'dish_id'], ['meal_slot_sides', 'dish_id'], ['dish_photo_overrides', 'dish_id'], ['recipes', 'dish_id'], ['dish_nutrition', 'dish_id'], ['dish_favourites', 'dish_id'], ['meal_slot_suggestions', 'dish_id']],
   profiles: [['profile_allergies', 'profile_id'], ['meal_slot_cooks', 'profile_id'], ['meal_slot_eaters', 'profile_id'], ['meal_slot_votes', 'profile_id'], ['meal_slot_comments', 'profile_id'], ['meal_slot_suggestions', 'profile_id'], ['meal_attendance', 'profile_id'], ['planner_turns', 'profile_id'], ['notifications', 'profile_id']],
   recipes: [['recipe_ingredients', 'recipe_id'], ['recipe_steps', 'recipe_id'], ['recipe_prep', 'recipe_id']],
-  recipe_prep: [['prep_done', 'prep_id']],
+  recipe_prep: [['prep_done', 'prep_id'], ['household_prep_off', 'prep_id']],
 }
 const SET_NULL: Record<string, [string, string][]> = {
   dishes: [['meal_slots', 'main_dish_id']],
@@ -93,6 +94,8 @@ const DEFAULTS: Record<string, () => Row> = {
   custom_foods: () => ({ name_ta: null, unit: 'piece', kcal: null, protein_g: null, carbs_g: null, fat_g: null, created_at: nowIso() }),
   dish_photo_overrides: () => ({ updated_at: nowIso() }),
   prep_done: () => ({ done_at: nowIso() }),
+  recipe_prep: () => ({ recipe_id: null, household_id: null, hours: null, text_ta: null, position: 1, created_at: nowIso() }),
+  household_prep_off: () => ({ created_at: nowIso() }),
   household_shop_items: () => ({ name_ta: null, aliases: [], section: 'other', browse_tab: 'other', usual_amount: 1, usual_unit: 'pcs', perishable: false, staple: false, pack_sizes: null, g_per_cup: null, g_per_piece: null, created_at: nowIso() }),
   shopping_items: () => ({ name_ta: null, section: 'other', amount: null, unit: null, note: null, source: 'manual', source_dishes: [], is_regular: false, bought_at: null, bought_by: null, created_at: nowIso() }),
 }

@@ -9,3 +9,10 @@ export function useCanPlanDate(date: string | undefined): boolean {
   if (!date) return false
   return profile.role === 'admin' || (turns ?? []).some((t) => t.profile_id === profile.id && turnCoversDate(t, date))
 }
+
+/** The Admin, or whoever is the Planner today (on the home's own clock): who may add, edit and switch off prep reminders. */
+export function useCanEditPrep(): boolean {
+  const { household } = useHome()
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: household.timezone })
+  return useCanPlanDate(today)
+}

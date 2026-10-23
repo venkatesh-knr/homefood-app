@@ -7,8 +7,8 @@ import { addDays } from './planner'
 export type PrepKind = 'soak' | 'batter_ferment' | 'set_curd' | 'thaw' | 'marinate' | 'sprout' | 'other'
 export type PrepLead = 'night_before' | 'hours_before'
 
-/** One prep tag of a recipe. `household_id` is null for a standard recipe's tag. */
-export type PrepRow = { id: string; recipe_id: string; dish_id: string; household_id: string | null; kind: PrepKind; lead: PrepLead; hours: number | null; text_en: string; text_ta: string | null }
+/** One prep tag. A standard recipe's tag has a `recipe_id` and no `household_id`; a home's own reminder has no `recipe_id` but its `household_id` and the dish. */
+export type PrepRow = { id: string; recipe_id: string | null; dish_id: string; household_id: string | null; kind: PrepKind; lead: PrepLead; hours: number | null; text_en: string; text_ta: string | null }
 
 /** From this hour the evening card shows tomorrow's night-before tasks. */
 export const EVENING_FROM = 16
@@ -31,16 +31,23 @@ export function zonedParts(now: Date, timeZone: string): { date: string; hour: n
   return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour) % 24 }
 }
 
-/** The tags that apply to each dish for a home: its own recipe's tags if that recipe has any, else the standard recipe's. */
-export function prepByDish(rows: PrepRow[], householdId: string): Map<string, PrepRow[]> {
-  const own = new Map<string, PrepRow[]>()
-  const standard = new Map<string, PrepRow[]>()
-  for (const r of rows) {
-    if (r.household_id === householdId) own.set(r.dish_id, [...(own.get(r.dish_id) ?? []), r])
-    else if (r.household_id === null) standard.set(r.dish_id, [...(standard.get(r.dish_id) ?? []), r])
+/** The reminders of one dish for a home: `active` are the ones that show (the standard tags, or those of the home's own recipe version if it has any,
+ * minus the ones the home switched off, plus its own reminders); `hidden` are the standard ones switched off; `own` are the home's own. */
+export function prepOptions(rows: PrepRow[], dishId: string, householdId: string, off: Set<string> = new Set()): { active: PrepRow[]; hidden: PrepRow[]; own: PrepRow[] } {
+  const forDish = rows.filter((r) => r.dish_id === dishId)
+  const ownRecipe = forDish.filter((r) => r.household_id === householdId && r.recipe_id !== null)
+  const base = ownRecipe.length > 0 ? ownRecipe : forDish.filter((r) => r.household_id === null)
+  const own = forDish.filter((r) => r.household_id === householdId && r.recipe_id === null)
+  return { active: [...base.filter((r) => !off.has(r.id)), ...own], hidden: base.filter((r) => off.has(r.id)), own }
+}
+
+/** The reminders that apply to each dish for a home (see prepOptions). */
+export function prepByDish(rows: PrepRow[], householdId: string, off: Set<string> = new Set()): Map<string, PrepRow[]> {
+  const out = new Map<string, PrepRow[]>()
+  for (const dishId of new Set(rows.map((r) => r.dish_id))) {
+    const { active } = prepOptions(rows, dishId, householdId, off)
+    if (active.length > 0) out.set(dishId, active)
   }
-  const out = new Map(standard)
-  for (const [dish, list] of own) out.set(dish, list)
   return out
 }
 
