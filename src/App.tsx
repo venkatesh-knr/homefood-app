@@ -20,6 +20,7 @@ import WeekGlancePage from './pages/WeekGlancePage'
 import ShoppingPage from './pages/ShoppingPage'
 import ShopFromPlanPage from './pages/ShopFromPlanPage'
 import CookSheetPage from './pages/CookSheetPage'
+import HomeSectionPage from './pages/HomeSectionPage'
 import DishesPage from './pages/DishesPage'
 import AddDishPage from './pages/AddDishPage'
 import DishDetailPage from './pages/DishDetailPage'
@@ -84,6 +85,7 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="dishes/:dishId/recipe/edit" element={<RecipeEditPage />} />
         <Route path="dishes/:dishId" element={<DishDetailPage />} />
         <Route path="home" element={<HomeTabPage />} />
+        <Route path="home/:section" element={<HomeSectionPage />} />
         <Route path="history" element={<HistoryPage />} />
         <Route path="notifications" element={<NotificationsPage />} />
         <Route path="nutrition" element={<NutritionPage />} />

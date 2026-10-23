@@ -9,7 +9,7 @@ import { Card } from './ui'
 const input = 'min-h-[48px] w-full rounded-xl border border-line-strong bg-surface px-3 text-[16px]'
 
 /** Home tab: the items this home saved for its shopping list. Everyone sees them; the person who saved one, or an Admin, renames or removes it. */
-export function OurShopItemsCard({ householdId, profileId, isAdmin }: { householdId: string; profileId: string; isAdmin: boolean }) {
+export function OurShopItemsCard({ householdId, profileId, isAdmin, showEmpty = false }: { householdId: string; profileId: string; isAdmin: boolean; showEmpty?: boolean }) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language as 'en' | 'ta'
   const { data: items } = useHouseholdShopItems(householdId)
@@ -20,7 +20,8 @@ export function OurShopItemsCard({ householdId, profileId, isAdmin }: { househol
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  if (!items || items.length === 0) return null
+  if (!items) return null
+  if (items.length === 0) return showEmpty ? <p className="rounded-2xl bg-sand px-4 py-3.5 text-[14px] text-ink-soft">{t('shopping.oursEmpty')}</p> : null
 
   function startEdit(c: CatalogItem) {
     setEditing(c.id)

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInvites } from '../lib/queries'
 import { useHasPlannedMeals, useHasPublishedWeek } from '../lib/plannerQueries'
@@ -6,12 +7,14 @@ import { Card } from './ui'
 
 const STEPS = ['people', 'invite', 'plan', 'publish', 'poster'] as const
 
-export function GettingStartedChecklist({ householdId }: { householdId: string }) {
+/** `compact` (the Home tab): one line that opens the list, and nothing at all once every step is done. */
+export function GettingStartedChecklist({ householdId, compact = false }: { householdId: string; compact?: boolean }) {
   const { t } = useTranslation()
   const { data: invites } = useInvites(householdId)
   const { data: hasPlanned } = useHasPlannedMeals(householdId)
   const { data: hasPublished } = useHasPublishedWeek(householdId)
   const [posterOpened] = usePosterOpened(householdId)
+  const [open, setOpen] = useState(false)
 
   // "people" is always true by the time this renders — reaching it needs a
   // household with at least the Admin already set up.
@@ -23,11 +26,20 @@ export function GettingStartedChecklist({ householdId }: { householdId: string }
     poster: posterOpened,
   }
   const doneCount = STEPS.filter((s) => done[s]).length
+  if (compact && doneCount === STEPS.length) return null
+  const title = t('invite.gettingStarted', { done: doneCount, total: STEPS.length })
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="font-display text-[16px] font-semibold">{t('invite.gettingStarted', { done: doneCount, total: STEPS.length })}</span>
-      <Card className="flex flex-col px-3.5 py-1">
+      {compact ? (
+        <button type="button" aria-expanded={open} onClick={() => setOpen(!open)} className="flex min-h-[52px] items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 text-left">
+          <span className="font-display text-[15.5px] font-semibold">{title}</span>
+          <span aria-hidden="true" className={`text-[20px] leading-none text-muted transition-transform ${open ? 'rotate-90' : ''}`}>›</span>
+        </button>
+      ) : (
+        <span className="font-display text-[16px] font-semibold">{title}</span>
+      )}
+      {(!compact || open) && <Card className="flex flex-col px-3.5 py-1">
         {STEPS.map((key) => (
           <div key={key} className="flex items-center gap-3 py-2.5">
             <span
@@ -44,7 +56,7 @@ export function GettingStartedChecklist({ householdId }: { householdId: string }
             <span className="text-[14.5px] text-ink">{t(`invite.steps.${key}`)}</span>
           </div>
         ))}
-      </Card>
+      </Card>}
     </div>
   )
 }

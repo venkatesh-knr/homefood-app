@@ -431,7 +431,26 @@
     "settings": "Home settings",
     "homeName": "Home name",
     "defaultLanguage": "Default language for new members",
-    "weekStartHint": "Meals you already planned stay exactly where they are."
+    "weekStartHint": "Meals you already planned stay exactly where they are.",
+    "menu": {
+      "groups": {
+        "ourHome": "Our home",
+        "foodHealth": "Food and health",
+        "thisApp": "This app"
+      },
+      "family": "Family and invite",
+      "familyHint": "People, helper, invite link",
+      "settings": "Home settings",
+      "settingsHint": "Name, language, snacks, week start, planner balance",
+      "items": "Our common items",
+      "itemsHint": "Items saved for the shopping list",
+      "goals": "My goals",
+      "goalsHint": "Your own protein and calorie goals",
+      "app": "Appearance and tips",
+      "appHint": "Light or dark, welcome tour, tips",
+      "account": "Your data and account",
+      "accountHint": "Download, sign out everywhere, delete"
+    }
   },
   "discussion": {
     "agree": "Agree",
