@@ -596,7 +596,8 @@
       "suggestion_declined": "Your suggestion {{suggested}} for {{day}} {{meal}} wasn't taken this time.",
       "comment_new": "{{actor}} commented on {{day}} {{meal}}.",
       "kept_despite": "The Planner kept {{what}} for {{day}} {{meal}}.",
-      "turn_assigned": "{{actor}} gave you a Planner turn: {{range}}."
+      "turn_assigned": "{{actor}} gave you a Planner turn: {{range}}.",
+      "prep_reminder": "Tonight: {{task}}, for {{day}} {{meal}} ({{what}})."
     }
   },
   "history": {
@@ -1016,5 +1017,23 @@
     "planAdded_one": "{{count}} item added from this week's meals",
     "planAdded_other": "{{count}} items added from this week's meals",
     "todayNeeded": "{{names}} needed tomorrow"
+  },
+  "prep": {
+    "tonightTitle": "Tonight · for tomorrow",
+    "todayTitle": "Today · prep",
+    "progress": "{{done}} of {{total}} done",
+    "for": "For {{when}}",
+    "needs_one": "needs about {{count}} hour",
+    "needs_other": "needs about {{count}} hours",
+    "overnight": "overnight",
+    "hoursBefore_one": "{{count}} hour before",
+    "hoursBefore_other": "{{count}} hours before",
+    "doneBy": "Done by {{name}}",
+    "done": "Done",
+    "undo": "Undo",
+    "doneAria": "Mark done: {{task}}",
+    "undoAria": "Undo: {{task}}",
+    "footerTonight": "The cooks for these meals get a reminder at 7 pm. Anyone can tick it done.",
+    "footerToday": "Anyone can tick it done."
   }
 }

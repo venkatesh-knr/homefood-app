@@ -4,6 +4,7 @@
 import { addDays, toISODate, weekStartOf } from '../lib/planner'
 import type { Db, Row } from './fakeClient'
 import shopItems from './shopItems.json'
+import prepTags from './prep.json'
 
 export type Catalogue = {
   cuisines: { id: string; parent_id: string | null; name: string; name_ta: string | null; sort_order: number }[]
@@ -95,6 +96,11 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
     put('recipes', { id, dish_id: r.dish_id, household_id: null, servings: r.servings, prep_minutes: r.prep, cook_minutes: r.cook, credit: null, note: r.note, note_ta: r.note_ta, created_at: created })
     r.ingredients.forEach((i, k) => put('recipe_ingredients', { recipe_id: id, position: k + 1, name: i.n, name_ta: i.t, quantity: i.q, unit: i.u }))
     r.steps.forEach((s, k) => put('recipe_steps', { recipe_id: id, position: k + 1, body: s.e, body_ta: s.t }))
+  }
+  // prep tags (ferment the batter, soak the chickpeas...) for the demo recipes that have them
+  for (const p of prepTags as { dish: string; position: number; kind: string; lead: string; hours: number | null; text_en: string; text_ta: string }[]) {
+    const d = cat.dishes.find((x) => x.name === p.dish)
+    if (d && cat.recipes.some((r) => r.dish_id === d.id)) put('recipe_prep', { id: `prep-${d.id}-${p.position}`, recipe_id: `recipe-${d.id}`, position: p.position, kind: p.kind, lead: p.lead, hours: p.hours, text_en: p.text_en, text_ta: p.text_ta })
   }
   for (const name of ['Idli', 'Dosa', 'Masala dosa', 'Chicken biryani', 'Curd rice']) put('dish_favourites', { household_id: DEMO_HOUSEHOLD_ID, dish_id: dishId(name), created_at: created })
 

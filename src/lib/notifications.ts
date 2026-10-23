@@ -11,6 +11,7 @@ export type NotificationType =
   | 'comment_new'
   | 'kept_despite'
   | 'turn_assigned'
+  | 'prep_reminder'
 
 export type NotificationData = {
   date?: string
@@ -25,6 +26,8 @@ export type NotificationData = {
   scope?: string
   start_date?: string
   end_date?: string
+  task_en?: string | null
+  task_ta?: string | null
 }
 
 export type NotificationRow = {
@@ -42,15 +45,17 @@ export type NotificationRow = {
 export function notificationTarget(n: Pick<NotificationRow, 'type' | 'data'>): string {
   if (n.type === 'week_published') return '/week/glance'
   if (n.type === 'turn_assigned') return '/week/rota'
+  if (n.type === 'prep_reminder') return '/today'
   return n.data.date && n.data.meal ? `/week/${n.data.date}/${n.data.meal}/discuss` : '/week'
 }
 
 /** The words that fill a notification's sentence, in the reader's language (falls back to English / the place name). */
-export function notificationWords(n: Pick<NotificationRow, 'data'>, lang: 'en' | 'ta'): { what: string; suggested: string } {
+export function notificationWords(n: Pick<NotificationRow, 'data'>, lang: 'en' | 'ta'): { what: string; suggested: string; task: string } {
   const d = n.data
   const dish = (lang === 'ta' ? d.dish_ta : d.dish_en) ?? d.dish_en
   const suggested = (lang === 'ta' ? d.suggested_ta : d.suggested_en) ?? d.suggested_en
-  return { what: dish || d.place || '', suggested: suggested || '' }
+  const task = (lang === 'ta' ? d.task_ta : d.task_en) ?? d.task_en
+  return { what: dish || d.place || '', suggested: suggested || '', task: task || '' }
 }
 
 export function unreadCount(rows: Pick<NotificationRow, 'read_at'>[]): number {

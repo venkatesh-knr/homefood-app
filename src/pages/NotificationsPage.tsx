@@ -25,7 +25,7 @@ export default function NotificationsPage() {
   const day = (iso?: string) => (iso ? dayFmt.format(new Date(`${iso}T00:00:00`)) : '')
 
   function textOf(n: NotificationRow): string {
-    const { what, suggested } = notificationWords(n, lang)
+    const { what, suggested, task } = notificationWords(n, lang)
     const d = n.data
     return t(`notifications.text.${n.type}`, {
       actor: nameOf(n.actor_id),
@@ -33,6 +33,7 @@ export default function NotificationsPage() {
       meal: d.meal ? t(`meal.${d.meal}`).toLowerCase() : '',
       what,
       suggested,
+      task,
       range: d.start_date && d.end_date ? `${shortFmt.format(new Date(`${d.start_date}T00:00:00`))} – ${shortFmt.format(new Date(`${d.end_date}T00:00:00`))}` : '',
     })
   }

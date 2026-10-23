@@ -530,6 +530,55 @@ select tests.ok((select name_en = 'Banana stem (fresh)' from public.household_sh
 delete from public.household_shop_items where id = :'hs2';
 select tests.ok(not exists (select 1 from public.household_shop_items where id = :'hs2'), 'and delete it');
 
+-- ── Prep reminders (migration 0034) ──
+select tests.ok((select count(*) from public.recipe_prep) >= 55, 'the standard recipes carry prep tags');
+select tests.ok(exists (select 1 from public.recipe_prep rp join public.recipes r on r.id = rp.recipe_id join public.dishes d on d.id = r.dish_id
+                        where d.name = 'Idli' and r.household_id is null and rp.kind = 'batter_ferment' and rp.lead = 'night_before' and rp.hours = 8 and rp.text_ta is not null), 'idli batter is a night-before task that needs about 8 hours, with Tamil wording');
+select tests.ok(not exists (select 1 from public.recipe_prep where lead = 'hours_before' and hours is null), 'an hours-before task always says how many hours');
+select tests.refused($$ insert into public.recipe_prep (recipe_id, kind, lead, text_en) select id, 'other', 'night_before', 'x' from public.recipes where household_id is null limit 1 $$, 'a home cannot add tags to a standard recipe');
+select tests.refused($$ update public.recipe_prep set text_en = 'Hacked' $$, 'nor change the standard tags');
+select tests.refused($$ delete from public.recipe_prep $$, 'nor delete them');
+select id as prep_idli from public.dishes where name = 'Idli' and household_id is null \gset
+select id as prep_curdrice from public.dishes where name = 'Curd rice' and household_id is null \gset
+insert into public.week_plans (household_id, week_start) values (:'hh_a', '2030-01-07') returning id as wk_prep \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_prep', :'hh_a', '2030-01-10', 'dinner', :'prep_idli') returning id as slot_prep \gset
+insert into public.meal_slot_sides (slot_id, position, dish_id) values (:'slot_prep', 1, :'prep_curdrice');
+insert into public.meal_slot_cooks (slot_id, profile_id) values (:'slot_prep', :'appa'), (:'slot_prep', :'helper');
+insert into public.recipes (dish_id, household_id, servings) values (:'prep_idli', :'hh_a', 4) returning id as rec_prep \gset
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.refused($$ insert into public.recipe_prep (recipe_id, kind, lead, text_en) values ('$$ || :'rec_prep' || $$', 'other', 'night_before', 'Member tag') $$, 'a member cannot add tags to the home''s own recipe (Admin only)');
+select id as prep_task from public.recipe_prep where recipe_id = (select r.id from public.recipes r join public.dishes d on d.id = r.dish_id where d.name = 'Idli' and r.household_id is null) \gset
+insert into public.prep_done (slot_id, prep_id, household_id, done_by) values (:'slot_prep', :'prep_task', :'hh_a', :'appa');
+select tests.ok((select done_by = :'appa' from public.prep_done where slot_id = :'slot_prep'), 'a member ticks a prep task done and the home sees who');
+select tests.refused($$ insert into public.prep_done (slot_id, prep_id, household_id, done_by) values ('$$ || :'slot_prep' || $$', '$$ || :'prep_task' || $$', '$$ || :'hh_a' || $$', '$$ || :'amma_p' || $$') $$, 'a task cannot be ticked in someone else''s name (or twice)');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.prep_done) = 0, 'another home cannot see what was ticked');
+select tests.refused($$ insert into public.prep_done (slot_id, prep_id, household_id, done_by) values ('$$ || :'slot_prep' || $$', '$$ || :'prep_task' || $$', '$$ || :'hh_a' || $$', public.my_profile_id()) $$, 'nor tick tasks for this home');
+select tests.refused($$ delete from public.prep_done $$, 'nor undo them');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.prep_done where slot_id = :'slot_prep';
+select tests.ok(not exists (select 1 from public.prep_done), 'anyone in the home can undo a tick');
+reset role;
+select tests.ok(public.create_prep_reminders('2030-01-09 17:00:00+05:30') = 0, 'no reminders before 7 pm');
+select tests.ok(public.create_prep_reminders('2030-01-09 21:00:00+05:30') = 0, 'nor after the 7 o''clock hour');
+select public.create_prep_reminders('2030-01-09 19:30:00+05:30') as made1 \gset
+select tests.ok(:made1 = 2, 'at 7 pm Appa, the cook with a login, gets a reminder for the idli batter and for the curd (the helper has none)');
+select tests.ok(not exists (select 1 from public.notifications n join public.profiles p on p.id = n.profile_id where n.type = 'prep_reminder' and p.user_id is null), 'a cook without a login gets nothing');
+select tests.ok(exists (select 1 from public.notifications where type = 'prep_reminder' and profile_id = :'appa' and slot_id = :'slot_prep' and data->>'task_en' = 'Set the curd' and data->>'dish_en' = 'Curd rice' and data->>'task_ta' is not null), 'the reminder names the task and the dish, in both languages');
+select tests.ok(public.create_prep_reminders('2030-01-09 19:45:00+05:30') = 0, 'running again the same evening adds nothing');
+delete from public.notifications where type = 'prep_reminder';
+insert into public.prep_done (slot_id, prep_id, household_id, done_by) values (:'slot_prep', :'prep_task', :'hh_a', :'appa');
+select tests.ok(public.create_prep_reminders('2030-01-09 19:50:00+05:30') = 1, 'a task that is already done gets no reminder (only the curd is left)');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.refused($$ select public.create_prep_reminders() $$, 'a signed-in person cannot run the reminder function');
+insert into public.recipe_prep (recipe_id, kind, lead, hours, text_en) values (:'rec_prep', 'other', 'night_before', null, 'Our own prep');
+reset role;
+select tests.ok((select count(*) = 1 and bool_and(text_en = 'Our own prep') from public.prep_for_dish(:'prep_idli', :'hh_a')), 'a home''s own recipe tags replace the standard ones for that home');
+select tests.ok((select count(*) = 1 and bool_and(text_en like 'Grind%') from public.prep_for_dish(:'prep_idli', :'hh_c')), 'another home still gets the standard tag');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

@@ -24,6 +24,7 @@ const REL: Record<string, Rel> = {
   'dishes.dish_names': { kind: 'many', fk: 'dish_id' },
   'recipes.recipe_ingredients': { kind: 'many', fk: 'recipe_id' },
   'recipes.recipe_steps': { kind: 'many', fk: 'recipe_id' },
+  'recipe_prep.recipes': { kind: 'one', fk: 'recipe_id' },
 }
 
 const PK: Record<string, string[]> = {
@@ -41,6 +42,7 @@ const PK: Record<string, string[]> = {
   meal_attendance: ['slot_id', 'profile_id'],
   dish_favourites: ['household_id', 'dish_id'],
   personal_goals: ['profile_id'],
+  prep_done: ['slot_id', 'prep_id'],
 }
 
 /** Other uniqueness rules the real database enforces. */
@@ -54,11 +56,12 @@ const UNIQUE: Record<string, string[][]> = {
 
 /** What the database does to other tables when a row goes. */
 const CASCADE: Record<string, [string, string][]> = {
-  meal_slots: [['meal_slot_sides', 'slot_id'], ['meal_slot_cooks', 'slot_id'], ['meal_slot_eaters', 'slot_id'], ['meal_slot_votes', 'slot_id'], ['meal_slot_comments', 'slot_id'], ['meal_slot_suggestions', 'slot_id'], ['meal_attendance', 'slot_id'], ['notifications', 'slot_id']],
+  meal_slots: [['meal_slot_sides', 'slot_id'], ['meal_slot_cooks', 'slot_id'], ['meal_slot_eaters', 'slot_id'], ['meal_slot_votes', 'slot_id'], ['meal_slot_comments', 'slot_id'], ['meal_slot_suggestions', 'slot_id'], ['meal_attendance', 'slot_id'], ['prep_done', 'slot_id'], ['notifications', 'slot_id']],
   week_plans: [['meal_slots', 'week_plan_id']],
   dishes: [['dish_names', 'dish_id'], ['meal_slot_sides', 'dish_id'], ['dish_photo_overrides', 'dish_id'], ['recipes', 'dish_id'], ['dish_nutrition', 'dish_id'], ['dish_favourites', 'dish_id'], ['meal_slot_suggestions', 'dish_id']],
   profiles: [['profile_allergies', 'profile_id'], ['meal_slot_cooks', 'profile_id'], ['meal_slot_eaters', 'profile_id'], ['meal_slot_votes', 'profile_id'], ['meal_slot_comments', 'profile_id'], ['meal_slot_suggestions', 'profile_id'], ['meal_attendance', 'profile_id'], ['planner_turns', 'profile_id'], ['notifications', 'profile_id']],
-  recipes: [['recipe_ingredients', 'recipe_id'], ['recipe_steps', 'recipe_id']],
+  recipes: [['recipe_ingredients', 'recipe_id'], ['recipe_steps', 'recipe_id'], ['recipe_prep', 'recipe_id']],
+  recipe_prep: [['prep_done', 'prep_id']],
 }
 const SET_NULL: Record<string, [string, string][]> = {
   dishes: [['meal_slots', 'main_dish_id']],
@@ -89,11 +92,12 @@ const DEFAULTS: Record<string, () => Row> = {
   personal_usuals: () => ({ common_food_id: null, custom_food_id: null, dish_id: null, created_at: nowIso() }),
   custom_foods: () => ({ name_ta: null, unit: 'piece', kcal: null, protein_g: null, carbs_g: null, fat_g: null, created_at: nowIso() }),
   dish_photo_overrides: () => ({ updated_at: nowIso() }),
+  prep_done: () => ({ done_at: nowIso() }),
   household_shop_items: () => ({ name_ta: null, aliases: [], section: 'other', browse_tab: 'other', usual_amount: 1, usual_unit: 'pcs', perishable: false, staple: false, pack_sizes: null, g_per_cup: null, g_per_piece: null, created_at: nowIso() }),
   shopping_items: () => ({ name_ta: null, section: 'other', amount: null, unit: null, note: null, source: 'manual', source_dishes: [], is_regular: false, bought_at: null, bought_by: null, created_at: nowIso() }),
 }
 
-const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items', 'common_shop_items', 'household_shop_items'])
+const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items', 'common_shop_items', 'household_shop_items', 'recipe_prep'])
 
 /** Tables whose rows are private to one person (migration 0029): their own login, or the Admin for family members with no login. */
 const PERSONAL_TABLES = new Set(['personal_intake', 'personal_usuals', 'personal_goals'])

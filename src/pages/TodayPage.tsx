@@ -16,6 +16,7 @@ import { useAttendance } from '../lib/attendanceQueries'
 import { ExtrasSection } from '../components/ExtrasSection'
 import type { AttendanceRow } from '../lib/attendance'
 import { FirstVisitTip } from '../components/FirstVisitTip'
+import { PrepCards } from '../components/PrepCards'
 import { useShoppingItems } from '../lib/shoppingQueries'
 import { itemName, splitList } from '../lib/shopping'
 import { neededFor } from '../lib/shoppingPlan'
@@ -67,6 +68,8 @@ export default function TodayPage() {
       </div>
 
       <FirstVisitTip id="today" />
+
+      <PrepCards />
 
       <NextUpCard meal={nextUp} slot={nextSlot} lang={lang} attendance={attendance} counts={nextSlot ? (counts?.get(nextSlot.id) ?? EMPTY_COUNTS) : undefined} onClick={() => open(nextUp, nextSlot)} onDiscuss={() => navigate(`/week/${today}/${nextUp}/discuss`)} onRecipe={nextSlot?.main_dish && recipeIds?.has(nextSlot.main_dish.id) ? () => navigate(`/dishes/${nextSlot.main_dish!.id}/recipe`, { state: { servings: eatingCount(nextSlot) } }) : undefined} />
 

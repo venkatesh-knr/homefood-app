@@ -29,7 +29,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [x] Step 5 · Everyday view: Today, Week at a glance poster, history — tested live
 - [ ] Step 6 · Polish: demo home, first-visit tips, weekly balance banner, "Cook this again", recipe editing, My extras (a private food log), your data and account controls, accessibility pass, Tamil review kit
       welcome tour built too — see CLAUDE.md
-- [ ] Step 6b · Shopping list, prep reminders and the cook's sheet (in progress: the shared shopping list, common items, the home's own items and "From this week's meals" are built; prep reminders and the cook's sheet are next) — see CLAUDE.md
+- [ ] Step 6b · Shopping list, prep reminders and the cook's sheet (in progress: the shared shopping list, common items, the home's own items and "From this week's meals" are built; prep reminders are built; the cook's sheet is next) — see CLAUDE.md
 - [ ] Step 7 · Family trial (2 weeks)
 
 ## One-time setup
