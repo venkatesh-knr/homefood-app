@@ -1,9 +1,7 @@
-<!-- Exported 30 Sep 2026 from the Claude Docs document "HomeFood — Spec & Design"
-     (https://claude.ai/code/artifact/8294871f-65e6-4b87-8690-ca8206950683).
-     The live doc is the source of truth; this copy is for Claude Code. Three diagrams
-     (meal slot lifecycle, architecture, roadmap) are not included in the export.
-     Where this spec and CLAUDE.md differ on build details, CLAUDE.md and the code win
-     (e.g. five tabs in the spec vs four in phase 1; shadcn/ui not installed). -->
+<!-- Exported 23 Oct 2026 from the Claude Docs document "HomeFood — Spec & Design".
+     The live doc is the source of truth; this copy is for Claude Code. Diagrams are not
+     included in the export. Build-time deviations (e.g. 4 tabs instead of the spec's 5,
+     deferred features) are recorded in CLAUDE.md, which wins on build details. -->
 
 # HomeFood — Spec & Design
 
@@ -23,7 +21,7 @@ HomeFood is a family meal planner: one person plans a week of breakfast, lunch, 
 - Keep a searchable record of what was eaten, by week, month and year.
 - Work in English and Tamil, and let other households use the app with their data kept private.
 
-**Not in scope for now:** grocery lists and ordering food through delivery apps (a meal is only marked "order-in").
+**Not in scope for now:** ordering food through delivery apps (a meal is only marked "order-in"), grocery prices and pantry stock. The shopping list itself is in scope; see Shopping, prep reminders and the cook's sheet.
 
 ## Requirements traceability
 
@@ -281,6 +279,50 @@ Every dish carries per-serving nutrition, and knowing who ate which meal gives e
 | Hosted recipes | Ingredients, steps, servings and times, scaled to the people eating that meal; a household can keep its own version of any recipe. Launch with the 50 most-planned dishes, drafted by Claude and checked by your family, and add the rest over time. YouTube and Instagram links stay for learning by video |
 
 Nutrition figures are estimates for home planning, not medical advice, and the app says so on every nutrition screen.
+
+### My extras: personal food log (added 11 Oct 2026)
+
+Besides the family's planned meals, each person can log what they eat on their own (an evening snack, eggs, a protein shake, fruit, nuts, tea with sugar), so My nutrition shows the complete picture, especially protein.
+
+| Part | How it works |
+| --- | --- |
+| Adding | "+ I ate something" on the Today tab: pick a food, set the amount, save (time defaults to now). Recent items, "My usuals" and "Same as yesterday" sit at the top |
+| What can be logged | A shared common-foods list (about 80 everyday extras with nutrition per piece, glass, bowl or 100 g, from IFCT/NIN and USDA, English and Tamil names); snack dishes from the catalogue by portion; or "Something else" with a name and optional calories and protein, saved for reuse in that home |
+| What it shows | My nutrition splits each day into meals and extras, with a "protein today" card; targets come from age, sex and activity, and a person can optionally set their own protein or calorie goal as a number (no weight stored) |
+| Privacy | A person's items are private to them; Family nutrition shows only their daily totals; the Admin can log extras for profiles without a login (elders, children); extras never appear in History, the planner or the poster |
+| Not included | Supplements and tablets (health data); water tracking, barcode scanning and photo guesses come later |
+
+Tone stays gentle: no streaks, no "too much" warnings, and the usual estimate line. Tea and coffee are logged as foods.
+
+## Shopping, prep reminders and the cook's sheet
+
+Added 23 Oct 2026. All three come straight from the week's plan and the recipes the app already holds, so they stay simple: no prices, no pantry stock, no online ordering. Mockups 14 to 17 on the [HomeFood Mockups canvas](https://claude.ai/artifact/Da44ni2BQHfvacoRXVCuo6).
+
+**Shopping list.** One shared list per home, reached from a Shopping button on the Week tab and a card on Today (the app stays at four tabs).
+
+| Option | How it works |
+| --- | --- |
+| Groups | Vegetables & fruits (top, bought most often), Groceries, Dairy & eggs, Other; the group is set automatically from a common-items list with English and Tamil names |
+| Quick add | Type an item (English or Tamil) with an optional amount such as "tomato 1 kg"; matching common items appear as you type, and a known item goes to its own section (tomato to Vegetables & fruits), only unknown items to Other. Adding an item already on the list opens it instead of making a duplicate |
+| From this week's meals | Reads the recipes of planned home meals for "Rest of this week" or "Next 7 days", adds up quantities scaled to who is eating (helper not counted), rounds them as described below, and shows a preview to untick what is already at home; salt and spices sit unticked under "Usually at home". Each item shows which dishes need it |
+| Tick off | Ticked items move to "Bought" with who bought them and clear after a day; untick to undo; everyone in the home sees changes |
+| Regulars | Star items bought every week (milk, curd, bread, bananas) and add them all with one tap |
+| Share on WhatsApp | Plain-text list, grouped, with amounts; items only, no names or other details |
+| Who | Anyone with a login adds and ticks; the Admin can clear the list |
+
+**How amounts are worked out from recipes.** Perishables (vegetables, fruits, greens, milk, curd, paneer, eggs, meat, fish, bread) are calculated from the week's recipes, scaled to who is eating and rounded up to 50 g, 100 ml or whole pieces and bunches, shown as "about" in the preview. Everything else (rice, dal, flour, rava, sugar, oil and so on) is not calculated exactly: the app suggests the smallest usual pack that covers the need, from 100 g, 200 g, 250 g, 500 g, 1 kg, 2 kg, 5 kg or 200 ml, 500 ml, 1 L, 2 L, 5 L, and an item can have its own pack sizes (oil: 1 L or 5 L). For example, 380 g of toor dal becomes 500 g, 1.3 kg of rice becomes 2 kg and 300 ml of oil becomes 1 L. Spices and pantry staples stay unticked under "Usually at home". Any amount can be changed after adding.
+
+**Editing an item.** Tap the amount on any item to open a small editor: − and + buttons (steps of 0.5 kg or L, 100 g or ml, or 1 piece, bunch or pack), unit chips (g, kg, ml, L, pcs, bunch, pack), a section picker to move it, and Remove. Ticking the box on the left still marks it bought.
+
+**Common items.** "Browse common items" opens a preloaded list in tabs (Vegetables, Fruits, Groceries, Dairy & eggs, Other), each item with its Tamil name and a usual amount, such as tomato 1 kg, coriander 1 bunch, toor dal 1 kg or milk 1 L. Tap to add; items already on the list show "On list". About 45 items to start; a home's own typed items can be starred as Regulars.
+
+**Our common items.** Any item not in the common list can be saved for next time. Typing an unknown name offers "Add 'banana stem' as a new item", which opens a short form: name, optional Tamil name, section, usual amount and unit, and a "Save to our common items" switch (on by default). An item already on the list that isn't saved yet shows "Save to our common items" in its editor. Saved items belong to the home (everyone in it sees them), appear in Browse and in suggestions with an "Our item" tag, and are renamed or removed in Home settings › Our common items (creator or Admin).
+
+**Prep reminders.** Recipe steps that need doing ahead carry a prep tag: what (soak, grind and ferment batter, set curd, thaw, marinate, sprout) and how far ahead (night before, or hours before). The evening card on Today, "Tonight · for tomorrow", lists the prep for tomorrow's planned meals with the dish and meal each one is for; mornings show any same-day prep. Anyone can tick a task done and the whole home sees who did it. The cooks of that meal get an in-app reminder at 7 pm (phone push comes with notifications in phase 2). Tags are seeded for catalogue recipes that need them, such as idli and dosa batter, chana, rajma, curd and marinated or frozen meat.
+
+**Cook's sheet.** One message with the day's cooking for the helper or whoever is cooking, from the Today card or the Week tab: today or tomorrow (tomorrow by default after 4 pm). Each meal shows the dish and sides, how many are eating, and who cooks, then allergy notes and tonight's prep. It is written in English or Tamil (the home's language by default, switchable). Allergy notes say "1 person: no soy" unless the sender turns on naming the person. Send on WhatsApp, copy or print; no photos, nutrition or other household details.
+
+**Next, then later:** leftovers next; lunch boxes, festival and fasting days, and guests after that.
 
 ## Food catalogue and images
 
