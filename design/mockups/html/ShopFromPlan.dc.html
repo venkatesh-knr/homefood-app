@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add from this week's meals</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 6px 8px">
+<a href="Shopping.dc.html" aria-label="Back to shopping list" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">Add from this week's meals</span>
+</div>
+
+<div role="radiogroup" aria-label="Which meals" style="display: flex; gap: 8px; padding: 8px 16px 0">
+<sc-for list="{{ranges}}" as="r" hint-placeholder-count="2">
+<button type="button" role="radio" aria-checked="{{r.checked}}" onClick="{{r.pick}}" style="height: 38px; padding: 0 14px; border-radius: 999px; border: {{r.border}}; background: {{r.bg}}; color: {{r.ink}}; font-size: 13.5px; font-weight: 600; cursor: pointer">{{r.label}}</button>
+</sc-for>
+</div>
+
+<div style="margin: 12px 16px 0; padding: 12px 14px; border-radius: 14px; background: #FFF1DB; border: 1px solid #F0CF94; font-size: 13.5px; line-height: 1.45">
+<span style="font-weight: 600">{{rangeText}}</span><br>
+Amounts are scaled for who is eating each meal (helper not counted). Untick what you already have at home.
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px; padding: 16px 16px 0">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<section aria-label="{{g.name}}" style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; padding: 0 4px">{{g.name}}</span>
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; display: flex; flex-direction: column">
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
+<button type="button" role="checkbox" aria-checked="{{it.checked}}" onClick="{{it.toggle}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: {{it.divider}}">
+<span style="width: 24px; height: 24px; border-radius: 7px; box-sizing: border-box; border: {{it.boxBorder}}; background: {{it.boxBg}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<sc-if value="{{it.on}}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></sc-if>
+</span>
+<span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
+<span style="font-size: 15px; font-weight: 500; color: {{it.ink}}">{{it.name}}</span>
+<span style="font-size: 12px; color: #6E6259">{{it.for}}</span>
+</span>
+<span style="font-size: 13.5px; font-weight: 600; color: {{it.ink}}; white-space: nowrap">{{it.qty}}</span>
+</button>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 16px 16px 0">
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px">Usually at home</span>
+<span style="font-size: 12px; color: #6E6259">Unticked · tap to add</span>
+</div>
+<div style="background: #F4ECDF; border-radius: 16px; padding: 12px 14px; font-size: 13.5px; color: #4A3F37; line-height: 1.5">
+Salt, oil, mustard seeds, turmeric, chilli powder, tamarind, curry leaves, ginger, garlic
+</div>
+</div>
+
+<div style="margin-top: auto; padding: 16px 16px 24px; border-top: 1px solid #EADFCB; background: #FFFFFF">
+<a href="Shopping.dc.html" style="height: 52px; border-radius: 14px; background: #2B2622; color: #FFF8EE; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-decoration: none">{{ctaText}}</a>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { range: 'week', off: { pot: true, ric: true } };
+  }
+  renderVals() {
+    const s = this.state;
+    const ALL = [
+      { id:'tom', g:'Vegetables & fruits', name:'Tomato', qty:'1 kg', for:'Sambar, rasam, tomato chutney' },
+      { id:'oni', g:'Vegetables & fruits', name:'Small onion', qty:'500 g', for:'Sambar, kurma' },
+      { id:'drm', g:'Vegetables & fruits', name:'Drumstick', qty:'4', for:'Thursday sambar' },
+      { id:'pot', g:'Vegetables & fruits', name:'Potato', qty:'750 g', for:'Poriyal, kurma' },
+      { id:'tdl', g:'Groceries', name:'Toor dal', qty:'500 g', for:'Sambar, rasam' },
+      { id:'irc', g:'Groceries', name:'Idli rice', qty:'1 kg', for:'Idli, dosa batter' },
+      { id:'udl', g:'Groceries', name:'Urad dal', qty:'250 g', for:'Idli, dosa batter' },
+      { id:'ric', g:'Groceries', name:'Ponni rice', qty:'2 kg', for:'Lunch rice, curd rice' },
+      { id:'chk', g:'Groceries', name:'Chickpeas', qty:'250 g', for:'Chana masala' },
+      { id:'crd', g:'Dairy & eggs', name:'Curd', qty:'500 g', for:'Curd rice, raita' },
+      { id:'pnr', g:'Dairy & eggs', name:'Paneer', qty:'200 g', for:'Saturday dinner' }
+    ];
+    const toggle = (id) => () => this.setState({ off: { ...this.state.off, [id]: !this.state.off[id] } });
+    const names = ['Vegetables & fruits', 'Groceries', 'Dairy & eggs'];
+    const groups = names.map(name => ({ name, items: ALL.filter(x => x.g === name).map((x, i) => {
+      const on = !s.off[x.id];
+      return { ...x, on, checked: on ? 'true' : 'false', toggle: toggle(x.id), divider: i === 0 ? 'none' : '1px solid #F1E7D6',
+        boxBorder: on ? 'none' : '2px solid #B9AA92', boxBg: on ? '#2F7A3E' : '#FFFFFF', ink: on ? '#2B2622' : '#6E6259' };
+    }) }));
+    const n = ALL.filter(x => !s.off[x.id]).length;
+    const ranges = [['week','Rest of this week'],['next7','Next 7 days']].map(([id, label]) => {
+      const on = s.range === id;
+      return { label, checked: on ? 'true' : 'false', pick: () => this.setState({ range: id }),
+        bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8' };
+    });
+    return { groups, ranges,
+      rangeText: s.range === 'week' ? 'Thu 1 Oct to Sun 4 Oct · 14 home meals with recipes' : 'Thu 1 Oct to Wed 7 Oct · 24 home meals with recipes',
+      ctaText: 'Add ' + n + ' items to the list' };
+  }
+}
+</script>
+</body>
+</html>

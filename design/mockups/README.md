@@ -22,11 +22,17 @@ Phone screens are 390 px wide. Sample people: Amma (Admin/Planner), Appa, Paati 
 | 11 · Recipe: servings, cook mode, steps | `png/Recipe.png` | `html/Recipe.dc.html` |
 | 12 · Snap a dish seen outside | `png/SnapDish.png` | `html/SnapDish.dc.html` |
 | 13 · Planner rota: take a turn | `png/Rota.png` | `html/Rota.dc.html` |
+| 14 · Today in the evening: prep for tomorrow | `png/TodayPrep.png` | `html/TodayPrep.dc.html` |
+| 15 · Shopping list | `png/Shopping.png` | `html/Shopping.dc.html` |
+| 16 · Add from this week's meals | `png/ShopFromPlan.png` | `html/ShopFromPlan.dc.html` |
+| 17 · Cook's sheet for the helper | `png/CookSheet.png` | `html/CookSheet.dc.html` |
 | Saved image for WhatsApp · dishes only | `png/Share.png` | `html/Share.dc.html` |
 | Week at a glance · phone | `png/Phone.png` | `html/Phone.dc.html` |
 | Week at a glance · tablet and laptop | `png/Main.png` | `html/Main.dc.html` |
 
 ## Screens by build step
+
+- Shopping, prep reminders, cook's sheet (designed 23 Oct 2026, spec section "Shopping, prep reminders and the cook's sheet"): 14 · Today prep card, 15 · Shopping, 16 · Add from this week's meals, 17 · Cook's sheet. Screen 14 uses the built 4-tab nav.
 
 - Step 1 (done): 6 · Sign in
 - **Step 2 · Home setup: 7 · Set up your home → 8 · Invite family + getting started → 9 · Join from invite link.**
