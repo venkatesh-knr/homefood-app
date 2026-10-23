@@ -50,10 +50,10 @@ export function VoteRow({
         aria-pressed={on}
         disabled={busy}
         onClick={() => void vote(v)}
-        className={`flex min-h-11 min-w-0 flex-auto flex-wrap items-center justify-center gap-x-1.5 rounded-2xl border-[1.5px] px-1.5 py-1 text-center text-[13px] leading-tight font-semibold ${tone}`}
+        className={`flex min-h-11 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-2xl border-[1.5px] px-2 py-1 text-center text-[13px] leading-snug font-semibold ${tone}`}
       >
-        <VoteIcon kind={v} size={17} />
-        <span>
+        <span className="shrink-0"><VoteIcon kind={v} size={17} /></span>
+        <span className="min-w-0">
           {t(agree ? 'discussion.agree' : 'discussion.disagree')} · {n}
         </span>
       </button>
@@ -64,7 +64,7 @@ export function VoteRow({
         aria-label={t(agree ? 'discussion.agree' : 'discussion.disagree')}
         disabled={busy}
         onClick={() => void vote(v)}
-        className={`flex h-9 items-center gap-1.5 rounded-xl border px-3 text-[13px] font-semibold ${tone}`}
+        className={`flex min-h-9 items-center gap-1.5 rounded-xl border px-3 text-[13px] font-semibold ${tone}`}
       >
         <VoteIcon kind={v} size={15} />
         {n}
@@ -78,7 +78,7 @@ export function VoteRow({
     <div className="flex flex-col gap-2 border-t border-line pt-3">
       {variant === 'full' ? (
         <>
-          <div className="flex gap-2">
+          <div className="flex gap-2 ta:flex-col">
             {button('agree')}
             {button('disagree')}
           </div>

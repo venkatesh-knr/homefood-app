@@ -53,6 +53,7 @@ describe('activeMealTypes', () => {
 describe('weekdayLetter / dayOfMonth', () => {
   it('reads the right weekday letter and day number', () => {
     expect(weekdayLetter('2026-09-30')).toBe('W') // Wednesday
+    expect(weekdayLetter('2026-09-30', 'ta')).toBe('பு')
     expect(dayOfMonth('2026-09-30')).toBe(30)
   })
 })

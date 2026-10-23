@@ -12,7 +12,7 @@ export function AppearanceCard() {
     <div className="flex flex-col gap-2">
       <span className="font-display text-[17px] font-semibold">{t('theme.appearance')}</span>
       <Card className="flex flex-col gap-1.5 px-3.5 py-3.5">
-        <div role="group" aria-label={t('theme.appearance')} className="grid grid-cols-3 gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
+        <div role="group" aria-label={t('theme.appearance')} className="grid grid-cols-3 ta:grid-cols-1 gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
           {THEME_PREFS.map((p) => (
             <button
               key={p}
@@ -22,7 +22,7 @@ export function AppearanceCard() {
                 setPref(p)
                 saveThemePref(p)
               }}
-              className={`min-h-[40px] rounded-lg px-2 ${pref === p ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
+              className={`min-h-[40px] rounded-lg px-1.5 leading-snug [overflow-wrap:anywhere] ${pref === p ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
             >
               {t(`theme.${p}`)}
             </button>

@@ -17,13 +17,13 @@ export function PersonRow({
 }) {
   return (
     <div className="flex flex-col gap-2 rounded-2xl border border-line bg-surface p-3">
-      <div className="flex items-center gap-3">
+      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 ta:grid-cols-[auto_1fr] ta:gap-y-1.5">
         <Avatar name={name} color={color} />
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="truncate text-[15px] font-semibold">{name}</span>
-          <span className="truncate text-[12.5px] text-muted">{detail}</span>
+          <span className="break-words text-[15px] font-semibold">{name}</span>
+          <span className="break-words text-[12.5px] text-muted">{detail}</span>
         </div>
-        {right}
+        {right && <div className="ta:col-start-2 ta:justify-self-start">{right}</div>}
       </div>
       {children}
     </div>

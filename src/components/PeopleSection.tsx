@@ -156,7 +156,7 @@ export function PeopleSection({ householdId, myProfileId, isAdmin }: { household
           <button
             type="button"
             onClick={() => setEditing('new')}
-            className="flex h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14.5px] font-semibold text-saffron-ink"
+            className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14.5px] font-semibold text-saffron-ink"
           >
             <span aria-hidden="true">+</span>
             {t('home.addAnotherPerson')}

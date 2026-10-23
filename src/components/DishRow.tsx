@@ -87,10 +87,10 @@ export function DishRow({
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
         <span className="flex items-center gap-1.5">
           <DietMark diet={diet} />
-          <span className="truncate text-[15.5px] font-semibold">{name}</span>
+          <span className="break-words text-[15.5px] font-semibold">{name}</span>
         </span>
-        {secondaryName && <span lang="ta" className="truncate font-tamil text-[12.5px] text-muted">{secondaryName}</span>}
-        <span className="truncate text-[12.5px] text-muted">
+        {secondaryName && <span lang="ta" className="break-words font-tamil text-[12.5px] text-muted">{secondaryName}</span>}
+        <span className="break-words text-[12.5px] text-muted">
           {cuisineLabel} · {dietWord}
         </span>
         {note && <span className={`self-start rounded-md px-2 py-0.5 text-[12px] font-semibold ${noteStyle}`}>{note.text}</span>}

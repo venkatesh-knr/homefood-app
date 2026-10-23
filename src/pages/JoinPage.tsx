@@ -113,7 +113,7 @@ export default function JoinPage() {
                     {p.name.trim()[0]?.toUpperCase() ?? '?'}
                   </span>
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                    <span className="truncate text-[15.5px] font-semibold">{p.name}</span>
+                    <span className="break-words text-[15.5px] font-semibold">{p.name}</span>
                     <span className="text-[12.5px] text-muted">{note}</span>
                   </span>
                   <span className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border-2 ${on ? 'border-saffron' : 'border-line-strong'}`}>

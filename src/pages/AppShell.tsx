@@ -36,7 +36,7 @@ export default function AppShell() {
         <header className="flex items-center justify-between gap-3 px-5 py-3 print:hidden">
           <div className="flex min-w-0 items-center gap-2.5">
             <Logo size={32} />
-            <span className="truncate font-display text-[16px] font-semibold">{household.name}</span>
+            <span className="line-clamp-2 break-words font-display text-[16px] font-semibold leading-tight">{household.name}</span>
           </div>
           <div className="flex items-center gap-1">
             <NotificationBell />

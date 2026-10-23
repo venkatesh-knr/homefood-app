@@ -74,7 +74,7 @@ export function BrowseSheet({ items, lang, isOnList, onPick, onClose }: { items:
                   onClick={() => onPick(c)}
                   className={`flex min-h-[72px] flex-col items-center justify-center gap-0.5 rounded-xl px-1.5 py-1.5 text-center ${on ? 'border-[1.5px] border-leaf bg-leaf-tint' : 'border border-line bg-surface'}`}
                 >
-                  <span className="text-[13.5px] font-semibold leading-tight">{n.main}</span>
+                  <span className="text-[13.5px] font-semibold leading-tight [overflow-wrap:anywhere] ta:text-[12.5px]">{n.main}</span>
                   {n.other && <span lang={lang === 'ta' ? 'en' : 'ta'} className="text-[11px] leading-tight text-muted">{n.other}</span>}
                   <span className={`text-[11.5px] font-semibold ${on ? 'text-leaf' : 'text-saffron-ink'}`}>{on ? t('shopping.onList') : `+ ${amount}`}</span>
                   {c.source === 'ours' && <span className="rounded-full bg-dinner-tint px-2 text-[10.5px] font-semibold text-dinner-ink">{t('shopping.ourItem')}</span>}

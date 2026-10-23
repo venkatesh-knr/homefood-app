@@ -202,7 +202,7 @@ export default function RecipePage() {
           rel="noopener noreferrer"
           aria-label={t('recipe.watch')}
           title={t('recipe.watch')}
-          className="flex h-12 flex-1 items-center justify-center rounded-2xl border-[1.5px] border-line-strong bg-surface"
+          className="flex min-h-12 flex-1 items-center justify-center rounded-2xl border-[1.5px] border-line-strong bg-surface"
         >
           <YouTubeIcon size={28} />
         </a>

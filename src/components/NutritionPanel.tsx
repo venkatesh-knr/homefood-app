@@ -36,9 +36,9 @@ export function NutritionPanel({ dishId }: { dishId: string }) {
         <p className="-mt-2 text-[12.5px] text-muted">{row.serving}</p>
         <div className="flex flex-col gap-2">
           {BARS.map((b) => (
-            <div key={b.key} className="grid grid-cols-[70px_1fr_64px] items-center gap-2.5 text-[13px]">
+            <div key={b.key} className="grid grid-cols-[70px_1fr_64px] ta:grid-cols-[1fr_auto] ta:gap-y-1 items-center gap-2.5 text-[13px]">
               <span>{t(`nutrition.n.${b.key}`)}</span>
-              <span className="h-2 overflow-hidden rounded-full bg-sand">
+              <span className="h-2 overflow-hidden rounded-full bg-sand ta:order-last ta:col-span-2">
                 <span className="block h-full rounded-full" style={{ width: `${Math.min(100, percentOf(row[b.key], ADULT_REFERENCE[b.key]))}%`, background: b.color }} />
               </span>
               <span className="text-right font-semibold">

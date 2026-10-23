@@ -98,7 +98,7 @@ export default function RotaPage() {
                       className="flex h-11 flex-col items-center justify-center gap-0.5 rounded-[10px] text-white"
                       style={{ background: member?.color ?? 'var(--color-sand)', color: member ? '#FFFFFF' : 'var(--color-muted)' }}
                     >
-                      <span className="text-[10px] opacity-85">{weekdayLetter(d)}</span>
+                      <span className="text-[10px] opacity-85">{weekdayLetter(d, lang)}</span>
                       <span className="text-[12px] font-semibold">{member ? member.display_name.trim()[0]?.toUpperCase() : '—'}</span>
                     </span>
                   )
@@ -128,7 +128,7 @@ export default function RotaPage() {
                             type="button"
                             aria-pressed={form.scope === s}
                             onClick={() => setForm((f) => ({ ...f, scope: s }))}
-                            className={`h-9 flex-1 rounded-lg text-[13px] font-semibold ${form.scope === s ? 'bg-ink text-cream' : 'border border-line-strong bg-surface'}`}
+                            className={`min-h-9 flex-1 rounded-lg text-[13px] font-semibold ${form.scope === s ? 'bg-ink text-cream' : 'border border-line-strong bg-surface'}`}
                           >
                             {t(`rota.scope${s === 'day' ? 'Day' : s === 'week' ? 'Week' : 'Month'}`)}
                           </button>

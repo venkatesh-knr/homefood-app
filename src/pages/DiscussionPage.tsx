@@ -157,7 +157,7 @@ export default function DiscussionPage() {
         aria-pressed={on}
         disabled={busy}
         onClick={() => void onVote(v)}
-        className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] text-[15px] font-semibold ${
+        className={`flex min-h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] text-[15px] font-semibold ${
           on ? (agree ? 'border-leaf bg-leaf-tint text-leaf' : 'border-alert bg-alert-tint text-alert') : 'border-line-strong bg-surface'
         }`}
       >
@@ -204,7 +204,7 @@ export default function DiscussionPage() {
           </div>
         </div>
 
-        <div className="flex gap-2.5">
+        <div className="flex gap-2.5 ta:flex-col">
           {voteButton('agree')}
           {voteButton('disagree')}
         </div>
@@ -239,7 +239,7 @@ export default function DiscussionPage() {
                         type="button"
                         disabled={busy}
                         onClick={() => void run(() => acceptSuggestion(slotId, household.id, s))}
-                        className="h-10 rounded-xl bg-meal-dinner px-3.5 text-[13.5px] font-semibold text-white"
+                        className="min-h-10 rounded-xl bg-meal-dinner px-3.5 text-[13.5px] font-semibold text-white"
                       >
                         {s.dish_id ? t('discussion.swapIn', { dish: dishName }) : t('discussion.noted')}
                       </button>
@@ -247,7 +247,7 @@ export default function DiscussionPage() {
                         type="button"
                         disabled={busy}
                         onClick={() => void run(() => keepDish(slotId, household.id, s.id))}
-                        className="h-10 rounded-xl border border-dinner-ink/40 px-3.5 text-[13.5px] font-semibold text-dinner-ink"
+                        className="min-h-10 rounded-xl border border-dinner-ink/40 px-3.5 text-[13.5px] font-semibold text-dinner-ink"
                       >
                         {t('discussion.keepDish', { dish: mainName })}
                       </button>

@@ -125,9 +125,30 @@ select,
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]):not([type="file"]) {
   min-height: 44px;
 }
+/* A button with words is never squeezed narrower than its longest word (a fixed 44 px minimum let a long Tamil label spill out of its button); an icon-only button (it always has an aria-label) keeps the 44 px minimum. */
 button:not([role="switch"]),
 [role="button"] {
+  min-width: min-content;
+}
+button[aria-label]:not([role="switch"]),
+[role="button"][aria-label] {
   min-width: 44px;
+}
+
+/* ta:… applies a utility only while the app is in Tamil (e.g. ta:grid-cols-2 for a row of options whose Tamil words do not fit side by side) */
+@custom-variant ta (&:where(:lang(ta)));
+
+/* Tamil has no capital letters, and wide letter spacing pulls its joined letters apart */
+:lang(ta) :not(input, textarea) {
+  letter-spacing: normal;
+}
+
+/* Tamil: its words are long and its letters wide, so a short label that wraps should wrap evenly (not leave one word alone) and headings get a little more line room. */
+:lang(ta) :is(button, [role="button"], h1, h2, h3, label) {
+  text-wrap: balance;
+}
+:lang(ta) :is(h1, h2, h3) {
+  line-height: 1.35;
 }
 
 @media (prefers-reduced-motion: reduce) {

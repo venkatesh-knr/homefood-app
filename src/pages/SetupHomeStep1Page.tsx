@@ -107,11 +107,11 @@ export default function SetupHomeStep1Page() {
       </div>
 
       <Card className="mt-3.5 flex flex-col">
-        <div className="flex items-center justify-between gap-3 border-b border-line px-3.5 py-3.5 text-[14.5px]">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-line px-3.5 py-3.5 text-[14.5px]">
           <span>{t('onboarding.step1.language')}</span>
           <LanguageSwitch />
         </div>
-        <div className="flex items-center justify-between px-3.5 py-3.5 text-[14.5px]">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-3.5 py-3.5 text-[14.5px]">
           <span>{t('onboarding.step1.weekStartsOn')}</span>
           <div role="group" aria-label={t('onboarding.step1.weekStartsOn')} className="inline-flex gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
             {([1, 7] as const).map((day) => (
@@ -213,7 +213,7 @@ export default function SetupHomeStep1Page() {
           <button
             type="button"
             onClick={() => setEditing('new')}
-            className="flex h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14.5px] font-semibold text-saffron-ink"
+            className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14.5px] font-semibold text-saffron-ink"
           >
             <span aria-hidden="true">+</span>
             {t('onboarding.step1.addPerson')}

@@ -21,9 +21,9 @@ export function TargetBars({ average, target, percent, compact = false }: { aver
       {rows.map((r) => {
         const over = r.limit && percent[r.key] > 100
         return (
-          <div key={r.key} className="grid grid-cols-[72px_1fr_96px] items-center gap-2.5 text-[13px]">
+          <div key={r.key} className="grid grid-cols-[72px_1fr_96px] ta:grid-cols-[1fr_auto] ta:gap-y-1 items-center gap-2.5 text-[13px]">
             <span>{t(`nutrition.n.${r.key}`)}</span>
-            <span className="h-2 overflow-hidden rounded-full bg-sand">
+            <span className="h-2 overflow-hidden rounded-full bg-sand ta:order-last ta:col-span-2">
               <span className="block h-full rounded-full" style={{ width: `${Math.min(100, percent[r.key])}%`, background: over ? '#B3261E' : r.color }} />
             </span>
             <span className={`text-right text-[12.5px] ${over ? 'font-semibold text-alert' : 'text-ink-soft'}`}>

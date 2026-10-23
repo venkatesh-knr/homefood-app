@@ -67,7 +67,7 @@ export function ExtrasSection({ date: today }: { date: string }) {
             <li key={r.id}>
               <button type="button" onClick={() => setEditing(r)} className="flex min-h-[52px] w-full items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-3.5 py-2 text-left">
                 <span className="flex min-w-0 flex-col">
-                  <span className="truncate text-[15px] font-semibold">{r.food_name}</span>
+                  <span className="break-words text-[15px] font-semibold">{r.food_name}</span>
                   <span className="text-[12.5px] text-muted">
                     {amountText(t, r.unit, r.quantity)}
                     {r.eaten_at ? ` · ${timeText(r.eaten_at)}` : ''}

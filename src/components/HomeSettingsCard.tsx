@@ -66,7 +66,7 @@ export function HomeSettingsCard({ household }: { household: Household }) {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-b border-line px-3.5 py-3.5 text-[14.5px]">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-line px-3.5 py-3.5 text-[14.5px]">
           <span>{t('home.defaultLanguage')}</span>
           <div role="group" aria-label={t('home.defaultLanguage')} className="inline-flex gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
             {(['en', 'ta'] as const).map((lang) => (
@@ -86,7 +86,7 @@ export function HomeSettingsCard({ household }: { household: Household }) {
         </div>
 
         <div className="flex flex-col gap-1.5 border-b border-line px-3.5 py-3.5 text-[14.5px]">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
             <span>{t('onboarding.step1.weekStartsOn')}</span>
             <div role="group" aria-label={t('onboarding.step1.weekStartsOn')} className="inline-flex gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
               {([1, 7] as const).map((day) => (

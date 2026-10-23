@@ -155,7 +155,7 @@ export default function DishDetailPage() {
               onClick={() => navigate(`/dishes/${dishId}/recipe`)}
               aria-label={t('recipe.open')}
               title={t('recipe.open')}
-              className="flex h-14 flex-1 items-center justify-center rounded-2xl bg-ink text-cream"
+              className="flex min-h-14 flex-1 items-center justify-center rounded-2xl bg-ink text-cream"
             >
               <RecipeIcon size={26} />
             </button>
@@ -166,7 +166,7 @@ export default function DishDetailPage() {
             rel="noopener noreferrer"
             aria-label={t('dishes.detail.youtube')}
             title={t('dishes.detail.youtube')}
-            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
+            className="flex min-h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
           >
             <YouTubeIcon size={28} />
           </a>
@@ -176,7 +176,7 @@ export default function DishDetailPage() {
             rel="noopener noreferrer"
             aria-label={t('dishes.detail.instagram')}
             title={t('dishes.detail.instagram')}
-            className="flex h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
+            className="flex min-h-14 flex-1 items-center justify-center rounded-2xl border border-line bg-surface"
           >
             <InstagramIcon size={26} />
           </a>
@@ -208,7 +208,7 @@ export default function DishDetailPage() {
         <button
           type="button"
           onClick={() => setCookAgain(true)}
-          className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-ink text-[14.5px] font-semibold text-cream"
+          className="flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-ink text-[14.5px] font-semibold text-cream"
         >
           {t('cookAgain.buttonDish')}
         </button>
@@ -218,13 +218,13 @@ export default function DishDetailPage() {
             type="button"
             disabled={busy}
             onClick={() => photoInput.current?.click()}
-            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium"
+            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium"
           >
             {t('dishes.detail.replacePhoto')}
           </button>
           <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={(e) => onReplacePhoto(e.target.files?.[0])} />
         </div>
-        <button type="button" disabled={busy} onClick={() => setWebPhoto(true)} className="flex h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium">
+        <button type="button" disabled={busy} onClick={() => setWebPhoto(true)} className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium">
           {t('webPhoto.open')}
         </button>
         {webPhoto && (

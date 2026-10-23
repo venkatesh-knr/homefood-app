@@ -63,13 +63,13 @@ export function PersonForm({
 
       <div className="flex flex-col gap-1.5">
         <label className="text-[13px] font-semibold">{t('people.form.kind')}</label>
-        <div className="flex gap-2">
+        <div className="flex gap-2 ta:flex-col">
           {(['family', 'helper'] as const).map((k) => (
             <button
               key={k}
               type="button"
               onClick={() => setValues((v) => ({ ...v, kind: k, can_login: k === 'helper' ? false : v.can_login }))}
-              className={`h-10 flex-1 rounded-xl border text-[13.5px] font-semibold ${
+              className={`min-h-10 flex-1 rounded-xl border px-2 py-1 text-[13.5px] leading-snug font-semibold ta:flex-none ${
                 values.kind === k ? 'border-ink bg-ink text-cream' : 'border-line-strong bg-surface text-ink-soft'
               }`}
             >

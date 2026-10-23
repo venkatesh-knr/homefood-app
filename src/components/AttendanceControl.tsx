@@ -42,11 +42,10 @@ export function AttendanceControl({ slot, rows }: { slot: SlotWithDetails; rows:
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex min-h-9 items-center gap-1.5 self-start rounded-full bg-sand px-3 py-1.5 text-[12.5px] font-semibold text-ink-soft"
+        className="flex min-h-9 max-w-full items-center gap-1.5 self-start rounded-2xl bg-sand px-3 py-1.5 text-left text-[12.5px] leading-snug font-semibold text-ink-soft"
       >
-        <span>{t('attendance.title')}</span>
-        <span className="text-ink">· {t(`attendance.option.${current}`)}</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={open ? 'rotate-180' : ''}>
+        <span className="min-w-0">{t('attendance.title')} <span className="text-ink">· {t(`attendance.option.${current}`)}</span></span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={`shrink-0 ${open ? 'rotate-180' : ''}`}>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </button>

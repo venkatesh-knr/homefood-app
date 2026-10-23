@@ -100,7 +100,7 @@ export default function TodayPage() {
 
       <ExtrasSection date={today} />
 
-      <div className={`mt-1 grid gap-2.5 ${!shopError && shopItems ? 'grid-cols-2' : 'grid-cols-1'}`}>
+      <div className={`mt-1 grid gap-2.5 ${!shopError && shopItems ? 'grid-cols-2 ta:grid-cols-1' : 'grid-cols-1'}`}>
         {!shopError && shopItems && (
           <button type="button" onClick={() => navigate('/shopping')} className="flex flex-col items-start gap-1 rounded-2xl border border-line bg-surface p-3.5 text-left">
             <span className="text-leaf">
@@ -172,9 +172,9 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
   return (
     <div className="flex flex-col gap-3.5 rounded-[22px] border-2 border-saffron bg-surface p-4.5">
       <button type="button" onClick={onClick} className="flex flex-col gap-3.5 text-left">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
         <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-saffron-ink">
-          <span className="h-2.5 w-2.5 rounded-full" style={{ background: bandColor }} />
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: bandColor }} />
           {t('today.nextUp', { meal: t(`meal.${meal}`) })}
         </span>
         {slot && <Pill>{t(`planner.source.${slot.source === 'home' ? 'home' : slot.source === 'dine_out' ? 'dineOut' : 'orderIn'}`)}</Pill>}
@@ -182,8 +182,8 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
       {dish ? (
         <div className="flex items-center gap-4">
           <DishThumb name={dish.name} tone={meal.length} photoPath={photoFor(dish.dish)} size={76} ring={bandColor} />
-          <div className="flex flex-col gap-0.5">
-            <span className="font-display text-[19px] font-semibold">{dish.name}</span>
+          <div className="flex min-w-0 flex-col gap-0.5">
+            <span className="break-words font-display text-[19px] font-semibold">{dish.name}</span>
             {dish.sides.length > 0 && <span className="text-[13.5px] text-ink-soft">+ {dish.sides.join(', ')}</span>}
           </div>
         </div>
@@ -217,8 +217,8 @@ function RestCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss }: 
         <span className="text-[11.5px] font-semibold uppercase tracking-wide text-muted">{t(`meal.${meal}`)}</span>
         {dish ? (
           <>
-            <span className="truncate text-[15.5px] font-semibold">{dish.name}</span>
-            {dish.sides.length > 0 && <span className="truncate text-[12.5px] text-muted">+ {dish.sides.join(', ')}</span>}
+            <span className="break-words text-[15.5px] font-semibold">{dish.name}</span>
+            {dish.sides.length > 0 && <span className="break-words text-[12.5px] text-muted">+ {dish.sides.join(', ')}</span>}
           </>
         ) : slot && slot.source !== 'home' ? (
           <span className="text-[15.5px] font-semibold">{slot.place_name || t(`planner.source.${slot.source === 'dine_out' ? 'dineOut' : 'orderIn'}`)}</span>

@@ -87,11 +87,14 @@ export function activeMealTypes(snacksEnabled: boolean): MealType[] {
 }
 
 const ONE_LETTER: Record<number, string> = { 0: 'S', 1: 'M', 2: 'T', 3: 'W', 4: 'T', 5: 'F', 6: 'S' }
+/** Tamil day initials (ஞாயிறு, திங்கள், செவ்வாய், புதன், வியாழன், வெள்ளி, சனி): two letters, because a single Tamil letter is not a day name. */
+const TAMIL_INITIALS: Record<number, string> = { 0: 'ஞா', 1: 'தி', 2: 'செ', 3: 'பு', 4: 'வி', 5: 'வெ', 6: 'ச' }
 
-/** Single weekday-initial letter (M T W T F S S) for the 7-day strip, from an ISO date. */
-export function weekdayLetter(isoDate: string): string {
+/** Weekday initial (M T W T F S S, or ஞா தி செ பு வி வெ ச in Tamil) for the 7-day strip, from an ISO date. */
+export function weekdayLetter(isoDate: string, lang: 'en' | 'ta' = 'en'): string {
   const [y, m, d] = isoDate.split('-').map(Number)
-  return ONE_LETTER[new Date(y!, m! - 1, d!).getDay()]!
+  const day = new Date(y!, m! - 1, d!).getDay()
+  return (lang === 'ta' ? TAMIL_INITIALS : ONE_LETTER)[day]!
 }
 
 /** Short localized weekday name ("Wed", "செவ்") for copy like "Copy last Wed". */

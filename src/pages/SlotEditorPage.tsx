@@ -175,7 +175,7 @@ export default function SlotEditorPage() {
               role="radio"
               aria-checked={values.source === s}
               onClick={() => setValues((v) => ({ ...v, source: s }))}
-              className={`h-10 rounded-[11px] text-[14px] ${values.source === s ? 'bg-surface font-semibold shadow-sm' : 'font-medium text-ink-soft'}`}
+              className={`min-h-10 rounded-[11px] text-[14px] ${values.source === s ? 'bg-surface font-semibold shadow-sm' : 'font-medium text-ink-soft'}`}
             >
               {t(`planner.source.${s === 'home' ? 'home' : s === 'dine_out' ? 'dineOut' : 'orderIn'}`)}
             </button>
@@ -255,7 +255,7 @@ export default function SlotEditorPage() {
               </span>
             ))}
             {sideDishes.length < 3 && (
-              <button type="button" onClick={() => setPicking('side')} className="flex h-[38px] items-center gap-1.5 rounded-full border-[1.5px] border-dashed border-saffron-ink/60 px-3.5 text-[14px] font-semibold text-saffron-ink">
+              <button type="button" onClick={() => setPicking('side')} className="flex min-h-[38px] items-center gap-1.5 rounded-full border-[1.5px] border-dashed border-saffron-ink/60 px-3.5 text-[14px] font-semibold text-saffron-ink">
                 <span aria-hidden="true">+</span>
                 {t('planner.addSide')}
               </button>
@@ -272,7 +272,7 @@ export default function SlotEditorPage() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => toggleCook(m.id)}
-                  className={`flex h-11 items-center gap-2 rounded-full border py-0 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
+                  className={`flex min-h-11 items-center gap-2 rounded-full border py-1 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-semibold text-white" style={{ background: avatarColor(i, m.kind) }}>
                     {m.display_name.trim()[0]?.toUpperCase()}
@@ -299,7 +299,7 @@ export default function SlotEditorPage() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => toggleEater(m.id)}
-                  className={`flex h-11 items-center gap-2 rounded-full border py-0 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
+                  className={`flex min-h-11 items-center gap-2 rounded-full border py-1 pl-1.5 pr-3.5 text-[14px] ${on ? 'border-saffron bg-saffron-tint' : 'border-line bg-surface'}`}
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-semibold text-white" style={{ background: avatarColor(i, m.kind) }}>
                     {m.display_name.trim()[0]?.toUpperCase()}
@@ -373,7 +373,7 @@ export default function SlotEditorPage() {
           <span id="outside-size" className="px-1 pt-2 text-[12px] font-semibold uppercase tracking-wide text-muted">
             {t('planner.outsideSize.label')}
           </span>
-          <div role="radiogroup" aria-labelledby="outside-size" className="grid grid-cols-4 gap-1 rounded-2xl bg-sand p-1">
+          <div role="radiogroup" aria-labelledby="outside-size" className="grid grid-cols-4 ta:grid-cols-2 gap-1 rounded-2xl bg-sand p-1">
             {(['', ...OUTSIDE_MEAL_SIZES] as const).map((size) => (
               <button
                 key={size || 'none'}

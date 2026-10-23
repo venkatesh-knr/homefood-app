@@ -118,13 +118,13 @@ export default function WeekGlancePage() {
           <ShareIcon />
         </button>
         <div className="hidden gap-2.5 md:flex">
-          <button type="button" onClick={onSave} disabled={busy !== null} className="flex h-11 items-center gap-2 rounded-xl bg-ink px-4 text-[15px] font-semibold text-cream">
+          <button type="button" onClick={onSave} disabled={busy !== null} className="flex min-h-11 items-center gap-2 rounded-xl bg-ink px-4 text-[15px] font-semibold text-cream">
             {busy === 'save' ? t('glance.saving') : t('glance.saveImage')}
           </button>
-          <button type="button" onClick={() => window.print()} className="flex h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
+          <button type="button" onClick={() => window.print()} className="flex min-h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
             {t('glance.print')}
           </button>
-          <button type="button" onClick={onShare} disabled={busy !== null} className="flex h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
+          <button type="button" onClick={onShare} disabled={busy !== null} className="flex min-h-11 items-center gap-2 rounded-xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
             <ShareIcon /> {t('glance.share')}
           </button>
         </div>
@@ -178,7 +178,7 @@ export default function WeekGlancePage() {
                 key={d}
                 className={`flex h-[58px] flex-col items-center justify-center gap-0.5 rounded-2xl ${d === today ? 'border-2 border-saffron bg-saffron text-on-saffron' : 'border border-line bg-surface'}`}
               >
-                <span className="text-[10.5px] text-muted">{weekdayLetter(d)}</span>
+                <span className="text-[10.5px] text-muted">{weekdayLetter(d, lang)}</span>
                 <span className="font-display text-[15px] font-semibold">{dayOfMonth(d)}</span>
               </div>
             ))}
@@ -231,10 +231,10 @@ export default function WeekGlancePage() {
       {message && <p className="mt-3 rounded-xl bg-sand px-4 py-3 text-center text-[13.5px] text-ink-soft print:hidden">{message}</p>}
 
       <div className="mt-4 flex gap-2.5 pb-4 md:hidden print:hidden">
-        <button type="button" onClick={onSave} disabled={busy !== null} className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-ink text-[15px] font-semibold text-cream">
+        <button type="button" onClick={onSave} disabled={busy !== null} className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-ink text-[15px] font-semibold text-cream">
           {busy === 'save' ? t('glance.saving') : t('glance.saveImage')}
         </button>
-        <button type="button" onClick={() => window.print()} className="flex h-12 items-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
+        <button type="button" onClick={() => window.print()} className="flex min-h-12 items-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px]">
           {t('glance.print')}
         </button>
       </div>
@@ -339,13 +339,13 @@ function MiniCell({ meal, slot, lang, onClick }: { meal: MealType; slot: SlotWit
   const photoFor = useDishPhotoPath()
   const label = dish ? (dish.name.length > 14 ? dish.name.split(' ').slice(0, 2).join(' ') : dish.name) : slot?.place_name || ''
   return (
-    <button type="button" onClick={onClick} className="flex flex-col items-center gap-1 text-center">
+    <button type="button" onClick={onClick} className="flex min-w-0 flex-col items-center gap-1 text-center">
       {dish ? (
         <DishThumb name={dish.name} tone={meal.length} photoPath={photoFor(dish.dish)} size={40} ring={MEAL_BAND[meal]} />
       ) : (
         <span className="h-10 w-10 rounded-full bg-sand" />
       )}
-      <span className="text-[11px] leading-tight">{label}</span>
+      <span className="max-w-full text-[11px] leading-tight [overflow-wrap:anywhere] ta:text-[10.5px]">{label}</span>
     </button>
   )
 }

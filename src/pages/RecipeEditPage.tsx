@@ -188,9 +188,9 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
                   aria-label={t('recipeEdit.amount')}
                   placeholder={t('recipeEdit.amount')}
                   aria-invalid={badQty}
-                  className={`${input} w-28 shrink-0 disabled:opacity-40`}
+                  className={`${input} w-28! shrink-0 disabled:opacity-40`}
                 />
-                <select value={ing.unit} onChange={(e) => setIngredient(ing.key, { unit: e.target.value as typeof ing.unit })} aria-label={t('recipeEdit.unit')} className={`${input} flex-1`}>
+                <select value={ing.unit} onChange={(e) => setIngredient(ing.key, { unit: e.target.value as typeof ing.unit })} aria-label={t('recipeEdit.unit')} className={`${input} min-w-0 flex-1`}>
                   {RECIPE_UNITS.map((u) => (
                     <option key={u} value={u}>
                       {unitText(u)}

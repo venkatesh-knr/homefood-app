@@ -126,7 +126,7 @@ export function CookAgainSheet({
               <div key={d.date} className={`flex min-h-[52px] items-center justify-between gap-3 rounded-2xl border px-3.5 py-2 ${actionable ? 'border-line-strong bg-surface' : 'border-line bg-sand/50 text-muted'}`}>
                 <span className="flex min-w-0 flex-col">
                   <span className="text-[14.5px] font-semibold">{label(d.date)}</span>
-                  <span className="truncate text-[12.5px]">{d.state === 'free' ? (d.action === 'plan' ? t('cookAgain.free') : t('cookAgain.freeNotYours')) : t('cookAgain.planned', { dish: dishLabel(d) })}</span>
+                  <span className="break-words text-[12.5px]">{d.state === 'free' ? (d.action === 'plan' ? t('cookAgain.free') : t('cookAgain.freeNotYours')) : t('cookAgain.planned', { dish: dishLabel(d) })}</span>
                 </span>
                 {actionable && (
                   <button

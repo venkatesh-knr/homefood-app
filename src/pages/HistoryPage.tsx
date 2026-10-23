@@ -130,7 +130,7 @@ export default function HistoryPage() {
               setKind(k)
               setAnchor(today)
             }}
-            className={`h-10 rounded-xl text-[14px] font-semibold ${kind === k ? 'bg-surface shadow-sm' : 'text-ink-soft'}`}
+            className={`min-h-10 rounded-xl text-[14px] font-semibold ${kind === k ? 'bg-surface shadow-sm' : 'text-ink-soft'}`}
           >
             {t(`history.${k}`)}
           </button>

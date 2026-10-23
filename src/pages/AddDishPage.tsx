@@ -117,7 +117,7 @@ export default function AddDishPage() {
       ) : existing ? (
         <p className="text-[13px] text-muted">{dishDisplayName(existing, existing.dish_names, lang)}</p>
       ) : null}
-      <label className="flex h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14px] font-semibold text-saffron-ink">
+      <label className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14px] font-semibold text-saffron-ink">
         {t('dishes.form.addPhoto')}
         <input type="file" accept="image/*" className="hidden" onChange={(e) => { setPhoto(e.target.files?.[0]); setPhotoCredit(null) }} />
       </label>
@@ -186,7 +186,7 @@ export default function AddDishPage() {
               type="button"
               aria-pressed={values.meal_types.includes(m)}
               onClick={() => toggleMealType(m)}
-              className={`h-10 rounded-xl border px-3.5 text-[13.5px] font-semibold ${
+              className={`min-h-10 rounded-xl border px-3.5 text-[13.5px] font-semibold ${
                 values.meal_types.includes(m) ? 'border-ink bg-ink text-cream' : 'border-line-strong bg-surface text-ink-soft'
               }`}
             >

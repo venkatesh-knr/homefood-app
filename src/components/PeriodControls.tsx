@@ -40,7 +40,7 @@ export function PeriodControls({ period }: { period: ReturnType<typeof usePeriod
             role="radio"
             aria-checked={period.kind === k}
             onClick={() => period.setKind(k)}
-            className={`h-10 rounded-xl text-[14px] font-semibold ${period.kind === k ? 'bg-surface shadow-sm' : 'text-ink-soft'}`}
+            className={`min-h-10 rounded-xl text-[14px] font-semibold ${period.kind === k ? 'bg-surface shadow-sm' : 'text-ink-soft'}`}
           >
             {t(`history.${k}`)}
           </button>

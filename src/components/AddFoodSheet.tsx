@@ -70,7 +70,7 @@ export function AddFoodSheet({ personId, personName, date, onClose }: { personId
   const foodRow = (o: FoodOption) => (
     <div key={o.key} className="flex items-center gap-1 rounded-2xl border border-line bg-surface">
       <button type="button" onClick={() => setStep({ kind: 'amount', food: o })} className="flex min-h-[52px] min-w-0 flex-1 flex-col items-start justify-center px-3.5 py-1.5 text-left">
-        <span className="truncate text-[15px] font-semibold">{label(o)}</span>
+        <span className="break-words text-[15px] font-semibold">{label(o)}</span>
         <span className="text-[12.5px] text-muted">
           {amountText(t, o.unit, o.usual)}
           {o.per.kcal !== null ? ` · ${Math.round(nutritionFor(o.per, o.usual).kcal ?? 0)} kcal` : ` · ${t('extras.noCalories')}`}
@@ -143,7 +143,7 @@ export function AddFoodSheet({ personId, personName, date, onClose }: { personId
               <ul className="flex flex-col gap-1.5">
                 {copy.map((d: IntakeDraft, i) => (
                   <li key={i} className="flex items-baseline justify-between gap-3 rounded-xl border border-line bg-surface px-3.5 py-2.5 text-[14px]">
-                    <span className="min-w-0 truncate">{d.food_name}</span>
+                    <span className="min-w-0 break-words">{d.food_name}</span>
                     <span className="shrink-0 text-muted">{amountText(t, d.unit, d.quantity)}</span>
                   </li>
                 ))}
@@ -231,7 +231,7 @@ function AmountStep({ food, name, starred, busy, error, onStar, onBack, onSave, 
   return (
     <div className="flex flex-col gap-3 overflow-y-auto px-5 pb-5 pt-3">
       <div className="flex items-center justify-between gap-2">
-        <span className="min-w-0 truncate font-display text-[18px] font-semibold">{name}</span>
+        <span className="min-w-0 break-words font-display text-[18px] font-semibold">{name}</span>
         <StarButton on={starred} name={name} onToggle={onStar} />
       </div>
       <div className="flex items-center justify-between rounded-2xl border border-line bg-surface p-3.5">

@@ -193,16 +193,16 @@ export default function ShoppingPage() {
         <p role="alert" className="rounded-2xl bg-alert-tint px-4 py-3.5 text-[14px] text-alert">{t('shopping.unavailable')}</p>
       ) : (
         <>
-          <div className="flex gap-2">
-          <button type="button" onClick={() => navigate('/shopping/plan')} className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-2xl bg-saffron px-3 text-[14.5px] font-semibold text-on-saffron">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <div className="flex gap-2 ta:flex-col">
+          <button type="button" onClick={() => navigate('/shopping/plan')} className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-2xl bg-saffron px-3 text-center text-[14.5px] leading-snug font-semibold text-on-saffron ta:flex-none">
+            <svg className="shrink-0" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="4" y="5" width="16" height="15" rx="2" />
               <path d="M4 10h16M9 3v4M15 3v4" />
             </svg>
             {t('shopping.fromPlan')}
           </button>
           <button type="button" onClick={onRegulars} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14.5px] font-semibold">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg className="shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" />
             </svg>
             {t('shopping.regulars')}
@@ -322,13 +322,13 @@ export default function ShoppingPage() {
           </div>
 
           <div className="sticky bottom-16 -mx-5 flex gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">
-            <button type="button" onClick={onShare} className="flex min-h-[52px] flex-1 items-center justify-center gap-2.5 rounded-2xl bg-ink px-4 text-[15px] font-semibold text-cream">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <button type="button" onClick={onShare} className="flex min-h-[52px] flex-[3] items-center justify-center gap-2 rounded-2xl bg-ink px-3 text-center text-[15px] leading-snug font-semibold text-cream">
+              <svg className="shrink-0 ta:hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 12a8 8 0 0 1-12 7l-5 1 1-4a8 8 0 1 1 16-4z" />
               </svg>
               {t('shopping.share')}
             </button>
-            <button type="button" onClick={onCopy} className="min-h-[52px] rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14.5px] font-semibold">
+            <button type="button" onClick={onCopy} className="min-h-[52px] flex-[2] rounded-2xl border-[1.5px] border-line-strong bg-surface px-3 text-center text-[14.5px] leading-snug font-semibold">
               {copied ? t('shopping.copied') : t('shopping.copy')}
             </button>
           </div>
@@ -398,7 +398,7 @@ function ItemRow({ item, first, lang, note, canSave, onSaveOurs, open, onToggleO
           <Tick on={false} />
         </button>
         <span className="flex min-w-0 flex-1 flex-col gap-px py-1">
-          <span className="text-[15px] font-medium">
+          <span className="break-words text-[15px] font-medium">
             {name}
             {other && <span lang={lang === 'ta' ? 'en' : 'ta'} className="ml-1.5 text-[12.5px] font-normal text-muted">{other}</span>}
           </span>

@@ -131,7 +131,7 @@ export default function ShopFromPlanPage() {
                         )}
                       </span>
                       <span className={`flex min-w-0 flex-1 flex-col ${isOn ? '' : 'text-muted'}`}>
-                        <span className="text-[15px] font-medium">
+                        <span className="break-words text-[15px] font-medium">
                           {nameOf(l)}
                           {otherName(l) && <span lang={lang === 'ta' ? 'en' : 'ta'} className="ml-1.5 text-[12.5px] font-normal text-muted">{otherName(l)}</span>}
                         </span>

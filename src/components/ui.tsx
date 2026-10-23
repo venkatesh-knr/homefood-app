@@ -23,9 +23,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primar
 export function Button({ variant = 'primary', className = '', children, ...rest }: ButtonProps) {
   const base = 'inline-flex items-center justify-center gap-2 font-semibold transition disabled:cursor-not-allowed disabled:opacity-60'
   const styles = {
-    primary: 'h-13 min-h-[52px] rounded-2xl bg-ink px-5 text-base text-cream hover:bg-ink-soft',
+    primary: 'min-h-[52px] rounded-2xl bg-ink px-5 text-base text-cream hover:bg-ink-soft',
     secondary: 'min-h-[48px] rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[15px] text-ink hover:bg-sand',
-    accent: 'h-13 min-h-[52px] rounded-2xl bg-saffron px-5 text-base text-on-saffron hover:brightness-95',
+    accent: 'min-h-[52px] rounded-2xl bg-saffron px-5 text-base text-on-saffron hover:brightness-95',
     text: 'min-h-[44px] px-1 text-[14px] text-saffron-ink hover:underline',
   }[variant]
   return (
@@ -39,7 +39,7 @@ export function LanguageSwitch() {
   const { t, i18n } = useTranslation()
   const current = i18n.language as Language
   return (
-    <div role="group" aria-label={t('language.label')} className="inline-flex gap-1 rounded-xl bg-sand p-1 text-[13.5px]">
+    <div role="group" aria-label={t('language.label')} className="inline-flex shrink-0 gap-0.5 rounded-xl bg-sand p-1 text-[13px]">
       {(['en', 'ta'] as const).map((lang) => (
         <button
           key={lang}
@@ -47,7 +47,7 @@ export function LanguageSwitch() {
           lang={lang}
           aria-pressed={current === lang}
           onClick={() => setLanguage(lang)}
-          className={`min-h-[36px] rounded-lg px-3 ${current === lang ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
+          className={`min-h-[36px] rounded-lg px-2.5 ${current === lang ? 'bg-surface font-semibold shadow-sm' : 'text-ink-soft'}`}
         >
           {t(`language.${lang}`)}
         </button>

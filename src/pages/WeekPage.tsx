@@ -149,17 +149,17 @@ export default function WeekPage() {
         </button>
       )}
 
-      <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={() => navigate('/shopping')} className="flex min-h-[44px] items-center gap-2 rounded-full border border-line-strong bg-surface px-4 text-[13.5px] font-semibold">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <div className="grid grid-cols-2 gap-2">
+        <button type="button" onClick={() => navigate('/shopping')} className="flex min-h-[44px] items-center justify-center gap-2 rounded-2xl border border-line-strong bg-surface px-3 py-1.5 text-center text-[13.5px] font-semibold leading-snug">
+        <svg className="shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M3 4h2l2.4 11h10.2l2-8H6.2" />
               <circle cx="9" cy="19.5" r="1.4" />
               <circle cx="17" cy="19.5" r="1.4" />
             </svg>
         {t('shopping.weekButton')}
         </button>
-        <button type="button" onClick={() => navigate('/cook-sheet')} className="flex min-h-[44px] items-center gap-2 rounded-full border border-line-strong bg-surface px-4 text-[13.5px] font-semibold">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <button type="button" onClick={() => navigate('/cook-sheet')} className="flex min-h-[44px] items-center justify-center gap-2 rounded-2xl border border-line-strong bg-surface px-3 py-1.5 text-center text-[13.5px] font-semibold leading-snug">
+          <svg className="shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M7 3h7l4 4v14H7z" />
             <path d="M14 3v4h4M10 12h5M10 16h5" />
           </svg>
@@ -194,7 +194,7 @@ export default function WeekPage() {
               onClick={() => setSelectedDate(d)}
               className={`flex h-[62px] flex-col items-center justify-center gap-0.5 rounded-2xl ${on ? 'border-2 border-saffron bg-saffron text-on-saffron' : 'border border-line bg-surface text-ink'}`}
             >
-              <span className={`text-[10.5px] ${on ? 'text-ink' : 'text-muted'}`}>{weekdayLetter(d)}</span>
+              <span className={`text-[10.5px] ${on ? 'text-ink' : 'text-muted'}`}>{weekdayLetter(d, lang)}</span>
               <span className="font-display text-[15px] font-semibold">{dayOfMonth(d)}</span>
               <span className={`text-[10px] ${on ? 'text-ink' : 'text-muted'}`}>{planned}</span>
             </button>
@@ -235,10 +235,10 @@ export default function WeekPage() {
       {canPlanWeek && (
         <div className="sticky bottom-16 -mx-5 mt-2 flex flex-col gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">
           <div className="flex gap-2.5">
-            <Button variant="secondary" className="flex-1" disabled={busy !== null} onClick={onCopyWeek}>
+            <Button variant="secondary" className="flex-1 px-2! text-[14px]! leading-snug" disabled={busy !== null} onClick={onCopyWeek}>
               {busy === 'copy-week' ? t('planner.copying') : t('planner.copyLastWeek')}
             </Button>
-            <Button className="flex-1" disabled={busy !== null || weekPlan?.status === 'published'} onClick={onPublish}>
+            <Button className="flex-1 px-2! text-[14px]! leading-snug" disabled={busy !== null || weekPlan?.status === 'published'} onClick={onPublish}>
               {busy === 'publish' ? t('planner.publishing') : t('planner.publishWeek')}
             </Button>
           </div>
@@ -300,8 +300,8 @@ function MealCard({
           <>
             <DishThumb name={mainName} tone={meal.length} photoPath={photoFor(slot.main_dish)} size={52} />
             <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-              <span className="truncate text-[15px] font-semibold">{mainName}</span>
-              {sideNames.length > 0 && <span className="truncate text-[13px] text-muted">+ {sideNames.join(', ')}</span>}
+              <span className="break-words text-[15px] font-semibold">{mainName}</span>
+              {sideNames.length > 0 && <span className="break-words text-[13px] text-muted">+ {sideNames.join(', ')}</span>}
             </span>
           </>
         ) : (
@@ -331,7 +331,7 @@ function MealCard({
                   </span>
                 ))}
               </span>
-              <span className="truncate">{cooks.map((c) => c.display_name).join(' + ')}</span>
+              <span className="break-words">{cooks.map((c) => c.display_name).join(' + ')}</span>
             </>
           )}
         </span>
