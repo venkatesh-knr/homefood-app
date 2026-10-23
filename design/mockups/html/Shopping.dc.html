@@ -15,7 +15,7 @@ a{color:#8A4B00}a:hover{color:#5E3300}
 button,input{font-family:inherit}
 </style>
 </helmet>
-<div style="width: 390px; height: 1400px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+<div style="width: 390px; height: 2150px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
 
 <div style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 6px 8px">
 <a href="Planner.dc.html" aria-label="Back to Week" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
@@ -37,17 +37,43 @@ button,input{font-family:inherit}
 <div style="padding: 12px 16px 0; display: flex; flex-direction: column; gap: 8px">
 <label for="additem" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Add an item</label>
 <div style="display: flex; align-items: center; gap: 8px; height: 50px; padding: 0 6px 0 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #CDBFA8">
-<input id="additem" type="text" value="{{draft}}" onChange="{{type}}" placeholder="Add an item · e.g. tomato 1 kg / தக்காளி" style="border: none; outline: none; background: transparent; font-size: 15px; color: #2B2622; flex-grow: 1; min-width: 0">
+<input id="additem" type="text" value="{{draft}}" onChange="{{type}}" placeholder="Type an item · e.g. tomato 1 kg / தக்காளி" style="border: none; outline: none; background: transparent; font-size: 15px; color: #2B2622; flex-grow: 1; min-width: 0">
 <button type="button" aria-label="Add item" onClick="{{add}}" style="width: 40px; height: 40px; border-radius: 10px; border: none; background: #2B2622; color: #FFF8EE; display: flex; align-items: center; justify-content: center; cursor: pointer">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
 </button>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 6px">
-<span style="font-size: 12px; color: #6E6259; align-self: center">Common:</span>
-<sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
-<button type="button" onClick="{{c.pick}}" style="height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 13px; cursor: pointer">{{c.label}}</button>
+<sc-if value="{{hasSuggest}}" hint-placeholder-val="{{ false }}">
+<div role="listbox" aria-label="Matching common items" style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 14px; display: flex; flex-direction: column">
+<sc-for list="{{suggest}}" as="sg" hint-placeholder-count="3">
+<button type="button" role="option" aria-selected="false" onClick="{{sg.pick}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 6px 14px; border-top: {{sg.divider}}">
+<span style="width: 10px; height: 10px; border-radius: 3px; background: {{sg.color}}; flex-shrink: 0"></span>
+<span style="font-size: 14.5px; font-weight: 500; flex-grow: 1">{{sg.name}} <span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12.5px; font-weight: 400; color: #6E6259">{{sg.ta}}</span></span>
+<span style="font-size: 12.5px; color: #6E6259">{{sg.groupName}} · {{sg.qty}}</span>
+</button>
 </sc-for>
 </div>
+</sc-if>
+<button type="button" aria-expanded="{{browseExpanded}}" onClick="{{toggleBrowse}}" style="height: 44px; border-radius: 12px; border: 1.5px dashed #B98A4A; background: transparent; color: #8A4B00; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>{{browseText}}</button>
+<sc-if value="{{showBrowse}}" hint-placeholder-val="{{ true }}">
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 10px">
+<div role="tablist" aria-label="Common items" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="5">
+<button type="button" role="tab" aria-selected="{{tb.selected}}" onClick="{{tb.pick}}" style="height: 34px; padding: 0 12px; border-radius: 999px; border: {{tb.border}}; background: {{tb.bg}}; color: {{tb.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{tb.label}}</button>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{browseItems}}" as="b" hint-placeholder-count="9">
+<button type="button" aria-pressed="{{b.pressed}}" aria-label="{{b.label}}" onClick="{{b.pick}}" style="min-height: 58px; padding: 6px 4px; border-radius: 12px; border: {{b.border}}; background: {{b.bg}}; color: #2B2622; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; cursor: pointer">
+<span style="font-size: 13px; font-weight: 600; text-align: center; line-height: 1.2">{{b.name}}</span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 11.5px; color: #6E6259; text-align: center; line-height: 1.25">{{b.ta}}</span>
+<span style="font-size: 11px; font-weight: 600; color: {{b.tagInk}}">{{b.tag}}</span>
+</button>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #6E6259">Tap to add with the usual amount; change it on the list.</span>
+</div>
+</sc-if>
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 14px; padding: 16px 16px 0">
@@ -61,16 +87,46 @@ button,input{font-family:inherit}
 </div>
 <div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; display: flex; flex-direction: column">
 <sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
-<button type="button" role="checkbox" aria-checked="false" onClick="{{it.tick}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 14px; border-top: {{it.divider}}">
-<span style="width: 24px; height: 24px; border-radius: 7px; border: 2px solid #B9AA92; box-sizing: border-box; flex-shrink: 0"></span>
+<div style="display: flex; flex-direction: column; border-top: {{it.divider}}">
+<div style="display: flex; align-items: center; gap: 10px; min-height: 54px; padding: 6px 8px 6px 10px">
+<button type="button" role="checkbox" aria-checked="false" aria-label="{{it.tickLabel}}" onClick="{{it.tick}}" style="width: 44px; height: 44px; border: none; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0">
+<span style="width: 24px; height: 24px; border-radius: 7px; border: 2px solid #B9AA92; box-sizing: border-box"></span>
+</button>
 <span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
 <span style="font-size: 15px; font-weight: 500">{{it.name}} <span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12.5px; font-weight: 400; color: #6E6259">{{it.ta}}</span></span>
 <sc-if value="{{it.hasNote}}" hint-placeholder-val="{{ false }}">
 <span style="font-size: 12px; color: #6E6259">{{it.note}}</span>
 </sc-if>
 </span>
-<span style="font-size: 13.5px; font-weight: 600; color: #4A3F37; white-space: nowrap">{{it.qty}}</span>
-</button>
+<button type="button" aria-label="{{it.editLabel}}" aria-expanded="{{it.expanded}}" onClick="{{it.edit}}" style="min-width: 64px; height: 40px; padding: 0 10px; border-radius: 10px; border: 1.5px solid {{it.qtyBorder}}; background: {{it.qtyBg}}; color: #2B2622; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; white-space: nowrap">{{it.qtyText}}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A4B00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg></button>
+</div>
+<sc-if value="{{it.editing}}" hint-placeholder-val="{{ false }}">
+<div style="margin: 0 10px 12px; padding: 12px; border-radius: 14px; background: #FFF6E6; border: 1px solid #F0CF94; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 10px">
+<button type="button" aria-label="Less" onClick="{{it.minus}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 22px; font-weight: 600; cursor: pointer">−</button>
+<span aria-live="polite" style="flex-grow: 1; text-align: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px">{{it.amountText}}</span>
+<button type="button" aria-label="More" onClick="{{it.plus}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 22px; font-weight: 600; cursor: pointer">+</button>
+</div>
+<div role="radiogroup" aria-label="Unit" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{it.units}}" as="u" hint-placeholder-count="6">
+<button type="button" role="radio" aria-checked="{{u.checked}}" onClick="{{u.pick}}" style="height: 34px; padding: 0 12px; border-radius: 999px; border: {{u.border}}; background: {{u.bg}}; color: {{u.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{u.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Section</span>
+<div role="radiogroup" aria-label="Section" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{it.groupOpts}}" as="o" hint-placeholder-count="4">
+<button type="button" role="radio" aria-checked="{{o.checked}}" onClick="{{o.pick}}" style="height: 34px; padding: 0 10px; border-radius: 999px; border: {{o.border}}; background: {{o.bg}}; color: {{o.ink}}; font-size: 12.5px; font-weight: 600; cursor: pointer">{{o.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; gap: 8px">
+<button type="button" onClick="{{it.remove}}" style="height: 42px; padding: 0 14px; border-radius: 12px; border: 1.5px solid #E2B4AE; background: #FFFFFF; color: #8C1D18; font-size: 13.5px; font-weight: 600; cursor: pointer">Remove</button>
+<button type="button" onClick="{{it.done}}" style="flex-grow: 1; height: 42px; border-radius: 12px; border: none; background: #2B2622; color: #FFF8EE; font-size: 14px; font-weight: 600; cursor: pointer">Done</button>
+</div>
+</div>
+</sc-if>
+</div>
 </sc-for>
 </div>
 </section>
@@ -85,7 +141,7 @@ button,input{font-family:inherit}
 <sc-for list="{{bought}}" as="b" hint-placeholder-count="2">
 <button type="button" role="checkbox" aria-checked="true" onClick="{{b.untick}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 4px 0; border-top: 1px solid #E6D8C0">
 <span style="width: 24px; height: 24px; border-radius: 7px; background: #2F7A3E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
-<span style="font-size: 14.5px; color: #6E6259; text-decoration: line-through; flex-grow: 1">{{b.name}}</span>
+<span style="font-size: 14.5px; color: #6E6259; text-decoration: line-through; flex-grow: 1">{{b.label}}</span>
 <span style="font-size: 12px; color: #6E6259">{{b.by}}</span>
 </button>
 </sc-for>
@@ -99,60 +155,131 @@ button,input{font-family:inherit}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2150}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = {
-      draft: '', regularsAdded: false,
+      draft: '', regularsAdded: false, browse: true, tab: 'v', editing: 'tom',
       items: [
-        { id:'tom', g:'veg', name:'Tomato', ta:'தக்காளி', qty:'1 kg', note:'From plan · sambar, rasam, chutney' },
-        { id:'oni', g:'veg', name:'Small onion', ta:'சின்ன வெங்காயம்', qty:'500 g', note:'From plan · sambar, kurma' },
-        { id:'drm', g:'veg', name:'Drumstick', ta:'முருங்கைக்காய்', qty:'4', note:'From plan · Thursday sambar' },
-        { id:'cor', g:'veg', name:'Coriander', ta:'கொத்தமல்லி', qty:'1 bunch', note:'' },
-        { id:'ban', g:'veg', name:'Banana', ta:'வாழைப்பழம்', qty:'1 dozen', note:'Regular' },
-        { id:'tdl', g:'gro', name:'Toor dal', ta:'துவரம் பருப்பு', qty:'500 g', note:'From plan · sambar' },
-        { id:'irc', g:'gro', name:'Idli rice', ta:'இட்லி அரிசி', qty:'1 kg', note:'From plan · idli batter' },
-        { id:'chk', g:'gro', name:'Chickpeas', ta:'கொண்டைக்கடலை', qty:'250 g', note:'From plan · chana masala' },
-        { id:'mlk', g:'dai', name:'Milk', ta:'பால்', qty:'2 L', note:'Regular' },
-        { id:'crd', g:'dai', name:'Curd', ta:'தயிர்', qty:'500 g', note:'' },
-        { id:'egg', g:'dai', name:'Eggs', ta:'முட்டை', qty:'12', note:'Added by Kavi' },
-        { id:'soap', g:'oth', name:'Dish soap', ta:'', qty:'1', note:'' }
+        { id:'tom', g:'veg', name:'Tomato', ta:'தக்காளி', amt:1, unit:'kg', note:'From plan · sambar, rasam, chutney' },
+        { id:'son', g:'veg', name:'Small onion', ta:'சின்ன வெங்காயம்', amt:500, unit:'g', note:'From plan · sambar, kurma' },
+        { id:'drm', g:'veg', name:'Drumstick', ta:'முருங்கைக்காய்', amt:4, unit:'pcs', note:'From plan · Thursday sambar' },
+        { id:'cor', g:'veg', name:'Coriander', ta:'கொத்தமல்லி', amt:1, unit:'bunch', note:'' },
+        { id:'ban', g:'veg', name:'Banana', ta:'வாழைப்பழம்', amt:12, unit:'pcs', note:'Regular' },
+        { id:'tdl', g:'gro', name:'Toor dal', ta:'துவரம் பருப்பு', amt:500, unit:'g', note:'From plan · sambar' },
+        { id:'irc', g:'gro', name:'Idli rice', ta:'இட்லி அரிசி', amt:1, unit:'kg', note:'From plan · idli batter' },
+        { id:'mlk', g:'dai', name:'Milk', ta:'பால்', amt:2, unit:'L', note:'Regular' },
+        { id:'egg', g:'dai', name:'Eggs', ta:'முட்டை', amt:12, unit:'pcs', note:'Added by Kavi' },
+        { id:'soap', g:'oth', name:'Dish soap', ta:'', amt:1, unit:'pack', note:'' }
       ],
-      bought: [ { id:'cur', name:'Curry leaves', by:'Appa' }, { id:'gng', name:'Ginger 100 g', by:'Amma' } ]
+      bought: [ { id:'cur', label:'Curry leaves · 1 bunch', by:'Appa' }, { id:'gng', label:'Ginger · 100 g', by:'Amma' } ]
     };
+  }
+  catalogue() {
+    const C = [
+      ['veg','v','Tomato','தக்காளி',1,'kg'],['veg','v','Onion','வெங்காயம்',1,'kg'],['veg','v','Small onion','சின்ன வெங்காயம்',500,'g'],
+      ['veg','v','Potato','உருளைக்கிழங்கு',1,'kg'],['veg','v','Carrot','கேரட்',500,'g'],['veg','v','Beans','பீன்ஸ்',250,'g'],
+      ['veg','v','Brinjal','கத்தரிக்காய்',500,'g'],['veg','v',"Lady's finger",'வெண்டைக்காய்',250,'g'],['veg','v','Drumstick','முருங்கைக்காய்',2,'pcs'],
+      ['veg','v','Cabbage','முட்டைக்கோஸ்',1,'pcs'],['veg','v','Coriander','கொத்தமல்லி',1,'bunch'],['veg','v','Curry leaves','கறிவேப்பிலை',1,'bunch'],
+      ['veg','v','Green chilli','பச்சை மிளகாய்',100,'g'],['veg','v','Ginger','இஞ்சி',100,'g'],['veg','v','Garlic','பூண்டு',100,'g'],
+      ['veg','f','Banana','வாழைப்பழம்',12,'pcs'],['veg','f','Apple','ஆப்பிள்',1,'kg'],['veg','f','Orange','ஆரஞ்சு',1,'kg'],
+      ['veg','f','Papaya','பப்பாளி',1,'pcs'],['veg','f','Guava','கொய்யா',500,'g'],['veg','f','Lemon','எலுமிச்சை',4,'pcs'],
+      ['gro','g','Rice','அரிசி',5,'kg'],['gro','g','Idli rice','இட்லி அரிசி',1,'kg'],['gro','g','Toor dal','துவரம் பருப்பு',1,'kg'],
+      ['gro','g','Urad dal','உளுந்து',500,'g'],['gro','g','Moong dal','பாசிப்பருப்பு',500,'g'],['gro','g','Wheat flour','கோதுமை மாவு',1,'kg'],
+      ['gro','g','Rava','ரவை',500,'g'],['gro','g','Sugar','சர்க்கரை',1,'kg'],['gro','g','Salt','உப்பு',1,'kg'],
+      ['gro','g','Oil','எண்ணெய்',1,'L'],['gro','g','Tamarind','புளி',250,'g'],['gro','g','Mustard seeds','கடுகு',100,'g'],
+      ['dai','d','Milk','பால்',1,'L'],['dai','d','Curd','தயிர்',500,'g'],['dai','d','Paneer','பனீர்',200,'g'],
+      ['dai','d','Butter','வெண்ணெய்',100,'g'],['dai','d','Ghee','நெய்',200,'ml'],['dai','d','Eggs','முட்டை',12,'pcs'],
+      ['oth','o','Bread','ரொட்டி',1,'pack'],['oth','o','Tea powder','டீ தூள்',250,'g'],['oth','o','Coffee powder','காபி தூள்',200,'g'],
+      ['oth','o','Biscuits','பிஸ்கட்',2,'pack'],['oth','o','Dish soap','பாத்திரம் கழுவும் சோப்',1,'pack']
+    ];
+    return C.map(([g, tab, name, ta, amt, unit]) => ({ g, tab, name, ta, amt, unit }));
   }
   renderVals() {
     const s = this.state;
-    const G = [
-      ['veg','Vegetables & fruits','காய்கறி, பழங்கள்','#2F7A3E'],
-      ['gro','Groceries','மளிகை','#E08A00'],
-      ['dai','Dairy & eggs','பால், முட்டை','#3B4A9C'],
-      ['oth','Other','மற்றவை','#6E6259']
-    ];
-    const tick = (it) => () => this.setState({
-      items: this.state.items.filter(x => x.id !== it.id),
-      bought: [{ id: it.id, name: it.name + (it.qty ? ' ' + it.qty : ''), by: 'You' }, ...this.state.bought]
-    });
-    const groups = G.map(([id, name, ta, color]) => {
-      const items = s.items.filter(x => x.g === id).map((x, i) => ({
-        ...x, hasNote: !!x.note, divider: i === 0 ? 'none' : '1px solid #F1E7D6', tick: tick(x)
-      }));
+    const GROUPS = { veg:['Vegetables & fruits','காய்கறி, பழங்கள்','#2F7A3E'], gro:['Groceries','மளிகை','#E08A00'], dai:['Dairy & eggs','பால், முட்டை','#3B4A9C'], oth:['Other','மற்றவை','#6E6259'] };
+    const STEP = { kg:0.5, g:100, L:0.5, ml:100, pcs:1, bunch:1, pack:1 };
+    const fmt = (a, u) => (u === 'pcs' ? a + (a === 1 ? ' pc' : ' pcs') : a + ' ' + u);
+    const cat = this.catalogue();
+    const setItem = (id, patch) => this.setState({ items: this.state.items.map(x => x.id === id ? { ...x, ...patch } : x) });
+    const onList = (name) => this.state.items.find(x => x.name.toLowerCase() === name.toLowerCase());
+    const addFromCat = (c) => {
+      const have = onList(c.name);
+      if (have) { this.setState({ editing: have.id, draft: '' }); return; }
+      const id = 'n' + Date.now();
+      this.setState({ draft: '', editing: id, items: [...this.state.items, { id, g: c.g, name: c.name, ta: c.ta, amt: c.amt, unit: c.unit, note: 'Added by you' }] });
+    };
+    const addTyped = () => {
+      const t = this.state.draft.trim(); if (!t) return;
+      const m = t.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*(kg|g|L|l|ml|pcs?|bunch|pack)?$/);
+      const name = (m ? m[1] : t).trim();
+      const hit = cat.find(c => c.name.toLowerCase() === name.toLowerCase() || c.ta === name);
+      const amt = m ? parseFloat(m[2]) : (hit ? hit.amt : 1);
+      const unit = m && m[3] ? (m[3] === 'l' ? 'L' : (m[3].startsWith('pc') ? 'pcs' : m[3])) : (hit ? hit.unit : 'pcs');
+      const id = 'n' + Date.now();
+      this.setState({ draft: '', items: [...this.state.items, { id, g: hit ? hit.g : 'oth', name: hit ? hit.name : name, ta: hit ? hit.ta : '', amt, unit, note: 'Added by you' }] });
+    };
+    const q = s.draft.trim().toLowerCase().replace(/\s+\d.*$/, '');
+    const suggestList = q.length < 2 ? [] : cat.filter(c => c.name.toLowerCase().includes(q) || c.ta.includes(s.draft.trim())).slice(0, 4);
+    const suggest = suggestList.map((c, i) => ({ ...c, qty: fmt(c.amt, c.unit), groupName: GROUPS[c.g][0], color: GROUPS[c.g][2],
+      divider: i === 0 ? 'none' : '1px solid #F1E7D6', pick: () => addFromCat(c) }));
+
+    const groups = Object.keys(GROUPS).map(gid => {
+      const [name, ta, color] = GROUPS[gid];
+      const items = s.items.filter(x => x.g === gid).map((x, i) => {
+        const ed = s.editing === x.id;
+        const step = STEP[x.unit] || 1;
+        return { ...x, hasNote: !!x.note, divider: i === 0 ? 'none' : '1px solid #F1E7D6',
+          qtyText: fmt(x.amt, x.unit), amountText: fmt(x.amt, x.unit), editing: ed, expanded: ed ? 'true' : 'false',
+          qtyBorder: ed ? '#E08A00' : '#E6D8C0', qtyBg: ed ? '#FFF1DB' : '#FFFFFF',
+          tickLabel: 'Bought ' + x.name, editLabel: 'Change amount for ' + x.name + ', now ' + fmt(x.amt, x.unit),
+          tick: () => this.setState({ editing: null, items: this.state.items.filter(y => y.id !== x.id),
+            bought: [{ id: x.id, label: x.name + ' · ' + fmt(x.amt, x.unit), by: 'You' }, ...this.state.bought] }),
+          edit: () => this.setState({ editing: ed ? null : x.id }),
+          minus: () => setItem(x.id, { amt: Math.max(step, Math.round((x.amt - step) * 10) / 10) }),
+          plus: () => setItem(x.id, { amt: Math.round((x.amt + step) * 10) / 10 }),
+          units: ['g','kg','ml','L','pcs','bunch','pack'].map(u => {
+            const on = x.unit === u;
+            return { label: u, checked: on ? 'true' : 'false', bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622',
+              border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8', pick: () => setItem(x.id, { unit: u, amt: STEP[u] >= 1 && x.amt < 1 ? STEP[u] : x.amt }) };
+          }),
+          groupOpts: Object.keys(GROUPS).map(o => {
+            const on = x.g === o;
+            return { label: GROUPS[o][0], checked: on ? 'true' : 'false', bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622',
+              border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8', pick: () => setItem(x.id, { g: o }) };
+          }),
+          remove: () => this.setState({ editing: null, items: this.state.items.filter(y => y.id !== x.id) }),
+          done: () => this.setState({ editing: null })
+        };
+      });
       return { name, ta, color, items, count: items.length ? items.length + ' to buy' : 'nothing yet' };
     });
-    const bought = s.bought.map(b => ({ ...b, untick: () => this.setState({
-      bought: this.state.bought.filter(x => x.id !== b.id),
-      items: [...this.state.items, { id: b.id, g: 'oth', name: b.name, ta: '', qty: '', note: '' }]
-    }) }));
-    const addNamed = (name, g) => this.setState({ draft: '', items: [...this.state.items, { id: 'n' + Date.now(), g, name, ta: '', qty: '', note: 'Added by you' }] });
-    const chips = [['Onion','veg'],['Potato','veg'],['Lemon','veg'],['Bread','oth']].map(([label, g]) => ({ label, pick: () => addNamed(label, g) }));
+
+    const TABS = [['v','Vegetables'],['f','Fruits'],['g','Groceries'],['d','Dairy & eggs'],['o','Other']];
+    const tabs = TABS.map(([id, label]) => {
+      const on = s.tab === id;
+      return { label, selected: on ? 'true' : 'false', pick: () => this.setState({ tab: id }),
+        bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8' };
+    });
+    const browseItems = cat.filter(c => c.tab === s.tab).map(c => {
+      const have = !!onList(c.name);
+      return { ...c, pressed: have ? 'true' : 'false', label: c.name + (have ? ', on the list' : ', add ' + fmt(c.amt, c.unit)),
+        tag: have ? 'On list' : '+ ' + fmt(c.amt, c.unit), tagInk: have ? '#1F5A2C' : '#8A4B00',
+        bg: have ? '#E7F1E8' : '#FFFFFF', border: have ? '1.5px solid #2F7A3E' : '1px solid #EADFCB', pick: () => addFromCat(c) };
+    });
+
+    const bought = s.bought.map(b => ({ ...b, untick: () => this.setState({ bought: this.state.bought.filter(x => x.id !== b.id) }) }));
     return {
       summary: s.items.length + ' to buy · ' + s.bought.length + ' bought',
-      groups, bought, boughtCount: s.bought.length, chips, draft: s.draft,
-      type: (e) => this.setState({ draft: e.target.value }),
-      add: () => { const t = this.state.draft.trim(); if (t) addNamed(t, 'oth'); },
+      groups, bought, boughtCount: s.bought.length, draft: s.draft,
+      suggest, hasSuggest: suggest.length > 0,
+      showBrowse: s.browse, browseExpanded: s.browse ? 'true' : 'false',
+      browseText: s.browse ? 'Hide common items' : 'Browse common items', toggleBrowse: () => this.setState({ browse: !this.state.browse }),
+      tabs, browseItems,
+      type: (e) => this.setState({ draft: e.target.value }), add: addTyped,
       regularsText: s.regularsAdded ? 'Added' : 'Regulars',
-      addRegulars: () => { if (!this.state.regularsAdded) this.setState({ regularsAdded: true, items: [...this.state.items, { id:'brd', g:'oth', name:'Bread', ta:'ரொட்டி', qty:'1', note:'Regular' }] }); }
+      addRegulars: () => { if (!this.state.regularsAdded) this.setState({ regularsAdded: true, items: [...this.state.items, { id:'brd', g:'oth', name:'Bread', ta:'ரொட்டி', amt:1, unit:'pack', note:'Regular' }] }); }
     };
   }
 }
