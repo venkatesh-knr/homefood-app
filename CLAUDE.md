@@ -15,6 +15,7 @@ Owner: Venkatesh (development manager). Explain steps plainly; he runs Supabase 
   `Main.png` (Week at a glance, mobile and tablet/laptop — one responsive page, not two), `Share.png` (what "Save as
   image" produces). `Today.png`'s 5-tab nav (Today/Week/Dishes/**Health**/Family) is a different iteration from the
   4-tab shell already built in Step 2 (Today/Week/Dishes/**Home**) — kept the existing 4 tabs, no Health tab.
+- **What changed from the original design** (built differently, built early, added, not built, spec lines now out of date, every migration): `docs/design-changes.md`. Update it when something else changes.
 - Requirements (28 points) and decisions live in the claude.ai Project "HomeFood".
 - **Live at https://venkatesh-knr.github.io/homefood-app/** — GitHub Pages, redeploys automatically on every push to `main`
   (`.github/workflows/deploy.yml`). The repo is **public** (GitHub Pages needs that or a paid plan for a private repo).
