@@ -17,6 +17,8 @@ import { ExtrasSection } from '../components/ExtrasSection'
 import type { AttendanceRow } from '../lib/attendance'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { PrepCards } from '../components/PrepCards'
+import { useMembers } from '../lib/queries'
+import { EVENING_FROM, zonedParts } from '../lib/prep'
 import { useShoppingItems } from '../lib/shoppingQueries'
 import { itemName, splitList } from '../lib/shopping'
 import { neededFor } from '../lib/shoppingPlan'
@@ -39,6 +41,9 @@ export default function TodayPage() {
   const { data: attendanceData } = useAttendance(today, today)
   const { data: shopItems, isError: shopError } = useShoppingItems(household.id)
   const toBuy = splitList(shopItems ?? []).toBuy.length
+  const { data: people } = useMembers(household.id)
+  const helperName = (people ?? []).find((m) => m.kind === 'helper')?.display_name
+  const sheetTomorrow = zonedParts(now, household.timezone).hour >= EVENING_FROM
   const tomorrow = addDays(today, 1)
   const { data: tomorrowSlots } = useHistorySlots(household.id, tomorrow, tomorrow)
   const tomorrowDishes = (tomorrowSlots ?? [])
@@ -95,24 +100,38 @@ export default function TodayPage() {
 
       <ExtrasSection date={today} />
 
-      {!shopError && shopItems && (
-        <button type="button" onClick={() => navigate('/shopping')} className="mt-1 flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3.5 text-left">
-          <span className="text-leaf">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M3 4h2l2.4 11h10.2l2-8H6.2" />
-              <circle cx="9" cy="19.5" r="1.4" />
-              <circle cx="17" cy="19.5" r="1.4" />
-            </svg>
-          </span>
-          <span className="flex flex-col gap-0.5">
+      <div className={`mt-1 grid gap-2.5 ${!shopError && shopItems ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {!shopError && shopItems && (
+          <button type="button" onClick={() => navigate('/shopping')} className="flex flex-col items-start gap-1 rounded-2xl border border-line bg-surface p-3.5 text-left">
+            <span className="text-leaf">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 4h2l2.4 11h10.2l2-8H6.2" />
+                <circle cx="9" cy="19.5" r="1.4" />
+                <circle cx="17" cy="19.5" r="1.4" />
+              </svg>
+            </span>
             <span className="font-display text-[15px] font-semibold">{t('shopping.cardTitle')}</span>
-            <span className="text-[12.5px] text-muted">
+            <span className="text-[12.5px] leading-snug text-muted">
               {toBuy > 0 ? t('shopping.cardCount', { count: toBuy }) : t('shopping.cardEmpty')}
               {neededTomorrow.length > 0 && ` · ${t('shopping.todayNeeded', { names: neededTomorrow.slice(0, 2).map((i) => itemName(i, lang).toLowerCase()).join(', ') })}`}
             </span>
+          </button>
+        )}
+        <button type="button" onClick={() => navigate('/cook-sheet')} className="flex flex-col items-start gap-1 rounded-2xl border border-line bg-surface p-3.5 text-left">
+          <span className="text-saffron-ink">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M7 3h7l4 4v14H7z" />
+                <path d="M14 3v4h4M10 12h5M10 16h5" />
+              </svg>
+          </span>
+          <span className="font-display text-[15px] font-semibold">{t('cook.cardTitle')}</span>
+          <span className="text-[12.5px] leading-snug text-muted">
+            {helperName
+              ? t('cook.cardHintTo', { day: t(sheetTomorrow ? 'cook.dayTomorrowPoss' : 'cook.dayTodayPoss'), name: helperName })
+              : t('cook.cardHint', { day: t(sheetTomorrow ? 'cook.dayTomorrowPoss' : 'cook.dayTodayPoss') })}
           </span>
         </button>
-      )}
+      </div>
 
       <button
         type="button"

@@ -1067,5 +1067,30 @@
       "night_before": "The night before",
       "hours_before": "Hours before the meal"
     }
+  },
+  "cook": {
+    "title": "Cook's sheet",
+    "subtitle": "The day's cooking as one message, for the helper or anyone cooking",
+    "today": "Today · {{day}}",
+    "tomorrow": "Tomorrow · {{day}}",
+    "language": "Language",
+    "names": "Name who has the allergy",
+    "namesHintOff": "Off: “1 person: no soy”",
+    "namesHintOn": "On: “no soy for Paati”",
+    "preview": "Preview",
+    "footnote": "Dishes, numbers and cooks only. No photos, nutrition or other household details.",
+    "send": "Send on WhatsApp",
+    "copy": "Copy text",
+    "copied": "Copied",
+    "print": "Print",
+    "empty": "Nothing is planned for {{day}} yet. Plan some meals on the Week tab first.",
+    "dayToday": "today",
+    "dayTomorrow": "tomorrow",
+    "dayTodayPoss": "today's",
+    "dayTomorrowPoss": "tomorrow's",
+    "cardTitle": "Cook's sheet",
+    "cardHint": "Send {{day}} cooking as one message",
+    "cardHintTo": "Send {{day}} cooking to {{name}}",
+    "weekButton": "Cook's sheet"
   }
 }

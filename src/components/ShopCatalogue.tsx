@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Toggle } from './ui'
+import { Dialog } from './Dialog'
 import { SECTIONS, TABS, UNITS, changeUnit, formatAmount, itemsOfTab, nudge, unitLabel, type CatalogItem, type ShopSection, type ShopTab, type ShopUnit } from '../lib/shopping'
 
 const chip = (on: boolean) => `min-h-[44px] rounded-full px-3.5 text-[13px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`
@@ -38,46 +39,52 @@ export function SuggestionList({ suggestions, newName, lang, onPick, onNew }: { 
   )
 }
 
-/** "Browse common items": tabs and a three-column grid; tapping adds the usual amount. */
-export function BrowseCommon({ items, lang, isOnList, onPick }: { items: CatalogItem[]; lang: 'en' | 'ta'; isOnList: (c: CatalogItem) => boolean; onPick: (c: CatalogItem) => void }) {
+/** "Browse common items": a full-screen sheet (so the list page keeps a single scroll) with tabs that stay put and a three-column grid; tapping adds the usual amount. */
+export function BrowseSheet({ items, lang, isOnList, onPick, onClose }: { items: CatalogItem[]; lang: 'en' | 'ta'; isOnList: (c: CatalogItem) => boolean; onPick: (c: CatalogItem) => void; onClose: () => void }) {
   const { t } = useTranslation()
   const [tab, setTab] = useState<ShopTab>('vegetables')
   const shown = itemsOfTab(items, tab)
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-3">
-      <div role="radiogroup" aria-label={t('shopping.browseShow')} className="flex flex-wrap gap-1.5">
-        {TABS.map((id) => (
-          <button key={id} type="button" role="radio" aria-checked={tab === id} onClick={() => setTab(id)} className={chip(tab === id)}>
-            {t(`shopping.tab.${id}`)}
-          </button>
-        ))}
-      </div>
-      <div tabIndex={0} role="group" aria-label={t(`shopping.tab.${tab}`)} className="max-h-[340px] overflow-y-auto overscroll-contain rounded-xl focus-visible:outline-2">
-      <div className="grid grid-cols-3 gap-1.5">
-        {shown.map((c) => {
-          const on = isOnList(c)
-          const n = names(c, lang)
-          const amount = formatAmount(c.usual_amount, c.usual_unit, lang)
-          return (
-            <button
-              key={c.key}
-              type="button"
-              aria-pressed={on}
-              aria-label={on ? t('shopping.browseOnList', { name: n.main }) : t('shopping.browseAdd', { name: n.main, amount })}
-              onClick={() => onPick(c)}
-              className={`flex min-h-[72px] flex-col items-center justify-center gap-0.5 rounded-xl px-1.5 py-1.5 text-center ${on ? 'border-[1.5px] border-leaf bg-leaf-tint' : 'border border-line bg-surface'}`}
-            >
-              <span className="text-[13.5px] font-semibold leading-tight">{n.main}</span>
-              {n.other && <span lang={lang === 'ta' ? 'en' : 'ta'} className="text-[11px] leading-tight text-muted">{n.other}</span>}
-              <span className={`text-[11.5px] font-semibold ${on ? 'text-leaf' : 'text-saffron-ink'}`}>{on ? t('shopping.onList') : `+ ${amount}`}</span>
-              {c.source === 'ours' && <span className="rounded-full bg-dinner-tint px-2 text-[10.5px] font-semibold text-dinner-ink">{t('shopping.ourItem')}</span>}
+    <Dialog title={t('shopping.browseShow')} onClose={onClose} variant="full">
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-md flex-col">
+        <div className="flex items-center justify-between gap-3 px-5 pb-2 pt-3">
+          <h2 className="font-display text-[19px] font-semibold">{t('shopping.browseShow')}</h2>
+          <button type="button" onClick={onClose} className="min-h-[44px] rounded-xl bg-ink px-5 text-[14.5px] font-semibold text-cream">{t('shopping.done')}</button>
+        </div>
+        <div role="radiogroup" aria-label={t('shopping.browseShow')} className="flex flex-wrap gap-1.5 border-b border-line px-5 pb-3">
+          {TABS.map((id) => (
+            <button key={id} type="button" role="radio" aria-checked={tab === id} onClick={() => setTab(id)} className={chip(tab === id)}>
+              {t(`shopping.tab.${id}`)}
             </button>
-          )
-        })}
+          ))}
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-3">
+          <div className="grid grid-cols-3 gap-1.5">
+            {shown.map((c) => {
+              const on = isOnList(c)
+              const n = names(c, lang)
+              const amount = formatAmount(c.usual_amount, c.usual_unit, lang)
+              return (
+                <button
+                  key={c.key}
+                  type="button"
+                  aria-pressed={on}
+                  aria-label={on ? t('shopping.browseOnList', { name: n.main }) : t('shopping.browseAdd', { name: n.main, amount })}
+                  onClick={() => onPick(c)}
+                  className={`flex min-h-[72px] flex-col items-center justify-center gap-0.5 rounded-xl px-1.5 py-1.5 text-center ${on ? 'border-[1.5px] border-leaf bg-leaf-tint' : 'border border-line bg-surface'}`}
+                >
+                  <span className="text-[13.5px] font-semibold leading-tight">{n.main}</span>
+                  {n.other && <span lang={lang === 'ta' ? 'en' : 'ta'} className="text-[11px] leading-tight text-muted">{n.other}</span>}
+                  <span className={`text-[11.5px] font-semibold ${on ? 'text-leaf' : 'text-saffron-ink'}`}>{on ? t('shopping.onList') : `+ ${amount}`}</span>
+                  {c.source === 'ours' && <span className="rounded-full bg-dinner-tint px-2 text-[10.5px] font-semibold text-dinner-ink">{t('shopping.ourItem')}</span>}
+                </button>
+              )
+            })}
+          </div>
+          <p className="pt-3 text-[12px] leading-relaxed text-muted">{t('shopping.browseHint')}</p>
+        </div>
       </div>
-      </div>
-      <p className="text-[12px] leading-relaxed text-muted">{t('shopping.browseHint')}</p>
-    </div>
+    </Dialog>
   )
 }
 

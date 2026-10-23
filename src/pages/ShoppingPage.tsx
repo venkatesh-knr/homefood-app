@@ -12,7 +12,7 @@ import {
 import { describeError } from '../lib/errors'
 import { BackHeader } from '../components/BackHeader'
 import { Dialog } from '../components/Dialog'
-import { BrowseCommon, NewItemForm, SuggestionList, type NewItemDraft } from '../components/ShopCatalogue'
+import { BrowseSheet, NewItemForm, SuggestionList, type NewItemDraft } from '../components/ShopCatalogue'
 
 const chip = (on: boolean) => `min-h-[44px] rounded-full px-3.5 text-[13px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`
 
@@ -29,7 +29,7 @@ export default function ShoppingPage() {
   const [busy, setBusy] = useState(false)
   const [copied, setCopied] = useState(false)
   const [confirmClear, setConfirmClear] = useState(false)
-  const [browse, setBrowse] = useState(true)
+  const [browse, setBrowse] = useState(false)
   const [newDraft, setNewDraft] = useState<NewItemDraft | null>(null)
   const { items: catalog, index } = useShopCatalogue(household.id)
   const isAdmin = profile.role === 'admin'
@@ -54,11 +54,12 @@ export default function ShoppingPage() {
   const fail = (err: unknown) => setMessage(describeError(err, t))
 
   /** Adds the item (or finds the one already there) and opens it so the amount or section can be changed. */
-  async function runAdd(item: NewItem): Promise<boolean> {
+  async function runAdd(item: NewItem, quiet = false): Promise<boolean> {
     setBusy(true)
     setMessage(null)
     try {
       const result = await addShoppingItem({ householdId: household.id, profileId: profile.id, items: items ?? [], item })
+      if (quiet) return true
       setDraft('')
       setEditing(result.id)
       if (result.kind === 'opened') setMessage(t('shopping.openedExisting', { name: item.name }))
@@ -73,12 +74,12 @@ export default function ShoppingPage() {
   }
 
   /** A known item: its own section and Tamil name, and the amount typed, or its usual amount. */
-  function addFromCatalog(c: CatalogItem, t0?: TypedItem) {
+  function addFromCatalog(c: CatalogItem, t0?: TypedItem, quiet = false) {
     const amountTyped = t0?.amount != null
     void runAdd({
       name: c.name_en, name_ta: c.name_ta, section: c.section,
       amount: amountTyped ? t0!.amount : c.usual_amount, unit: amountTyped ? (t0!.unit ?? c.usual_unit) : c.usual_unit, amountIsDefault: !amountTyped,
-    })
+    }, quiet)
   }
 
   function openNewForm(t0: TypedItem) {
@@ -208,6 +209,7 @@ export default function ShoppingPage() {
           </button>
           </div>
 
+          <div className="sticky top-0 z-10 -mx-5 flex flex-col gap-2 bg-cream px-5 py-2">
           <form onSubmit={onAdd} className="flex gap-2">
             <input
               value={draft}
@@ -227,6 +229,7 @@ export default function ShoppingPage() {
           </form>
 
           <SuggestionList suggestions={suggestions} newName={newName} lang={lang} onPick={(c) => addFromCatalog(c)} onNew={() => openNewForm(typed)} />
+          </div>
 
           {newDraft && <NewItemForm draft={newDraft} lang={lang} busy={busy} onChange={(patch) => setNewDraft({ ...newDraft, ...patch })} onSubmit={onNewSubmit} onCancel={() => setNewDraft(null)} />}
 
@@ -234,18 +237,15 @@ export default function ShoppingPage() {
           {message && <p role="status" className="rounded-2xl bg-sand px-3.5 py-2.5 text-[13.5px] text-ink-soft">{message}</p>}
 
           {catalog.length > 0 && (
-            <>
-              <button type="button" aria-expanded={browse} onClick={() => setBrowse(!browse)} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron/60 px-4 text-[14px] font-semibold text-saffron-ink">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
-                  <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
-                  <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
-                  <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
-                </svg>
-                {browse ? t('shopping.browseHide') : t('shopping.browseShow')}
-              </button>
-              {browse && <BrowseCommon items={catalog} lang={lang} isOnList={(c) => onListNames.has(canon(c.name_en))} onPick={(c) => addFromCatalog(c)} />}
-            </>
+            <button type="button" onClick={() => setBrowse(true)} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron/60 px-4 text-[14px] font-semibold text-saffron-ink">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+                <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+                <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+                <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+              </svg>
+              {t('shopping.browseShow')}
+            </button>
           )}
 
           {isLoading ? (
@@ -312,25 +312,30 @@ export default function ShoppingPage() {
             </section>
           )}
 
-          <div className="mt-auto flex flex-col gap-2 pt-4">
-            <button type="button" onClick={onShare} className="flex min-h-[52px] items-center justify-center gap-2.5 rounded-2xl bg-ink px-4 text-[15.5px] font-semibold text-cream">
+          <div className="mt-auto flex flex-col items-center gap-1 pt-2">
+            <p className="text-center text-[12px] text-muted">{t('shopping.shareNote', { home: household.name })}</p>
+            {isAdmin && (items?.length ?? 0) > 0 && (
+              <button type="button" onClick={() => setConfirmClear(true)} className="min-h-[44px] rounded-xl px-3 text-[13.5px] font-semibold text-alert">
+                {t('shopping.clearList')}
+              </button>
+            )}
+          </div>
+
+          <div className="sticky bottom-16 -mx-5 flex gap-2 border-t border-line bg-cream px-5 pb-3 pt-3">
+            <button type="button" onClick={onShare} className="flex min-h-[52px] flex-1 items-center justify-center gap-2.5 rounded-2xl bg-ink px-4 text-[15px] font-semibold text-cream">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 12a8 8 0 0 1-12 7l-5 1 1-4a8 8 0 1 1 16-4z" />
               </svg>
               {t('shopping.share')}
             </button>
-            <button type="button" onClick={onCopy} className="min-h-[48px] rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14.5px] font-semibold">
+            <button type="button" onClick={onCopy} className="min-h-[52px] rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14.5px] font-semibold">
               {copied ? t('shopping.copied') : t('shopping.copy')}
             </button>
-            <p className="text-center text-[12px] text-muted">{t('shopping.shareNote', { home: household.name })}</p>
-            {isAdmin && (items?.length ?? 0) > 0 && (
-              <button type="button" onClick={() => setConfirmClear(true)} className="min-h-[44px] self-center rounded-xl px-3 text-[13.5px] font-semibold text-alert">
-                {t('shopping.clearList')}
-              </button>
-            )}
           </div>
         </>
       )}
+
+      {browse && <BrowseSheet items={catalog} lang={lang} isOnList={(c) => onListNames.has(canon(c.name_en))} onPick={(c) => addFromCatalog(c, undefined, true)} onClose={() => setBrowse(false)} />}
 
       {confirmClear && (
         <Dialog title={t('shopping.clearTitle')} onClose={() => setConfirmClear(false)}>

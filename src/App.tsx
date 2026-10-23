@@ -19,6 +19,7 @@ import RotaPage from './pages/RotaPage'
 import WeekGlancePage from './pages/WeekGlancePage'
 import ShoppingPage from './pages/ShoppingPage'
 import ShopFromPlanPage from './pages/ShopFromPlanPage'
+import CookSheetPage from './pages/CookSheetPage'
 import DishesPage from './pages/DishesPage'
 import AddDishPage from './pages/AddDishPage'
 import DishDetailPage from './pages/DishDetailPage'
@@ -73,6 +74,7 @@ function OnboardingGate({ profile }: { profile: Profile }) {
         <Route path="week/glance" element={<WeekGlancePage />} />
         <Route path="shopping" element={<ShoppingPage />} />
         <Route path="shopping/plan" element={<ShopFromPlanPage />} />
+        <Route path="cook-sheet" element={<CookSheetPage />} />
         <Route path="week/:date/:meal" element={<SlotEditorPage />} />
         <Route path="week/:date/:meal/discuss" element={<DiscussionPage />} />
         <Route path="dishes" element={<DishesPage />} />
