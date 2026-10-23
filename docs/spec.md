@@ -2,8 +2,8 @@
      (https://claude.ai/code/artifact/8294871f-65e6-4b87-8690-ca8206950683).
      The live doc is the source of truth; this copy is for Claude Code. Three diagrams
      (meal slot lifecycle, architecture, roadmap) are not included in the export.
-     Build-time deviations (e.g. 4 tabs instead of the spec's 5, deferred features) are
-     recorded in CLAUDE.md, which wins on build details. -->
+     Where this spec and CLAUDE.md differ on build details, CLAUDE.md and the code win
+     (e.g. five tabs in the spec vs four in phase 1; shadcn/ui not installed). -->
 
 # HomeFood — Spec & Design
 
