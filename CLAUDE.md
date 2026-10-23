@@ -67,7 +67,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
 
 - Migrations in `supabase/migrations/`. **0001–0031 are applied** to the live project `homefood-prod` (Mumbai) —
   Steps 2–4 have all been tested live against them. **0007 (pilot stock photos) is applied too** (confirmed live 3 Oct 2026). **0008 (stock photos for the other 22 seeded dishes) is applied too** (all 28 dishes confirmed showing photos live, 3 Oct 2026). Never edit an applied migration; add a new numbered file
-  (`0032_….sql`) for the next change. 0031 (privacy controls) was run on 12 Oct 2026. 0029 (My extras tables, rules and family-totals function) and 0030 (82 shared everyday foods) were run on 11 Oct 2026, as were 0024–0028 (weekly balance, recipe edit, own-dish nutrition and meals out, cuisine guard, six photos). Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
+  (`0032_….sql`) for the next change. **0032 (shopping list) is written but NOT yet run** (Venkatesh runs it after the shopping screen is pushed; 0033 common shop items and 0034 prep reminders follow). 0031 (privacy controls) was run on 12 Oct 2026. 0029 (My extras tables, rules and family-totals function) and 0030 (82 shared everyday foods) were run on 11 Oct 2026, as were 0024–0028 (weekly balance, recipe edit, own-dish nutrition and meals out, cuisine guard, six photos). Venkatesh runs these in Supabase › SQL Editor — tell him when one needs running.
   `0005_seed_dishes.sql` seeds ~30 starter dishes into the shared catalogue (household_id null) — not the full "10-12 snacks
   per cuisine" from the Step 3 scope below, see that section for why. `0006_meal_slot_eaters.sql` adds one small table.
   **0009 (110 more Indian dishes, 64 of them sides) is applied too** (138 shared dishes confirmed live, 3 Oct 2026); it skips
@@ -138,7 +138,7 @@ Never put the service_role/secret key or the DB password anywhere in this repo.
   link and includes everyone else who can log in, joined or not (works signed out);
   `claim_profile(p_token, p_profile_id)` → household id.
 - Guard triggers stop members promoting themselves, the last Admin stepping down, planning outside a turn, cross-home cooks.
-- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 221 checks — all passing in CI, see below). There's also
+- Any new rule gets a check in `supabase/tests/rls_test.sql` (currently 244 checks — all passing in CI, see below). There's also
   `supabase/tests/live_check_0004.sql`, an optional one-off check you can paste into the SQL Editor after running 0004 (it makes
   two throwaway demo users, checks the new `get_invite` shape, then has a cleanup block at the bottom — run that too so no demo
   data is left behind).
@@ -426,6 +426,13 @@ Done:
   (`signOut({scope:'global'})`; the ordinary Sign out now ends only this device), **Delete my account** (`delete_my_account()`: removes the login and personal rows, my profile stays as "Former member" with no
   details so past plans and comments keep their history; the last Admin must hand over first), **Delete this household** (Admin; type the exact home name; the app first removes the home's photos from the
   bucket, then `delete_household(name)` deletes the home and every login of it). Two guards honour a transaction-local flag `homefood.removing` that only these functions set. `lib/account.ts` (+ tests).
+
+- **Shopping list, step 1 of 5 of the Shopping / Prep / Cook's-sheet batch** (23 Oct 2026, migration 0032; spec: "Shopping, prep reminders and the cook's sheet" in `docs/spec.md`; mockups 14-17). **Decisions (do not change without asking):** ONE shared list per home; anyone
+  with a login adds, edits, ticks and removes, only the Admin can clear the whole list (`clear_shopping_list()`); no prices, budgets, pantry stock, expiry, online ordering or barcodes; the app stays at 4 tabs (a Shopping button on the Week tab and a Shopping card on Today); only items and amounts ever
+  leave the app (WhatsApp / copy text); amounts use only g, kg, ml, L, pcs, bunch, pack (never cups or spoons). **How it works:** `shopping_items`, one row per name per home (case-insensitive unique), `section` veg_fruit | grocery | dairy_eggs | other; a ticked item has `bought_at` / `bought_by`
+  and shows under "Bought" for 24 hours, then the app hides it (and quietly deletes it unless it is a regular: `pruneBought`); a starred **Regular** is never deleted, it just sleeps after its day under Bought and the Regulars button wakes every sleeper; "Clear the list" deletes all non-regulars and puts the regulars to sleep.
+  Typing an item already on the list opens it (a ticked or sleeping one is put back). `lib/shopping.ts` (+ tests): `parseTyped` ("tomato 1 kg", "2 kg onion", Tamil names and units), `nudge` / `changeUnit` (steps 0.5 kg or L, 100 g or ml, 1 pc/bunch/pack), `splitList`, `groupBySection`, `shareText`, `whatsappLink`;
+  `shoppingQueries.ts` (checks every 20 s while the screen is open; an error hides the Today card), `shoppingMutations.ts` (optimistic updates so − and + feel instant), `ShoppingPage` (`/shopping`). The demo home has a made-up list and the demo's fake client has `clear_shopping_list`. **Still to build in this batch:** common and "our" items with browse and suggestions (0033), "From this week's meals" (perishable / pack-size rules in the prompt), prep reminders (0034, pg_cron is enabled), the cook's sheet.
 
 Deferred, flagged rather than attempted half-done:
 - **Welcome tour** (15 Oct 2026, spec layer 1): four swipeable cards (plan the week, everyone has a say, the poster, nutrition + allergy warnings), skippable, English and Tamil

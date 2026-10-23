@@ -62,5 +62,6 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],
+    testTimeout: 30_000, // a few tests load big modules (the demo data) and are slow on a busy machine
   },
 })

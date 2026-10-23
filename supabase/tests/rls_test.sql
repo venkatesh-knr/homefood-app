@@ -461,6 +461,44 @@ select tests.ok((select count(*) from public.profiles where household_id = :'hh_
 set role authenticated;
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── Shopping list (migration 0032) ──
+select public.my_profile_id() as amma_p \gset
+insert into public.shopping_items (household_id, name, section, amount, unit, added_by) values (:'hh_a', 'Tomato', 'veg_fruit', 1, 'kg', :'amma_p') returning id as shop1 \gset
+insert into public.shopping_items (household_id, name, section, added_by, is_regular) values (:'hh_a', 'Milk', 'dairy_eggs', :'amma_p', true) returning id as shop_milk \gset
+select tests.refused($$ insert into public.shopping_items (household_id, name, added_by) values ('$$ || :'hh_a' || $$', 'tomato', '$$ || :'amma_p' || $$') $$, 'the same item name (any capitals) cannot be on the list twice');
+select tests.refused($$ insert into public.shopping_items (household_id, name, amount, added_by) values ('$$ || :'hh_a' || $$', 'Rice', 2, '$$ || :'amma_p' || $$') $$, 'an amount needs a unit');
+select tests.refused($$ insert into public.shopping_items (household_id, name, amount, unit, added_by) values ('$$ || :'hh_a' || $$', 'Rice', 2, 'cup', '$$ || :'amma_p' || $$') $$, 'only g, kg, ml, L, pcs, bunch and pack are units');
+select tests.refused($$ insert into public.shopping_items (household_id, name, added_by) values ('$$ || :'hh_a' || $$', 'Soap', '$$ || :'appa' || $$') $$, 'an item cannot be added in someone else''s name');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.shopping_items) = 2, 'a member of the home sees the shared list');
+insert into public.shopping_items (household_id, name, section, amount, unit, added_by) values (:'hh_a', 'Eggs', 'dairy_eggs', 12, 'pcs', :'appa');
+update public.shopping_items set amount = 2, unit = 'kg' where id = :'shop1';
+select tests.ok((select amount = 2 and unit = 'kg' from public.shopping_items where id = :'shop1'), 'any member can change an item');
+update public.shopping_items set bought_at = now(), bought_by = :'appa' where id = :'shop1';
+select tests.ok((select bought_by = :'appa' from public.shopping_items where id = :'shop1'), 'any member can tick an item');
+select tests.refused($$ update public.shopping_items set bought_at = now(), bought_by = '$$ || :'amma_p' || $$' where name = 'Eggs' $$, 'nobody can tick an item as someone else');
+select tests.refused($$ update public.shopping_items set added_by = '$$ || :'appa' || $$' where id = '$$ || :'shop1' || $$' $$, 'who added an item cannot be changed');
+select tests.refused($$ select public.clear_shopping_list() $$, 'a member cannot clear the whole list');
+select tests.ok((select count(*) from public.shopping_items) = 3, 'and nothing was cleared');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.shopping_items) = 0, 'another home cannot read this home''s list');
+insert into public.shopping_items (household_id, name, added_by) values (:'hh_c', 'Tomato', public.my_profile_id());
+select tests.ok(true, 'another home can have an item with the same name');
+select tests.refused($$ insert into public.shopping_items (household_id, name, added_by) values ('$$ || :'hh_a' || $$', 'Spam', public.my_profile_id()) $$, 'another home cannot add to this home''s list');
+select tests.refused($$ update public.shopping_items set amount = 9, unit = 'kg' where id = '$$ || :'shop1' || $$' $$, 'another home cannot change this home''s items');
+select tests.refused($$ delete from public.shopping_items where id = '$$ || :'shop1' || $$' $$, 'another home cannot remove this home''s items');
+select tests.refused($$ update public.shopping_items set household_id = '$$ || :'hh_a' || $$' where lower(name) = 'tomato' $$, 'an item cannot be moved into another home');
+select public.clear_shopping_list();
+select tests.ok((select count(*) from public.shopping_items) = 0, 'an Admin clears only her own home''s list');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.ok((select count(*) from public.shopping_items) = 3, 'and home A''s list is untouched');
+select tests.ok(public.clear_shopping_list() = 2, 'the Admin clears the list: ticked and plain items go');
+select tests.ok((select count(*) = 1 and bool_and(is_regular and bought_at < now() - interval '1 day' and bought_by is null) from public.shopping_items), 'a regular is kept but put to sleep, ready for the Regulars button');
+update public.shopping_items set bought_at = null where id = :'shop_milk';
+select tests.ok((select bought_at is null from public.shopping_items where id = :'shop_milk'), 'Regulars wake a sleeping item up again');
+delete from public.shopping_items where id = :'shop_milk';
+select tests.ok((select count(*) from public.shopping_items) = 0, 'any member can remove a single item');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

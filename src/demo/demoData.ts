@@ -194,6 +194,23 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   put('personal_usuals', { id: 'usual-1', household_id: DEMO_HOUSEHOLD_ID, profile_id: DEMO_IDS.kavi, common_food_id: food('Boiled egg').id, custom_food_id: null, dish_id: null, created_at: created })
   put('personal_goals', { profile_id: DEMO_IDS.kavi, household_id: DEMO_HOUSEHOLD_ID, protein_goal_g: 60, kcal_goal: null, updated_at: created })
 
+  // ── the shopping list (items for the week, two ticked already, a regular that is asleep) ──
+  const shop = (id: string, name: string, ta: string, section: string, amount: number | null, unit: string | null, o: Row = {}, ago = 300) =>
+    put('shopping_items', { id: `shop-${id}`, household_id: DEMO_HOUSEHOLD_ID, name, name_ta: ta, section, amount, unit, source: 'manual', source_dishes: [], is_regular: false, added_by: DEMO_IDS.kavi, bought_at: null, bought_by: null, created_at: minutesAgo(now, ago), ...o })
+  shop('tom', 'Tomato', 'தக்காளி', 'veg_fruit', 1, 'kg', { source: 'plan', source_dishes: ['Sambar', 'Rasam'], added_by: DEMO_IDS.amma }, 400)
+  shop('son', 'Small onion', 'சின்ன வெங்காயம்', 'veg_fruit', 500, 'g', { source: 'plan', source_dishes: ['Sambar', 'Kurma'], added_by: DEMO_IDS.amma }, 399)
+  shop('drm', 'Drumstick', 'முருங்கைக்காய்', 'veg_fruit', 4, 'pcs', { source: 'plan', source_dishes: ['Sambar'], added_by: DEMO_IDS.amma }, 398)
+  shop('cor', 'Coriander', 'கொத்தமல்லி', 'veg_fruit', 1, 'bunch', { added_by: DEMO_IDS.appa }, 250)
+  shop('ban', 'Banana', 'வாழைப்பழம்', 'veg_fruit', 12, 'pcs', { is_regular: true, source: 'regular', added_by: DEMO_IDS.amma }, 200)
+  shop('tdl', 'Toor dal', 'துவரம் பருப்பு', 'grocery', 500, 'g', { source: 'plan', source_dishes: ['Sambar'], added_by: DEMO_IDS.amma }, 397)
+  shop('irc', 'Idli rice', 'இட்லி அரிசி', 'grocery', 1, 'kg', { source: 'plan', source_dishes: ['Idli batter'], added_by: DEMO_IDS.amma }, 396)
+  shop('mlk', 'Milk', 'பால்', 'dairy_eggs', 2, 'L', { is_regular: true, source: 'regular', added_by: DEMO_IDS.amma }, 190)
+  shop('egg', 'Eggs', 'முட்டை', 'dairy_eggs', 12, 'pcs', { added_by: DEMO_IDS.kavi }, 120)
+  shop('soap', 'Dish soap', '', 'other', 1, 'pack', { name_ta: null, added_by: DEMO_IDS.appa }, 100)
+  shop('cur', 'Curry leaves', 'கறிவேப்பிலை', 'veg_fruit', 1, 'bunch', { bought_at: minutesAgo(now, 120), bought_by: DEMO_IDS.appa }, 500)
+  shop('gng', 'Ginger', 'இஞ்சி', 'veg_fruit', 100, 'g', { bought_at: minutesAgo(now, 180), bought_by: DEMO_IDS.amma }, 501)
+  shop('brd', 'Bread', 'ரொட்டி', 'other', 1, 'pack', { is_regular: true, source: 'regular', added_by: DEMO_IDS.amma, bought_at: minutesAgo(now, 2 * 1440), bought_by: DEMO_IDS.amma }, 3000)
+
   // ── the bell ──
   const tonight = WEEK[weekStartIndex(now)]!.dinner
   const tonightDish = tonight.main ? cat.dishes.find((d) => d.id === dishId(tonight.main!)) : undefined

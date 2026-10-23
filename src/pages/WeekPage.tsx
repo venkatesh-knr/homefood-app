@@ -149,6 +149,15 @@ export default function WeekPage() {
         </button>
       )}
 
+      <button type="button" onClick={() => navigate('/shopping')} className="flex min-h-[44px] items-center gap-2 self-start rounded-full border border-line-strong bg-surface px-4 text-[13.5px] font-semibold">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M3 4h2l2.4 11h10.2l2-8H6.2" />
+              <circle cx="9" cy="19.5" r="1.4" />
+              <circle cx="17" cy="19.5" r="1.4" />
+            </svg>
+        {t('shopping.weekButton')}
+      </button>
+
       <div className="flex items-center justify-between px-1">
         <button type="button" onClick={() => changeWeek(-7)} aria-label={t('common.previousWeek')} className="flex h-10 w-10 items-center justify-center rounded-full text-ink-soft">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

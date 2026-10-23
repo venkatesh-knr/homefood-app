@@ -48,6 +48,7 @@ const UNIQUE: Record<string, string[][]> = {
   week_plans: [['household_id', 'week_start']],
   meal_slots: [['household_id', 'date', 'meal']],
   profiles: [['user_id']],
+  shopping_items: [['household_id', 'name']],
 }
 
 /** What the database does to other tables when a row goes. */
@@ -87,9 +88,10 @@ const DEFAULTS: Record<string, () => Row> = {
   personal_usuals: () => ({ common_food_id: null, custom_food_id: null, dish_id: null, created_at: nowIso() }),
   custom_foods: () => ({ name_ta: null, unit: 'piece', kcal: null, protein_g: null, carbs_g: null, fat_g: null, created_at: nowIso() }),
   dish_photo_overrides: () => ({ updated_at: nowIso() }),
+  shopping_items: () => ({ name_ta: null, section: 'other', amount: null, unit: null, note: null, source: 'manual', source_dishes: [], is_regular: false, bought_at: null, bought_by: null, created_at: nowIso() }),
 }
 
-const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications'])
+const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items'])
 
 /** Tables whose rows are private to one person (migration 0029): their own login, or the Admin for family members with no login. */
 const PERSONAL_TABLES = new Set(['personal_intake', 'personal_usuals', 'personal_goals'])
@@ -424,12 +426,23 @@ function familyExtrasTotals(db: Db, a: Row): Result {
   return { data: [...sums.values()], error: null, count: null }
 }
 
+/** The demo's version of `clear_shopping_list`: Admin only; everything that is not a regular goes, regulars are put to sleep. */
+function clearShoppingList(db: Db): Result {
+  const viewer = viewerProfile(db)
+  if (!viewer || viewer.role !== 'admin') return fail('Only an Admin can clear the shopping list', 'P0001')
+  const mine = (r: Row) => r.household_id === viewer.household_id
+  const removed = (db.shopping_items ?? []).filter((r) => mine(r) && !r.is_regular).length
+  db.shopping_items = (db.shopping_items ?? []).filter((r) => !mine(r) || r.is_regular)
+  for (const r of db.shopping_items) if (mine(r)) Object.assign(r, { bought_at: new Date(Date.now() - 2 * 864e5).toISOString(), bought_by: null })
+  return { data: removed, error: null, count: null }
+}
+
 /** A Supabase-shaped client over one in-memory database. */
 export function createDemoClient(db: Db): SupabaseClient {
   const client = {
     from: (table: string) => new Query(db, table),
     rpc: async (name: string, args: Row = {}): Promise<Result> =>
-      name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : name === 'family_extras_totals' ? familyExtrasTotals(db, args) : fail(NOT_IN_DEMO),
+      name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : name === 'family_extras_totals' ? familyExtrasTotals(db, args) : name === 'clear_shopping_list' ? clearShoppingList(db) : fail(NOT_IN_DEMO),
     storage: {
       from: () => ({
         createSignedUrl: async (path: string) => ({ data: { signedUrl: path }, error: null }),
