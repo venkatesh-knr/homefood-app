@@ -102,7 +102,7 @@ When the live Claude Doc is next updated, these lines should change:
 
 ## F. Database changes, in order (migration number: what it does)
 
-Applied in the live project unless marked **to run**.
+All applied in the live project (0001–0037, last two run 23 Oct 2026).
 
 | No. | What |
 | --- | --- |
@@ -139,8 +139,8 @@ Applied in the live project unless marked **to run**.
 | 0033 | Common shopping items (150) and a home's own |
 | 0034 | Prep reminders, done-ticks, 61 tags, the 7 pm reminder and its pg_cron schedule |
 | 0035 | A home's own prep reminders and switching standard ones off |
-| 0036 | A better Idli photo (**to run**) |
-| 0037 | A credit for photos chosen from the web (**to run**) |
+| 0036 | A better Idli photo |
+| 0037 | A credit for photos chosen from the web |
 
 ## G. Where to read more
 
