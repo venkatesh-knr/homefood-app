@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
@@ -377,6 +377,10 @@ function ItemRow({ item, first, lang, note, canSave, onSaveOurs, open, onToggleO
   const other = secondName(item, lang)
   const amount = formatAmount(item.amount, item.unit, lang)
   const [saved, setSaved] = useState(false)
+  const rowRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (open) rowRef.current?.scrollIntoView({ block: 'nearest' })
+  }, [open])
 
   function step(direction: 1 | -1) {
     const next = nudge(item.amount, item.unit, direction)
@@ -388,7 +392,7 @@ function ItemRow({ item, first, lang, note, canSave, onSaveOurs, open, onToggleO
   }
 
   return (
-    <div className={first ? '' : 'border-t border-line'}>
+    <div ref={rowRef} className={`scroll-mb-40 scroll-mt-32 ${first ? '' : 'border-t border-line'}`}>
       <div className="flex items-center gap-1 px-1.5 py-1">
         <button type="button" role="checkbox" aria-checked="false" aria-label={t('shopping.tick', { name })} onClick={onTick} className="flex h-11 w-11 shrink-0 items-center justify-center">
           <Tick on={false} />

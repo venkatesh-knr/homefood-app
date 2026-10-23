@@ -6,6 +6,7 @@ import { leadNote, prepOptions, taskText, type PrepKind, type PrepLead, type Pre
 import { removeOwnPrep, saveOwnPrep, setDefaultPrepOff, usePrepOff, usePrepRows, type OwnPrepInput } from '../lib/prepQueries'
 import { describeError } from '../lib/errors'
 import { Toggle } from './ui'
+import { useRevealOnOpen } from '../lib/useRouteFocus'
 
 const KINDS: PrepKind[] = ['soak', 'batter_ferment', 'set_curd', 'thaw', 'marinate', 'other']
 const chip = (on: boolean) => `min-h-[44px] rounded-full px-3.5 text-[13px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`
@@ -28,6 +29,7 @@ export function PrepSection({ dishId }: { dishId: string }) {
   const [confirming, setConfirming] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const formRef = useRevealOnOpen<HTMLFormElement>(form !== null, form?.id ?? 'new')
 
   if (!canEdit && active.length === 0) return null
 
@@ -121,7 +123,7 @@ export function PrepSection({ dishId }: { dishId: string }) {
       {!canEdit && <p className="pt-2 text-[12.5px] text-muted">{t('prep.readOnly')}</p>}
 
       {canEdit && form && (
-        <form onSubmit={submit} aria-label={t('prep.formTitle')} className="mt-2 flex flex-col gap-3 rounded-2xl border border-saffron/40 bg-saffron-tint p-3.5">
+        <form ref={formRef} onSubmit={submit} aria-label={t('prep.formTitle')} className="mt-2 flex scroll-mt-24 flex-col gap-3 rounded-2xl border border-saffron/40 bg-saffron-tint p-3.5">
           <h3 className="font-display text-[16px] font-semibold">{t('prep.formTitle')}</h3>
           <label className="flex flex-col gap-1 text-[12.5px] font-semibold text-ink-soft">
             {t('prep.what')}

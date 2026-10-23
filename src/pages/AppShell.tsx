@@ -6,6 +6,7 @@ import { HomeProvider } from '../lib/homeContext'
 import { FullPageMessage, LanguageSwitch, Logo } from '../components/ui'
 import { InstallBanner } from '../components/InstallBanner'
 import { DemoBanner } from '../components/DemoBanner'
+import { useRouteFocus } from '../lib/useRouteFocus'
 
 const TABS = [
   { to: '/today', labelKey: 'shell.nav.today', icon: IconToday },
@@ -18,6 +19,7 @@ export default function AppShell() {
   const { t } = useTranslation()
   const { data: profile } = useMyProfile()
   const { data: household } = useHousehold(profile?.household_id)
+  useRouteFocus()
 
   if (!profile || !household) {
     return (

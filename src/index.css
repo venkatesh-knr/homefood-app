@@ -141,6 +141,11 @@ button:not([role="switch"]),
   }
 }
 
+/* a screen takes focus when it opens (useRouteFocus); the page itself needs no ring */
+main:focus {
+  outline: none;
+}
+
 :focus-visible {
   outline: 3px solid var(--color-saffron-ink);
   outline-offset: 2px;

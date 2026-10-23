@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Toggle } from './ui'
 import { Dialog } from './Dialog'
+import { useRevealOnOpen } from '../lib/useRouteFocus'
 import { SECTIONS, TABS, UNITS, changeUnit, formatAmount, itemsOfTab, nudge, unitLabel, type CatalogItem, type ShopSection, type ShopTab, type ShopUnit } from '../lib/shopping'
 
 const chip = (on: boolean) => `min-h-[44px] rounded-full px-3.5 text-[13px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`
@@ -93,6 +94,7 @@ export type NewItemDraft = { name: string; ta: string; section: ShopSection; amo
 /** The form for a name nothing known matches: name, Tamil name, section, usual amount, and whether to keep it for next time. */
 export function NewItemForm({ draft, lang, busy, onChange, onSubmit, onCancel }: { draft: NewItemDraft; lang: 'en' | 'ta'; busy: boolean; onChange: (patch: Partial<NewItemDraft>) => void; onSubmit: () => void; onCancel: () => void }) {
   const { t } = useTranslation()
+  const formRef = useRevealOnOpen<HTMLFormElement>(true)
   const submit = (e: FormEvent) => {
     e.preventDefault()
     if (draft.name.trim()) onSubmit()
@@ -103,7 +105,7 @@ export function NewItemForm({ draft, lang, busy, onChange, onSubmit, onCancel }:
   }
   const input = 'min-h-[48px] rounded-xl border-[1.5px] border-line-strong bg-surface px-3.5 text-[15px]'
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3 rounded-2xl border border-saffron/40 bg-saffron-tint p-3.5" aria-label={t('shopping.newTitle')}>
+    <form ref={formRef} onSubmit={submit} className="flex scroll-mt-24 flex-col gap-3 rounded-2xl border border-saffron/40 bg-saffron-tint p-3.5" aria-label={t('shopping.newTitle')}>
       <h2 className="font-display text-[16px] font-semibold">{t('shopping.newTitle')}</h2>
       <label className="flex flex-col gap-1 text-[12.5px] font-semibold text-ink-soft">
         {t('shopping.newName')}
