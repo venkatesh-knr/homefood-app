@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useMembers } from '../lib/queries'
 import { useShopCatalogue, useShoppingItems } from '../lib/shoppingQueries'
@@ -32,6 +33,8 @@ export default function ShoppingPage() {
   const [newDraft, setNewDraft] = useState<NewItemDraft | null>(null)
   const { items: catalog, index } = useShopCatalogue(household.id)
   const isAdmin = profile.role === 'admin'
+  const navigate = useNavigate()
+  const added = (useLocation().state as { added?: number } | null)?.added
 
   const nameOf = useMemo(() => new Map((members ?? []).map((m) => [m.id, m.display_name])), [members])
   const { toBuy, bought } = useMemo(() => splitList(items ?? []), [items])
@@ -189,12 +192,21 @@ export default function ShoppingPage() {
         <p role="alert" className="rounded-2xl bg-alert-tint px-4 py-3.5 text-[14px] text-alert">{t('shopping.unavailable')}</p>
       ) : (
         <>
+          <div className="flex gap-2">
+          <button type="button" onClick={() => navigate('/shopping/plan')} className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-2xl bg-saffron px-3 text-[14.5px] font-semibold text-on-saffron">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="4" y="5" width="16" height="15" rx="2" />
+              <path d="M4 10h16M9 3v4M15 3v4" />
+            </svg>
+            {t('shopping.fromPlan')}
+          </button>
           <button type="button" onClick={onRegulars} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14.5px] font-semibold">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" />
             </svg>
             {t('shopping.regulars')}
           </button>
+          </div>
 
           <form onSubmit={onAdd} className="flex gap-2">
             <input
@@ -218,6 +230,7 @@ export default function ShoppingPage() {
 
           {newDraft && <NewItemForm draft={newDraft} lang={lang} busy={busy} onChange={(patch) => setNewDraft({ ...newDraft, ...patch })} onSubmit={onNewSubmit} onCancel={() => setNewDraft(null)} />}
 
+          {added ? <p role="status" className="rounded-2xl bg-leaf-tint px-3.5 py-2.5 text-[13.5px] font-semibold text-leaf">{t('shopping.planAdded', { count: added })}</p> : null}
           {message && <p role="status" className="rounded-2xl bg-sand px-3.5 py-2.5 text-[13.5px] text-ink-soft">{message}</p>}
 
           {catalog.length > 0 && (

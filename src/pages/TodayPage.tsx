@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
-import { useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
-import { activeMealTypes, greetingPeriod, nextMealType, toISODate, weekDates, weekStartOf, type MealType } from '../lib/planner'
+import { useHistorySlots, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
+import { activeMealTypes, addDays, greetingPeriod, nextMealType, toISODate, weekDates, weekStartOf, type MealType } from '../lib/planner'
 import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
 import { Pill } from '../components/ui'
@@ -17,7 +17,8 @@ import { ExtrasSection } from '../components/ExtrasSection'
 import type { AttendanceRow } from '../lib/attendance'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useShoppingItems } from '../lib/shoppingQueries'
-import { splitList } from '../lib/shopping'
+import { itemName, splitList } from '../lib/shopping'
+import { neededFor } from '../lib/shoppingPlan'
 
 const now = new Date()
 const today = toISODate(now)
@@ -37,6 +38,13 @@ export default function TodayPage() {
   const { data: attendanceData } = useAttendance(today, today)
   const { data: shopItems, isError: shopError } = useShoppingItems(household.id)
   const toBuy = splitList(shopItems ?? []).toBuy.length
+  const tomorrow = addDays(today, 1)
+  const { data: tomorrowSlots } = useHistorySlots(household.id, tomorrow, tomorrow)
+  const tomorrowDishes = (tomorrowSlots ?? [])
+    .filter((s) => s.source === 'home')
+    .flatMap((s) => [s.main_dish, ...s.meal_slot_sides.map((x) => x.dish)])
+    .flatMap((d) => (d ? [d.name, ...d.dish_names.map((n) => n.name)] : []))
+  const neededTomorrow = neededFor(shopItems ?? [], tomorrowDishes)
   const attendance = attendanceData ?? []
   const eatingCount = (slot: SlotWithDetails | undefined) => slot?.meal_slot_eaters.length || undefined
   const open = (meal: MealType, slot: SlotWithDetails | undefined) =>
@@ -95,7 +103,10 @@ export default function TodayPage() {
           </span>
           <span className="flex flex-col gap-0.5">
             <span className="font-display text-[15px] font-semibold">{t('shopping.cardTitle')}</span>
-            <span className="text-[12.5px] text-muted">{toBuy > 0 ? t('shopping.cardCount', { count: toBuy }) : t('shopping.cardEmpty')}</span>
+            <span className="text-[12.5px] text-muted">
+              {toBuy > 0 ? t('shopping.cardCount', { count: toBuy }) : t('shopping.cardEmpty')}
+              {neededTomorrow.length > 0 && ` · ${t('shopping.todayNeeded', { names: neededTomorrow.slice(0, 2).map((i) => itemName(i, lang).toLowerCase()).join(', ') })}`}
+            </span>
           </span>
         </button>
       )}

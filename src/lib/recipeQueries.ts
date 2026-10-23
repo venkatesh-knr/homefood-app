@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import type { PlanRecipe } from './shoppingPlan'
 import { supabase } from './supabase'
 import type { RecipeRow } from './recipes'
 
@@ -33,6 +34,27 @@ export function useRecipeDishIds() {
       const { data, error } = await supabase!.from('recipes').select('dish_id')
       if (error) return new Set()
       return new Set(data.map((r) => r.dish_id as string))
+    },
+  })
+}
+
+/** The recipes (ingredients and servings only) of several dishes at once, for "From this week's meals": this home's own version if it has one,
+ * else the standard one. A dish with no recipe is simply missing from the map. */
+export function useRecipesForDishes(dishIds: string[]) {
+  const key = [...new Set(dishIds)].sort()
+  return useQuery({
+    queryKey: ['recipes-for-dishes', key],
+    enabled: Boolean(supabase) && key.length > 0,
+    queryFn: async (): Promise<Map<string, PlanRecipe>> => {
+      const { data, error } = await supabase!.from('recipes').select('dish_id, household_id, servings, recipe_ingredients(name, quantity, unit)').in('dish_id', key)
+      if (error) throw error
+      const best = new Map<string, { household_id: string | null; recipe: PlanRecipe }>()
+      for (const r of data as unknown as { dish_id: string; household_id: string | null; servings: number; recipe_ingredients: { name: string; quantity: number | null; unit: PlanRecipe['ingredients'][number]['unit'] }[] }[]) {
+        const have = best.get(r.dish_id)
+        if (have && (have.household_id !== null || r.household_id === null)) continue
+        best.set(r.dish_id, { household_id: r.household_id, recipe: { servings: Number(r.servings), ingredients: r.recipe_ingredients.map((i) => ({ name: i.name, quantity: i.quantity === null ? null : Number(i.quantity), unit: i.unit })) } })
+      }
+      return new Map([...best].map(([id, v]) => [id, v.recipe]))
     },
   })
 }

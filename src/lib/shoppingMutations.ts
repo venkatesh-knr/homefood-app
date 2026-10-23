@@ -1,6 +1,7 @@
 import { supabase } from './supabase'
 import { queryClient } from './queryClient'
 import { shoppingKey } from './shoppingQueries'
+import { mergePlanIntoList, type PlanPick } from './shoppingPlan'
 import { TAB_OF_SECTION, findExisting, isPerishableSection, isTamil, sleepingRegulars, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
 
 function client() {
@@ -148,3 +149,17 @@ export async function removeOurItem(householdId: string, id: string): Promise<vo
   await refreshOurs(householdId)
 }
 
+/** Puts the ticked lines of "From this week's meals" on the list: new items in one go, existing ones merged. Returns how many items were added or changed. */
+export async function addPlanToList(args: { householdId: string; profileId: string; items: ShopItem[]; picks: PlanPick[] }): Promise<number> {
+  const { inserts, updates } = mergePlanIntoList(args.items, args.picks, args.householdId, args.profileId)
+  if (inserts.length > 0) {
+    const { error } = await client().from('shopping_items').insert(inserts)
+    if (error) throw error
+  }
+  for (const u of updates) {
+    const { error } = await client().from('shopping_items').update(u.patch).eq('id', u.id)
+    if (error) throw error
+  }
+  await refresh(args.householdId)
+  return inserts.length + updates.length
+}
