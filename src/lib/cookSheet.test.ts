@@ -79,6 +79,15 @@ describe('the cook\'s sheet', () => {
     expect([...allergyNotes([slot], members, allergies).keys()]).toEqual([])
   })
 
+  it('leaves out people who skip the meal and says who eats fasting food only', () => {
+    const lunch: SheetSlot = { ...day[1]!, fasting: { skip: ['paati'], foods: ['appa'] } }
+    const text = build({ slots: [lunch], meals: ['lunch'] }).text
+    expect(text).toContain('Lunch (4): Chana masala + Jeera rice')
+    expect(text).toContain('1 person: fasting food')
+    expect(build({ slots: [lunch], meals: ['lunch'], namesOn: true }).text).toContain('fasting food for Appa')
+    expect(build({ slots: [lunch], meals: ['lunch'], lang: 'ta' }).text).toContain('ஒருவருக்கு விரத உணவு')
+  })
+
   it('can name who has the allergy', () => {
     expect(build({ namesOn: true }).text).toContain('Note: no soy for Paati')
     expect(build({ namesOn: true }).text).not.toContain('1 person')

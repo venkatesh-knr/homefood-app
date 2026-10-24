@@ -1061,7 +1061,8 @@
       "vegan": "Vegan",
       "jain": "Jain",
       "low_salt": "Low-salt (DASH-style)",
-      "senior": "Senior-friendly"
+      "senior": "Senior-friendly",
+      "fasting_food": "Fasting food"
     },
     "avoidText": {
       "low_carb": "rice, roti, bread, sugar, potato",
@@ -1112,6 +1113,54 @@
     "pickMainTitle": "Main dish for this plate",
     "pickSideTitle": "Side for this plate",
     "line": "Diet plate · {{names}}"
+  },
+  "fasting": {
+    "title": "Fasting days",
+    "subtitle": "Each person sets their own · the Admin sets them for people who have not logged in yet",
+    "cardTitle": "Fasting days",
+    "cardNone": "Nobody has set fasting days",
+    "howFasts": "How {{name}} fasts",
+    "mode": {
+      "skip_meals": "Skip a meal",
+      "fasting_foods": "Fasting foods only",
+      "fruits_milk": "Fruits and milk only",
+      "one_meal": "One meal a day"
+    },
+    "modeHint": {
+      "skip_meals": "Left out of the meals they skip",
+      "fasting_foods": "Sabudana khichdi, sundal, fruit, milk, curd",
+      "fruits_milk": "Not counted in planned meals that day",
+      "one_meal": "Eats only the meal they choose"
+    },
+    "mealsToSkip": "Meals they skip",
+    "theOneMeal": "The one meal",
+    "everyWeek": "Every week on",
+    "onDates": "And on these dates",
+    "addDate": "Add a date",
+    "removeDate": "Remove {{date}}",
+    "dateLabel": "Date to add",
+    "save": "Save",
+    "saved": "Saved",
+    "stop": "Stop fasting days",
+    "none": "No fasting days set for {{name}}.",
+    "needDay": "Pick a weekday or a date.",
+    "needMeal": "Pick at least one meal to skip.",
+    "under18": "{{name}} is under 18: fasting days can't be set.",
+    "noYear": "{{name}} has no birth year yet, so fasting days can't be set. Add it under Family and invite.",
+    "onlyThey": "Only {{name}} can change this.",
+    "infoTitle": "On {{name}}'s fasting days",
+    "info": "They are left out of the meals they do not eat: recipe amounts, the shopping plan and the cook's sheet follow. With fasting foods only, the dish picker suggests fasting foods and the cook's sheet says “1 person: fasting food”. My nutrition marks the day as a fasting day instead of calling it low.",
+    "never": "The app never suggests fasting; it only follows what each person chooses. Fasting is not for anyone under 18.",
+    "weekdays": "Weekdays",
+    "summarySkip": "skips {{meals}}",
+    "summaryFoods": "fasting foods",
+    "summaryFruits": "fruits and milk",
+    "summaryOne": "{{meal}} only",
+    "summaryDates": "chosen dates",
+    "editorSkip": "{{names}} fasting: not counted in this meal",
+    "editorFoods": "{{names}} eating fasting foods only: add a diet plate for them",
+    "fastingDay": "Fasting day",
+    "personFor": "Fasting days for {{name}}"
   },
   "shopping": {
     "title": "Shopping",

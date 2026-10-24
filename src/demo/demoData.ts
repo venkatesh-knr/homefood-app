@@ -241,6 +241,13 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   put('meal_slot_plate_sides', { plate_id: 'plate-tonight', position: 1, dish_id: dishId('Kachumber salad') })
   put('meal_slot_plate_eaters', { plate_id: 'plate-tonight', slot_id: slotId(today, 'dinner'), profile_id: DEMO_IDS.amma }, { plate_id: 'plate-tonight', slot_id: slotId(today, 'dinner'), profile_id: DEMO_IDS.appa })
 
+  // ── fasting days: Paati keeps two chosen dates (fruits and milk only), Amma skips dinner every week on tomorrow's weekday ──
+  const tomorrowDow = ((now.getDay() + 1) % 7) || 7
+  put('fasting_rules',
+    { profile_id: DEMO_IDS.paati, mode: 'fruits_milk', skip_meals: [], one_meal: null, weekdays: [], dates: [addDays(today, 3), addDays(today, 10)], updated_by: DEMO_IDS.amma, updated_at: created },
+    { profile_id: DEMO_IDS.amma, mode: 'skip_meals', skip_meals: ['dinner'], one_meal: null, weekdays: [tomorrowDow], dates: [], updated_by: DEMO_IDS.amma, updated_at: created },
+  )
+
   // ── diet plans (as in the mockup: Amma and Appa low-carb, Paati senior-friendly, set by Amma) ──
   const follow = (who: string, plan: string, since: string, by: string) => put('diet_plan_follows', { profile_id: who, plan, since, set_by: by })
   follow(DEMO_IDS.amma, 'low_carb', addDays(today, -12), DEMO_IDS.amma)

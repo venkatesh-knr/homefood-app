@@ -25,7 +25,9 @@ import { useDishTagCorrections } from '../lib/dishTagQueries'
 import { effectiveTags } from '../lib/dishTags'
 import { DietPlateEditor, type PlateDraft } from '../components/DietPlateEditor'
 import { usePlanFollows } from '../lib/planQueries'
-import { plansOf as plansOfPerson, type PlanKey } from '../lib/dietPlans'
+import { plansOf as plansOfPerson, type FitKey } from '../lib/dietPlans'
+import { useFastingRules } from '../lib/fastingQueries'
+import { slotFasting } from '../lib/fasting'
 import { leftoverName, leftoversForDate, withLeftoverTag } from '../lib/leftovers'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
@@ -52,10 +54,11 @@ export default function SlotEditorPage() {
   const { data: dietPrefs } = useDietPreferences(household.id)
   const { data: tagFixes } = useDishTagCorrections(household.id)
   const { data: planFollows } = usePlanFollows(household.id)
+  const { data: fastRules } = useFastingRules(household.id)
 
   // Wait for the meals and the members before filling the form, or the "new slot" default fires on empty data and
   // locks in permanently once initialised flips true.
-  const isLoading = isWeekPlanLoading || isSlotsLoading || members === undefined
+  const isLoading = isWeekPlanLoading || isSlotsLoading || members === undefined || fastRules === undefined
 
   const existing = slots?.find((s) => s.date === date && s.meal === meal)
 
@@ -97,8 +100,9 @@ export default function SlotEditorPage() {
       setSideDishes(existing.meal_slot_sides.sort((a, b) => a.position - b.position).map((s) => s.dish) as unknown as DishWithNames[])
       setInitialised(true)
     } else if (!isLoading) {
-      // New slot: default to everyone eating (helper excluded — never counted, per CLAUDE.md decisions).
-      setValues((v) => ({ ...v, eater_profile_ids: familyMembers.map((m) => m.id) }))
+      // New slot: default to everyone eating (helper excluded — never counted, per CLAUDE.md decisions), less anyone fasting through this meal.
+      const skipping = slotFasting(fastRules ?? [], date!, meal!).skip
+      setValues((v) => ({ ...v, eater_profile_ids: familyMembers.map((m) => m.id).filter((id) => !skipping.includes(id)) }))
       setInitialised(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +121,12 @@ export default function SlotEditorPage() {
   const mealLabel = t(`meal.${meal}`)
 
   const onPlateIds = new Set(plates.flatMap((p) => p.person_ids))
-  const plansFor = (id: string): PlanKey[] => plansOfPerson(planFollows ?? [], id)
+  const fasting = slotFasting(fastRules ?? [], date, meal)
+  // someone fasting on fasting foods only that day is also a reason for a plate: its dishes must be fasting foods
+  const plansFor = (id: string): FitKey[] => [...plansOfPerson(planFollows ?? [], id), ...(fasting.foods.includes(id) ? (['fasting_food'] as const) : [])]
+  const nameOfPerson = (id: string) => familyMembers.find((m) => m.id === id)?.display_name ?? ''
+  const fastingSkipNames = fasting.skip.filter((id) => familyMembers.some((m) => m.id === id)).map(nameOfPerson)
+  const fastingFoodNames = fasting.foods.filter((id) => values.eater_profile_ids.includes(id) && !onPlateIds.has(id)).map(nameOfPerson)
   const eaterAllergyInfo = familyMembers
     .filter((m) => values.eater_profile_ids.includes(m.id) && !onPlateIds.has(m.id))
     .map((m) => ({ id: m.id, name: m.display_name, allergens: (allergyRows ?? []).filter((a) => a.profile_id === m.id).map((a) => a.allergen) }))
@@ -400,6 +409,13 @@ export default function SlotEditorPage() {
             plansOf={plansFor}
             familyCount={familyMembers.length}
           />
+
+          {(fastingSkipNames.length > 0 || fastingFoodNames.length > 0) && (
+            <div role="note" className="mx-4 mt-2.5 flex flex-col gap-1 rounded-2xl bg-saffron-tint px-3.5 py-3 text-[13.5px] text-saffron-ink">
+              {fastingSkipNames.length > 0 && <span className="break-words">{t('fasting.editorSkip', { names: fastingSkipNames.join(', ') })}</span>}
+              {fastingFoodNames.length > 0 && <span className="break-words">{t('fasting.editorFoods', { names: fastingFoodNames.join(', ') })}</span>}
+            </div>
+          )}
 
           <SectionLabel htmlFor="note">{t('planner.noteLabel')}</SectionLabel>
           <div className="px-4">

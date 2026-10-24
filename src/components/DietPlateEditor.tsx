@@ -4,7 +4,7 @@ import { Avatar } from './ui'
 import { DishPickerSheet } from './DishPickerSheet'
 import { useDishes, type DishWithNames } from '../lib/dishQueries'
 import { dishDisplayName } from '../lib/dishes'
-import { PLAN_KEYS, fitsAll, planFits, type PlanKey } from '../lib/dietPlans'
+import { PLAN_KEYS, fitsAll, planFits, type FitKey } from '../lib/dietPlans'
 import { mealAllergyConflicts, type MealType } from '../lib/planner'
 import { avatarColor, joinNames } from '../lib/people'
 
@@ -22,13 +22,13 @@ export function DietPlateEditor({ householdId, meal, eaters, familyMain, familyS
   familySides: DishWithNames[]
   plates: PlateDraft[]
   onChange: (next: PlateDraft[]) => void
-  plansOf: (profileId: string) => PlanKey[]
+  plansOf: (profileId: string) => FitKey[]
   familyCount: number
 }) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language as 'en' | 'ta'
   const { data: dishes } = useDishes(householdId)
-  const [pick, setPick] = useState<{ key: string; kind: 'main' | 'side'; plans: PlanKey[]; people: PlateEater[] } | null>(null)
+  const [pick, setPick] = useState<{ key: string; kind: 'main' | 'side'; plans: FitKey[]; people: PlateEater[] } | null>(null)
   const name = (d: DishWithNames) => dishDisplayName(d, d.dish_names, lang)
   const onPlate = new Set(plates.flatMap((p) => p.person_ids))
   const familyFor = Math.max(0, eaters.length - onPlate.size)
@@ -57,7 +57,7 @@ export function DietPlateEditor({ householdId, meal, eaters, familyMain, familyS
 
           {plates.map((p, i) => {
             const people = eaters.filter((e) => p.person_ids.includes(e.id))
-            const plans = [...new Set(people.flatMap((e) => plansOf(e.id)))].sort((a, b) => PLAN_KEYS.indexOf(a) - PLAN_KEYS.indexOf(b))
+            const plans = [...new Set(people.flatMap((e) => plansOf(e.id)))].sort((a, b) => PLAN_KEYS.indexOf(a as never) - PLAN_KEYS.indexOf(b as never))
             const planNames = plans.map((x) => t(`plans.name.${x}`)).join(' + ')
             const free = eaters.filter((e) => !onPlate.has(e.id) || p.person_ids.includes(e.id))
             const peopleAllergens = people.flatMap((e) => e.allergens)

@@ -79,12 +79,12 @@ export function mealTotals(meal: MealLike, byDish: Map<string, Totals>): { total
   return { totals, known: found > 0 }
 }
 
-export type DayTotals = { date: string; totals: Totals; meals: number; unknownMeals: number }
+export type DayTotals = { date: string; totals: Totals; meals: number; unknownMeals: number; /** Meals this person left out because they were fasting. */ fastedMeals?: number }
 
 /** What each day's meals add up to for one person: only meals they are marked as eating, and only up to `today`.
  * `attendance` records the exceptions: a skipped or "ate elsewhere" meal is left out, a small / large portion counts 75% / 125%. */
 export function dayTotalsFor(
-  slots: (MealLike & { id?: string; date: string; meal_slot_eaters: { profile_id: string }[] })[],
+  slots: (MealLike & { id?: string; date: string; meal_slot_eaters: { profile_id: string }[]; fasting?: { skip: string[] } })[],
   profileId: string,
   byDish: Map<string, Totals>,
   today: string,
@@ -96,7 +96,12 @@ export function dayTotalsFor(
     if (s.date > today || !s.meal_slot_eaters.some((e) => e.profile_id === profileId)) continue
     const factor = s.id ? portionFactor(attendanceFor(eaten, s.id, profileId)) : 1
     if (factor === 0) continue
-    const day = days.get(s.date) ?? { date: s.date, totals: emptyTotals(), meals: 0, unknownMeals: 0 }
+    const day = days.get(s.date) ?? { date: s.date, totals: emptyTotals(), meals: 0, unknownMeals: 0, fastedMeals: 0 }
+    if (s.fasting?.skip.includes(profileId)) {
+      day.fastedMeals = (day.fastedMeals ?? 0) + 1
+      days.set(s.date, day)
+      continue
+    }
     const m = mealTotals(mealFor(s, profileId), byDish)
     day.meals += 1
     if (m.known) day.totals = addTotals(day.totals, scaleTotals(m.totals, factor))

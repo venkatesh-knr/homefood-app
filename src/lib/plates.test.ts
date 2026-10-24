@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { familyEaterIds, familyHeadcount, mealFor, plateDishes, plateEaterIds, plateLabel, sharedPositions, type SlotPlate } from './plates'
+import { eatingTotal, familyEaterIds, familyHeadcount, mealFor, plateDishes, plateEaterIds, plateLabel, sharedPositions, type SlotPlate } from './plates'
 import type { SlotDish } from './plannerQueries'
 
 const dish = (id: string): SlotDish => ({ id, name: id, diet: 'veg', allergens: [], photo_path: null, cuisine_id: null, dish_names: [] })
@@ -27,6 +27,25 @@ describe('who eats the family meal', () => {
   })
   it('never goes below nothing', () => {
     expect(familyHeadcount({ meal_slot_eaters: [{ profile_id: 'amma' }], plates: [plate({ eater_ids: ['amma', 'appa'] })] }, 5)).toBe(0)
+  })
+})
+
+describe('people who are fasting', () => {
+  it('are not eating the meal they skip', () => {
+    const s = { ...slot([]), fasting: { skip: ['paati'], foods: [] } }
+    expect(eatingTotal(s, 5)).toBe(4)
+    expect(familyHeadcount(s, 5)).toBe(4)
+    expect(familyEaterIds(s)).toEqual(['amma', 'appa', 'kavi', 'arun'])
+  })
+  it('a meal with no list is for every family member less those who skip', () => {
+    expect(eatingTotal({ meal_slot_eaters: [], fasting: { skip: ['a', 'b'], foods: [] } }, 5)).toBe(3)
+  })
+  it('someone on a plate who also skips is counted once, not twice', () => {
+    const s = { ...slot(), fasting: { skip: ['amma'], foods: [] } }
+    expect(familyHeadcount(s, 5)).toBe(3)
+  })
+  it('fasting foods only does not take the person out of the meal', () => {
+    expect(eatingTotal({ ...slot([]), fasting: { skip: [], foods: ['paati'] } }, 5)).toBe(5)
   })
 })
 

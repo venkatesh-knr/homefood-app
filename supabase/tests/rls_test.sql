@@ -432,6 +432,8 @@ select public.claim_profile(:'tok_e', :'fay') is not null as fay_joined \gset
 insert into public.profile_allergies (profile_id, allergen) values (:'fay', 'peanut');
 insert into public.profile_preferences (profile_id, diet, low_salt) values (:'fay', 'veg', true);
 insert into public.diet_plan_follows (profile_id, plan) values (:'fay', 'vegan');
+update public.profiles set birth_year = 1990 where id = :'fay';
+insert into public.fasting_rules (profile_id, mode) values (:'fay', 'fruits_milk');
 insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
   values (:'hh_e', :'fay', public.kolkata_today(), :'cf', 'Test banana', 1, 'piece', 105, 1.3, public.my_profile_id());
 insert into public.personal_goals (profile_id, household_id, protein_goal_g) values (:'fay', :'hh_e', 55);
@@ -450,6 +452,7 @@ select tests.ok(not exists (select 1 from public.personal_intake where profile_i
 select tests.ok((select count(*) from public.profiles where household_id = :'hh_e') = 2 and exists (select 1 from auth.users where id = 'eeeeeeee-0000-4000-8000-000000000005'), 'the rest of the home is untouched');
 select tests.ok(not exists (select 1 from public.profile_preferences where profile_id = :'fay'), 'her diet preferences go with her login');
 select tests.ok(not exists (select 1 from public.diet_plan_follows where profile_id = :'fay'), 'and her diet plans');
+select tests.ok(not exists (select 1 from public.fasting_rules where profile_id = :'fay'), 'and her fasting rule');
 set role authenticated;
 select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
 select tests.refused($$ select public.delete_household('Our Home') $$, 'a member cannot delete the household');
@@ -770,6 +773,7 @@ select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001
 select extract(year from now())::int as this_year \gset
 insert into public.profiles (household_id, display_name, can_login, birth_year) values (:'hh_a', 'Kid', false, :'this_year'::int - 10) returning id as kid \gset
 insert into public.profiles (household_id, display_name, can_login) values (:'hh_a', 'Unknown', false) returning id as unknown_age \gset
+update public.profiles set birth_year = 1980 where id = :'amma_pf';
 insert into public.diet_plan_follows (profile_id, plan) values (:'paati', 'low_salt');
 insert into public.diet_plan_follows (profile_id, plan) values (:'amma_pf', 'high_protein');
 insert into public.diet_plan_follows (profile_id, plan) values (:'amma_pf', 'low_carb');
@@ -832,6 +836,37 @@ delete from public.meal_slot_plates where id = :'plate2';
 select tests.ok(not exists (select 1 from public.meal_slot_plate_eaters where plate_id = :'plate2'), 'removing a plate removes its people');
 delete from public.meal_slots where id = :'slot_today';
 select tests.ok(not exists (select 1 from public.meal_slot_plates where slot_id = :'slot_today') and not exists (select 1 from public.meal_slot_plate_sides where plate_id = :'plate1'), 'and removing the meal removes its plates and their sides');
+
+-- ── Fasting days (migration 0043) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.fasting_rules (profile_id, mode, weekdays, dates) values (:'paati', 'fruits_milk', '{6}', array[current_date + 3]);
+insert into public.fasting_rules (profile_id, mode, skip_meals, weekdays) values (:'amma_pf', 'skip_meals', '{dinner}', '{6}');
+select tests.ok((select count(*) from public.fasting_rules) = 2, 'the Admin sets fasting for herself and for Paati, who has no login');
+select tests.ok((select updated_by = :'amma_pf'::uuid from public.fasting_rules where profile_id = :'paati'), 'who set it is recorded');
+select tests.refused($$ insert into public.fasting_rules (profile_id, mode) values ('$$ || :'kid' || $$', 'fruits_milk') $$, 'fasting cannot be set for someone under 18');
+select tests.refused($$ insert into public.fasting_rules (profile_id, mode) values ('$$ || :'unknown_age' || $$', 'fruits_milk') $$, 'nor when the birth year is not known');
+select tests.refused($$ insert into public.fasting_rules (profile_id, mode) values ('$$ || :'helper' || $$', 'fruits_milk') $$, 'the helper does not fast');
+select tests.refused($$ insert into public.fasting_rules (profile_id, mode) values ('$$ || :'appa' || $$', 'fruits_milk') $$, 'the Admin cannot set it for a member who has joined');
+select tests.refused($$ update public.fasting_rules set mode = 'one_meal' where profile_id = '$$ || :'paati' || $$' $$, 'one meal a day needs to say which meal');
+update public.fasting_rules set mode = 'one_meal', one_meal = 'lunch' where profile_id = :'paati';
+select tests.ok((select one_meal = 'lunch' from public.fasting_rules where profile_id = :'paati'), 'one meal a day with its meal is fine');
+select tests.refused($$ update public.fasting_rules set weekdays = '{8}' where profile_id = '$$ || :'paati' || $$' $$, 'a weekday is 1 to 7');
+select tests.refused($$ update public.fasting_rules set skip_meals = '{supper}' where profile_id = '$$ || :'amma_pf' || $$' $$, 'a skipped meal is breakfast, lunch, snacks or dinner');
+select tests.refused($$ update public.fasting_rules set mode = 'water_only' where profile_id = '$$ || :'amma_pf' || $$' $$, 'only the four ways to fast exist');
+select tests.ok(public.export_my_data() -> 'diet' -> 'fasting' ->> 'mode' = 'skip_meals' and jsonb_array_length(public.export_my_data() -> 'diet' -> 'plans') >= 1 and public.export_my_data() -> 'diet' -> 'preferences' ->> 'diet' = 'non_veg', 'Download my data includes the preferences, plans and fasting rule');
+-- Appa
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.fasting_rules) = 2, 'everyone in the home can see fasting days');
+select tests.refused($$ update public.fasting_rules set mode = 'fasting_foods' where profile_id = '$$ || :'paati' || $$' $$, 'a member cannot change Paati''s');
+select tests.refused($$ delete from public.fasting_rules where profile_id = '$$ || :'amma_pf' || $$' $$, 'nor Amma''s');
+insert into public.fasting_rules (profile_id, mode, weekdays) values (:'appa', 'fasting_foods', '{2}');
+select tests.ok(exists (select 1 from public.fasting_rules where profile_id = :'appa'), 'a member sets their own fasting days');
+-- another home
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.fasting_rules) = 0, 'another home cannot see them');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.fasting_rules where profile_id = :'paati';
+select tests.ok((select count(*) from public.fasting_rules) = 2, 'the Admin can end a rule');
 
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);

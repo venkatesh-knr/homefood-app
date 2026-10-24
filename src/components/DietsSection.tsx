@@ -12,6 +12,9 @@ import { EMPTY_PREFERENCES, preferenceParts, type PrefFlag, type Preferences } f
 import type { DietType } from '../lib/dishes'
 import type { Profile } from '../lib/people'
 import { DietPlansSection } from './DietPlansSection'
+import { useNavigate } from 'react-router-dom'
+import { useFastingRules } from '../lib/fastingQueries'
+import { ruleSummary } from '../lib/fastingText'
 
 const chip = (on: boolean) => `min-h-[44px] rounded-full px-4 text-[14px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`
 const DIETS: (DietType | null)[] = ['veg', 'egg', 'non_veg', null]
@@ -20,11 +23,14 @@ const FLAG_ORDER: PrefFlag[] = ['no_onion_garlic', 'low_oil', 'low_salt', 'low_s
 /** Home › Our home › Diets and fasting. Everyone in the home can read it (the Planner and the cooks need it); a person sets their own, the Admin sets the
  * preferences of a family member nobody has logged in as yet. Preferences, never medical conditions. */
 export function DietsSection() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language as 'en' | 'ta'
   const { profile, household } = useHome()
   const { data: members } = useMembers(household.id)
   const { data: prefs } = useDietPreferences(household.id)
   const [editing, setEditing] = useState<Profile | null>(null)
+  const navigate = useNavigate()
+  const { data: fasting } = useFastingRules(household.id)
   const family = (members ?? []).filter((m) => m.kind === 'family')
   const canEdit = (m: Profile) => m.id === profile.id || (profile.role === 'admin' && m.user_id === null)
 
@@ -57,6 +63,18 @@ export function DietsSection() {
         </div>
         <p className="px-1 text-[12.5px] leading-relaxed text-muted">{t('diets.prefsHint')}</p>
       </section>
+
+      <button type="button" onClick={() => navigate('/home/fasting')} className="flex min-h-[64px] w-full items-center justify-between gap-3 rounded-2xl bg-ink px-4 py-3 text-left text-cream">
+        <span className="flex min-w-0 flex-col gap-0.5">
+          <span className="font-display text-[16px] font-semibold">{t('fasting.cardTitle')}</span>
+          <span className="break-words text-[12.5px] leading-snug text-line">
+            {(fasting ?? []).length === 0
+              ? t('fasting.cardNone')
+              : (fasting ?? []).map((r) => `${family.find((m) => m.id === r.profile_id)?.display_name ?? ''}: ${ruleSummary(r, t, lang)}`).join(' · ')}
+          </span>
+        </span>
+        <span aria-hidden="true" className="shrink-0 text-[22px] leading-none">›</span>
+      </button>
 
       {editing && <PreferencesSheet person={editing} current={prefs?.get(editing.id)} householdId={household.id} byId={profile.id} onClose={() => setEditing(null)} />}
     </div>

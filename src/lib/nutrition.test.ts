@@ -95,6 +95,23 @@ describe('a diet plate in the day totals', () => {
   })
 })
 
+describe('a fasting day in the totals', () => {
+  const byDish = new Map<string, Totals>([['rice', t(400, 8)]])
+  const slot = (fasting?: { skip: string[] }) => ({ id: 's1', date: '2026-10-01', source: 'home', main_dish_id: 'rice', meal_slot_sides: [], meal_slot_eaters: [{ profile_id: 'amma' }], fasting })
+  it('a meal the person skips is marked, not counted and not unknown', () => {
+    const d = dayTotalsFor([slot({ skip: ['amma'] })], 'amma', byDish, '2026-10-02')[0]!
+    expect(d.fastedMeals).toBe(1)
+    expect(d.meals).toBe(0)
+    expect(d.unknownMeals).toBe(0)
+    expect(d.totals.kcal).toBe(0)
+  })
+  it('someone else fasting changes nothing for this person', () => {
+    const d = dayTotalsFor([slot({ skip: ['paati'] })], 'amma', byDish, '2026-10-02')[0]!
+    expect(d.meals).toBe(1)
+    expect(d.totals.kcal).toBe(400)
+  })
+})
+
 describe('targetFor', () => {
   const rows: TargetRow[] = [
     { age_band: 'adult', sex: 'female', activity: 'moderate', ...t(2230, 46, 2000, 30, 56) },

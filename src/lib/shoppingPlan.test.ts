@@ -180,6 +180,10 @@ describe('which meals count', () => {
     const meals = mealsFromSlots([slot('s1', { meal_slot_eaters: [{ profile_id: 'p1' }, { profile_id: 'p2' }, { profile_id: 'p3' }], plates })], 5)
     expect(meals.map((m) => [m.dish.id, m.people])).toEqual([['main', 2], ['a', 3], ['b', 2], ['paneer', 1], ['salad', 1]])
   })
+  it('does not cook for people who skip the meal because they are fasting', () => {
+    const meals = mealsFromSlots([slot('s1', { meal_slot_eaters: [{ profile_id: 'p1' }, { profile_id: 'p2' }, { profile_id: 'p3' }], fasting: { skip: ['p3'], foods: [] } })], 5)
+    expect(meals.map((m) => [m.dish.id, m.people])).toEqual([['main', 2], ['a', 2], ['b', 2]])
+  })
   it('uses the family count when a meal has no list of who is eating', () => {
     expect(mealsFromSlots([slot('s1', { meal_slot_eaters: [] })], 5)[0]!.people).toBe(5)
   })

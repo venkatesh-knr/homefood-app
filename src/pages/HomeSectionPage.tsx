@@ -12,6 +12,8 @@ import { MyGoalsCard } from '../components/MyGoalsCard'
 import { AppearanceCard } from '../components/AppearanceCard'
 import { TipsCard } from '../components/TipsCard'
 import { DietsSection } from '../components/DietsSection'
+import { FastingSection } from '../components/FastingSection'
+import { zonedParts } from '../lib/prep'
 import { AccountCard } from '../components/AccountCard'
 import { useDemoState } from '../demo/demoState'
 
@@ -53,6 +55,10 @@ export default function HomeSectionPage() {
     case 'diets':
       title = t('home.menu.diets')
       body = <DietsSection />
+      break
+    case 'fasting':
+      title = t('fasting.title')
+      body = <FastingSection today={zonedParts(new Date(), household.timezone).date} />
       break
     case 'items':
       title = t('home.menu.items')

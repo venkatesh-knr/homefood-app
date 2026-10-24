@@ -6,10 +6,14 @@ export const PLAN_KEYS: PlanKey[] = ['low_carb', 'paleo', 'mediterranean', 'high
 /** Plans that cut whole food groups: not for anyone under 18, and the birth year must be known. */
 export const RESTRICTIVE_PLANS: PlanKey[] = ['low_carb', 'paleo']
 
+/** What a plate can be for: a diet plan, or fasting foods (someone fasting on fasting foods only that day). */
+export type FitKey = PlanKey | 'fasting_food'
+
 export type Follow = { profile_id: string; plan: PlanKey; since: string; set_by: string | null }
 
 /** What each plan keeps out of a dish (a dish fits when it has none of these tags), plus the one tag a plan asks for. */
-const AVOID: Record<PlanKey, string[]> = {
+const AVOID: Record<FitKey, string[]> = {
+  fasting_food: [],
   low_carb: ['grain', 'added_sugar', 'root_veg', 'sweet'],
   paleo: ['grain', 'pulse', 'dairy', 'added_sugar'],
   mediterranean: ['added_sugar', 'oily'],
@@ -19,10 +23,10 @@ const AVOID: Record<PlanKey, string[]> = {
   low_salt: ['salty'],
   senior: ['oily', 'spicy', 'fried'],
 }
-const REQUIRE: Partial<Record<PlanKey, string>> = { high_protein: 'high_protein' }
+const REQUIRE: Partial<Record<FitKey, string>> = { high_protein: 'high_protein', fasting_food: 'fasting_food' }
 
 /** Whether a dish (by its tags) fits a plan. A dish with no tags at all fits every plan that only avoids things. */
-export function planFits(plan: PlanKey, dish: { tags?: string[] }): boolean {
+export function planFits(plan: FitKey, dish: { tags?: string[] }): boolean {
   const tags = dish.tags ?? []
   const need = REQUIRE[plan]
   if (need && !tags.includes(need)) return false
@@ -30,7 +34,7 @@ export function planFits(plan: PlanKey, dish: { tags?: string[] }): boolean {
 }
 
 /** Fits every one of these plans (the plate for a group that follows more than one). */
-export const fitsAll = (plans: PlanKey[], dish: { tags?: string[] }): boolean => plans.every((p) => planFits(p, dish))
+export const fitsAll = (plans: FitKey[], dish: { tags?: string[] }): boolean => plans.every((p) => planFits(p, dish))
 
 export type Eligibility = { ok: true } | { ok: false; reason: 'under18' | 'noBirthYear' }
 

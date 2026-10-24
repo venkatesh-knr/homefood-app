@@ -10,6 +10,7 @@ import { addDays, toISODate, weekStartOf } from './planner'
 import { canon, catalogIndex, findExisting, tidy, tidyOrNull, type CatalogItem, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
 import { SECTIONS } from './shopping'
 import type { RecipeUnit } from './recipes'
+import { eatingTotal, familyHeadcount } from './plates'
 
 // ── Which meals, and who is eating ──
 export type PlanRange = 'week' | 'next7'
@@ -35,6 +36,8 @@ type SlotLike = {
   meal_slot_eaters: { profile_id: string }[]
   /** Diet plates: their own dishes are cooked for the people on them, and the family meal for the others. */
   plates?: { main_dish: DishRef | null; sides: { position: number; dish: DishRef }[]; shared_sides: number[]; eater_ids: string[] }[]
+  /** Fasting: people who skip this meal are not cooked for. */
+  fasting?: { skip: string[]; foods: string[] }
 }
 
 const dishOf = (d: { id: string; name: string; dish_names: { language: string; name: string }[] }): PlanDish => ({
@@ -47,12 +50,12 @@ export function mealsFromSlots(slots: SlotLike[], familyCount: number): PlanMeal
   const out: PlanMeal[] = []
   for (const s of slots) {
     if (s.source !== 'home') continue
-    const total = s.meal_slot_eaters.length || familyCount
+    const total = eatingTotal(s, familyCount)
     if (total <= 0) continue
     // the people on a diet plate eat the plate: the family meal is cooked for the rest, and a shared side for everyone
     const plates = s.plates ?? []
-    const onPlate = new Set(plates.flatMap((p) => p.eater_ids))
-    const people = Math.max(0, total - onPlate.size)
+    const skip = new Set(s.fasting?.skip ?? [])
+    const people = familyHeadcount(s, familyCount)
     const shared = new Set(plates.flatMap((p) => p.shared_sides))
     if (s.main_dish && people > 0) out.push({ slotId: s.id, dish: dishOf(s.main_dish), people })
     // a leftover is not cooked again, so it needs nothing from the shop
@@ -61,9 +64,10 @@ export function mealsFromSlots(slots: SlotLike[], familyCount: number): PlanMeal
       if (n > 0) out.push({ slotId: s.id, dish: dishOf(side.dish), people: n })
     }
     for (const p of plates) {
-      if (p.eater_ids.length === 0) continue
-      if (p.main_dish) out.push({ slotId: s.id, dish: dishOf(p.main_dish), people: p.eater_ids.length })
-      for (const side of [...p.sides].sort((a, b) => a.position - b.position)) out.push({ slotId: s.id, dish: dishOf(side.dish), people: p.eater_ids.length })
+      const n = p.eater_ids.filter((id) => !skip.has(id)).length
+      if (n === 0) continue
+      if (p.main_dish) out.push({ slotId: s.id, dish: dishOf(p.main_dish), people: n })
+      for (const side of [...p.sides].sort((a, b) => a.position - b.position)) out.push({ slotId: s.id, dish: dishOf(side.dish), people: n })
     }
   }
   return out

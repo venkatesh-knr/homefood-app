@@ -20,7 +20,7 @@ import { Dialog } from './Dialog'
 import { TagFilterChips } from './TagFilterChips'
 import { useDietPreferences } from '../lib/dietQueries'
 import { dishClashes, type Preferences } from '../lib/diets'
-import { fitsAll, type PlanKey } from '../lib/dietPlans'
+import { fitsAll, type FitKey } from '../lib/dietPlans'
 
 type Eater = { id?: string; name: string; allergens: string[] }
 
@@ -46,7 +46,7 @@ export function DishPickerSheet({
   eaters: Eater[]
   excludeIds?: string[]
   /** Only dishes that fit every one of these diet plans (the diet plate's picker). */
-  fitPlans?: PlanKey[]
+  fitPlans?: FitKey[]
   onPick: (dish: DishWithNames) => void
   onClose: () => void
 }) {

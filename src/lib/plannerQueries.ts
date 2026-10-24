@@ -4,7 +4,9 @@ import type { MealSlot, PlannerTurn, WeekPlan } from './planner'
 import type { DishNameRow, DietType } from './dishes'
 import { addDays } from './planner'
 import type { SlotPlate } from './plates'
-import type { PlanKey } from './dietPlans'
+import type { FitKey } from './dietPlans'
+import { slotFasting, type SlotFasting } from './fasting'
+import { fetchFastingRules } from './fastingQueries'
 
 export function useWeekPlan(householdId: string | undefined, weekStart: string | undefined) {
   return useQuery({
@@ -32,6 +34,8 @@ export type SlotWithDetails = MealSlot & {
   meal_slot_eaters: { profile_id: string }[]
   /** Diet plates (migration 0042), added by `attachPlates`; missing before that migration is run. */
   plates?: SlotPlate[]
+  /** Who skips this meal because they are fasting, and who eats fasting foods only (migration 0043); missing before it is run or when nobody fasts. */
+  fasting?: SlotFasting
 }
 
 const DISH_FIELDS = 'id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name)'
@@ -48,12 +52,28 @@ export async function attachPlates(slots: SlotWithDetails[]): Promise<SlotWithDe
       .in('slot_id', ids)
     if (error) return slots
     for (const r of data as unknown as (Omit<SlotPlate, 'sides' | 'eater_ids' | 'plans'> & { slot_id: string; plans: string[]; meal_slot_plate_sides: SlotPlate['sides']; meal_slot_plate_eaters: { profile_id: string }[] })[]) {
-      const plate: SlotPlate = { id: r.id, position: r.position, plans: r.plans as PlanKey[], shared_sides: r.shared_sides ?? [], main_dish: r.main_dish, sides: r.meal_slot_plate_sides ?? [], eater_ids: (r.meal_slot_plate_eaters ?? []).map((e) => e.profile_id) }
+      const plate: SlotPlate = { id: r.id, position: r.position, plans: r.plans as FitKey[], shared_sides: r.shared_sides ?? [], main_dish: r.main_dish, sides: r.meal_slot_plate_sides ?? [], eater_ids: (r.meal_slot_plate_eaters ?? []).map((e) => e.profile_id) }
       bySlot.set(r.slot_id, [...(bySlot.get(r.slot_id) ?? []), plate].sort((a, b) => a.position - b.position))
     }
   }
   if (bySlot.size === 0) return slots
   return slots.map((s) => (bySlot.has(s.id) ? { ...s, plates: bySlot.get(s.id) } : s))
+}
+
+/** Adds who is fasting at each meal (from everyone's fasting rules). The meal's own list of eaters is left as it was saved. */
+export async function attachFasting(slots: SlotWithDetails[]): Promise<SlotWithDetails[]> {
+  if (slots.length === 0) return slots
+  const rules = await fetchFastingRules()
+  if (rules.length === 0) return slots
+  return slots.map((s) => {
+    const f = slotFasting(rules, s.date, s.meal)
+    return f.skip.length > 0 || f.foods.length > 0 ? { ...s, fasting: f } : s
+  })
+}
+
+/** The planner's extras for a list of meals: diet plates and fasting. */
+export async function attachExtras(slots: SlotWithDetails[]): Promise<SlotWithDetails[]> {
+  return attachFasting(await attachPlates(slots))
 }
 
 const SLOT_SELECT = `*,
@@ -76,7 +96,7 @@ export function useWeekSlots(householdId: string | undefined, weekStart: string 
         .gte('date', weekStart)
         .lte('date', addDays(weekStart!, 6))
       if (error) throw error
-      return attachPlates(data as unknown as SlotWithDetails[])
+      return attachExtras(data as unknown as SlotWithDetails[])
     },
   })
 }
@@ -95,7 +115,7 @@ export function useHistorySlots(householdId: string | undefined, from: string, t
         .lte('date', to)
         .order('date', { ascending: false })
       if (error) throw error
-      return attachPlates(data as unknown as SlotWithDetails[])
+      return attachExtras(data as unknown as SlotWithDetails[])
     },
   })
 }

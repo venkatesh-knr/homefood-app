@@ -52,6 +52,7 @@ const PK: Record<string, string[]> = {
   profile_preferences: ['profile_id'],
   household_dish_tags: ['household_id', 'dish_id', 'tag'],
   diet_plan_follows: ['profile_id', 'plan'],
+  fasting_rules: ['profile_id'],
   meal_slot_plate_sides: ['plate_id', 'position'],
   meal_slot_plate_eaters: ['plate_id', 'profile_id'],
 }
