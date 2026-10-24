@@ -11,6 +11,7 @@ import { OurShopItemsCard } from '../components/OurShopItemsCard'
 import { MyGoalsCard } from '../components/MyGoalsCard'
 import { AppearanceCard } from '../components/AppearanceCard'
 import { TipsCard } from '../components/TipsCard'
+import { DietsSection } from '../components/DietsSection'
 import { AccountCard } from '../components/AccountCard'
 import { useDemoState } from '../demo/demoState'
 
@@ -48,6 +49,10 @@ export default function HomeSectionPage() {
           <BalanceLimitsCard household={household} />
         </>
       )
+      break
+    case 'diets':
+      title = t('home.menu.diets')
+      body = <DietsSection />
       break
     case 'items':
       title = t('home.menu.items')

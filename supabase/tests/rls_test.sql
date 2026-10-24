@@ -430,6 +430,7 @@ insert into public.dishes (household_id, name, created_by, cuisine_id, meal_type
 select set_config('request.jwt.claim.sub', 'ffffffff-0000-4000-8000-000000000006', false);
 select public.claim_profile(:'tok_e', :'fay') is not null as fay_joined \gset
 insert into public.profile_allergies (profile_id, allergen) values (:'fay', 'peanut');
+insert into public.profile_preferences (profile_id, diet, low_salt) values (:'fay', 'veg', true);
 insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
   values (:'hh_e', :'fay', public.kolkata_today(), :'cf', 'Test banana', 1, 'piece', 105, 1.3, public.my_profile_id());
 insert into public.personal_goals (profile_id, household_id, protein_goal_g) values (:'fay', :'hh_e', 55);
@@ -446,6 +447,7 @@ select tests.ok(not exists (select 1 from auth.users where id = 'ffffffff-0000-4
 select tests.ok((select display_name = 'Former member' and user_id is null and birth_year is null and can_login = false and role = 'member' from public.profiles where id = :'fay'), 'the profile stays as "Former member" with no login or personal details');
 select tests.ok(not exists (select 1 from public.personal_intake where profile_id = :'fay') and not exists (select 1 from public.personal_goals where profile_id = :'fay') and not exists (select 1 from public.profile_allergies where profile_id = :'fay'), 'her extras, goals and allergies are gone');
 select tests.ok((select count(*) from public.profiles where household_id = :'hh_e') = 2 and exists (select 1 from auth.users where id = 'eeeeeeee-0000-4000-8000-000000000005'), 'the rest of the home is untouched');
+select tests.ok(not exists (select 1 from public.profile_preferences where profile_id = :'fay'), 'her diet preferences go with her login');
 set role authenticated;
 select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
 select tests.refused($$ select public.delete_household('Our Home') $$, 'a member cannot delete the household');
@@ -708,6 +710,35 @@ update public.leftovers set status = 'gone' where id = :'lo1';
 select tests.ok((select status = 'gone' from public.leftovers where id = :'lo1'), 'any member can mark a leftover gone');
 delete from public.leftovers where id = :'lo1';
 select tests.ok((select count(*) from public.leftovers) = 0, 'and remove it');
+
+-- ── Everyday preferences (migration 0039) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select public.my_profile_id() as amma_pf \gset
+insert into public.profile_preferences (profile_id, diet, no_onion_garlic, low_salt, updated_by) values (:'paati', 'veg', true, true, :'amma_pf');
+select tests.ok((select diet = 'veg' and low_salt and no_onion_garlic and not low_oil from public.profile_preferences where profile_id = :'paati'), 'the Admin sets the preferences of Paati, who has no login');
+insert into public.profile_preferences (profile_id, diet, low_oil) values (:'amma_pf', 'non_veg', true);
+select tests.ok((select low_oil from public.profile_preferences where profile_id = :'amma_pf'), 'a person sets their own');
+select tests.refused($$ insert into public.profile_preferences (profile_id, diet) values ('$$ || :'appa' || $$', 'egg') $$, 'the Admin cannot set the preferences of a member who has joined');
+select tests.refused($$ insert into public.profile_preferences (profile_id, low_salt) values ('$$ || :'helper' || $$', true) $$, 'the helper has no preferences');
+select tests.refused($$ insert into public.profile_preferences (profile_id, diet) values ('$$ || :'amma_pf' || $$', 'vegan') $$, 'a diet is veg, egg or non-veg (plans come separately)');
+update public.profile_preferences set low_sugar = true where profile_id = :'paati';
+select tests.ok((select low_sugar from public.profile_preferences where profile_id = :'paati'), 'the Admin can change them later');
+-- Appa
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+insert into public.profile_preferences (profile_id, diet) values (:'appa', 'non_veg');
+select tests.ok((select count(*) from public.profile_preferences) = 3, 'everyone in the home can read the preferences');
+select tests.refused($$ update public.profile_preferences set low_oil = false where profile_id = '$$ || :'amma_pf' || $$' $$, 'a member cannot change another member''s preferences');
+select tests.refused($$ update public.profile_preferences set low_salt = false where profile_id = '$$ || :'paati' || $$' $$, 'a member who is not the Admin cannot change Paati''s');
+select tests.refused($$ delete from public.profile_preferences where profile_id = '$$ || :'paati' || $$' $$, 'nor remove them');
+-- another home
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.profile_preferences) = 0, 'another home cannot see them');
+select tests.refused($$ insert into public.profile_preferences (profile_id, diet) values ('$$ || :'paati' || $$', 'egg') $$, 'another home cannot set them');
+-- Appa removes his own
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+delete from public.profile_preferences where profile_id = :'appa';
+select tests.ok((select count(*) from public.profile_preferences) = 2, 'a person can clear their own');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);

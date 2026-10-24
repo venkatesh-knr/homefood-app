@@ -46,6 +46,7 @@ export default function HomeTabPage() {
     row('family', '/home/family', t('home.menu.family'), t('home.menu.familyHint')),
     ...(isAdmin ? [row('settings', '/home/settings', t('home.menu.settings'), t('home.menu.settingsHint'))] : []),
     row('items', '/home/items', t('home.menu.items'), t('home.menu.itemsHint')),
+    row('diets', '/home/diets', t('home.menu.diets'), t('home.menu.dietsHint')),
   ]
   const foodHealth: Row[] = [
     row('history', '/history', t('home.history'), t('home.historyHint')),

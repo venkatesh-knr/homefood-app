@@ -3,6 +3,7 @@
 import en from '../i18n/en.json'
 import ta from '../i18n/ta.json'
 import type { MealType } from './planner'
+import { PREF_FLAGS, cookingNotes, type PrefFlag, type Preferences } from './diets'
 
 export type SheetLang = 'en' | 'ta'
 export type SheetMember = { id: string; name: string; kind: 'family' | 'helper' }
@@ -21,6 +22,12 @@ export type SheetPrep = { text: { en: string; ta: string | null }; dish: { en: s
 const WORDS = {
   en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, helper: null as string | null, leftover: (dish: string) => `use leftover ${dish}` },
   ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, helper: 'உதவியாளர்', leftover: (dish: string) => `மீதமுள்ள ${dish} (பயன்படுத்தவும்)` },
+}
+
+/** What each cooking preference says on the sheet ("less salt for 1 person"). */
+const PREF_WORDS: Record<SheetLang, Record<PrefFlag, string>> = {
+  en: { low_salt: 'less salt', low_oil: 'less oil', low_sugar: 'less sugar', no_onion_garlic: 'no onion or garlic' },
+  ta: { low_salt: 'உப்பு குறைவாக', low_oil: 'எண்ணெய் குறைவாக', low_sugar: 'சர்க்கரை குறைவாக', no_onion_garlic: 'வெங்காயம், பூண்டு வேண்டாம்' },
 }
 
 const mealName = (meal: string, lang: SheetLang) => ((lang === 'ta' ? ta : en).meal as Record<string, string>)[meal] ?? meal
@@ -68,6 +75,25 @@ function noteLine(notes: Map<string, string[]>, lang: SheetLang, namesOn: boolea
   return parts.join('; ')
 }
 
+/** The cooking preferences of the people eating the day's home meals, one phrase each: "less salt for 1 person" (or "less salt for Paati" when names are on). */
+function preferenceLine(slots: SheetSlot[], meals: MealType[], members: SheetMember[], prefs: Map<string, Preferences> | undefined, lang: SheetLang, namesOn: boolean): string {
+  if (!prefs || prefs.size === 0) return ''
+  const family = members.filter((m) => m.kind === 'family')
+  const eaterLists = slots
+    .filter((s) => s.source === 'home' && (meals as string[]).includes(s.meal) && (s.main_dish || s.meal_slot_sides.length > 0))
+    .map((s) => (s.meal_slot_eaters.length > 0 ? s.meal_slot_eaters.map((e) => e.profile_id) : family.map((m) => m.id)))
+  const notes = cookingNotes(eaterLists, new Map(members.map((m) => [m.id, m.name])), prefs)
+  const parts: string[] = []
+  for (const flag of PREF_FLAGS) {
+    const who = notes.get(flag)
+    if (!who || who.length === 0) continue
+    const word = PREF_WORDS[lang][flag]
+    if (lang === 'ta') parts.push(namesOn ? `${word} — ${who.join(', ')}` : `${who.length === 1 ? 'ஒருவருக்கு' : `${who.length} பேருக்கு`} ${word}`)
+    else parts.push(namesOn ? `${word} for ${who.join(', ')}` : `${word} for ${who.length} ${who.length === 1 ? 'person' : 'people'}`)
+  }
+  return parts.join('; ')
+}
+
 /** The message for one day. `meals` are the meal types the home plans (snacks may be off); `allergies` maps a person to their allergens. */
 export function buildCookSheet(opts: {
   date: string
@@ -78,6 +104,8 @@ export function buildCookSheet(opts: {
   members: SheetMember[]
   allergies: Map<string, string[]>
   tonight?: SheetPrep[]
+  /** Everyday preferences by person (low salt, low oil, low sugar, no onion or garlic show as notes). */
+  prefs?: Map<string, Preferences>
 }): { text: string; empty: boolean } {
   const { lang } = opts
   const w = WORDS[lang]
@@ -107,7 +135,7 @@ export function buildCookSheet(opts: {
   if (meals.length === 0) return { text: '', empty: true }
 
   const lines = [`HomeFood · ${dayLabel(opts.date, lang)}`, '', ...meals]
-  const note = noteLine(allergyNotes(opts.slots, opts.members, opts.allergies), lang, opts.namesOn)
+  const note = [noteLine(allergyNotes(opts.slots, opts.members, opts.allergies), lang, opts.namesOn), preferenceLine(opts.slots, opts.meals, opts.members, opts.prefs, lang, opts.namesOn)].filter(Boolean).join('; ')
   const tonight = (opts.tonight ?? []).map((p) => `${(lang === 'ta' && p.text.ta) || p.text.en} (${(lang === 'ta' && p.dish.ta) || p.dish.en})`)
   if (note || tonight.length > 0) lines.push('')
   if (note) lines.push(`${w.note}: ${note}`)

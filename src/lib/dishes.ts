@@ -1,5 +1,6 @@
 // Shared types and small pure helpers for the dish catalogue. Framework-free,
 // same pattern as lib/people.ts, so the filtering/display logic is unit-testable.
+import { clashesHard, type Preferences } from './diets'
 
 export type MealType = 'breakfast' | 'lunch' | 'snacks' | 'dinner'
 export type DishCourse = 'main' | 'side' | 'both'
@@ -68,7 +69,7 @@ export function dietColor(diet: DietType): string {
   return DIET_COLORS[diet]
 }
 
-/** True if this dish contains anything in `allergens` — used for "safe for everyone eating". */
+/** True if this dish contains anything in `allergens` — used for "Suits everyone eating" (together with the hard clashes of everyday preferences). */
 export function dishConflictsWith(dish: Pick<Dish, 'allergens'>, allergens: string[]): boolean {
   return dish.allergens.some((a) => allergens.includes(a))
 }
@@ -99,10 +100,11 @@ export function matchesQuery(name: string, nameTa: string | undefined, query: st
 }
 
 export function passesFilters(
-  dish: Pick<Dish, 'household_id' | 'cuisine_id' | 'course' | 'diet' | 'meal_types' | 'allergens'>,
+  dish: Pick<Dish, 'household_id' | 'cuisine_id' | 'course' | 'diet' | 'meal_types' | 'allergens'> & { tags?: string[] },
   filters: DishFilters,
   householdId: string,
   householdAllergens: string[],
+  prefs: Preferences[] = [],
 ): boolean {
   if (filters.cuisineId === 'mine' ? dish.household_id !== householdId : filters.cuisineId !== 'all' && dish.cuisine_id !== filters.cuisineId) {
     return false
@@ -110,7 +112,7 @@ export function passesFilters(
   if (filters.course !== 'any' && dish.course !== 'both' && dish.course !== filters.course) return false
   if (filters.diet !== 'any' && dish.diet !== filters.diet) return false
   if (filters.mealType !== 'any' && !dish.meal_types.includes(filters.mealType)) return false
-  if (filters.safeOnly && dishConflictsWith(dish, householdAllergens)) return false
+  if (filters.safeOnly && (dishConflictsWith(dish, householdAllergens) || clashesHard(dish, prefs))) return false
   return true
 }
 

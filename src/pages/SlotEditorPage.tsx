@@ -19,6 +19,8 @@ import { useDishPhotoPath } from '../lib/dishPhotos'
 import { DishPickerSheet } from '../components/DishPickerSheet'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useLeftovers } from '../lib/leftoverQueries'
+import { useDietPreferences } from '../lib/dietQueries'
+import { mealClashes } from '../lib/diets'
 import { leftoverName, leftoversForDate, withLeftoverTag } from '../lib/leftovers'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
@@ -42,6 +44,7 @@ export default function SlotEditorPage() {
   const memberIds = (members ?? []).map((m) => m.id)
   const { data: allergyRows } = useAllergies(memberIds)
   const { data: leftoverList } = useLeftovers(household.id)
+  const { data: dietPrefs } = useDietPreferences(household.id)
 
   // Wait for the meals and the members before filling the form, or the "new slot" default fires on empty data and
   // locks in permanently once initialised flips true.
@@ -106,9 +109,14 @@ export default function SlotEditorPage() {
 
   const eaterAllergyInfo = familyMembers
     .filter((m) => values.eater_profile_ids.includes(m.id))
-    .map((m) => ({ name: m.display_name, allergens: (allergyRows ?? []).filter((a) => a.profile_id === m.id).map((a) => a.allergen) }))
+    .map((m) => ({ id: m.id, name: m.display_name, allergens: (allergyRows ?? []).filter((a) => a.profile_id === m.id).map((a) => a.allergen) }))
   const mealAllergens = [...(mainDish?.allergens ?? []), ...sideDishes.flatMap((d) => d.allergens)]
   const conflict = mealAllergyConflicts(mealAllergens, eaterAllergyInfo)
+  const prefClashes = mealClashes(
+    [...(mainDish ? [mainDish] : []), ...sideDishes].map((d) => ({ id: d.id, diet: d.diet, tags: d.tags, name: dishDisplayName(d, d.dish_names, lang) })),
+    eaterAllergyInfo.map((e) => ({ id: e.id, name: e.name })),
+    dietPrefs ?? new Map(),
+  )
 
   function dishName(d: DishWithNames) {
     return dishDisplayName(d, d.dish_names, lang)
@@ -240,6 +248,17 @@ export default function SlotEditorPage() {
                   {t('planner.allergy.pickAnother')}
                 </button>
               </div>
+            </div>
+          )}
+
+          {prefClashes.length > 0 && (
+            <div role="note" className="mx-4 mt-2.5 flex flex-col gap-1 rounded-2xl bg-saffron-tint px-3.5 py-3 text-[13.5px] text-saffron-ink">
+              <span className="font-semibold">{t('diets.clashTitle')}</span>
+              {prefClashes.slice(0, 5).map((c) => (
+                <span key={`${c.person}-${c.dish}-${c.kind}`} className="break-words">
+                  {t(`diets.clash.${c.kind === 'diet' ? (dietPrefs?.get(eaterAllergyInfo.find((e) => e.name === c.person)?.id ?? '')?.diet === 'veg' ? 'diet_veg' : 'diet_egg') : c.kind}`, { person: c.person, dish: c.dish })}
+                </span>
+              ))}
             </div>
           )}
 

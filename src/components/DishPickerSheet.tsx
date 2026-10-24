@@ -17,8 +17,10 @@ import { useDishUsage, useFavourites } from '../lib/favouriteQueries'
 import { orderDishes } from '../lib/favourites'
 import { HeartIcon } from './icons'
 import { Dialog } from './Dialog'
+import { useDietPreferences } from '../lib/dietQueries'
+import { dishClashes, type Preferences } from '../lib/diets'
 
-type Eater = { name: string; allergens: string[] }
+type Eater = { id?: string; name: string; allergens: string[] }
 
 /** Full-screen overlay for picking a dish (main or side) inside the slot editor, same filters as the Dishes tab
  * (cuisine, diet, meal, "safe for everyone eating") except course, which is fixed by what's being picked — a 'both'
@@ -52,6 +54,8 @@ export function DishPickerSheet({
   const [favouritesOnly, setFavouritesOnly] = useState(false)
   const { data: favourites } = useFavourites(householdId)
   const { data: usage } = useDishUsage(householdId)
+  const { data: prefsById } = useDietPreferences(householdId)
+  const eaterPrefs = useMemo(() => eaters.flatMap((e) => (e.id && prefsById?.get(e.id) ? [prefsById.get(e.id)!] : [])), [eaters, prefsById])
 
   const leafCuisines = useMemo(() => assignableCuisines(cuisines ?? []), [cuisines])
   const cuisineById = useMemo(() => new Map((cuisines ?? []).map((c) => [c.id, c])), [cuisines])
@@ -62,14 +66,14 @@ export function DishPickerSheet({
     const matching = (dishes ?? [])
       .filter((d) => !excludeIds.includes(d.id))
       .filter((d) => !favouritesOnly || favourites?.has(d.id))
-      .filter((d) => passesFilters(d, filters, householdId, eaterAllergens))
+      .filter((d) => passesFilters(d, filters, householdId, eaterAllergens, eaterPrefs))
       .filter((d) => {
         const name = dishDisplayName(d, d.dish_names, lang)
         const nameTa = d.dish_names.find((n) => n.language === 'ta')?.name
         return matchesQuery(name, nameTa, filters.query)
       })
     return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
-  }, [dishes, excludeIds, filters, householdId, eaterAllergens, lang, favouritesOnly, favourites, usage])
+  }, [dishes, excludeIds, filters, householdId, eaterAllergens, eaterPrefs, lang, favouritesOnly, favourites, usage])
 
   const selectClass = 'h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]'
 
@@ -177,10 +181,13 @@ export function DishPickerSheet({
           visible.map((d, i) => {
             const cuisine = cuisineById.get(d.cuisine_id ?? '')
             const conflict = mealAllergyConflicts(d.allergens, eaters)
+            const prefClash = firstPrefClash(d, eaters, prefsById)
             const note =
               conflict.names.length > 0
                 ? { text: t('planner.allergy.headline', { list: conflict.allergens.join(', '), names: conflict.names.join(', ') }), kind: 'allergy' as const }
-                : undefined
+                : prefClash
+                  ? { text: t(`diets.clash.${prefClash.kind === 'diet' ? (prefClash.diet === 'veg' ? 'diet_veg' : 'diet_egg') : prefClash.kind}`, { person: prefClash.person, dish: dishDisplayName(d, d.dish_names, lang) }), kind: 'info' as const }
+                  : undefined
             return (
               <DishRow
                 key={d.id}
@@ -201,3 +208,14 @@ export function DishPickerSheet({
     </Dialog>
   )
 }
+
+/** The first gentle or hard clash between a dish and the people eating, for the note under it in the picker. */
+function firstPrefClash(dish: { diet: DishWithNames['diet']; tags?: string[] }, eaters: Eater[], prefs: Map<string, Preferences> | undefined): { person: string; kind: string; diet: string | null } | null {
+  for (const e of eaters) {
+    const p = e.id ? prefs?.get(e.id) : undefined
+    const c = dishClashes(dish, p)[0]
+    if (c) return { person: e.name, kind: c.kind, diet: p?.diet ?? null }
+  }
+  return null
+}
+

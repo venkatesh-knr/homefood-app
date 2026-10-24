@@ -7,6 +7,7 @@ import { activeMealTypes, addDays } from '../lib/planner'
 import { buildCookSheet, type SheetLang, type SheetSlot } from '../lib/cookSheet'
 import { EVENING_FROM, prepByDish, prepTasks, zonedParts, type PrepSlot } from '../lib/prep'
 import { usePrepDone, usePrepOff, usePrepRows } from '../lib/prepQueries'
+import { useDietPreferences } from '../lib/dietQueries'
 import { whatsappLink } from '../lib/shopping'
 import { describeError } from '../lib/errors'
 import { BackHeader } from '../components/BackHeader'
@@ -34,6 +35,7 @@ export default function CookSheetPage() {
   const { data: slots, isLoading } = useHistorySlots(household.id, date, date)
   const memberIds = (members ?? []).map((m) => m.id)
   const { data: allergyRows } = useAllergies(memberIds)
+  const { data: prefs } = useDietPreferences(household.id)
   const allergies = useMemo(() => {
     const m = new Map<string, string[]>()
     for (const a of allergyRows ?? []) m.set(a.profile_id, [...(m.get(a.profile_id) ?? []), a.allergen])
@@ -55,9 +57,9 @@ export default function CookSheetPage() {
     () =>
       buildCookSheet({
         date, lang, namesOn, meals: activeMealTypes(household.snacks_enabled), slots: (slots ?? []) as unknown as SheetSlot[],
-        members: (members ?? []).map((m) => ({ id: m.id, name: m.display_name, kind: m.kind === 'helper' ? 'helper' : 'family' })), allergies, tonight,
+        members: (members ?? []).map((m) => ({ id: m.id, name: m.display_name, kind: m.kind === 'helper' ? 'helper' : 'family' })), allergies, tonight, prefs,
       }),
-    [date, lang, namesOn, household.snacks_enabled, slots, members, allergies, tonight],
+    [date, lang, namesOn, household.snacks_enabled, slots, members, allergies, tonight, prefs],
   )
 
   const dayWord = new Intl.DateTimeFormat(ui === 'ta' ? 'ta-IN' : 'en-IN', { weekday: 'short' })

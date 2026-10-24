@@ -228,6 +228,14 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   leftover('kurma', 'Veg kurma', slotId(yesterdayIso, 'dinner'), 'little', 'fridge', yesterdayIso, today, 900)
   leftover('sambar', 'Sambar', slotId(today, 'breakfast'), 'some', 'fridge', today, addDays(today, 1), 240)
 
+  // ── everyday preferences (as in the Diets and fasting mockup) ──
+  const pref = (who: string, diet: string, o: Row = {}) => put('profile_preferences', { profile_id: who, diet, no_onion_garlic: false, low_oil: false, low_salt: false, low_sugar: false, updated_by: DEMO_IDS.amma, updated_at: created, ...o })
+  pref(DEMO_IDS.amma, 'non_veg', { low_oil: true })
+  pref(DEMO_IDS.appa, 'non_veg')
+  pref(DEMO_IDS.paati, 'veg', { low_salt: true, no_onion_garlic: true })
+  pref(DEMO_IDS.kavi, 'non_veg')
+  pref(DEMO_IDS.arun, 'egg')
+
   // ── the bell ──
   const tonight = WEEK[weekStartIndex(now)]!.dinner
   const tonightDish = tonight.main ? cat.dishes.find((d) => d.id === dishId(tonight.main!)) : undefined

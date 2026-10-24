@@ -32,6 +32,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [x] Step 6b · Shopping list (common and own items, from this week's meals), prep reminders (with your own and switch-offs, a 7 pm reminder to the cooks) and the cook's sheet — built, see CLAUDE.md
 - [x] Step 6c · Shopping layout v3 (two tabs: To buy, Add items; tidy amounts) — built, see CLAUDE.md
 - [x] Step 6d · Leftovers (migration 0038) — built, see CLAUDE.md
+- [x] Step 6e · Everyday preferences (migration 0039) — built, see CLAUDE.md; diet tags, plans, fasting and guests follow
 - [ ] Step 7 · Family trial (2 weeks) — checklist in `docs/family-trial.md`
 
 ## One-time setup

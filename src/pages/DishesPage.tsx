@@ -20,6 +20,7 @@ import { orderDishes } from '../lib/favourites'
 import { HeartIcon } from '../components/icons'
 import { AddCuisine } from '../components/AddCuisine'
 import { MyCuisines } from '../components/MyCuisines'
+import { useDietPreferences } from '../lib/dietQueries'
 
 export default function DishesPage() {
   const { t, i18n } = useTranslation()
@@ -40,6 +41,8 @@ export default function DishesPage() {
   const { data: usage } = useDishUsage(household.id)
 
   const leafCuisines = useMemo(() => assignableCuisines(cuisines ?? []), [cuisines])
+  const { data: prefsById } = useDietPreferences(household.id)
+  const homePrefs = useMemo(() => [...(prefsById?.values() ?? [])], [prefsById])
   const householdAllergens = useMemo(() => [...new Set((allergyRows ?? []).map((a) => a.allergen))], [allergyRows])
   const overrideByDish = useMemo(() => new Map((overrides ?? []).map((o) => [o.dish_id, o.photo_path])), [overrides])
   const memberById = useMemo(() => new Map((members ?? []).map((m) => [m.id, m.display_name])), [members])
@@ -48,14 +51,14 @@ export default function DishesPage() {
   const visible = useMemo(() => {
     const matching = (dishes ?? [])
       .filter((d) => !favouritesOnly || favourites?.has(d.id))
-      .filter((d) => passesFilters(d, filters, household.id, householdAllergens))
+      .filter((d) => passesFilters(d, filters, household.id, householdAllergens, homePrefs))
       .filter((d) => {
         const name = dishDisplayName(d, d.dish_names, lang)
         const nameTa = d.dish_names.find((n) => n.language === 'ta')?.name
         return matchesQuery(name, nameTa, filters.query)
       })
     return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
-  }, [dishes, filters, household.id, householdAllergens, lang, favouritesOnly, favourites, usage])
+  }, [dishes, filters, household.id, householdAllergens, homePrefs, lang, favouritesOnly, favourites, usage])
 
   function onSnapPhoto(file: File | undefined) {
     if (!file) return

@@ -46,6 +46,18 @@ describe('the cook\'s sheet', () => {
     expect(build({ slots, meals: ['dinner'], lang: 'ta' }).text).toContain('சப்பாத்தி + மீதமுள்ள வெஜ் குருமா (பயன்படுத்தவும்), ரைத்தா')
   })
 
+  it('adds the cooking preferences of the people eating: "less salt for 1 person"', () => {
+    const prefs = new Map([['paati', { profile_id: 'paati', diet: 'veg' as const, no_onion_garlic: true, low_oil: false, low_salt: true, low_sugar: false }], ['amma', { profile_id: 'amma', diet: null, no_onion_garlic: false, low_oil: true, low_salt: false, low_sugar: false }]])
+    expect(build({ prefs }).text).toContain('Note: 1 person: no soy; less salt for 1 person; less oil for 1 person; no onion or garlic for 1 person')
+    expect(build({ prefs, namesOn: true }).text).toContain('less salt for Paati')
+    expect(build({ prefs, lang: 'ta' }).text).toContain('ஒருவருக்கு உப்பு குறைவாக')
+  })
+  it('leaves out preferences of people who are not eating that day', () => {
+    const prefs = new Map([['arun', { profile_id: 'arun', diet: null, no_onion_garlic: false, low_oil: false, low_salt: true, low_sugar: false }]])
+    const slots = day.map((s) => ({ ...s, meal_slot_eaters: eaters('amma') }))
+    expect(build({ prefs, slots }).text).not.toContain('less salt')
+  })
+
   it('can name who has the allergy', () => {
     expect(build({ namesOn: true }).text).toContain('Note: no soy for Paati')
     expect(build({ namesOn: true }).text).not.toContain('1 person')

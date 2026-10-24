@@ -354,7 +354,7 @@
       "dietNonVeg": "Non-veg",
       "mealType": "Meal",
       "mealAny": "Any meal",
-      "safeOnly": "Safe for everyone eating"
+      "safeOnly": "Suits everyone eating"
     },
     "detail": {
       "stockPhoto": "Photo: stock image",
@@ -444,6 +444,8 @@
       "settingsHint": "Name, language, snacks, week start, planner balance",
       "items": "Our common items",
       "itemsHint": "Items saved for the shopping list",
+      "diets": "Diets and fasting",
+      "dietsHint": "Everyday preferences, diet plans and fasting days",
       "goals": "My goals",
       "goalsHint": "Your own protein and calorie goals",
       "app": "Appearance and tips",
@@ -970,6 +972,36 @@
     "editorTitle": "Use leftovers",
     "editorHint": "Added as a side marked “leftover”: not cooked again, not on the shopping list; the cook's sheet says “use leftover”.",
     "editorAdd": "Add leftover {{name}}"
+  },
+  "diets": {
+    "prefsTitle": "Everyday preferences",
+    "prefsHint": "Veg, egg or non-veg, no onion or garlic, low oil, low salt, low sugar. These are preferences, not medical conditions. They feed “Suits everyone eating”, a gentle note when a dish clashes, and the cook's sheet.",
+    "notSet": "Not set",
+    "editFor": "Change the preferences of {{name}}",
+    "editTitle": "Preferences · {{name}}",
+    "eats": "Eats",
+    "sheetHint": "Only a person can change their own once they have joined. The Admin sets them for people who have not logged in yet.",
+    "diet": {
+      "veg": "Veg",
+      "egg": "Egg",
+      "non_veg": "Non-veg",
+      "none": "No preference"
+    },
+    "flag": {
+      "no_onion_garlic": "No onion or garlic",
+      "low_oil": "Low oil",
+      "low_salt": "Low salt",
+      "low_sugar": "Low sugar"
+    },
+    "clash": {
+      "diet_veg": "{{person}}: {{dish}} is not vegetarian",
+      "diet_egg": "{{person}}: {{dish}} has meat",
+      "onion_garlic": "{{person}}: {{dish}} has onion or garlic",
+      "salty": "{{person}}: {{dish}} is salty (low salt)",
+      "oily": "{{person}}: {{dish}} is oily (low oil)",
+      "sweet": "{{person}}: {{dish}} is sweet (low sugar)"
+    },
+    "clashTitle": "Worth a look"
   },
   "shopping": {
     "title": "Shopping",
