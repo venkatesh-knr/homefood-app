@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { withLeftoverTag } from '../lib/leftovers'
 import { PlateLines } from '../components/PlateLines'
+import { GuestLine } from '../components/GuestLine'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { BalanceBanner } from '../components/BalanceBanner'
 import { limitsOf } from '../lib/balance'
@@ -319,6 +320,7 @@ function MealCard({
         </div>
       )}
       <PlateLines slot={slot} />
+      <GuestLine slot={slot} />
       <div className="flex items-center justify-between gap-2 border-t border-line pt-2.5 text-[12.5px] text-ink-soft">
         <span className="flex min-w-0 items-center gap-2">
           {cooks.length > 0 && (

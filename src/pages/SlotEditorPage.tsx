@@ -27,6 +27,8 @@ import { DietPlateEditor, type PlateDraft } from '../components/DietPlateEditor'
 import { usePlanFollows } from '../lib/planQueries'
 import { plansOf as plansOfPerson, type FitKey } from '../lib/dietPlans'
 import { useFastingRules } from '../lib/fastingQueries'
+import { GuestsEditor } from '../components/GuestsEditor'
+import { guestsOf, NO_GUESTS, type Guests } from '../lib/guests'
 import { slotFasting } from '../lib/fasting'
 import { leftoverName, leftoversForDate, withLeftoverTag } from '../lib/leftovers'
 
@@ -77,6 +79,8 @@ export default function SlotEditorPage() {
   const [sideDishes, setSideDishes] = useState<DishWithNames[]>([])
   const [picking, setPicking] = useState<'main' | 'side' | null>(null)
   const [plates, setPlates] = useState<PlateDraft[]>([])
+  const [guests, setGuests] = useState<Guests>(NO_GUESTS)
+  const [guestsUntil, setGuestsUntil] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [initialised, setInitialised] = useState(false)
@@ -95,6 +99,7 @@ export default function SlotEditorPage() {
         note: existing.note ?? '',
         outside_size: existing.outside_meal_size ?? '',
       })
+      setGuests(guestsOf(existing))
       if (existing.main_dish) setMainDish(existing.main_dish as unknown as DishWithNames)
       setPlates((existing.plates ?? []).map((p) => ({ key: p.id, person_ids: p.eater_ids, main: p.main_dish as unknown as DishWithNames | null, sides: [...p.sides].sort((a, b) => a.position - b.position).map((s) => s.dish) as unknown as DishWithNames[], shared: p.shared_sides })))
       setSideDishes(existing.meal_slot_sides.sort((a, b) => a.position - b.position).map((s) => s.dish) as unknown as DishWithNames[])
@@ -149,6 +154,8 @@ export default function SlotEditorPage() {
       const id = weekPlan?.id ?? (await getOrCreateWeekPlan(household.id, weekStart))
       await saveSlot(id, household.id, date!, meal!, {
         ...values,
+        guests,
+        guests_until: guestsUntil,
         plates: plates
           .map((p) => ({ ...p, person_ids: p.person_ids.filter((x) => values.eater_profile_ids.includes(x)) }))
           .map((p) => ({ person_ids: p.person_ids, main_dish_id: p.main?.id ?? null, side_dish_ids: p.sides.map((d) => d.id), shared_sides: p.shared, plans: [...new Set(p.person_ids.flatMap(plansFor))] })),
@@ -397,6 +404,8 @@ export default function SlotEditorPage() {
             {' · '}
             {t('planner.eatingSummary', { count: values.eater_profile_ids.length })}
           </p>
+
+          <GuestsEditor guests={guests} onChange={setGuests} until={guestsUntil} onUntilChange={setGuestsUntil} date={date!} familyEating={values.eater_profile_ids.length} />
 
           <DietPlateEditor
             householdId={household.id}

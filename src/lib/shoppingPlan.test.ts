@@ -184,6 +184,14 @@ describe('which meals count', () => {
     const meals = mealsFromSlots([slot('s1', { meal_slot_eaters: [{ profile_id: 'p1' }, { profile_id: 'p2' }, { profile_id: 'p3' }], fasting: { skip: ['p3'], foods: [] } })], 5)
     expect(meals.map((m) => [m.dish.id, m.people])).toEqual([['main', 2], ['a', 2], ['b', 2]])
   })
+  it('cooks for the guests too: an adult is a serving, a child half, rounded up; a shared side includes them', () => {
+    const plates = [{ main_dish: d('paneer'), sides: [], shared_sides: [1], eater_ids: ['p1'] }]
+    const meals = mealsFromSlots([slot('s1', { meal_slot_eaters: [{ profile_id: 'p1' }, { profile_id: 'p2' }, { profile_id: 'p3' }], guest_adults: 2, guest_children: 1, plates })], 5)
+    expect(meals.map((m) => [m.dish.id, m.people])).toEqual([['main', 5], ['a', 6], ['b', 5], ['paneer', 1]])
+  })
+  it('a meal with only guests still needs cooking for them', () => {
+    expect(mealsFromSlots([slot('s1', { meal_slot_eaters: [{ profile_id: 'p1' }], fasting: { skip: ['p1'], foods: [] }, guest_adults: 1 })], 5)[0]!.people).toBe(1)
+  })
   it('uses the family count when a meal has no list of who is eating', () => {
     expect(mealsFromSlots([slot('s1', { meal_slot_eaters: [] })], 5)[0]!.people).toBe(5)
   })

@@ -91,7 +91,7 @@ const DELETE_GUARDS: Record<string, (db: Db, rows: Row[]) => string | null> = {
 
 const DEFAULTS: Record<string, () => Row> = {
   week_plans: () => ({ status: 'draft', published_at: null }),
-  meal_slots: () => ({ source: 'home', place_name: null, main_dish_id: null, note: null, status: 'proposed', kept_despite_disagree: false, updated_at: nowIso() }),
+  meal_slots: () => ({ source: 'home', place_name: null, main_dish_id: null, note: null, status: 'proposed', kept_despite_disagree: false, guest_adults: 0, guest_children: 0, guest_note: null, updated_at: nowIso() }),
   planner_turns: () => ({ status: 'approved', requested_by: null, created_at: nowIso() }),
   meal_slot_comments: () => ({ created_at: nowIso() }),
   meal_slot_suggestions: () => ({ status: 'open', dish_id: null, free_text: null, created_at: nowIso(), resolved_at: null }),

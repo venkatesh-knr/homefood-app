@@ -1123,6 +1123,26 @@
     "pickSideTitle": "Side for this plate",
     "line": "Diet plate · {{names}}"
   },
+  "guests": {
+    "title": "Guests",
+    "hint": "Children count as half a serving",
+    "adults": "Adults",
+    "children": "Children",
+    "fewer": "Fewer {{who}}",
+    "more": "More {{who}}",
+    "note": "Note for the cooks (optional)",
+    "notePlaceholder": "e.g. one guest has no nuts",
+    "stayTitle": "Staying longer",
+    "stayOff": "Off: only this meal",
+    "stayOn": "On: the same guests on the other meals already planned",
+    "until": "Until",
+    "untilHint": "Only home-cooked meals already planned that have no guests yet. Meals you plan later need guests added.",
+    "summary_one": "Cooking for {{people}} people · {{servings}} servings ({{family}} family + {{guests}} guest)",
+    "summary_other": "Cooking for {{people}} people · {{servings}} servings ({{family}} family + {{guests}} guests)",
+    "summaryNote": "Recipe amounts, the shopping list and the cook's sheet use this number. Guests don't count in anyone's nutrition or history.",
+    "line_one": "{{count}} guest",
+    "line_other": "{{count}} guests"
+  },
   "fasting": {
     "title": "Fasting days",
     "subtitle": "Each person sets their own · the Admin sets them for people who have not logged in yet",

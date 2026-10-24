@@ -868,6 +868,29 @@ select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001
 delete from public.fasting_rules where profile_id = :'paati';
 select tests.ok((select count(*) from public.fasting_rules) = 2, 'the Admin can end a rule');
 
+-- ── Guests at a meal (migration 0044) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.meal_slots set guest_adults = 2, guest_children = 2, guest_note = 'one guest has no nuts' where id = :'slot_far';
+select tests.ok((select guest_adults = 2 and guest_children = 2 and guest_note = 'one guest has no nuts' from public.meal_slots where id = :'slot_far'), 'the Admin sets guests, with a note for the cooks');
+select tests.ok((select guest_adults = 0 and guest_children = 0 and guest_note is null from public.meal_slots where id = :'slot_out'), 'a meal starts with no guests');
+select tests.refused($$ update public.meal_slots set guest_adults = 31 where id = '$$ || :'slot_far' || $$' $$, 'at most 30 adult guests');
+select tests.refused($$ update public.meal_slots set guest_children = 31 where id = '$$ || :'slot_far' || $$' $$, 'and 30 children');
+select tests.refused($$ update public.meal_slots set guest_adults = -1 where id = '$$ || :'slot_far' || $$' $$, 'never fewer than none');
+select tests.refused($$ update public.meal_slots set guest_note = repeat('x', 201) where id = '$$ || :'slot_far' || $$' $$, 'a note is at most 200 characters');
+-- Staying longer: the same guests on other planned meals of the home (an ordinary update)
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_new', :'hh_a', (:'today'::date + 6), 'lunch', :'pongal') returning id as slot_next \gset
+update public.meal_slots set guest_adults = 2, guest_children = 2, guest_note = 'one guest has no nuts' where id = :'slot_next';
+select tests.ok((select count(*) from public.meal_slots where household_id = :'hh_a' and guest_adults = 2) = 2, 'the Admin can repeat guests on other planned meals');
+-- Appa has no turn today: he reads the guests but cannot change them
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select guest_adults = 2 from public.meal_slots where id = :'slot_far'), 'everyone in the home sees the guests');
+select tests.refused($$ update public.meal_slots set guest_adults = 9 where id = '$$ || :'slot_far' || $$' $$, 'a member who is not the Planner cannot change them');
+-- another home
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok(not exists (select 1 from public.meal_slots where guest_adults > 0), 'another home cannot see the guests');
+select tests.refused($$ update public.meal_slots set guest_adults = 0 where id = '$$ || :'slot_far' || $$' $$, 'nor change them');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

@@ -121,9 +121,11 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
       for (const meal of MEALS) {
         const p = day[meal]
         const id = slotId(date, meal)
+        // Chithi's family comes for Sunday lunch this week
+        const guests = planId === 'plan-this' && di === 6 && meal === 'lunch' && !p.source ? { guest_adults: 2, guest_children: 2, guest_note: "Chithi's family · one guest has no nuts" } : { guest_adults: 0, guest_children: 0, guest_note: null }
         put('meal_slots', {
           id, week_plan_id: planId, household_id: DEMO_HOUSEHOLD_ID, date, meal, source: p.source ?? 'home', place_name: p.place ?? null,
-          main_dish_id: p.main ? dishId(p.main) : null, outside_meal_size: p.size ?? null, note: null, status, kept_despite_disagree: false, updated_at: minutesAgo(now, 3 * 1440),
+          main_dish_id: p.main ? dishId(p.main) : null, outside_meal_size: p.size ?? null, ...guests, note: null, status, kept_despite_disagree: false, updated_at: minutesAgo(now, 3 * 1440),
         })
         ;(p.sides ?? []).forEach((s, k) => put('meal_slot_sides', { slot_id: id, position: k + 1, dish_id: dishId(s) }))
         const weekend = di >= 5

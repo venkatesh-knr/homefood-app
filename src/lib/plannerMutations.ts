@@ -1,3 +1,4 @@
+import { cleanGuestNote, hasGuests } from './guests'
 import { supabase } from './supabase'
 import { queryClient } from './queryClient'
 import { toISODate, weekDates, weekStartOf, type MealSource, type MealType, type OutsideMealSize, type TurnScope } from './planner'
@@ -48,6 +49,10 @@ export type SlotInput = {
   outside_size?: OutsideMealSize | ''
   /** Diet plates (migration 0042): up to two, each with its people, dishes and the family sides it shares. */
   plates?: PlateInput[]
+  /** Guests at a home meal (migration 0044). */
+  guests?: { adults: number; children: number; note: string }
+  /** "Staying longer": the last day (ISO date) the same guests are repeated on, for the home's other planned meals that have no guests yet. */
+  guests_until?: string
 }
 
 export type PlateInput = { person_ids: string[]; main_dish_id: string | null; side_dish_ids: string[]; shared_sides: number[]; plans: string[] }
@@ -88,10 +93,19 @@ export async function saveSlot(
           .insert({ week_plan_id: weekPlanId, household_id: householdId, date, meal, ...fields, ...extra })
           .select('id')
           .single()
-  // The size of a meal out is a column from migration 0026; until that has been run the slot is saved without it.
+  // The size of a meal out is a column from migration 0026 and the guests are columns from migration 0044; until those have been run the slot is
+  // saved without them (each retry leaves out whatever column the database named).
   const size = input.source === 'home' ? null : input.outside_size || null
-  let { data: slot, error } = await write({ outside_meal_size: size })
-  if (error && /outside_meal_size/.test(error.message ?? '')) ({ data: slot, error } = await write({}))
+  const g = input.source === 'home' ? input.guests : undefined
+  const optional: Record<string, unknown> = { outside_meal_size: size, guest_adults: g?.adults ?? 0, guest_children: g?.children ?? 0, guest_note: cleanGuestNote(g?.note ?? '') }
+  let { data: slot, error } = await write(optional)
+  for (let tries = 0; error && tries < 2; tries++) {
+    const message = error.message ?? ''
+    const missing = Object.keys(optional).filter((c) => (c.startsWith('guest_') ? /guest_/ : /outside_meal_size/).test(message))
+    if (missing.length === 0) break
+    for (const c of missing) delete optional[c]
+    ;({ data: slot, error } = await write(optional))
+  }
   if (error || !slot) throw error ?? new Error('The meal was not saved')
   const slotId = slot.id as string
 
@@ -121,9 +135,27 @@ export async function saveSlot(
   }
 
   await savePlates(slotId, input.source === 'home' ? (input.plates ?? []) : [])
+  if (input.source === 'home' && input.guests && hasGuests(input.guests) && input.guests_until && input.guests_until > date) await repeatGuests(householdId, date, input.guests_until, input.guests)
 
   await invalidateWeek(weekPlanId, householdId)
   return slotId
+}
+
+/** "Staying longer": the same guests on the home's other planned home-cooked meals after `date` up to `until`. Only meals that have no guests yet, so
+ * nothing already set is overwritten; the database's own rules decide which days the person may change. Returns how many meals were changed. */
+export async function repeatGuests(householdId: string, date: string, until: string, guests: { adults: number; children: number; note: string }): Promise<number> {
+  const { data, error } = await client()
+    .from('meal_slots')
+    .update({ guest_adults: guests.adults, guest_children: guests.children, guest_note: cleanGuestNote(guests.note) })
+    .eq('household_id', householdId)
+    .eq('source', 'home')
+    .eq('guest_adults', 0)
+    .eq('guest_children', 0)
+    .gt('date', date)
+    .lte('date', until)
+    .select('id')
+  if (error) throw error
+  return (data ?? []).length
 }
 
 /** Replaces the meal's diet plates with exactly this list. Quiet when migration 0042 has not been run and there is nothing to save. */

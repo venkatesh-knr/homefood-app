@@ -129,6 +129,20 @@ describe('the cook\'s sheet', () => {
     expect(build({ lang: 'ta', tonight: [{ text: { en: 'Set the curd', ta: 'தயிர் உறை ஊற்றவும்' }, dish: { en: 'Curd rice', ta: 'தயிர் சாதம்' } }] }).text).toContain('இன்றிரவு: தயிர் உறை ஊற்றவும் (தயிர் சாதம்)')
   })
 
+  it('counts the guests in the head count and writes them, with their note, on a line of their own', () => {
+    const slots = day.map((s) => (s.meal === 'lunch' ? { ...s, guest_adults: 2, guest_children: 1, guest_note: 'one guest has no nuts' } : s))
+    const text = build({ slots }).text
+    expect(text).toContain('Lunch (8): Chana masala + Jeera rice · Helper + Amma' + String.fromCharCode(10) + 'Guests: 2 adults + 1 child · one guest has no nuts')
+    expect(build({ slots, lang: 'ta' }).text).toContain('விருந்தினர்: 2 பெரியவர்கள் + 1 குழந்தை · one guest has no nuts')
+    expect(build().text).not.toContain('Guests')
+  })
+
+  it('does not write guests on a meal eaten out', () => {
+    const slots: SheetSlot[] = [{ meal: 'lunch', source: 'dine_out', main_dish: null, meal_slot_sides: [], meal_slot_cooks: [], meal_slot_eaters: eaters('amma'), guest_adults: 3 }]
+    expect(build({ slots }).text).toContain('Lunch (1): Eating out')
+    expect(build({ slots }).text).not.toContain('Guests')
+  })
+
   it('is empty when nothing is planned', () => {
     expect(build({ slots: [] })).toEqual({ text: '', empty: true })
   })

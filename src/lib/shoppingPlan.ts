@@ -11,6 +11,7 @@ import { canon, catalogIndex, findExisting, tidy, tidyOrNull, type CatalogItem, 
 import { SECTIONS } from './shopping'
 import type { RecipeUnit } from './recipes'
 import { eatingTotal, familyHeadcount } from './plates'
+import { guestServings, guestsOf } from './guests'
 
 // ── Which meals, and who is eating ──
 export type PlanRange = 'week' | 'next7'
@@ -38,6 +39,9 @@ type SlotLike = {
   plates?: { main_dish: DishRef | null; sides: { position: number; dish: DishRef }[]; shared_sides: number[]; eater_ids: string[] }[]
   /** Fasting: people who skip this meal are not cooked for. */
   fasting?: { skip: string[]; foods: string[] }
+  /** Guests (migration 0044): they eat the family meal, so it is cooked for them too; a child is half a serving. */
+  guest_adults?: number | null
+  guest_children?: number | null
 }
 
 const dishOf = (d: { id: string; name: string; dish_names: { language: string; name: string }[] }): PlanDish => ({
@@ -50,17 +54,18 @@ export function mealsFromSlots(slots: SlotLike[], familyCount: number): PlanMeal
   const out: PlanMeal[] = []
   for (const s of slots) {
     if (s.source !== 'home') continue
+    const guests = guestServings(guestsOf(s))
     const total = eatingTotal(s, familyCount)
-    if (total <= 0) continue
+    if (total + guests <= 0) continue
     // the people on a diet plate eat the plate: the family meal is cooked for the rest, and a shared side for everyone
     const plates = s.plates ?? []
     const skip = new Set(s.fasting?.skip ?? [])
-    const people = familyHeadcount(s, familyCount)
+    const people = Math.ceil(familyHeadcount(s, familyCount) + guests)
     const shared = new Set(plates.flatMap((p) => p.shared_sides))
     if (s.main_dish && people > 0) out.push({ slotId: s.id, dish: dishOf(s.main_dish), people })
     // a leftover is not cooked again, so it needs nothing from the shop
     for (const side of [...s.meal_slot_sides].filter((x) => !x.is_leftover).sort((a, b) => a.position - b.position)) {
-      const n = shared.has(side.position) ? total : people
+      const n = shared.has(side.position) ? Math.ceil(total + guests) : people
       if (n > 0) out.push({ slotId: s.id, dish: dishOf(side.dish), people: n })
     }
     for (const p of plates) {

@@ -20,7 +20,9 @@ import { FirstVisitTip } from '../components/FirstVisitTip'
 import { PrepCards } from '../components/PrepCards'
 import { LeftoverPrompt, LeftoversCard } from '../components/LeftoverCards'
 import { PlateLines } from '../components/PlateLines'
+import { GuestLine } from '../components/GuestLine'
 import { familyHeadcount } from '../lib/plates'
+import { guestsOf, servingsWith } from '../lib/guests'
 import { useMembers } from '../lib/queries'
 import { EVENING_FROM, zonedParts } from '../lib/prep'
 import { useShoppingItems } from '../lib/shoppingQueries'
@@ -57,7 +59,7 @@ export default function TodayPage() {
   const neededTomorrow = neededFor(shopItems ?? [], tomorrowDishes)
   const attendance = attendanceData ?? []
   // the recipe of the main dish is cooked for the family meal: the people on a diet plate are not in it
-  const eatingCount = (slot: SlotWithDetails | undefined) => (slot ? familyHeadcount(slot, 0) || undefined : undefined)
+  const eatingCount = (slot: SlotWithDetails | undefined) => (slot ? servingsWith(familyHeadcount(slot, 0), guestsOf(slot)) || undefined : undefined)
   const open = (meal: MealType, slot: SlotWithDetails | undefined) =>
     navigate(slot || !canPlanToday ? `/week/${today}/${meal}/discuss` : `/week/${today}/${meal}`)
 
@@ -201,6 +203,8 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
       )}
       </button>
       {slot && <PlateLines slot={slot} />}
+    {slot && <GuestLine slot={slot} />}
+      {slot && <GuestLine slot={slot} />}
       {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="full" onDiscuss={onDiscuss} onRecipe={onRecipe} />}
       {slot && <AttendanceControl slot={slot} rows={attendance} />}
       {slot && <LeftoverPrompt slot={slot} />}

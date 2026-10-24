@@ -5,6 +5,7 @@ import ta from '../i18n/ta.json'
 import type { MealType } from './planner'
 import { PREF_FLAGS, cookingNotes, type PrefFlag, type Preferences } from './diets'
 import { familyHeadcount } from './plates'
+import { guestPeople, guestsOf, hasGuests } from './guests'
 
 export type SheetLang = 'en' | 'ta'
 export type SheetMember = { id: string; name: string; kind: 'family' | 'helper' }
@@ -20,13 +21,17 @@ export type SheetSlot = {
   plates?: { main_dish: DishLike | null; sides: { position: number; dish: DishLike }[]; shared_sides: number[]; eater_ids: string[] }[]
   /** Fasting: who skips this meal (not cooked for) and who eats fasting foods only. */
   fasting?: { skip: string[]; foods: string[] }
+  /** Guests (migration 0044): counted in the head count and written on a line of their own with the note for the cooks. */
+  guest_adults?: number | null
+  guest_children?: number | null
+  guest_note?: string | null
 }
 /** A night-before task to mention at the end ("Tonight: …"). */
 export type SheetPrep = { text: { en: string; ta: string | null }; dish: { en: string; ta: string | null } }
 
 const WORDS = {
-  en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, fastingFood: (n: number) => `${n} ${n === 1 ? 'person' : 'people'}: fasting food`, plate: (n: number) => `Diet plate (${n}): `, helper: null as string | null, leftover: (dish: string) => `use leftover ${dish}` },
-  ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, fastingFood: (n: number) => `${n === 1 ? 'ஒருவருக்கு' : `${n} பேருக்கு`} விரத உணவு`, plate: (n: number) => `உணவு முறைத் தட்டு (${n} பேர்): `, helper: 'உதவியாளர்', leftover: (dish: string) => `மீதமுள்ள ${dish} (பயன்படுத்தவும்)` },
+  en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, fastingFood: (n: number) => `${n} ${n === 1 ? 'person' : 'people'}: fasting food`, plate: (n: number) => `Diet plate (${n}): `, guests: (a: number, c: number) => `Guests: ${[a > 0 ? `${a} ${a === 1 ? 'adult' : 'adults'}` : '', c > 0 ? `${c} ${c === 1 ? 'child' : 'children'}` : ''].filter(Boolean).join(' + ')}`, helper: null as string | null, leftover: (dish: string) => `use leftover ${dish}` },
+  ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, fastingFood: (n: number) => `${n === 1 ? 'ஒருவருக்கு' : `${n} பேருக்கு`} விரத உணவு`, plate: (n: number) => `உணவு முறைத் தட்டு (${n} பேர்): `, guests: (a: number, c: number) => `விருந்தினர்: ${[a > 0 ? `${a} ${a === 1 ? 'பெரியவர்' : 'பெரியவர்கள்'}` : '', c > 0 ? `${c} ${c === 1 ? 'குழந்தை' : 'குழந்தைகள்'}` : ''].filter(Boolean).join(' + ')}`, helper: 'உதவியாளர்', leftover: (dish: string) => `மீதமுள்ள ${dish} (பயன்படுத்தவும்)` },
 }
 
 /** What each cooking preference says on the sheet ("less salt for 1 person"). */
@@ -148,7 +153,8 @@ export function buildCookSheet(opts: {
   for (const meal of opts.meals) {
     const s = opts.slots.find((x) => x.meal === meal)
     if (!s) continue
-    const people = w.people(familyHeadcount(s, family.length))
+    const guests = guestsOf(s)
+    const people = w.people(familyHeadcount(s, family.length) + (s.source === 'home' ? guestPeople(guests) : 0))
     const head = `${mealName(meal, lang)} (${people}): `
     if (s.source === 'dine_out') meals.push(head + w.eating)
     else if (s.source === 'order_in') meals.push(head + w.ordering)
@@ -159,6 +165,7 @@ export function buildCookSheet(opts: {
       const cooks = s.meal_slot_cooks.map((c) => nameOf(c.profile_id)).filter(Boolean)
       const cookText = cooks.length > 0 ? ` · ${cooks.join(' + ')}` : ''
       meals.push(head + food + cookText)
+      if (hasGuests(guests)) meals.push(w.guests(guests.adults, guests.children) + (guests.note ? ` · ${guests.note}` : ''))
       // one line per diet plate: its own dishes, then the family sides it shares
       for (const p of s.plates ?? []) {
         const own = [...(p.main_dish ? [p.main_dish] : []), ...[...p.sides].sort((a, b) => a.position - b.position).map((x) => x.dish), ...[...s.meal_slot_sides].sort((a, b) => a.position - b.position).filter((x) => p.shared_sides.includes(x.position)).map((x) => x.dish)]

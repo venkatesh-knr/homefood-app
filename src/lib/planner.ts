@@ -37,6 +37,10 @@ export type MealSlot = {
   updated_at: string
   /** Only for dine-out / order-in meals; absent until migration 0026 has been run. */
   outside_meal_size?: OutsideMealSize | null
+  /** Guests at the meal, from migration 0044 (absent before it is run). */
+  guest_adults?: number | null
+  guest_children?: number | null
+  guest_note?: string | null
 }
 
 export type PlannerTurn = {
