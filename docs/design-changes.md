@@ -119,7 +119,7 @@ When the live Claude Doc is next updated, these lines should change:
 
 ## F. Database changes, in order (migration number: what it does)
 
-Applied in the live project: 0001–0040 (0036–0037 run 23 Oct 2026, 0038–0040 run 24 Oct 2026). 0041 and later are written but run by Venkatesh after CI passes.
+Applied in the live project: 0001–0044 (0036–0037 run 23 Oct 2026, 0038–0044 run 24 Oct 2026).
 
 | No. | What |
 | --- | --- |
