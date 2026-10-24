@@ -67,6 +67,8 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 
 **Diet tags** (24 Oct, spec 3a; migration 0040): 18 tags on all 298 shared dishes worked out from ingredients and nutrition (the seven filter chips plus flags and avoid groups for the plans), filter chips in Dishes and the picker, and a home's own corrections on Dish detail. **Beyond the spec:** the Admin or the Planner of the day corrects tags; the catalogue itself stays read-only.
 
+**Diet plans** (24 Oct, spec 3a; migration 0041): the eight plans as people following them (one row per person), started by the person or by the Admin for someone who has not logged in; low-carb and paleo blocked under 18 or without a birth year. **Beyond the spec:** the "group" is a set of individual follows, so each person's own consent is respected.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
@@ -76,7 +78,7 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 - **Dark mode** with an Appearance setting (System / Light / Dark); the Week at a glance poster always saves in light.
 - **Scroll and focus**: every new screen opens at the top with focus on the page; forms that open lower down scroll into view.
 - **Tamil review kit** (`docs/tamil-review.html`, regenerated 23 Oct): about 4,900 lines: screen texts, dish names, recipes, everyday foods, the 150 shopping items, prep wording and the Tamil words that live in code.
-- **Database tests in CI**: every push runs the rule tests (370 checks) on a throwaway Postgres; 306 unit tests.
+- **Database tests in CI**: every push runs the rule tests (388 checks) on a throwaway Postgres; 306 unit tests.
 
 ## D. Still not built (parked on purpose)
 
@@ -151,6 +153,7 @@ Applied in the live project: 0001–0040 (0036–0037 run 23 Oct 2026, 0038–00
 | 0038 | Leftovers (table, leftover sides, `use_leftover`) |
 | 0039 | Everyday food preferences per person |
 | 0040 | Diet tags on the shared dishes, and a home's own corrections |
+| 0041 | Diet plans (who follows which) |
 
 ## G. Where to read more
 

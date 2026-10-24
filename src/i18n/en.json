@@ -1032,6 +1032,58 @@
       "root_veg": "Root vegetables"
     }
   },
+  "plans": {
+    "title": "Diet plans in {{home}}",
+    "none": "No diet plan yet. Start one below, or keep eating the family meal.",
+    "startTitle": "Start a diet plan",
+    "whoFollows": "Who follows it",
+    "avoid": "Avoid",
+    "focus": "Focus",
+    "fitHint": "Dishes that fit are worked out from each recipe's ingredients.",
+    "disclaimer": "General guidance, not medical advice. If you have a health condition, check with your doctor before changing your diet.",
+    "since": "Since {{date}}",
+    "setBy": "set by {{name}}",
+    "change": "Change",
+    "changeTitle": "Who follows {{plan}}",
+    "changeAria": "Change who follows {{plan}}",
+    "start_one": "Start {{plan}} for {{count}} person",
+    "start_other": "Start {{plan}} for {{count}} people",
+    "pickWho": "Pick who follows it",
+    "under18": "{{name}} is under 18, so this plan can't be set for them. The gentler plans can.",
+    "noYear": "{{name}} has no birth year yet, so this plan can't be set. Add it under Family and invite.",
+    "onlyThey": "Only {{name}} can start or stop a plan for themselves.",
+    "following": "Following",
+    "name": {
+      "low_carb": "Low-carb / keto",
+      "paleo": "Paleo",
+      "mediterranean": "Mediterranean",
+      "high_protein": "High-protein",
+      "vegan": "Vegan",
+      "jain": "Jain",
+      "low_salt": "Low-salt (DASH-style)",
+      "senior": "Senior-friendly"
+    },
+    "avoidText": {
+      "low_carb": "rice, roti, bread, sugar, potato",
+      "paleo": "grains, dals and pulses, dairy, sugar, processed food",
+      "mediterranean": "sugary and deep-fried food",
+      "high_protein": "nothing in particular",
+      "vegan": "meat, fish, egg, milk, curd, ghee, paneer",
+      "jain": "meat, fish, egg, onion, garlic, potato and other root vegetables",
+      "low_salt": "pickles, papad, salty snacks, extra salt",
+      "senior": "hard, very spicy or deep-fried food"
+    },
+    "focusText": {
+      "low_carb": "protein, vegetables, healthy fats",
+      "paleo": "meat, fish, eggs, vegetables, fruit, nuts",
+      "mediterranean": "vegetables, fruit, whole grains, fish, olive oil, nuts",
+      "high_protein": "dals, paneer, eggs, fish, chicken, curd",
+      "vegan": "dals, vegetables, nuts, seeds, whole grains",
+      "jain": "dals, grains, fruit, green vegetables, milk and curd",
+      "low_salt": "vegetables, fruit, whole grains, low-fat curd",
+      "senior": "soft, easy to chew, less spice, enough protein"
+    }
+  },
   "shopping": {
     "title": "Shopping",
     "summary": "{{toBuy}} to buy · {{bought}} bought",

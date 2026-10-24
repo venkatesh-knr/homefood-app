@@ -431,6 +431,7 @@ select set_config('request.jwt.claim.sub', 'ffffffff-0000-4000-8000-000000000006
 select public.claim_profile(:'tok_e', :'fay') is not null as fay_joined \gset
 insert into public.profile_allergies (profile_id, allergen) values (:'fay', 'peanut');
 insert into public.profile_preferences (profile_id, diet, low_salt) values (:'fay', 'veg', true);
+insert into public.diet_plan_follows (profile_id, plan) values (:'fay', 'vegan');
 insert into public.personal_intake (household_id, profile_id, eaten_on, common_food_id, food_name, quantity, unit, kcal, protein_g, created_by)
   values (:'hh_e', :'fay', public.kolkata_today(), :'cf', 'Test banana', 1, 'piece', 105, 1.3, public.my_profile_id());
 insert into public.personal_goals (profile_id, household_id, protein_goal_g) values (:'fay', :'hh_e', 55);
@@ -448,6 +449,7 @@ select tests.ok((select display_name = 'Former member' and user_id is null and b
 select tests.ok(not exists (select 1 from public.personal_intake where profile_id = :'fay') and not exists (select 1 from public.personal_goals where profile_id = :'fay') and not exists (select 1 from public.profile_allergies where profile_id = :'fay'), 'her extras, goals and allergies are gone');
 select tests.ok((select count(*) from public.profiles where household_id = :'hh_e') = 2 and exists (select 1 from auth.users where id = 'eeeeeeee-0000-4000-8000-000000000005'), 'the rest of the home is untouched');
 select tests.ok(not exists (select 1 from public.profile_preferences where profile_id = :'fay'), 'her diet preferences go with her login');
+select tests.ok(not exists (select 1 from public.diet_plan_follows where profile_id = :'fay'), 'and her diet plans');
 set role authenticated;
 select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
 select tests.refused($$ select public.delete_household('Our Home') $$, 'a member cannot delete the household');
@@ -762,6 +764,42 @@ select tests.refused($$ insert into public.household_dish_tags (household_id, di
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 delete from public.household_dish_tags where household_id = :'hh_a';
 select tests.ok((select count(*) from public.household_dish_tags) = 0, 'the Admin can take corrections away');
+
+-- ── Diet plans (migration 0041) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select extract(year from now())::int as this_year \gset
+insert into public.profiles (household_id, display_name, can_login, birth_year) values (:'hh_a', 'Kid', false, :'this_year'::int - 10) returning id as kid \gset
+insert into public.profiles (household_id, display_name, can_login) values (:'hh_a', 'Unknown', false) returning id as unknown_age \gset
+insert into public.diet_plan_follows (profile_id, plan) values (:'paati', 'low_salt');
+insert into public.diet_plan_follows (profile_id, plan) values (:'amma_pf', 'high_protein');
+insert into public.diet_plan_follows (profile_id, plan) values (:'amma_pf', 'low_carb');
+insert into public.diet_plan_follows (profile_id, plan) values (:'paati', 'senior');
+select tests.ok((select count(*) from public.diet_plan_follows) = 4, 'the Admin starts plans for herself and for Paati, who has no login');
+select tests.ok((select set_by = :'amma_pf'::uuid from public.diet_plan_follows where profile_id = :'paati' and plan = 'senior'), 'who set a plan is recorded');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'amma_pf' || $$', 'keto') $$, 'only the known plans can be followed');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'kid' || $$', 'low_carb') $$, 'low-carb cannot be set for someone under 18');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'kid' || $$', 'paleo') $$, 'nor paleo');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'unknown_age' || $$', 'paleo') $$, 'a restrictive plan needs a known birth year');
+insert into public.diet_plan_follows (profile_id, plan) values (:'kid', 'mediterranean');
+insert into public.diet_plan_follows (profile_id, plan) values (:'unknown_age', 'vegan');
+select tests.ok((select count(*) from public.diet_plan_follows) = 6, 'the other plans are fine for a child or when the birth year is unknown');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'helper' || $$', 'vegan') $$, 'the helper follows no plan');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'appa' || $$', 'vegan') $$, 'the Admin cannot start a plan for a member who has joined');
+-- Appa
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.diet_plan_follows) = 6, 'everyone in the home can see who follows what');
+insert into public.diet_plan_follows (profile_id, plan) values (:'appa', 'low_carb');
+select tests.ok(exists (select 1 from public.diet_plan_follows where profile_id = :'appa'), 'a member starts a plan for himself');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'amma_pf' || $$', 'vegan') $$, 'a member cannot start a plan for someone else');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'paati' || $$', 'vegan') $$, 'nor for Paati, whom only the Admin sets');
+select tests.refused($$ delete from public.diet_plan_follows where profile_id = '$$ || :'paati' || $$' $$, 'nor stop her plan');
+delete from public.diet_plan_follows where profile_id = :'appa';
+select tests.ok(not exists (select 1 from public.diet_plan_follows where profile_id = :'appa'), 'a person stops their own plan');
+-- another home
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.diet_plan_follows) = 0, 'another home cannot see the plans');
+select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'paati' || $$', 'vegan') $$, 'another home cannot set one');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);

@@ -236,6 +236,12 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   pref(DEMO_IDS.kavi, 'non_veg')
   pref(DEMO_IDS.arun, 'egg')
 
+  // ── diet plans (as in the mockup: Amma and Appa low-carb, Paati senior-friendly, set by Amma) ──
+  const follow = (who: string, plan: string, since: string, by: string) => put('diet_plan_follows', { profile_id: who, plan, since, set_by: by })
+  follow(DEMO_IDS.amma, 'low_carb', addDays(today, -12), DEMO_IDS.amma)
+  follow(DEMO_IDS.appa, 'low_carb', addDays(today, -12), DEMO_IDS.appa)
+  follow(DEMO_IDS.paati, 'senior', addDays(today, -23), DEMO_IDS.amma)
+
   // ── the bell ──
   const tonight = WEEK[weekStartIndex(now)]!.dinner
   const tonightDish = tonight.main ? cat.dishes.find((d) => d.id === dishId(tonight.main!)) : undefined

@@ -11,6 +11,7 @@ import { savePreferences } from '../lib/dietMutations'
 import { EMPTY_PREFERENCES, preferenceParts, type PrefFlag, type Preferences } from '../lib/diets'
 import type { DietType } from '../lib/dishes'
 import type { Profile } from '../lib/people'
+import { DietPlansSection } from './DietPlansSection'
 
 const chip = (on: boolean) => `min-h-[44px] rounded-full px-4 text-[14px] font-semibold ${on ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface text-ink'}`
 const DIETS: (DietType | null)[] = ['veg', 'egg', 'non_veg', null]
@@ -29,6 +30,8 @@ export function DietsSection() {
 
   return (
     <div className="flex flex-col gap-5">
+      <DietPlansSection />
+
       <section aria-label={t('diets.prefsTitle')} className="flex flex-col gap-2">
         <h2 className="px-1 font-display text-[17px] font-semibold">{t('diets.prefsTitle')}</h2>
         <div className="overflow-hidden rounded-2xl border border-line bg-surface">

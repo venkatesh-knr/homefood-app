@@ -47,6 +47,7 @@ const PK: Record<string, string[]> = {
   household_prep_off: ['household_id', 'prep_id'],
   profile_preferences: ['profile_id'],
   household_dish_tags: ['household_id', 'dish_id', 'tag'],
+  diet_plan_follows: ['profile_id', 'plan'],
 }
 
 /** Other uniqueness rules the real database enforces. */
