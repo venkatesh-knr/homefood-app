@@ -660,7 +660,10 @@ select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001
 
 -- ── Leftovers (migration 0038) ──
 select (now() at time zone 'Asia/Kolkata')::date as today \gset
-insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_new', :'hh_a', :'today', 'dinner', :'pongal') returning id as slot_today \gset
+-- a slot must sit inside its week plan, so make the plans for the weeks around today (the home starts its weeks on Monday here)
+insert into public.week_plans (household_id, week_start) select :'hh_a', d::date from generate_series(date_trunc('week', :'today'::date), date_trunc('week', :'today'::date) + interval '14 days', interval '7 days') d;
+select id as wk_t0 from public.week_plans where household_id = :'hh_a' and week_start = date_trunc('week', :'today'::date)::date \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_t0', :'hh_a', :'today', 'dinner', :'pongal') returning id as slot_today \gset
 insert into public.leftovers (household_id, dish_id, from_slot_id, amount, kept_in, cooked_on, use_by, created_by)
   values (:'hh_a', :'pongal', :'slot_today', 'some', 'fridge', :'today', (:'today'::date + 1), public.my_profile_id()) returning id as lo1 \gset
 select tests.ok((select count(*) from public.leftovers where household_id = :'hh_a') = 1, 'Amma records a leftover');
@@ -694,9 +697,9 @@ update public.leftovers set status = 'active', used_slot_id = null where id = :'
 delete from public.meal_slot_sides where slot_id = :'slot_today';
 insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_old', :'hh_a', '2020-01-09', 'lunch', :'pongal') returning id as slot_past \gset
 select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_past' || $$') $$, 'a leftover cannot go into a meal in the past');
-insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_new', :'hh_a', (:'today'::date + 5), 'dinner', :'pongal') returning id as slot_far \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values ((select id from public.week_plans where household_id = :'hh_a' and week_start = date_trunc('week', :'today'::date + 5)::date), :'hh_a', (:'today'::date + 5), 'dinner', :'pongal') returning id as slot_far \gset
 select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_far' || $$') $$, 'a leftover cannot go into a meal past its use-by');
-insert into public.meal_slots (week_plan_id, household_id, date, meal, source, place_name) values (:'wk_new', :'hh_a', :'today', 'lunch', 'dine_out', 'Udupi') returning id as slot_out \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal, source, place_name) values (:'wk_t0', :'hh_a', :'today', 'lunch', 'dine_out', 'Udupi') returning id as slot_out \gset
 select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_out' || $$') $$, 'a leftover goes only into a meal cooked at home');
 insert into public.meal_slot_sides (slot_id, position, dish_id) values (:'slot_today', 1, :'pongal'), (:'slot_today', 2, :'pongal'), (:'slot_today', 3, :'pongal');
 select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_today' || $$') $$, 'a meal with three sides has no room for a leftover');
@@ -878,7 +881,7 @@ select tests.refused($$ update public.meal_slots set guest_children = 31 where i
 select tests.refused($$ update public.meal_slots set guest_adults = -1 where id = '$$ || :'slot_far' || $$' $$, 'never fewer than none');
 select tests.refused($$ update public.meal_slots set guest_note = repeat('x', 201) where id = '$$ || :'slot_far' || $$' $$, 'a note is at most 200 characters');
 -- Staying longer: the same guests on other planned meals of the home (an ordinary update)
-insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_new', :'hh_a', (:'today'::date + 6), 'lunch', :'pongal') returning id as slot_next \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values ((select id from public.week_plans where household_id = :'hh_a' and week_start = date_trunc('week', :'today'::date + 6)::date), :'hh_a', (:'today'::date + 6), 'lunch', :'pongal') returning id as slot_next \gset
 update public.meal_slots set guest_adults = 2, guest_children = 2, guest_note = 'one guest has no nuts' where id = :'slot_next';
 select tests.ok((select count(*) from public.meal_slots where household_id = :'hh_a' and guest_adults = 2) = 2, 'the Admin can repeat guests on other planned meals');
 -- Appa has no turn today: he reads the guests but cannot change them
