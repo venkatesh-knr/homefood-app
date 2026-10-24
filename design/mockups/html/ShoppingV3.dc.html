@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shopping list, two tabs</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<header style="flex-shrink: 0; padding: 10px 10px 6px 6px; display: flex; align-items: center; gap: 4px">
+<a href="Planner.dc.html" aria-label="Back to Week" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column; flex-grow: 1">
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 21px">Shopping</span>
+<span style="font-size: 12.5px; color: #6E6259">{{subtitle}}</span>
+</div>
+<button type="button" style="height: 40px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-12 7l-5 1 1-4a8 8 0 1 1 16-4z"></path></svg>Share</button>
+</header>
+
+<div role="tablist" aria-label="Shopping" style="flex-shrink: 0; margin: 6px 16px 0; padding: 4px; border-radius: 14px; background: #F1E7D6; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+<button type="button" role="tab" aria-selected="{{t.selected}}" onClick="{{t.pick}}" style="height: 44px; border-radius: 11px; border: none; background: {{t.bg}}; color: #2B2622; font-size: 14.5px; font-weight: {{t.weight}}; box-shadow: {{t.shadow}}; cursor: pointer">{{t.label}}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{onList}}" hint-placeholder-val="{{ true }}">
+<main style="flex-grow: 1; overflow-y: auto; padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 8px">
+<button type="button" onClick="{{addAllRegs}}" style="height: 40px; padding: 0 12px; border-radius: 999px; border: 1px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A4B00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9z"></path></svg>{{regBtnText}}</button>
+<a href="ShopFromPlan.dc.html" style="height: 40px; padding: 0 12px; border-radius: 999px; border: 1px solid #CDBFA8; background: #FFFFFF; color: #2B2622; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; text-decoration: none">This week's meals</a>
+</div>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<section aria-label="{{g.name}}" style="display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 8px; padding: 2px 4px">
+<span style="width: 10px; height: 10px; border-radius: 3px; background: {{g.color}}"></span>
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 14.5px">{{g.name}}</span>
+<span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12px; color: #6E6259">{{g.ta}}</span>
+<span style="margin-left: auto; font-size: 12px; color: #6E6259">{{g.count}}</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; display: flex; flex-direction: column">
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 6px; min-height: 58px; padding: 4px 8px 4px 4px; border-top: {{it.divider}}">
+<button type="button" role="checkbox" aria-checked="false" aria-label="{{it.tickLabel}}" onClick="{{it.tick}}" style="width: 44px; height: 44px; border: none; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0">
+<span style="width: 24px; height: 24px; border-radius: 7px; border: 2px solid #8C7D68; box-sizing: border-box"></span>
+</button>
+<span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
+<span style="font-size: 15px; font-weight: 500">{{it.name}} <span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12.5px; color: #6E6259">{{it.ta}}</span></span>
+<sc-if value="{{it.hasNote}}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 12px; color: #6E6259">{{it.note}}</span>
+</sc-if>
+</span>
+<div style="display: flex; align-items: center; border: 1.5px solid #E6D8C0; border-radius: 12px; overflow: hidden; flex-shrink: 0">
+<button type="button" aria-label="{{it.lessLabel}}" onClick="{{it.minus}}" style="width: 36px; height: 38px; border: none; background: #FFF8EE; font-size: 18px; font-weight: 600; cursor: pointer">−</button>
+<button type="button" aria-label="{{it.moreOpts}}" onClick="{{it.edit}}" style="min-width: 58px; height: 38px; padding: 0 6px; border: none; background: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap">{{it.qtyText}}</button>
+<button type="button" aria-label="{{it.moreLabel}}" onClick="{{it.plus}}" style="width: 36px; height: 38px; border: none; background: #FFF8EE; font-size: 18px; font-weight: 600; cursor: pointer">+</button>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+<sc-if value="{{empty}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 28px 10px; text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px">Nothing to buy</span>
+<button type="button" onClick="{{goAdd}}" style="height: 44px; padding: 0 16px; border-radius: 12px; border: none; background: #E08A00; color: #2B2622; font-size: 14px; font-weight: 600; cursor: pointer">Add items</button>
+</div>
+</sc-if>
+<section aria-label="Bought" style="background: #F4ECDF; border-radius: 16px; padding: 4px 14px 8px">
+<div style="display: flex; align-items: center; justify-content: space-between; min-height: 40px">
+<span style="font-size: 14px; font-weight: 600; color: #4A3F37">Bought · {{boughtCount}}</span>
+<span style="font-size: 12px; color: #6E6259">Tick again to put back</span>
+</div>
+<sc-for list="{{bought}}" as="b" hint-placeholder-count="2">
+<button type="button" role="checkbox" aria-checked="true" onClick="{{b.untick}}" style="all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #E6D8C0">
+<span style="width: 22px; height: 22px; border-radius: 7px; background: #2F7A3E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+<span style="font-size: 14px; color: #6E6259; text-decoration: line-through; flex-grow: 1">{{b.label}}</span>
+<span style="font-size: 12px; color: #6E6259">{{b.by}}</span>
+</button>
+</sc-for>
+</section>
+</main>
+</sc-if>
+
+<sc-if value="{{onAdd}}" hint-placeholder-val="{{ false }}">
+<div style="flex-shrink: 0; padding: 12px 16px 0; display: flex; flex-direction: column; gap: 8px">
+<a href="ShopFromPlan.dc.html" style="height: 46px; border-radius: 14px; background: #E08A00; color: #2B2622; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Add what this week's meals need</a>
+<label for="find3" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Find an item</label>
+<input id="find3" type="search" value="{{q}}" onChange="{{typeQ}}" placeholder="Find an item (optional) · தேடுக" style="height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid #CDBFA8; background: #FFFFFF; font-size: 14.5px; color: #2B2622">
+<div role="tablist" aria-label="Item groups" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="7">
+<button type="button" role="tab" aria-selected="{{c.selected}}" onClick="{{c.pick}}" style="flex-shrink: 0; height: 36px; padding: 0 12px; border-radius: 999px; border: {{c.border}}; background: {{c.bg}}; color: {{c.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+<main style="flex-grow: 1; overflow-y: auto; padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 8px">
+<sc-if value="{{showRegBar}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: #FFF1DB; border: 1px solid #F0CF94">
+<span style="font-size: 13px; color: #4A3F37; flex-grow: 1">Things you buy every week. Star any item on the list to add it here.</span>
+<button type="button" onClick="{{addAllRegs}}" style="height: 40px; padding: 0 12px; border-radius: 12px; border: none; background: #2B2622; color: #FFF8EE; font-size: 13px; font-weight: 600; cursor: pointer; flex-shrink: 0; white-space: nowrap">{{addAllText}}</button>
+</div>
+</sc-if>
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; display: flex; flex-direction: column">
+<sc-for list="{{all}}" as="a" hint-placeholder-count="10">
+<div style="display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 4px 8px 4px 14px; border-top: {{a.divider}}">
+<span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
+<span style="font-size: 15px; font-weight: 500">{{a.name}} <span style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12.5px; color: #6E6259">{{a.ta}}</span></span>
+<span style="font-size: 12px; color: #6E6259">{{a.sub}}</span>
+</span>
+<sc-if value="{{a.notOn}}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="{{a.addLabel}}" onClick="{{a.add}}" style="width: 84px; height: 38px; border-radius: 12px; border: 1.5px solid #2F7A3E; background: #FFFFFF; color: #1F5A2C; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0">Add</button>
+</sc-if>
+<sc-if value="{{a.on}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; border-radius: 12px; overflow: hidden; background: #2F7A3E; color: #FFFFFF; flex-shrink: 0">
+<button type="button" aria-label="{{a.lessLabel}}" onClick="{{a.minus}}" style="width: 32px; height: 38px; border: none; background: transparent; color: #FFFFFF; font-size: 18px; font-weight: 600; cursor: pointer">−</button>
+<span style="min-width: 52px; text-align: center; font-size: 13px; font-weight: 700; white-space: nowrap">{{a.qtyText}}</span>
+<button type="button" aria-label="{{a.moreLabel}}" onClick="{{a.plus}}" style="width: 32px; height: 38px; border: none; background: transparent; color: #FFFFFF; font-size: 18px; font-weight: 600; cursor: pointer">+</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<button type="button" onClick="{{openNew}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 4px 14px; border-top: 1px solid #F1E7D6; color: #8A4B00; font-size: 14.5px; font-weight: 600">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg><span>{{newText}}</span></button>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{showSheet}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; background: rgba(43,38,34,0.45); display: flex; flex-direction: column; justify-content: flex-end">
+<button type="button" aria-label="Close" onClick="{{closeSheet}}" style="all: unset; flex-grow: 1; cursor: pointer"></button>
+<section role="dialog" aria-modal="true" aria-label="{{sheetTitle}}" style="background: #FFFFFF; border-radius: 22px 22px 0 0; padding: 10px 16px 20px; display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: center; width: 40px; height: 4px; border-radius: 999px; background: #E6D8C0"></span>
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">{{sheetTitle}}</span>
+<sc-if value="{{isNew}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="nn3" style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Name</label>
+<input id="nn3" type="text" value="{{nfName}}" onChange="{{setNfName}}" placeholder="e.g. Banana stem" style="height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid #CDBFA8; font-size: 14.5px; color: #2B2622; min-width: 0">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="nt3" style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Tamil name</label>
+<input id="nt3" type="text" placeholder="தமிழ் பெயர்" style="height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid #CDBFA8; font-size: 14.5px; color: #2B2622; min-width: 0">
+</div>
+</div>
+</sc-if>
+<div role="radiogroup" aria-label="Unit" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{units}}" as="u" hint-placeholder-count="7">
+<button type="button" role="radio" aria-checked="{{u.checked}}" onClick="{{u.pick}}" style="height: 40px; border-radius: 10px; border: {{u.border}}; background: {{u.bg}}; color: {{u.ink}}; font-size: 12.5px; font-weight: 600; cursor: pointer">{{u.label}}</button>
+</sc-for>
+</div>
+<div role="radiogroup" aria-label="Section" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{sections}}" as="o" hint-placeholder-count="4">
+<button type="button" role="radio" aria-checked="{{o.checked}}" onClick="{{o.pick}}" style="height: 40px; border-radius: 10px; border: {{o.border}}; background: {{o.bg}}; color: {{o.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{o.label}}</button>
+</sc-for>
+</div>
+<button type="button" role="switch" aria-checked="{{swChecked}}" onClick="{{toggleSw}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 4px 12px; border-radius: 12px; background: #F4ECDF">
+<span style="font-size: 14px; font-weight: 600">{{swLabel}}</span>
+<span style="width: 48px; height: 28px; border-radius: 999px; background: {{swTrack}}; display: flex; align-items: center; padding: 3px; box-sizing: border-box; justify-content: {{swKnob}}"><span style="width: 22px; height: 22px; border-radius: 50%; background: #FFFFFF"></span></span>
+</button>
+<div style="display: flex; gap: 8px">
+<sc-if value="{{canRemove}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{remove}}" style="height: 48px; padding: 0 16px; border-radius: 14px; border: 1.5px solid #E2B4AE; background: #FFFFFF; color: #8C1D18; font-size: 14px; font-weight: 600; cursor: pointer">Remove</button>
+</sc-if>
+<button type="button" onClick="{{done}}" style="flex-grow: 1; height: 48px; border-radius: 14px; border: none; background: #2B2622; color: #FFF8EE; font-size: 15px; font-weight: 600; cursor: pointer">{{doneText}}</button>
+</div>
+</section>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'list', cat: 'r', q: '', sheet: null, regulars: ['Banana','Milk','Curd','Bread','Eggs'],
+      items: [
+        { id:'Tomato', g:'veg', name:'Tomato', ta:'தக்காளி', amt:1, unit:'kg', note:'For sambar, rasam, chutney', reg:false },
+        { id:'Small onion', g:'veg', name:'Small onion', ta:'சின்ன வெங்காயம்', amt:500, unit:'g', note:'For sambar, kurma', reg:false },
+        { id:'Drumstick', g:'veg', name:'Drumstick', ta:'முருங்கைக்காய்', amt:4, unit:'pcs', note:'For Thursday sambar', reg:false },
+        { id:'Banana', g:'veg', name:'Banana', ta:'வாழைப்பழம்', amt:12, unit:'pcs', note:'Regular', reg:true },
+        { id:'Toor dal', g:'gro', name:'Toor dal', ta:'துவரம் பருப்பு', amt:500, unit:'g', note:'For sambar', reg:false },
+        { id:'Milk', g:'dai', name:'Milk', ta:'பால்', amt:2, unit:'L', note:'Regular', reg:true },
+        { id:'Eggs', g:'dai', name:'Eggs', ta:'முட்டை', amt:12, unit:'pcs', note:'Added by Kavi', reg:false }
+      ],
+      bought: [ { id:'cur', label:'Curry leaves · 1 bunch', by:'Appa' }, { id:'gng', label:'Ginger · 100 g', by:'Amma' } ] };
+  }
+  cat() {
+    const C = [['veg','v','Tomato','தக்காளி',1,'kg'],['veg','v','Onion','வெங்காயம்',1,'kg'],['veg','v','Small onion','சின்ன வெங்காயம்',500,'g'],['veg','v','Potato','உருளைக்கிழங்கு',1,'kg'],
+      ['veg','v','Carrot','கேரட்',500,'g'],['veg','v','Beans','பீன்ஸ்',250,'g'],['veg','v','Brinjal','கத்தரிக்காய்',500,'g'],['veg','v',"Lady's finger",'வெண்டைக்காய்',250,'g'],
+      ['veg','v','Drumstick','முருங்கைக்காய்',2,'pcs'],['veg','v','Cabbage','முட்டைக்கோஸ்',1,'pcs'],['veg','v','Coriander','கொத்தமல்லி',1,'bunch'],['veg','v','Curry leaves','கறிவேப்பிலை',1,'bunch'],
+      ['veg','v','Green chilli','பச்சை மிளகாய்',100,'g'],['veg','v','Ginger','இஞ்சி',100,'g'],['veg','v','Garlic','பூண்டு',100,'g'],
+      ['veg','f','Banana','வாழைப்பழம்',12,'pcs'],['veg','f','Apple','ஆப்பிள்',1,'kg'],['veg','f','Orange','ஆரஞ்சு',1,'kg'],['veg','f','Papaya','பப்பாளி',1,'pcs'],['veg','f','Guava','கொய்யா',500,'g'],['veg','f','Lemon','எலுமிச்சை',4,'pcs'],
+      ['gro','g','Rice','அரிசி',5,'kg'],['gro','g','Idli rice','இட்லி அரிசி',1,'kg'],['gro','g','Toor dal','துவரம் பருப்பு',1,'kg'],['gro','g','Urad dal','உளுந்து',500,'g'],['gro','g','Moong dal','பாசிப்பருப்பு',500,'g'],
+      ['gro','g','Wheat flour','கோதுமை மாவு',1,'kg'],['gro','g','Rava','ரவை',500,'g'],['gro','g','Sugar','சர்க்கரை',1,'kg'],['gro','g','Salt','உப்பு',1,'kg'],['gro','g','Oil','எண்ணெய்',1,'L'],['gro','g','Tamarind','புளி',250,'g'],
+      ['dai','d','Milk','பால்',1,'L'],['dai','d','Curd','தயிர்',500,'g'],['dai','d','Paneer','பனீர்',200,'g'],['dai','d','Butter','வெண்ணெய்',100,'g'],['dai','d','Ghee','நெய்',200,'ml'],['dai','d','Eggs','முட்டை',12,'pcs'],
+      ['oth','o','Bread','ரொட்டி',1,'pack'],['oth','o','Tea powder','டீ தூள்',250,'g'],['oth','o','Coffee powder','காபி தூள்',200,'g'],['oth','o','Biscuits','பிஸ்கட்',2,'pack'],['oth','o','Dish soap','',1,'pack'],
+      ['gro','u','Foxtail millet','தினை',500,'g'],['veg','u','Banana flower','வாழைப்பூ',1,'pcs']];
+    return C.map(([g, tab, name, ta, amt, unit]) => ({ g, tab, name, ta, amt, unit }));
+  }
+  renderVals() {
+    const s = this.state;
+    const GR = { veg:['Vegetables & fruits','காய்கறி, பழங்கள்','#2F7A3E'], gro:['Groceries','மளிகை','#E08A00'], dai:['Dairy & eggs','பால், முட்டை','#3B4A9C'], oth:['Other','மற்றவை','#6E6259'] };
+    const STEP = { kg:0.5, g:100, L:0.5, ml:100, pcs:1, bunch:1, pack:1 };
+    const fmt = (a, u) => (u === 'pcs' ? a + (a === 1 ? ' pc' : ' pcs') : a + ' ' + u);
+    const norm = (a, u) => { a = Math.round(a * 100) / 100;
+      if (u === 'g' && a >= 1000) return { amt: Math.round(a / 100) / 10, unit: 'kg' };
+      if (u === 'ml' && a >= 1000) return { amt: Math.round(a / 100) / 10, unit: 'L' };
+      if (u === 'kg' && a < 1) return { amt: Math.round(a * 1000), unit: 'g' };
+      if (u === 'L' && a < 1) return { amt: Math.round(a * 1000), unit: 'ml' };
+      return { amt: a, unit: u }; };
+    const find = (n) => this.state.items.find(x => x.name === n);
+    const upd = (n, patch) => this.setState({ items: this.state.items.map(x => x.name === n ? { ...x, ...patch } : x) });
+    const dec = (x) => { const st = STEP[x.unit] || 1; const a = Math.round((x.amt - st) * 10) / 10; if (a <= 0) this.setState({ items: this.state.items.filter(y => y.name !== x.name) }); else upd(x.name, norm(a, x.unit)); };
+    const inc = (x) => { const st = STEP[x.unit] || 1; upd(x.name, norm(Math.round((x.amt + st) * 10) / 10, x.unit)); };
+    const chip = (on) => ({ bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8', checked: on ? 'true' : 'false' });
+
+    const groups = Object.keys(GR).map(gid => {
+      const items = s.items.filter(x => x.g === gid).map((x, i) => ({ ...x, hasNote: !!x.note, divider: i === 0 ? 'none' : '1px solid #F1E7D6', qtyText: fmt(x.amt, x.unit),
+        tickLabel: 'Bought ' + x.name, lessLabel: 'Less ' + x.name, moreLabel: 'More ' + x.name, moreOpts: x.name + ', ' + fmt(x.amt, x.unit) + ': change unit, section or remove',
+        tick: () => this.setState({ items: this.state.items.filter(y => y.name !== x.name), bought: [{ id: x.name, label: x.name + ' · ' + fmt(x.amt, x.unit), by: 'You' }, ...this.state.bought] }),
+        minus: () => dec(x), plus: () => inc(x), edit: () => this.setState({ sheet: { name: x.name } }) }));
+      return { name: GR[gid][0], ta: GR[gid][1], color: GR[gid][2], items, count: items.length ? items.length + ' to buy' : '' };
+    }).filter(g => g.items.length);
+
+    const CATS = [['r','★ Regulars'],['v','Vegetables'],['f','Fruits'],['g','Groceries'],['d','Dairy & eggs'],['o','Other'],['u','Ours']];
+    const q = s.q.trim().toLowerCase();
+    const list = this.cat().filter(c => q ? (c.name.toLowerCase().includes(q) || (c.ta && c.ta.includes(s.q.trim()))) : (s.cat === 'r' ? s.regulars.includes(c.name) : c.tab === s.cat));
+    const all = list.map((c, i) => { const x = find(c.name); return { ...c, on: !!x, notOn: !x, divider: i === 0 ? 'none' : '1px solid #F1E7D6',
+      sub: x ? 'On the list' : 'Usually ' + fmt(c.amt, c.unit), qtyText: x ? fmt(x.amt, x.unit) : '',
+      addLabel: 'Add ' + c.name + ', ' + fmt(c.amt, c.unit), lessLabel: 'Less ' + c.name, moreLabel: 'More ' + c.name,
+      add: () => this.setState({ items: [...this.state.items, { id: c.name, g: c.g, name: c.name, ta: c.ta, amt: c.amt, unit: c.unit, note: 'Added by you', reg: false }] }),
+      minus: () => dec(x), plus: () => inc(x) }; });
+
+    const sh = s.sheet;
+    const cur = sh ? (sh.nf ? sh.nf : find(sh.name)) : null;
+    const setCur = (patch) => { if (this.state.sheet.nf) this.setState({ sheet: { nf: { ...this.state.sheet.nf, ...patch } } }); else upd(this.state.sheet.name, patch); };
+    return {
+      subtitle: s.items.length + ' to buy · ' + s.bought.length + ' bought',
+      tabs: [['list','To buy · ' + s.items.length],['add','Add items']].map(([id, label]) => { const on = s.tab === id; return { label, selected: on ? 'true' : 'false',
+        bg: on ? '#FFFFFF' : 'transparent', weight: on ? 700 : 600, shadow: on ? '0 1px 3px rgba(43,38,34,0.18)' : 'none', pick: () => this.setState({ tab: id }) }; }),
+      onList: s.tab === 'list', onAdd: s.tab === 'add', goAdd: () => this.setState({ tab: 'add' }),
+      groups, empty: s.items.length === 0, boughtCount: s.bought.length,
+      bought: s.bought.map(b => ({ ...b, untick: () => this.setState({ bought: this.state.bought.filter(y => y.id !== b.id) }) })),
+      q: s.q, typeQ: (e) => this.setState({ q: e.target.value }),
+      cats: CATS.map(([id, label]) => { const on = !q && s.cat === id; return { label, selected: on ? 'true' : 'false', ...chip(on), pick: () => this.setState({ cat: id, q: '' }) }; }),
+      showRegBar: !q && s.cat === 'r',
+      regBtnText: (() => { const m = s.regulars.filter(n => !find(n)).length; return m ? 'Add regulars · ' + m : 'Regulars on the list'; })(),
+      addAllText: (() => { const m = s.regulars.filter(n => !find(n)).length; return m ? 'Add all ' + m : 'All on the list'; })(),
+      addAllRegs: () => { const cat = this.cat(); const add = this.state.regulars.filter(n => !find(n)).map(n => cat.find(c => c.name === n)).filter(Boolean)
+        .map(c => ({ id: c.name, g: c.g, name: c.name, ta: c.ta, amt: c.amt, unit: c.unit, note: 'Regular', reg: true })); if (add.length) this.setState({ items: [...this.state.items, ...add] }); },
+      all, newText: q ? 'Add "' + s.q.trim() + '" as a new item' : 'Add an item that isn\'t here',
+      openNew: () => this.setState({ sheet: { nf: { name: s.q.trim(), g: 'veg', amt: 1, unit: 'pcs', save: true } } }),
+      showSheet: !!cur, isNew: !!(sh && sh.nf), sheetTitle: sh && sh.nf ? 'New item' : (cur ? cur.name + ' · ' + fmt(cur.amt, cur.unit) : ''),
+      nfName: sh && sh.nf ? sh.nf.name : '', setNfName: (e) => setCur({ name: e.target.value }),
+      units: ['g','kg','ml','L','pcs','bunch','pack'].map(u => ({ label: u, ...chip(cur && cur.unit === u), pick: () => setCur({ unit: u, amt: STEP[u] >= 1 && cur.amt < 1 ? 1 : (u === 'g' || u === 'ml') && cur.amt < 50 ? 250 : cur.amt }) })),
+      sections: Object.keys(GR).map(o => ({ label: GR[o][0], ...chip(cur && cur.g === o), pick: () => setCur({ g: o }) })),
+      swLabel: sh && sh.nf ? 'Save to our common items' : 'Regular (add again with one tap)',
+      swChecked: cur && (sh.nf ? cur.save : cur.reg) ? 'true' : 'false',
+      swTrack: cur && (sh.nf ? cur.save : cur.reg) ? '#2F7A3E' : '#B9AA92', swKnob: cur && (sh.nf ? cur.save : cur.reg) ? 'flex-end' : 'flex-start',
+      toggleSw: () => { if (sh.nf) { setCur({ save: !cur.save }); return; } const r = !cur.reg; setCur({ reg: r }); this.setState({ regulars: r ? [...this.state.regulars.filter(n => n !== cur.name), cur.name] : this.state.regulars.filter(n => n !== cur.name) }); },
+      canRemove: !!(sh && !sh.nf),
+      remove: () => this.setState({ sheet: null, items: this.state.items.filter(x => x.name !== this.state.sheet.name) }),
+      doneText: sh && sh.nf ? 'Add to list' : 'Done',
+      done: () => { const o = this.state.sheet.nf; if (o && o.name.trim()) this.setState({ sheet: null, q: '', items: [...this.state.items, { id: o.name, g: o.g, name: o.name.trim(), ta: '', amt: o.amt, unit: o.unit, note: o.save ? 'Added by you · saved for next time' : 'Added by you', reg: false }] }); else this.setState({ sheet: null }); },
+      closeSheet: () => this.setState({ sheet: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

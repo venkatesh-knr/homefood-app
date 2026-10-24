@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fasting days</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1500px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 6px 8px">
+<a href="DietPlans.dc.html" aria-label="Back to Diets and fasting" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 22px">Fasting days</span>
+<span style="font-size: 12.5px; color: #6E6259">Each person sets their own · the Admin sets them for Paati</span>
+</div>
+</div>
+
+<div role="tablist" aria-label="Person" style="display: flex; gap: 6px; padding: 10px 16px 0">
+<sc-for list="{{persons}}" as="p" hint-placeholder-count="3">
+<button type="button" role="tab" aria-selected="{{p.selected}}" onClick="{{p.pick}}" style="height: 38px; padding: 0 14px; border-radius: 999px; border: {{p.border}}; background: {{p.bg}}; color: {{p.ink}}; font-size: 13.5px; font-weight: 600; cursor: pointer">{{p.label}}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{isKid}}" hint-placeholder-val="{{ false }}">
+<div style="margin: 14px 16px 0; padding: 14px; border-radius: 16px; background: #F4ECDF; font-size: 13.5px; line-height: 1.5; color: #2B2622">
+Fasting days can't be set for anyone under 18. Kavi can still choose lighter dishes or skip a meal with "Did you eat this?" on Today.
+</div>
+</sc-if>
+
+<sc-if value="{{notKid}}" hint-placeholder-val="{{ true }}">
+<div style="margin: 14px 16px 0; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">How {{name}} fasts</span>
+<div role="radiogroup" aria-label="Type of fast" style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{types}}" as="t" hint-placeholder-count="4">
+<button type="button" role="radio" aria-checked="{{t.checked}}" onClick="{{t.pick}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 12px; border-radius: 12px; border: {{t.border}}; background: {{t.bg}}">
+<span style="width: 20px; height: 20px; border-radius: 50%; box-sizing: border-box; border: {{t.ring}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><span style="width: 10px; height: 10px; border-radius: 50%; background: {{t.fill}}"></span></span>
+<span style="display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 14.5px; font-weight: 600">{{t.label}}</span>
+<span style="font-size: 12px; color: #6E6259">{{t.hint}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{showMeals}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Skips</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{meals}}" as="m" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{m.pressed}}" onClick="{{m.toggle}}" style="height: 36px; padding: 0 12px; border-radius: 999px; border: {{m.border}}; background: {{m.bg}}; color: {{m.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{m.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Every week on</span>
+<div role="group" aria-label="Weekly fasting days" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<button type="button" aria-pressed="{{d.pressed}}" aria-label="{{d.full}}" onClick="{{d.toggle}}" style="height: 44px; border-radius: 10px; border: {{d.border}}; background: {{d.bg}}; color: {{d.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{d.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">And on these dates</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{dates}}" as="dt" hint-placeholder-count="3">
+<span style="height: 34px; padding: 0 6px 0 12px; border-radius: 999px; background: #EEF0FA; color: #2C3777; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 4px">{{dt}}<button type="button" aria-label="Remove date" style="width: 28px; height: 28px; border: none; background: transparent; color: #2C3777; font-size: 16px; cursor: pointer">×</button></span>
+</sc-for>
+<button type="button" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px dashed #B98A4A; background: transparent; color: #8A4B00; font-size: 13px; font-weight: 600; cursor: pointer">+ Add a date</button>
+</div>
+</div>
+<button type="button" style="height: 46px; border-radius: 12px; border: none; background: #2B2622; color: #FFF8EE; font-size: 14.5px; font-weight: 600; cursor: pointer">Save</button>
+</div>
+
+<div style="margin: 14px 16px 0; padding: 12px 14px; border-radius: 14px; background: #FFF1DB; border: 1px solid #F0CF94; font-size: 13px; line-height: 1.5">
+<span style="font-weight: 600">On {{name}}'s fasting days</span><br>
+{{effect}}<br>
+The app never suggests fasting; it only follows what each person chooses.
+</div>
+</sc-if>
+
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259; padding: 20px 20px 8px">My nutrition · Amma · this week</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; color: #4A3F37">Low-carb · focus on protein and vegetables</span>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; align-items: end; height: 90px">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="7">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<span style="width: 22px; height: {{b.h}}; border-radius: 6px 6px 2px 2px; background: {{b.color}}"></span>
+<span style="font-size: 11.5px; color: #4A3F37">{{b.d}}</span>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 12.5px; color: #4A3F37">Protein: aim 80 g a day · Sat was a fasting day (dinner skipped), not counted as low</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { person: 'paati',
+      cfg: { paati: { type:'fruitmilk', skip:{}, days:{}, dates:['Thu 29 Oct','Fri 13 Nov','Fri 27 Nov'] },
+             amma: { type:'skip', skip:{ dinner:true }, days:{ Sat:true }, dates:[] } } };
+  }
+  renderVals() {
+    const s = this.state;
+    const persons = [['paati','Paati'],['amma','Amma'],['kavi','Kavi (teen)']].map(([id, label]) => { const on = s.person === id; return { label,
+      selected: on ? 'true' : 'false', bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8',
+      pick: () => this.setState({ person: id }) }; });
+    const isKid = s.person === 'kavi';
+    const c = isKid ? { type:'skip', skip:{}, days:{}, dates:[] } : s.cfg[s.person];
+    const set = (patch) => this.setState({ cfg: { ...this.state.cfg, [this.state.person]: { ...this.state.cfg[this.state.person], ...patch } } });
+    const T = [['skip','Skip a meal','Left out of the meals they skip'],['fastfood','Fasting foods only','Sabudana khichdi, sundal, fruit, milk, curd'],
+      ['fruitmilk','Fruits and milk only','Not counted in planned meals that day'],['onemeal','One meal a day','Eats lunch only']];
+    const types = T.map(([id, label, hint]) => { const on = c.type === id; return { label, hint, checked: on ? 'true' : 'false',
+      border: on ? '2px solid #E08A00' : '1px solid #EADFCB', bg: on ? '#FFF6E6' : '#FFFFFF', ring: on ? '2px solid #E08A00' : '2px solid #CDBFA8', fill: on ? '#E08A00' : 'transparent',
+      pick: () => set({ type: id }) }; });
+    const meals = [['breakfast','Breakfast'],['lunch','Lunch'],['snacks','Snacks'],['dinner','Dinner']].map(([id, label]) => { const on = !!c.skip[id]; return { label,
+      pressed: on ? 'true' : 'false', bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8',
+      toggle: () => set({ skip: { ...c.skip, [id]: !on } }) }; });
+    const FULL = { Mon:'Monday', Tue:'Tuesday', Wed:'Wednesday', Thu:'Thursday', Fri:'Friday', Sat:'Saturday', Sun:'Sunday' };
+    const days = Object.keys(FULL).map(k => { const on = !!c.days[k]; return { label: k.slice(0, 2), full: FULL[k], pressed: on ? 'true' : 'false',
+      bg: on ? '#3B4A9C' : '#FFFFFF', ink: on ? '#FFFFFF' : '#2B2622', border: on ? 'none' : '1px solid #CDBFA8', toggle: () => set({ days: { ...c.days, [k]: !on } }) }; });
+    const name = s.person === 'paati' ? 'Paati' : 'Amma';
+    const EFF = {
+      skip: 'Left out of the skipped meals: recipe amounts, shopping and the cook\'s sheet adjust.',
+      fastfood: 'Still counted as eating; the picker shows "Fasting food" dishes for them and the cook\'s sheet says "1 person: fasting food".',
+      fruitmilk: 'Left out of every planned meal that day; fruit and milk go on the shopping list if needed.',
+      onemeal: 'Eats lunch only; left out of breakfast, snacks and dinner.'
+    };
+    const bars = [['Mo',62,'#2F7A3E'],['Tu',70,'#2F7A3E'],['We',55,'#2F7A3E'],['Th',74,'#2F7A3E'],['Fr',66,'#2F7A3E'],['Sa',30,'#9AA3D6'],['Su',60,'#2F7A3E']]
+      .map(([d, h, color]) => ({ d, h: h + 'px', color }));
+    return { persons, isKid, notKid: !isKid, name, types, meals, showMeals: c.type === 'skip', days, dates: c.dates, effect: EFF[c.type], bars };
+  }
+}
+</script>
+</body>
+</html>

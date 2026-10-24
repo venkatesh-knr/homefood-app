@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Diets and fasting</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1650px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 6px 8px">
+<a href="#home" aria-label="Back to Home" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 22px">Diets and fasting</span>
+<span style="font-size: 12.5px; color: #6E6259">Home › Our home · each person or the Admin</span>
+</div>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; padding: 12px 20px 8px">Diet plans in Our Home</span>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px">
+<sc-for list="{{active}}" as="p" hint-placeholder-count="2">
+<div style="background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 15px; font-weight: 600; flex-grow: 1">{{p.name}}</span>
+<span style="font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: #EEF0FA; color: #2C3777">{{p.who}}</span>
+</div>
+<span style="font-size: 13px; color: #4A3F37"><span style="font-weight: 600">Avoid:</span> {{p.avoid}}</span>
+<span style="font-size: 13px; color: #4A3F37"><span style="font-weight: 600">Focus:</span> {{p.focus}}</span>
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; color: #6E6259">{{p.since}}</span>
+<a href="#edit" style="font-size: 13px; font-weight: 600">Change</a>
+</div>
+</div>
+</sc-for>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; padding: 18px 20px 8px">Start a diet plan</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 2px solid #E08A00; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<div role="radiogroup" aria-label="Diet plan" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{plans}}" as="pl" hint-placeholder-count="8">
+<button type="button" role="radio" aria-checked="{{pl.checked}}" onClick="{{pl.pick}}" style="height: 36px; padding: 0 12px; border-radius: 999px; border: {{pl.border}}; background: {{pl.bg}}; color: {{pl.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{pl.label}}</button>
+</sc-for>
+</div>
+<div style="padding: 10px 12px; border-radius: 12px; background: #F4ECDF; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #2B2622">
+<span><span style="font-weight: 600">Avoid:</span> {{sel.avoid}}</span>
+<span><span style="font-weight: 600">Focus:</span> {{sel.focus}}</span>
+<span style="color: #4A3F37">{{sel.fits}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Who follows it</span>
+<div role="group" aria-label="Who follows it" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{people}}" as="w" hint-placeholder-count="5">
+<button type="button" aria-pressed="{{w.pressed}}" aria-disabled="{{w.blocked}}" onClick="{{w.toggle}}" style="height: 36px; padding: 0 12px; border-radius: 999px; border: {{w.border}}; background: {{w.bg}}; color: {{w.ink}}; font-size: 13px; font-weight: 600; cursor: {{w.cursor}}; opacity: {{w.opacity}}">{{w.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{kidNote}}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 12px; color: #4A3F37">Kavi is under 18, so this plan can't be set for him. Vegan, Jain, high-protein and senior-friendly can.</span>
+</sc-if>
+</div>
+<span style="font-size: 12px; color: #4A3F37; line-height: 1.45">General guidance, not medical advice. If you have a health condition, check with your doctor before changing your diet.</span>
+<button type="button" style="height: 46px; border-radius: 12px; border: none; background: #2B2622; color: #FFF8EE; font-size: 14.5px; font-weight: 600; cursor: pointer">{{saveText}}</button>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; padding: 18px 20px 8px">Everyday preferences</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 16px; display: flex; flex-direction: column">
+<sc-for list="{{prefs}}" as="r" hint-placeholder-count="5">
+<a href="#person" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 6px 14px; border-top: {{r.divider}}; color: #2B2622; text-decoration: none">
+<span style="width: 34px; height: 34px; border-radius: 50%; background: {{r.dot}}; color: #FFFFFF; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">{{r.ini}}</span>
+<span style="font-size: 14.5px; font-weight: 600; width: 64px">{{r.name}}</span>
+<span style="font-size: 13px; color: #4A3F37; flex-grow: 1">{{r.pref}}</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E6259" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #6E6259; padding: 8px 20px 0">Veg / egg / non-veg, no onion or garlic, low oil, low salt, low sugar. Used by "Suits everyone eating" and shown to the cook.</span>
+
+<a href="Fasting.dc.html" style="margin: 16px 16px 0; padding: 14px 16px; border-radius: 16px; background: #2B2622; color: #FFF8EE; display: flex; align-items: center; justify-content: space-between; text-decoration: none">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px">Fasting days</span>
+<span style="font-size: 12.5px; color: #E6D8C0">Paati: chosen dates, fruits and milk · Amma: Saturdays, skips dinner</span>
+</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1650}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { plan: 'paleo', who: { arun: true } };
+  }
+  renderVals() {
+    const s = this.state;
+    const P = {
+      lowcarb: ['Low-carb / keto', true, 'rice, roti, bread, sugar, potato', 'protein, vegetables, healthy fats', ''],
+      paleo: ['Paleo', true, 'grains, dals and pulses, dairy, sugar, processed food', 'meat, fish, eggs, vegetables, fruit, nuts', ''],
+      med: ['Mediterranean', false, 'deep-fried food, lots of sugar, processed meat', 'vegetables, pulses, whole grains, fish, olive oil', ''],
+      protein: ['High-protein', false, 'nothing in particular', 'eggs, paneer, dal, sundal, chicken, fish at each meal', ''],
+      vegan: ['Vegan', false, 'meat, fish, eggs, milk, curd, ghee, paneer, honey', 'pulses, vegetables, grains, nuts', ''],
+      jain: ['Jain', false, 'onion, garlic, root vegetables, meat, eggs', 'vegetables above ground, dal, grains, dairy', ''],
+      dash: ['Low-salt (DASH-style)', false, 'pickles, papad, salty snacks, extra salt', 'vegetables, fruit, pulses, low-fat dairy', ''],
+      senior: ['Senior-friendly', false, 'hard, very spicy or deep-fried food', 'soft, easy to chew, less spice, enough protein', '']
+    };
+    const plans = Object.keys(P).map(id => { const on = s.plan === id; return { label: P[id][0], checked: on ? 'true' : 'false',
+      bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8',
+      pick: () => this.setState({ plan: id, who: P[id][1] ? Object.fromEntries(Object.entries(this.state.who).filter(([k]) => k !== 'kavi')) : this.state.who }) }; });
+    const restrictive = P[s.plan][1];
+    const people = [['amma','Amma'],['appa','Appa'],['paati','Paati'],['kavi','Kavi (teen)'],['arun','Arun']].map(([id, label]) => {
+      const blocked = restrictive && id === 'kavi'; const on = !!s.who[id] && !blocked;
+      return { label, pressed: on ? 'true' : 'false', blocked: blocked ? 'true' : 'false',
+        bg: on ? '#3B4A9C' : '#FFFFFF', ink: on ? '#FFFFFF' : '#2B2622', border: on ? 'none' : '1px solid #CDBFA8',
+        cursor: blocked ? 'not-allowed' : 'pointer', opacity: blocked ? 0.5 : 1,
+        toggle: () => { if (!blocked) this.setState({ who: { ...this.state.who, [id]: !this.state.who[id] } }); } };
+    });
+    const n = people.filter(p => p.pressed === 'true').length;
+    const active = [
+      { name:'Low-carb / keto', who:'Amma + Appa', avoid:P.lowcarb[2], focus:P.lowcarb[3], since:'Since 12 Oct · diet plate on 9 meals this week' },
+      { name:'Senior-friendly', who:'Paati', avoid:P.senior[2], focus:P.senior[3], since:'Since 1 Oct · set by Amma (Paati has no login)' }
+    ];
+    const prefs = [
+      ['A','Amma','#8A4B00','Non-veg · low oil'],['A','Appa','#3B4A9C','Non-veg'],['P','Paati','#2F7A3E','Veg · low salt · no onion or garlic'],
+      ['K','Kavi','#B3261E','Non-veg'],['A','Arun','#4A3F37','Egg']
+    ].map(([ini, name, dot, pref], i) => ({ ini, name, dot, pref, divider: i === 0 ? 'none' : '1px solid #F1E7D6' }));
+    return { plans, people, active, prefs, kidNote: restrictive,
+      sel: { avoid: P[s.plan][2], focus: P[s.plan][3], fits: 'Dishes that fit are worked out from each recipe\'s ingredients' },
+      saveText: n ? 'Start ' + P[s.plan][0] + ' for ' + n + (n === 1 ? ' person' : ' people') : 'Pick who follows it' };
+  }
+}
+</script>
+</body>
+</html>

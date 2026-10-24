@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Guests for a meal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1250px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 6px 8px">
+<a href="Planner.dc.html" aria-label="Back to Week" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">Sunday lunch</span>
+<span style="font-size: 12px; color: #6E6259">4 Oct · Meal editor (part)</span>
+</div>
+</div>
+
+<div style="margin: 10px 16px 0; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 18px; padding: 14px; display: flex; gap: 12px; align-items: center">
+<span style="width: 52px; height: 52px; border-radius: 50%; background: #D9643A; color: #FFF8EE; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px; flex-shrink: 0">B</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15.5px; font-weight: 600">Chicken biryani</span>
+<span style="font-size: 12.5px; color: #6E6259">+ raita, brinjal curry, payasam · Amma + Helper</span>
+</span>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; padding: 18px 20px 8px">Who's eating</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="height: 34px; padding: 0 12px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C; font-size: 13px; font-weight: 600; display: flex; align-items: center">Amma</span>
+<span style="height: 34px; padding: 0 12px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C; font-size: 13px; font-weight: 600; display: flex; align-items: center">Appa</span>
+<span style="height: 34px; padding: 0 12px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C; font-size: 13px; font-weight: 600; display: flex; align-items: center">Paati</span>
+<span style="height: 34px; padding: 0 12px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C; font-size: 13px; font-weight: 600; display: flex; align-items: center">Kavi</span>
+<span style="height: 34px; padding: 0 12px; border-radius: 999px; background: #E7F1E8; color: #1F5A2C; font-size: 13px; font-weight: 600; display: flex; align-items: center">Arun</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; border-top: 1px solid #F1E7D6; padding-top: 12px">
+<span style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<span style="font-size: 15px; font-weight: 600">Guests</span>
+<span style="font-size: 12px; color: #6E6259">Children count as half a serving</span>
+</span>
+</div>
+<sc-for list="{{counters}}" as="c" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="font-size: 14px; flex-grow: 1">{{c.label}}</span>
+<button type="button" aria-label="{{c.lessLabel}}" onClick="{{c.minus}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; font-size: 20px; font-weight: 600; cursor: pointer">−</button>
+<span aria-live="polite" style="width: 32px; text-align: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">{{c.n}}</span>
+<button type="button" aria-label="{{c.moreLabel}}" onClick="{{c.plus}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #CDBFA8; background: #FFFFFF; font-size: 20px; font-weight: 600; cursor: pointer">+</button>
+</div>
+</sc-for>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="gnote" style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Note (optional)</label>
+<input id="gnote" type="text" value="Chithi's family · one guest has no nuts" style="height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid #CDBFA8; font-size: 14px; color: #2B2622; min-width: 0">
+</div>
+<button type="button" role="switch" aria-checked="{{allDayChecked}}" onClick="{{toggleAllDay}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; padding: 6px 12px; border-radius: 12px; background: #F4ECDF">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 600">Staying longer</span>
+<span style="font-size: 12px; color: #4A3F37">{{allDayText}}</span>
+</span>
+<span style="width: 48px; height: 28px; border-radius: 999px; background: {{track}}; display: flex; align-items: center; padding: 3px; box-sizing: border-box; justify-content: {{knob}}; flex-shrink: 0"><span style="width: 22px; height: 22px; border-radius: 50%; background: #FFFFFF"></span></span>
+</button>
+</div>
+
+<div style="margin: 14px 16px 0; padding: 12px 14px; border-radius: 14px; background: #FFF1DB; border: 1px solid #F0CF94; font-size: 13.5px; line-height: 1.5">
+<span style="font-weight: 600">{{totalText}}</span><br>
+Recipe amounts, the shopping list and the cook's sheet use this number. Guests don't count in anyone's nutrition or history.
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1250}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { adults: 2, kids: 2, allDay: false };
+  }
+  renderVals() {
+    const s = this.state;
+    const mk = (key, label) => ({ label, n: s[key],
+      lessLabel: 'Fewer ' + label.toLowerCase(), moreLabel: 'More ' + label.toLowerCase(),
+      minus: () => this.setState({ [key]: Math.max(0, this.state[key] - 1) }), plus: () => this.setState({ [key]: this.state[key] + 1 }) });
+    const servings = 5 + s.adults + s.kids * 0.5;
+    return { counters: [mk('adults', 'Adults'), mk('kids', 'Children')],
+      totalText: 'Cooking for ' + (5 + s.adults + s.kids) + ' people · ' + servings + ' servings (5 family + ' + (s.adults + s.kids) + ' guests)',
+      allDayChecked: s.allDay ? 'true' : 'false', toggleAllDay: () => this.setState({ allDay: !this.state.allDay }),
+      allDayText: s.allDay ? 'Same guests for every meal, Sat 3 Oct to Mon 5 Oct' : 'Off: only this meal',
+      track: s.allDay ? '#2F7A3E' : '#B9AA92', knob: s.allDay ? 'flex-end' : 'flex-start' };
+  }
+}
+</script>
+</body>
+</html>

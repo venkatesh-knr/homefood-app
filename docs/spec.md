@@ -1,7 +1,7 @@
-<!-- Exported 23 Oct 2026 from the Claude Docs document "HomeFood — Spec & Design".
+<!-- Exported 24 Oct 2026 from the Claude Docs document "HomeFood — Spec & Design".
      The live doc is the source of truth; this copy is for Claude Code. Diagrams are not
-     included in the export. Build-time deviations (e.g. 4 tabs instead of the spec's 5,
-     deferred features) are recorded in CLAUDE.md, which wins on build details. -->
+     included in the export. Build-time deviations are recorded in CLAUDE.md and
+     docs/design-changes.md, which win on build details. -->
 
 # HomeFood — Spec & Design
 
@@ -318,11 +318,44 @@ Added 23 Oct 2026. All three come straight from the week's plan and the recipes 
 
 **Our common items.** Any item not in the common list can be saved for next time. Typing an unknown name offers "Add 'banana stem' as a new item", which opens a short form: name, optional Tamil name, section, usual amount and unit, and a "Save to our common items" switch (on by default). An item already on the list that isn't saved yet shows "Save to our common items" in its editor. Saved items belong to the home (everyone in it sees them), appear in Browse and in suggestions with an "Our item" tag, and are renamed or removed in Home settings › Our common items (creator or Admin).
 
+**Layout idea 1 (24 Oct 2026; mockup 15b; not chosen: tapping a row to mark it bought was confusing, and the full item list was hidden).** The screen fits one phone screen and scrolls only the list. The header shows "10 to buy · 2 in the bag", a WhatsApp share icon and a green **Shop now** button. Under it, one row of chips: This week's meals, Regulars, Common items (opens full screen). Each item is one compact row: tapping anywhere on the row puts it in the bag; the amount pill on the right opens a bottom sheet with big − / + buttons, units, section, a Regular switch and Remove. The add box sits at the bottom, within thumb reach, with suggestions popping up above it. Bought items fold into an "In the bag" bar. **Shop now** turns the screen into shopping mode: a green header, "3 of 12 in the bag" with a progress bar, bigger rows and text, no editing controls, screen kept on, and the list still updating for everyone.
+
+**Layout idea 2 (24 Oct 2026; mockup 15c; CHOSEN, replaces the current layout).** Two tabs at the top. **To buy** is the list: a clear checkbox on the left marks an item bought (nothing else does), and a − amount + stepper on the right changes the amount directly; tapping the amount opens a small sheet for unit, section, Regular and Remove. **Add items** shows the whole common list without searching, in tabs (Vegetables, Fruits, Groceries, Dairy & eggs, Other, Ours) with an optional search: each row shows the usual amount and an **Add** button, which turns into a green − amount + stepper once the item is on the list. "Add what this week's meals need" sits at the top, and "Add an item that isn't here" at the bottom.
+
+Regulars stay: the To buy tab has "Add regulars · N" (adds every starred item not already on the list) next to "This week's meals", and the Add items tab opens on a **★ Regulars** tab listing them with "Add all". Starring or unstarring an item (the Regular switch in its sheet) updates that tab. Amounts tidy themselves: 1000 g or more shows as kg (1000 g becomes 1 kg, 1500 g becomes 1.5 kg) and 1000 ml or more as L; going below 1 kg or 1 L switches back to g or ml (0.5 kg shows as 500 g).
+
 **Prep reminders.** Recipe steps that need doing ahead carry a prep tag: what (soak, grind and ferment batter, set curd, thaw, marinate, sprout) and how far ahead (night before, or hours before). The evening card on Today, "Tonight · for tomorrow", lists the prep for tomorrow's planned meals with the dish and meal each one is for; mornings show any same-day prep. Anyone can tick a task done and the whole home sees who did it. The cooks of that meal get an in-app reminder at 7 pm (phone push comes with notifications in phase 2). Tags are seeded for catalogue recipes that need them, such as idli and dosa batter, chana, rajma, curd and marinated or frozen meat.
 
 **Cook's sheet.** One message with the day's cooking for the helper or whoever is cooking, from the Today card or the Week tab: today or tomorrow (tomorrow by default after 4 pm). Each meal shows the dish and sides, how many are eating, and who cooks, then allergy notes and tonight's prep. It is written in English or Tamil (the home's language by default, switchable). Allergy notes say "1 person: no soy" unless the sender turns on naming the person. Send on WhatsApp, copy or print; no photos, nutrition or other household details.
 
-**Next, then later:** leftovers next; lunch boxes, festival and fasting days, and guests after that.
+**Status:** built 23 Oct 2026. Next: leftovers, then lunch boxes, festival and fasting days, and guests (next section).
+
+## Leftovers, lunch boxes, special days and guests
+
+Designed 24 Oct 2026, in this build order. Each stays small and reuses what the planner, recipes, shopping list and cook's sheet already do. Build order now: leftovers, diets and fasting, guests. Mockups 18 to 22 on the [HomeFood Mockups canvas](https://claude.ai/artifact/Da44ni2BQHfvacoRXVCuo6).
+
+**1. Leftovers (next).** After a home meal, "Anything left over?" on its Today card: tick which dishes, how much (a little for 1, some for 2 to 3, a lot for 4 or more) and where it's kept (fridge or kept out). The app sets a use-by: cooked food in the fridge until the next day's dinner, kept out until that night. A "Leftovers to use" card on Today lists them with their use-by (orange when it is today) and two buttons: Use in a meal, or Gone. In the meal editor a "Use leftovers" row adds one as a side marked leftover: it is not cooked again, not added to the shopping list, counts normally in nutrition, and the cook's sheet says "use leftover sambar". Past the use-by it drops off quietly. Anyone in the home can add or use leftovers.
+
+**2. Lunch boxes (on hold, 24 Oct 2026; not needed now).** In Family and invite, each person who takes a lunch box sets the days (e.g. Mon to Fri), what it's for (school, office), a pack-by time and an optional usual snack box. On those days Today shows "Lunch boxes · pack by 7:45" in the morning with each person's box and a Pack button anyone can tick. A box is the day's home lunch unless the Planner picks "Something else" for that person in the lunch slot. Those dishes are added to the shopping list's "From this week's meals" and to the cook's sheet ("Lunch boxes (2): Kavi: lemon rice + potato fry, a fruit; Appa: same as lunch"). People with a box still count as eating lunch.
+
+**3. Festival and fasting days (replaced 24 Oct 2026 by diet foods and fasting, being designed; kept here for reference).** Home › Our home › Festival and fasting days (Admin or Planner). Switch on days the family keeps from a ready list: weekly (e.g. Saturdays), Tamil calendar days (Amavasai, Pournami, Ekadasi, Krithigai, Sashti, Pradosham, Purattasi Saturdays) and festivals (Pongal, Tamil New Year, Vinayaka Chaturthi, Navaratri, Deepavali, Karthigai Deepam, Christmas, Eid and others), or add a rule for one date. Each rule says what changes: veg only, no onion or garlic, fast (skip chosen meals), or festival menu ideas; and for whom (whole home or chosen people). Calendar dates ship with the app for each year and can be moved by the home. The Week tab shows the day's name in a banner, flags clashing dishes ("Non-veg on a veg-only day"), suggests festival dishes, and the poster shows the day's name. Dishes need two new tags: onion/garlic and festival (which festival).
+
+**3a. Diets and fasting (designed 24 Oct 2026; build after leftovers).** Mockups 19 to 21. Home › Our home › Diets and fasting.
+
+| Part | How it works |
+| --- | --- |
+| Everyday preferences | Per person: veg / egg / non-veg, no onion or garlic, low oil, low salt, low sugar. Stated as preferences, never as medical conditions. Used by "Suits everyone eating", gentle badges on clashing dishes ("Paati: appalam is salty") and a cook's sheet note ("less salt for 1 person") |
+| Diet plans | Low-carb / keto, Paleo, Mediterranean, High-protein, Vegan, Jain, Low-salt (DASH-style), Senior-friendly. Each is a set of foods to avoid and to focus on. Followed by one person, a couple or any group; everyone else keeps the family meal. Restrictive plans (low-carb / keto, paleo) can't be set for anyone under 18 |
+| Diet plate | When the family meal doesn't fit a plan, the Planner adds a diet plate for those people in that meal, picked from dishes that fit; shared sides can be on both plates. The family meal is then cooked for fewer people, the diet plate goes into recipe amounts, shopping and the cook's sheet ("Diet plate (2): paneer tikka + cucumber salad · Amma") |
+| Diet tags and filters | Low-carb, High protein, Light, Low oil, Millet, Low sugar, Fasting food; worked out from each recipe's ingredients and nutrition, correctable by the home on Dish detail; filter chips in Dishes and the picker |
+| Fasting days | Set by each person for themselves (the Admin for people without a login): skip chosen meals, fasting foods only, fruits and milk only, or one meal a day; on weekly days and/or chosen dates. They are left out of the meals they don't eat (amounts, shopping, cook's sheet); with fasting foods the picker suggests those dishes. Not for anyone under 18; the app never suggests fasting itself |
+| Nutrition | My nutrition shows the plan's focus gently ("Protein: aim 80 g a day") and marks fasting days instead of calling them low. No weight, scores or "you broke your diet" messages |
+
+Every plan shows: "General guidance, not medical advice. If you have a health condition, check with your doctor before changing your diet." The app stores the chosen plan and preferences, never a diagnosis.
+
+**4. Guests.** In the meal editor under "Who's eating": guests as adults and children (a child counts as half a serving), an optional note, and "Staying longer" to repeat the same guests across a date range. Guests change recipe scaling, the shopping amounts and the cook's sheet count, but never anyone's nutrition, attendance or history. A guest note is shown to the cooks (for example a guest's allergy); guests have no profiles.
+
+Not included: tracking what's in the fridge beyond leftovers, school menu calendars, automatic festival dates from the internet, and guest profiles.
 
 ## Food catalogue and images
 

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meal with a diet plate</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;family=Noto+Sans+Tamil:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans','Noto Sans Tamil',sans-serif;background:#FFF8EE;color:#2B2622}
+a{color:#8A4B00}a:hover{color:#5E3300}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1550px; box-sizing: border-box; background: #FFF8EE; color: #2B2622; display: flex; flex-direction: column">
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 6px 8px">
+<a href="Planner.dc.html" aria-label="Back to Week" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2B2622; border-radius: 12px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px">Thursday lunch</span>
+<span style="font-size: 12px; color: #6E6259">1 Oct · Meal editor (part)</span>
+</div>
+</div>
+
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; padding: 12px 20px 8px">Family meal · for {{familyCount}}</span>
+<div style="margin: 0 16px; background: #FFFFFF; border: 1px solid #EADFCB; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 12px; align-items: center">
+<span style="width: 52px; height: 52px; border-radius: 50%; background: #EFE3C8; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px; flex-shrink: 0; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #2F7A3E">S</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15.5px; font-weight: 600">Sambar rice</span>
+<span style="font-size: 12.5px; color: #6E6259">+ beans poriyal, appalam, curd · Helper</span>
+</span>
+</div>
+<span style="font-size: 12.5px; color: #4A3F37">{{familyWho}}</span>
+<span style="font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 8px; background: #FFF1DB; color: #7A3E00; align-self: flex-start">Paati: appalam is salty (low salt)</span>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 8px">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px">Diet plate</span>
+<button type="button" role="switch" aria-checked="{{plateChecked}}" aria-label="Diet plate for Amma and Appa" onClick="{{togglePlate}}" style="width: 52px; height: 44px; border: none; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<span style="width: 48px; height: 28px; border-radius: 999px; background: {{track}}; display: flex; align-items: center; padding: 3px; box-sizing: border-box; justify-content: {{knob}}"><span style="width: 22px; height: 22px; border-radius: 50%; background: #FFFFFF"></span></span>
+</button>
+</div>
+<sc-if value="{{showPlate}}" hint-placeholder-val="{{ true }}">
+<div style="margin: 0 16px; background: #FFFFFF; border: 2px solid #3B4A9C; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: #EEF0FA; color: #2C3777">Amma + Appa · Low-carb</span>
+<span style="font-size: 12px; color: #6E6259">Sambar rice doesn't fit their plan</span>
+</div>
+<div style="display: flex; gap: 12px; align-items: center">
+<span style="width: 52px; height: 52px; border-radius: 50%; background: #F3D27A; display: flex; align-items: center; justify-content: center; font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px; flex-shrink: 0">{{plateIni}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<span style="font-size: 15.5px; font-weight: 600">{{plateMain}}</span>
+<span style="font-size: 12.5px; color: #6E6259">+ cucumber salad, beans poriyal (from the family meal)</span>
+</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A3F37">Fits low-carb · tap to use</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ideas}}" as="i" hint-placeholder-count="5">
+<button type="button" aria-pressed="{{i.pressed}}" onClick="{{i.pick}}" style="height: 38px; padding: 0 12px; border-radius: 12px; border: {{i.border}}; background: {{i.bg}}; color: #2B2622; font-size: 13px; font-weight: 600; cursor: pointer">{{i.name}}</button>
+</sc-for>
+</div>
+<a href="DishPicker.dc.html" style="font-size: 13px; font-weight: 600">More dishes that fit</a>
+</div>
+<span style="font-size: 12px; color: #6E6259">Shared sides (like poriyal) can be on both plates. Cooked by Amma.</span>
+</div>
+</sc-if>
+
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259; padding: 20px 20px 8px">Dish picker filters</span>
+<div style="margin: 0 16px; display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{tags}}" as="t" hint-placeholder-count="7">
+<button type="button" aria-pressed="{{t.pressed}}" onClick="{{t.toggle}}" style="height: 36px; padding: 0 12px; border-radius: 999px; border: {{t.border}}; background: {{t.bg}}; color: {{t.ink}}; font-size: 13px; font-weight: 600; cursor: pointer">{{t.label}}</button>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #6E6259; padding: 8px 20px 0">Tags are worked out from each recipe's ingredients and nutrition; a home can correct them on Dish detail.</span>
+
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6259; padding: 20px 20px 8px">Cook's sheet line</span>
+<div style="margin: 0 16px; background: #E7F1E8; border: 1px solid #C9DECB; border-radius: 4px 18px 18px 18px; padding: 12px 14px; font-size: 14px; line-height: 1.55; white-space: pre-line">{{sheet}}</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1550}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { plate: true, pick: 'paneer', tags: { lowcarb: true } };
+  }
+  renderVals() {
+    const s = this.state;
+    const IDEAS = [['paneer','Paneer tikka'],['eggb','Egg bhurji'],['chick','Pepper chicken'],['soup','Vegetable soup'],['fish','Fish fry']];
+    const ideas = IDEAS.map(([id, name]) => { const on = s.pick === id; return { name, pressed: on ? 'true' : 'false',
+      bg: on ? '#EEF0FA' : '#FFFFFF', border: on ? '2px solid #3B4A9C' : '1px solid #CDBFA8', pick: () => this.setState({ pick: id }) }; });
+    const main = IDEAS.find(([id]) => id === s.pick)[1];
+    const TAGS = [['lowcarb','Low-carb'],['protein','High protein'],['light','Light'],['lowoil','Low oil'],['millet','Millet'],['lowsugar','Low sugar'],['fasting','Fasting food']];
+    const tags = TAGS.map(([id, label]) => { const on = !!s.tags[id]; return { label, pressed: on ? 'true' : 'false',
+      bg: on ? '#2B2622' : '#FFFFFF', ink: on ? '#FFF8EE' : '#2B2622', border: on ? '1.5px solid #2B2622' : '1px solid #CDBFA8',
+      toggle: () => this.setState({ tags: { ...this.state.tags, [id]: !on } }) }; });
+    const fam = s.plate ? 3 : 5;
+    return { showPlate: s.plate, plateChecked: s.plate ? 'true' : 'false', togglePlate: () => this.setState({ plate: !this.state.plate }),
+      track: s.plate ? '#2F7A3E' : '#B9AA92', knob: s.plate ? 'flex-end' : 'flex-start',
+      familyCount: fam, familyWho: s.plate ? 'Paati, Kavi, Arun · recipe amounts and shopping for 3' : 'Everyone · 5',
+      ideas, plateMain: main, plateIni: main.charAt(0), tags,
+      sheet: s.plate ? 'Lunch (3): Sambar rice + beans poriyal, appalam, curd · Helper\nDiet plate (2): ' + main + ' + cucumber salad, beans poriyal · Amma\nNote: less salt for 1 person'
+        : 'Lunch (5): Sambar rice + beans poriyal, appalam, curd · Helper\nNote: less salt for 1 person' };
+  }
+}
+</script>
+</body>
+</html>

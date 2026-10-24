@@ -1,6 +1,6 @@
 # HomeFood mockups
 
-Snapshot of the "HomeFood Mockups" design canvas (claude.ai), exported 28 Sep 2026.
+Snapshot of the "HomeFood Mockups" design canvas (claude.ai), exported 28 Sep 2026; screens 15c and 18 to 22 added 24 Oct 2026.
 **Use the PNGs as the visual reference** for layout, spacing, colours and copy. The `.dc.html` files hold the exact
 markup, inline styles and sample data (the `{{…}}` placeholders and `<sc-for>`/`<sc-if>` tags are the canvas's
 template syntax, not something to copy). They don't render on their own; open the PNGs instead.
@@ -24,8 +24,14 @@ Phone screens are 390 px wide. Sample people: Amma (Admin/Planner), Appa, Paati 
 | 13 · Planner rota: take a turn | `png/Rota.png` | `html/Rota.dc.html` |
 | 14 · Today in the evening: prep for tomorrow | `png/TodayPrep.png` | `html/TodayPrep.dc.html` |
 | 15 · Shopping list | `png/Shopping.png` | `html/Shopping.dc.html` |
+| 15c · Shopping list, two tabs (CHOSEN layout; replaces 15) | `png/ShoppingV3.png` | `html/ShoppingV3.dc.html` |
 | 16 · Add from this week's meals | `png/ShopFromPlan.png` | `html/ShopFromPlan.dc.html` |
 | 17 · Cook's sheet for the helper | `png/CookSheet.png` | `html/CookSheet.dc.html` |
+| 18 · Leftovers: add after a meal, use or mark gone | `png/Leftovers.png` | `html/Leftovers.dc.html` |
+| 19 · Diets and fasting (Home › Our home) | `png/DietPlans.png` | `html/DietPlans.dc.html` |
+| 20 · Meal with a diet plate | `png/DietPlate.png` | `html/DietPlate.dc.html` |
+| 21 · Fasting days | `png/Fasting.png` | `html/Fasting.dc.html` |
+| 22 · Guests for a meal | `png/Guests.png` | `html/Guests.dc.html` |
 | Saved image for WhatsApp · dishes only | `png/Share.png` | `html/Share.dc.html` |
 | Week at a glance · phone | `png/Phone.png` | `html/Phone.dc.html` |
 | Week at a glance · tablet and laptop | `png/Main.png` | `html/Main.dc.html` |
@@ -33,6 +39,9 @@ Phone screens are 390 px wide. Sample people: Amma (Admin/Planner), Appa, Paati 
 ## Screens by build step
 
 - Shopping, prep reminders, cook's sheet (designed 23 Oct 2026, spec section "Shopping, prep reminders and the cook's sheet"): 14 · Today prep card, 15 · Shopping, 16 · Add from this week's meals, 17 · Cook's sheet. Screen 14 uses the built 4-tab nav.
+
+- Shopping layout (24 Oct 2026): 15c · Shopping list, two tabs (To buy, Add items) is the chosen layout and replaces 15; 15b (one-screen layout with Shop now) was not chosen and has no mockup file here.
+- Leftovers, diets and fasting, guests (designed 24 Oct 2026, spec section "Leftovers, lunch boxes, special days and guests"), in build order: 18 · Leftovers (next), 19 · Diets and fasting, 20 · Diet plate, 21 · Fasting days, 22 · Guests.
 
 - Step 1 (done): 6 · Sign in
 - **Step 2 · Home setup: 7 · Set up your home → 8 · Invite family + getting started → 9 · Join from invite link.**
