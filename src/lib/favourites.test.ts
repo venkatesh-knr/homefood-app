@@ -24,6 +24,14 @@ describe('orderDishes', () => {
   })
 })
 
+describe('countUsage and leftovers', () => {
+  it('does not count a leftover side as the dish being planned again', () => {
+    const counts = countUsage([{ main_dish_id: 'idli', meal_slot_sides: [{ dish_id: 'sambar', is_leftover: true }, { dish_id: 'chutney' }] }])
+    expect(counts.get('sambar')).toBeUndefined()
+    expect(counts.get('chutney')).toBe(1)
+  })
+})
+
 describe('countUsage', () => {
   it('counts main dishes and sides', () => {
     const counts = countUsage([

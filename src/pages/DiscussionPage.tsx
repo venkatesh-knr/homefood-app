@@ -1,6 +1,7 @@
 import { RecipeIcon } from '../components/icons'
 import { useMemo, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { withLeftoverTag } from '../lib/leftovers'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
@@ -104,7 +105,7 @@ export default function DiscussionPage() {
   const tally = tallyVotes(votes ?? [])
   const share = agreeShare(tally)
   const mainName = slot.main_dish ? nameOf(slot.main_dish, lang) : slot.place_name || t('planner.emptySlot')
-  const sides = [...slot.meal_slot_sides].sort((a, b) => a.position - b.position).map((s) => nameOf(s.dish, lang))
+  const sides = [...slot.meal_slot_sides].sort((a, b) => a.position - b.position).map((s) => withLeftoverTag(nameOf(s.dish, lang), s.is_leftover, t('leftovers.tag')))
   const cooks = slot.meal_slot_cooks.map((c) => memberById.get(c.profile_id)?.name).filter(Boolean)
   const openSuggestions = (suggestions ?? []).filter((s) => s.status === 'open')
   const closedSuggestions = (suggestions ?? []).filter((s) => s.status !== 'open')

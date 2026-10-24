@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { withLeftoverTag } from '../lib/leftovers'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useMembers } from '../lib/queries'
@@ -231,7 +232,7 @@ export default function HistoryPage() {
                 </h2>
                 {g.items.map((s) => {
                   const main = s.main_dish ? dishNames(s.main_dish, lang).shown : s.place_name
-                  const sides = s.meal_slot_sides.sort((a, b) => a.position - b.position).map((x) => dishNames(x.dish, lang).shown)
+                  const sides = s.meal_slot_sides.sort((a, b) => a.position - b.position).map((x) => withLeftoverTag(dishNames(x.dish, lang).shown, x.is_leftover, t('leftovers.tag')))
                   const cooks = s.meal_slot_cooks.map((c) => memberName.get(c.profile_id)).filter(Boolean)
                   return (
                     <div key={s.id} className="flex flex-col gap-2 rounded-2xl border border-line bg-surface p-3">
@@ -271,7 +272,7 @@ export default function HistoryPage() {
         <CookAgainSheet
           dish={{ id: cookAgain.main_dish.id, name: dishNames(cookAgain.main_dish, lang).shown, meal_types: [cookAgain.meal] }}
           meal={cookAgain.meal}
-          sideDishIds={[...cookAgain.meal_slot_sides].sort((a, b) => a.position - b.position).map((x) => x.dish.id)}
+          sideDishIds={[...cookAgain.meal_slot_sides].filter((x) => !x.is_leftover).sort((a, b) => a.position - b.position).map((x) => x.dish.id)}
           onClose={() => setCookAgain(null)}
         />
       )}

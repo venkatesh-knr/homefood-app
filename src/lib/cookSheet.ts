@@ -11,7 +11,7 @@ export type SheetSlot = {
   meal: string
   source: string
   main_dish: DishLike | null
-  meal_slot_sides: { position: number; dish: DishLike }[]
+  meal_slot_sides: { position: number; dish: DishLike; is_leftover?: boolean }[]
   meal_slot_cooks: { profile_id: string }[]
   meal_slot_eaters: { profile_id: string }[]
 }
@@ -19,8 +19,8 @@ export type SheetSlot = {
 export type SheetPrep = { text: { en: string; ta: string | null }; dish: { en: string; ta: string | null } }
 
 const WORDS = {
-  en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, helper: null as string | null },
-  ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, helper: 'உதவியாளர்' },
+  en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, helper: null as string | null, leftover: (dish: string) => `use leftover ${dish}` },
+  ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, helper: 'உதவியாளர்', leftover: (dish: string) => `மீதமுள்ள ${dish} (பயன்படுத்தவும்)` },
 }
 
 const mealName = (meal: string, lang: SheetLang) => ((lang === 'ta' ? ta : en).meal as Record<string, string>)[meal] ?? meal
@@ -97,7 +97,7 @@ export function buildCookSheet(opts: {
     if (s.source === 'dine_out') meals.push(head + w.eating)
     else if (s.source === 'order_in') meals.push(head + w.ordering)
     else {
-      const sides = [...s.meal_slot_sides].sort((a, b) => a.position - b.position).map((x) => dishName(x.dish, lang))
+      const sides = [...s.meal_slot_sides].sort((a, b) => a.position - b.position).map((x) => (x.is_leftover ? w.leftover(dishName(x.dish, lang)) : dishName(x.dish, lang)))
       const food = s.main_dish ? dishName(s.main_dish, lang) + (sides.length > 0 ? ` + ${sides.join(', ')}` : '') : sides.join(', ')
       if (!food) continue
       const cooks = s.meal_slot_cooks.map((c) => nameOf(c.profile_id)).filter(Boolean)

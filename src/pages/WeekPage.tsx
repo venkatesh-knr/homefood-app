@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { withLeftoverTag } from '../lib/leftovers'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { BalanceBanner } from '../components/BalanceBanner'
 import { limitsOf } from '../lib/balance'
@@ -284,7 +285,7 @@ function MealCard({
   const mainName = slot.main_dish ? (slot.main_dish.dish_names.find((n) => n.language === lang)?.name ?? slot.main_dish.name) : null
   const sideNames = slot.meal_slot_sides
     .sort((a, b) => a.position - b.position)
-    .map((s) => s.dish.dish_names.find((n) => n.language === lang)?.name ?? s.dish.name)
+    .map((s) => withLeftoverTag(s.dish.dish_names.find((n) => n.language === lang)?.name ?? s.dish.name, s.is_leftover, t('leftovers.tag')))
   const allergens = [...(slot.main_dish?.allergens ?? []), ...slot.meal_slot_sides.flatMap((s) => s.dish.allergens)]
   const conflicts = [...new Set(allergens.filter((a) => householdAllergens.includes(a)))]
   const cooks = slot.meal_slot_cooks.map((c) => memberById.get(c.profile_id)).filter((m): m is NonNullable<typeof m> => Boolean(m))

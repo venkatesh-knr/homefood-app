@@ -171,6 +171,10 @@ describe('which meals count', () => {
     expect(meals.map((m) => [m.dish.id, m.people])).toEqual([['main', 2], ['a', 2], ['b', 2]])
     expect(meals[0]!.dish).toEqual({ id: 'main', name_en: 'MAIN', name_ta: 'main-ta' })
   })
+  it('leaves a leftover side out: it is not cooked again, so it needs nothing from the shop', () => {
+    const meals = mealsFromSlots([slot('s1', { meal_slot_sides: [{ position: 1, dish: d('a') }, { position: 2, dish: d('left'), is_leftover: true }] })], 5)
+    expect(meals.map((m) => m.dish.id)).toEqual(['main', 'a'])
+  })
   it('uses the family count when a meal has no list of who is eating', () => {
     expect(mealsFromSlots([slot('s1', { meal_slot_eaters: [] })], 5)[0]!.people).toBe(5)
   })

@@ -30,7 +30,7 @@ type SlotLike = {
   id: string
   source: string
   main_dish: { id: string; name: string; dish_names: { language: string; name: string }[] } | null
-  meal_slot_sides: { position: number; dish: { id: string; name: string; dish_names: { language: string; name: string }[] } }[]
+  meal_slot_sides: { position: number; is_leftover?: boolean; dish: { id: string; name: string; dish_names: { language: string; name: string }[] } }[]
   meal_slot_eaters: { profile_id: string }[]
 }
 
@@ -47,7 +47,8 @@ export function mealsFromSlots(slots: SlotLike[], familyCount: number): PlanMeal
     const people = s.meal_slot_eaters.length || familyCount
     if (people <= 0) continue
     if (s.main_dish) out.push({ slotId: s.id, dish: dishOf(s.main_dish), people })
-    for (const side of [...s.meal_slot_sides].sort((a, b) => a.position - b.position)) out.push({ slotId: s.id, dish: dishOf(side.dish), people })
+    // a leftover is not cooked again, so it needs nothing from the shop
+    for (const side of [...s.meal_slot_sides].filter((x) => !x.is_leftover).sort((a, b) => a.position - b.position)) out.push({ slotId: s.id, dish: dishOf(side.dish), people })
   }
   return out
 }

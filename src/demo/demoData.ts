@@ -222,6 +222,12 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   shop('gng', 'Ginger', 'இஞ்சி', 'veg_fruit', 100, 'g', { bought_at: minutesAgo(now, 180), bought_by: DEMO_IDS.amma }, 501)
   shop('brd', 'Bread', 'ரொட்டி', 'other', 1, 'pack', { is_regular: true, source: 'regular', added_by: DEMO_IDS.amma, bought_at: minutesAgo(now, 2 * 1440), bought_by: DEMO_IDS.amma }, 3000)
 
+  // ── leftovers: veg kurma from yesterday's dinner (good until today's dinner) and some sambar from this morning ──
+  const leftover = (id: string, dish: string, from: string | null, amount: string, keptIn: string, cookedOn: string, useBy: string, ago: number) =>
+    put('leftovers', { id: `left-${id}`, household_id: DEMO_HOUSEHOLD_ID, dish_id: dishId(dish), from_slot_id: from, amount, kept_in: keptIn, cooked_on: cookedOn, use_by: useBy, status: 'active', used_slot_id: null, created_by: DEMO_IDS.amma, created_at: minutesAgo(now, ago) })
+  leftover('kurma', 'Veg kurma', slotId(yesterdayIso, 'dinner'), 'little', 'fridge', yesterdayIso, today, 900)
+  leftover('sambar', 'Sambar', slotId(today, 'breakfast'), 'some', 'fridge', today, addDays(today, 1), 240)
+
   // ── the bell ──
   const tonight = WEEK[weekStartIndex(now)]!.dinner
   const tonightDish = tonight.main ? cat.dishes.find((d) => d.id === dishId(tonight.main!)) : undefined

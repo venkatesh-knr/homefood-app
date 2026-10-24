@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { withLeftoverTag } from '../lib/leftovers'
 import { useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useHistorySlots, useWeekSlots, type SlotWithDetails } from '../lib/plannerQueries'
@@ -17,6 +18,7 @@ import { ExtrasSection } from '../components/ExtrasSection'
 import type { AttendanceRow } from '../lib/attendance'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { PrepCards } from '../components/PrepCards'
+import { LeftoverPrompt, LeftoversCard } from '../components/LeftoverCards'
 import { useMembers } from '../lib/queries'
 import { EVENING_FROM, zonedParts } from '../lib/prep'
 import { useShoppingItems } from '../lib/shoppingQueries'
@@ -98,6 +100,8 @@ export default function TodayPage() {
         </>
       )}
 
+      <LeftoversCard />
+
       <ExtrasSection date={today} />
 
       <div className={`mt-1 grid gap-2.5 ${!shopError && shopItems ? 'grid-cols-2 ta:grid-cols-1' : 'grid-cols-1'}`}>
@@ -154,19 +158,19 @@ function capitalize(s: string) {
   return s[0]!.toUpperCase() + s.slice(1)
 }
 
-function mealDishNames(slot: SlotWithDetails | undefined, lang: 'en' | 'ta') {
+function mealDishNames(slot: SlotWithDetails | undefined, lang: 'en' | 'ta', leftoverTag: string) {
   if (!slot?.main_dish) return null
   const name = slot.main_dish.dish_names.find((n) => n.language === lang)?.name ?? slot.main_dish.name
   const sides = slot.meal_slot_sides
     .sort((a, b) => a.position - b.position)
-    .map((s) => s.dish.dish_names.find((n) => n.language === lang)?.name ?? s.dish.name)
+    .map((s) => withLeftoverTag(s.dish.dish_names.find((n) => n.language === lang)?.name ?? s.dish.name, s.is_leftover, leftoverTag))
   return { name, sides, dish: slot.main_dish }
 }
 
 function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, onRecipe }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; attendance: AttendanceRow[]; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void; onRecipe?: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
-  const dish = mealDishNames(slot, lang)
+  const dish = mealDishNames(slot, lang, t('leftovers.tag'))
   const photoFor = useDishPhotoPath()
 
   return (
@@ -195,6 +199,7 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
       </button>
       {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="full" onDiscuss={onDiscuss} onRecipe={onRecipe} />}
       {slot && <AttendanceControl slot={slot} rows={attendance} />}
+      {slot && <LeftoverPrompt slot={slot} />}
     </div>
   )
 }
@@ -202,7 +207,7 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
 function RestCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss }: { meal: MealType; slot: SlotWithDetails | undefined; lang: 'en' | 'ta'; attendance: AttendanceRow[]; counts?: SlotDiscussionCounts; onClick: () => void; onDiscuss: () => void }) {
   const { t } = useTranslation()
   const bandColor = { breakfast: '#F2B705', lunch: '#2F7A3E', snacks: '#E8742A', dinner: '#3B4A9C' }[meal]
-  const dish = mealDishNames(slot, lang)
+  const dish = mealDishNames(slot, lang, t('leftovers.tag'))
   const photoFor = useDishPhotoPath()
 
   return (
@@ -229,6 +234,7 @@ function RestCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss }: 
     </button>
     {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="compact" onDiscuss={onDiscuss} />}
     {slot && <AttendanceControl slot={slot} rows={attendance} />}
+    {slot && <LeftoverPrompt slot={slot} />}
     </div>
   )
 }

@@ -29,7 +29,7 @@ export function useDishUsage(householdId: string | undefined) {
       since.setDate(since.getDate() - 120)
       const { data, error } = await supabase!
         .from('meal_slots')
-        .select('main_dish_id, meal_slot_sides(dish_id)')
+        .select('main_dish_id, meal_slot_sides(*)')
         .eq('household_id', householdId)
         .gte('date', toISODate(since))
       if (error) return new Map()

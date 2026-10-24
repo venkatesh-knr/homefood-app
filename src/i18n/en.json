@@ -932,6 +932,45 @@
       "body": "Nutrition tips and allergy warnings for every member."
     }
   },
+  "leftovers": {
+    "tag": "leftover",
+    "ask": "Anything left over?",
+    "recorded": "Left over: {{names}}",
+    "whatsLeft": "What's left?",
+    "howMuch": "How much {{name}} is left?",
+    "amount": {
+      "little": "A little",
+      "some": "Some",
+      "lot": "A lot"
+    },
+    "keptIn": "Kept in",
+    "kept": {
+      "fridge": "Fridge",
+      "out": "Kept out"
+    },
+    "keptHint": {
+      "fridge": "cooked food keeps 1 day in the fridge",
+      "out": "kept out, only until that night"
+    },
+    "save": "Save leftovers",
+    "useByToday": "Use by today dinner",
+    "useByTomorrow": "Use by tomorrow dinner",
+    "useByDate": "Use by {{date}} dinner",
+    "cardTitle": "Leftovers to use · {{count}}",
+    "from": "from {{day}}",
+    "useInMeal": "Use in a meal",
+    "gone": "Gone",
+    "goneNamed": "{{name}} is gone",
+    "useTitle": "Use {{name}} in a meal",
+    "useHint": "Pick a home meal before the use-by day. It is added as a side marked leftover: not cooked again, not on the shopping list.",
+    "noMeals": "No home meal with a free side spot before its use-by. Plan a home meal first, or tap Gone.",
+    "useHere": "Use here",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "editorTitle": "Use leftovers",
+    "editorHint": "Added as a side marked “leftover”: not cooked again, not on the shopping list; the cook's sheet says “use leftover”.",
+    "editorAdd": "Add leftover {{name}}"
+  },
   "shopping": {
     "title": "Shopping",
     "summary": "{{toBuy}} to buy · {{bought}} bought",

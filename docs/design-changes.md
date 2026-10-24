@@ -60,6 +60,9 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
   - **Own reminders and switch-offs** (added after the spec, 23 Oct): the Admin or whoever is the Planner today adds the home's own reminders for a dish and switches a standard one off for the home only.
 - **Cook's sheet**: today or tomorrow, English or Tamil, optional "name who has the allergy", WhatsApp / copy / print.
 
+**Leftovers** (24 Oct, spec 1; migration 0038)
+- "Anything left over?" after a home meal, "Leftovers to use" on Today, "Use leftovers" in the meal editor, "use leftover X" in the cook's sheet. **Beyond the spec:** anyone can put a leftover into an existing home meal (not only the Planner) through a database function, which is a deliberate exception to "Planner has the final say"; rows tidy themselves a week after their use-by.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
@@ -69,7 +72,7 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 - **Dark mode** with an Appearance setting (System / Light / Dark); the Week at a glance poster always saves in light.
 - **Scroll and focus**: every new screen opens at the top with focus on the page; forms that open lower down scroll into view.
 - **Tamil review kit** (`docs/tamil-review.html`, regenerated 23 Oct): about 4,900 lines: screen texts, dish names, recipes, everyday foods, the 150 shopping items, prep wording and the Tamil words that live in code.
-- **Database tests in CI**: every push runs the rule tests (317 checks) on a throwaway Postgres; 306 unit tests.
+- **Database tests in CI**: every push runs the rule tests (342 checks) on a throwaway Postgres; 306 unit tests.
 
 ## D. Still not built (parked on purpose)
 
@@ -81,7 +84,7 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 - **Logging food more than 7 days back** (the database window is 7 days; changing it is a small migration).
 - **Real screen-reader and keyboard walkthrough** by a person, and a **native-speaker Tamil review** of the recipes, dish names and the new shopping / prep words.
 - More cuisines and snack depth, photos for the 30 dishes that have none, a prep editor inside the recipe editor (reminders are edited on Dish detail and the Recipe screen).
-- **Leftovers, lunch boxes, festival and fasting days, guests** (the spec's "Next, then later").
+- **Lunch boxes and festival days** (on hold / replaced by diets and fasting). Guests and diets and fasting are in progress (see CLAUDE.md).
 - **Step 7**: the two-week family trial.
 
 ## E. Parts of `docs/spec.md` that are now out of date
@@ -102,7 +105,7 @@ When the live Claude Doc is next updated, these lines should change:
 
 ## F. Database changes, in order (migration number: what it does)
 
-All applied in the live project (0001–0037, last two run 23 Oct 2026).
+Applied in the live project: 0001–0037 (last two run 23 Oct 2026). 0038 and later are written but run by Venkatesh after CI passes.
 
 | No. | What |
 | --- | --- |
@@ -141,6 +144,7 @@ All applied in the live project (0001–0037, last two run 23 Oct 2026).
 | 0035 | A home's own prep reminders and switching standard ones off |
 | 0036 | A better Idli photo |
 | 0037 | A credit for photos chosen from the web |
+| 0038 | Leftovers (table, leftover sides, `use_leftover`) |
 
 ## G. Where to read more
 

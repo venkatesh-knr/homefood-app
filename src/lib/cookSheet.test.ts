@@ -40,6 +40,12 @@ describe('the cook\'s sheet', () => {
     )
   })
 
+  it('says "use leftover" for a leftover side, in the sheet\'s language', () => {
+    const slots: SheetSlot[] = [{ meal: 'dinner', source: 'home', main_dish: dish('Chapati', 'சப்பாத்தி'), meal_slot_sides: [{ position: 1, dish: dish('Veg kurma', 'வெஜ் குருமா'), is_leftover: true }, { position: 2, dish: dish('Raita', 'ரைத்தா') }], meal_slot_cooks: [{ profile_id: 'amma' }], meal_slot_eaters: eaters('amma', 'appa') }]
+    expect(build({ slots, meals: ['dinner'] }).text).toContain('Dinner (2): Chapati + use leftover Veg kurma, Raita · Amma')
+    expect(build({ slots, meals: ['dinner'], lang: 'ta' }).text).toContain('சப்பாத்தி + மீதமுள்ள வெஜ் குருமா (பயன்படுத்தவும்), ரைத்தா')
+  })
+
   it('can name who has the allergy', () => {
     expect(build({ namesOn: true }).text).toContain('Note: no soy for Paati')
     expect(build({ namesOn: true }).text).not.toContain('1 person')

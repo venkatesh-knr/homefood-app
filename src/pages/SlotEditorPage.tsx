@@ -18,6 +18,8 @@ import { DishThumb } from '../components/DishRow'
 import { useDishPhotoPath } from '../lib/dishPhotos'
 import { DishPickerSheet } from '../components/DishPickerSheet'
 import { FirstVisitTip } from '../components/FirstVisitTip'
+import { useLeftovers } from '../lib/leftoverQueries'
+import { leftoverName, leftoversForDate, withLeftoverTag } from '../lib/leftovers'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
 
@@ -39,6 +41,7 @@ export default function SlotEditorPage() {
   const hasHelper = (members ?? []).some((m) => m.kind === 'helper')
   const memberIds = (members ?? []).map((m) => m.id)
   const { data: allergyRows } = useAllergies(memberIds)
+  const { data: leftoverList } = useLeftovers(household.id)
 
   // Wait for the meals and the members before filling the form, or the "new slot" default fires on empty data and
   // locks in permanently once initialised flips true.
@@ -51,6 +54,7 @@ export default function SlotEditorPage() {
     place_name: '',
     main_dish_id: null,
     side_dish_ids: [],
+    leftover_by_dish: {},
     cook_profile_ids: [],
     eater_profile_ids: [],
     note: '',
@@ -71,6 +75,7 @@ export default function SlotEditorPage() {
         place_name: existing.place_name ?? '',
         main_dish_id: existing.main_dish_id,
         side_dish_ids: existing.meal_slot_sides.sort((a, b) => a.position - b.position).map((s) => s.dish.id),
+        leftover_by_dish: Object.fromEntries(existing.meal_slot_sides.filter((s) => s.is_leftover && s.leftover_id).map((s) => [s.dish.id, s.leftover_id as string])),
         cook_profile_ids: existing.meal_slot_cooks.map((c) => c.profile_id),
         eater_profile_ids: existing.meal_slot_eaters.map((e) => e.profile_id),
         note: existing.note ?? '',
@@ -146,6 +151,8 @@ export default function SlotEditorPage() {
   }
 
   const searchTerm = mainDish ? dishName(mainDish) : ''
+  // Leftovers still good on this meal's day that are not in it yet (a leftover already in it shows as one of its sides)
+  const usableLeftovers = leftoversForDate(leftoverList ?? [], date).filter((l) => !values.side_dish_ids.includes(l.dish_id))
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col">
@@ -240,13 +247,16 @@ export default function SlotEditorPage() {
           <div className="flex flex-wrap gap-2 px-4">
             {sideDishes.map((d) => (
               <span key={d.id} className="flex items-center gap-1.5 rounded-full border border-line bg-surface py-2 pl-3.5 pr-1.5 text-[14px]">
-                {dishName(d)}
+                {withLeftoverTag(dishName(d), Boolean(values.leftover_by_dish?.[d.id]), t('leftovers.tag'))}
                 <button
                   type="button"
                   aria-label={dishName(d)}
                   onClick={() => {
                     setSideDishes((ds) => ds.filter((x) => x.id !== d.id))
-                    setValues((v) => ({ ...v, side_dish_ids: v.side_dish_ids.filter((x) => x !== d.id) }))
+                    setValues((v) => {
+                      const { [d.id]: _removed, ...rest } = v.leftover_by_dish ?? {}
+                      return { ...v, side_dish_ids: v.side_dish_ids.filter((x) => x !== d.id), leftover_by_dish: rest }
+                    })
                   }}
                   className="flex h-6 w-6 items-center justify-center rounded-full text-muted"
                 >
@@ -261,6 +271,32 @@ export default function SlotEditorPage() {
               </button>
             )}
           </div>
+
+          {usableLeftovers.length > 0 && (
+            <>
+              <SectionLabel>{t('leftovers.editorTitle')}</SectionLabel>
+              <div className="flex flex-wrap gap-2 px-4">
+                {usableLeftovers.map((l) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    disabled={sideDishes.length >= 3}
+                    aria-label={t('leftovers.editorAdd', { name: leftoverName(l.dish, lang) })}
+                    onClick={() => {
+                      if (!l.dish) return
+                      setSideDishes((ds) => [...ds, l.dish as unknown as DishWithNames])
+                      setValues((v) => ({ ...v, side_dish_ids: [...v.side_dish_ids, l.dish_id], leftover_by_dish: { ...(v.leftover_by_dish ?? {}), [l.dish_id]: l.id } }))
+                    }}
+                    className="flex min-h-[44px] items-center gap-1.5 rounded-full border border-saffron/50 bg-saffron-tint px-3.5 text-[14px] font-semibold text-saffron-ink disabled:opacity-50"
+                  >
+                    <span aria-hidden="true">+</span>
+                    {leftoverName(l.dish, lang)}
+                  </button>
+                ))}
+              </div>
+              <p className="px-4 pt-1.5 text-[12.5px] leading-relaxed text-muted">{t('leftovers.editorHint')}</p>
+            </>
+          )}
 
           <SectionLabel>{t('planner.cooksLabel')}</SectionLabel>
           <div className="flex flex-wrap gap-2 px-4">

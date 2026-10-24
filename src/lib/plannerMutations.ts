@@ -39,11 +39,24 @@ export type SlotInput = {
   place_name: string
   main_dish_id: string | null
   side_dish_ids: string[]
+  /** Sides that are leftovers: side dish id -> the leftover it uses. Only these are written with the leftover marker (migration 0038). */
+  leftover_by_dish?: Record<string, string>
   cook_profile_ids: string[]
   eater_profile_ids: string[]
   note: string
   /** Dine-out / order-in only; empty for "not sure". */
   outside_size?: OutsideMealSize | ''
+}
+
+/** Leftovers used in a meal are marked used for it; one that is taken out of the meal (or the meal is cleared) is good to use again. Quiet when
+ * migration 0038 has not been run: there is nothing to keep in step then. */
+async function syncLeftovers(slotId: string, wanted: string[]): Promise<void> {
+  const { data, error } = await client().from('leftovers').select('id').eq('used_slot_id', slotId).eq('status', 'used')
+  if (error) return
+  const freed = (data ?? []).map((r) => r.id as string).filter((id) => !wanted.includes(id))
+  if (freed.length > 0) await client().from('leftovers').update({ status: 'active', used_slot_id: null }).in('id', freed)
+  if (wanted.length > 0) await client().from('leftovers').update({ status: 'used', used_slot_id: slotId }).in('id', wanted)
+  await queryClient.invalidateQueries({ queryKey: ['leftovers'] })
 }
 
 /** Upserts one meal slot and replaces its sides/cooks/eaters with exactly this list. */
@@ -82,9 +95,10 @@ export async function saveSlot(
   if (input.source === 'home' && input.side_dish_ids.length > 0) {
     const { error: sidesError } = await client()
       .from('meal_slot_sides')
-      .insert(input.side_dish_ids.slice(0, 3).map((dish_id, i) => ({ slot_id: slotId, position: i + 1, dish_id })))
+      .insert(input.side_dish_ids.slice(0, 3).map((dish_id, i) => ({ slot_id: slotId, position: i + 1, dish_id, ...(input.leftover_by_dish?.[dish_id] ? { is_leftover: true, leftover_id: input.leftover_by_dish[dish_id] } : {}) })))
     if (sidesError) throw sidesError
   }
+  await syncLeftovers(slotId, input.source === 'home' ? Object.values(input.leftover_by_dish ?? {}) : [])
 
   await client().from('meal_slot_cooks').delete().eq('slot_id', slotId)
   if (input.source === 'home' && input.cook_profile_ids.length > 0) {
@@ -135,6 +149,7 @@ export async function planDishInFreeSlot(args: {
 }
 
 export async function clearSlot(slotId: string, weekPlanId: string, householdId: string): Promise<void> {
+  await syncLeftovers(slotId, [])
   const { error } = await client().from('meal_slots').delete().eq('id', slotId)
   if (error) throw error
   await invalidateWeek(weekPlanId, householdId)
@@ -163,7 +178,7 @@ type CopySource = {
 async function fetchSlotsForCopy(householdId: string, dates: string[]): Promise<CopySource[]> {
   const { data, error } = await client()
     .from('meal_slots')
-    .select('date, meal, source, place_name, main_dish_id, note, meal_slot_sides(dish_id), meal_slot_cooks(profile_id)')
+    .select('date, meal, source, place_name, main_dish_id, note, meal_slot_sides(*), meal_slot_cooks(profile_id)')
     .eq('household_id', householdId)
     .in('date', dates)
   if (error) throw error
@@ -174,7 +189,8 @@ async function fetchSlotsForCopy(householdId: string, dates: string[]): Promise<
     place_name: s.place_name,
     main_dish_id: s.main_dish_id,
     note: s.note,
-    sides: (s.meal_slot_sides as { dish_id: string }[]).map((x) => x.dish_id),
+    // a leftover used in that meal was a one-off: it is not copied
+    sides: (s.meal_slot_sides as { dish_id: string; is_leftover?: boolean }[]).filter((x) => !x.is_leftover).map((x) => x.dish_id),
     cooks: (s.meal_slot_cooks as { profile_id: string }[]).map((x) => x.profile_id),
   }))
 }

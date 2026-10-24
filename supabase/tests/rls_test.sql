@@ -651,6 +651,64 @@ select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003
 select tests.ok((select count(*) from public.dish_photo_overrides where photo_credit is not null) = 0, 'another home cannot see that credit');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── Leftovers (migration 0038) ──
+select (now() at time zone 'Asia/Kolkata')::date as today \gset
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_new', :'hh_a', :'today', 'dinner', :'pongal') returning id as slot_today \gset
+insert into public.leftovers (household_id, dish_id, from_slot_id, amount, kept_in, cooked_on, use_by, created_by)
+  values (:'hh_a', :'pongal', :'slot_today', 'some', 'fridge', :'today', (:'today'::date + 1), public.my_profile_id()) returning id as lo1 \gset
+select tests.ok((select count(*) from public.leftovers where household_id = :'hh_a') = 1, 'Amma records a leftover');
+select tests.refused($$ insert into public.leftovers (household_id, dish_id, from_slot_id, amount, kept_in, cooked_on, use_by, created_by)
+  values ('$$ || :'hh_a' || $$', '$$ || :'pongal' || $$', '$$ || :'slot_today' || $$', 'lot', 'out', '$$ || :'today' || $$', '$$ || :'today' || $$', public.my_profile_id()) $$, 'the same dish of the same meal is recorded once');
+select tests.refused($$ insert into public.leftovers (household_id, dish_id, amount, kept_in, cooked_on, use_by, created_by)
+  values ('$$ || :'hh_a' || $$', '$$ || :'pongal' || $$', 'little', 'fridge', '$$ || :'today' || $$', ('$$ || :'today' || $$'::date + 3), public.my_profile_id()) $$, 'a use-by is the same day or the next');
+select tests.refused($$ insert into public.leftovers (household_id, dish_id, amount, kept_in, cooked_on, use_by, created_by)
+  values ('$$ || :'hh_a' || $$', '$$ || :'pongal' || $$', 'huge', 'fridge', '$$ || :'today' || $$', '$$ || :'today' || $$', public.my_profile_id()) $$, 'the amount is a little, some or a lot');
+select tests.refused($$ insert into public.leftovers (household_id, dish_id, amount, kept_in, cooked_on, use_by, created_by)
+  values ('$$ || :'hh_c' || $$', '$$ || :'pongal' || $$', 'little', 'fridge', '$$ || :'today' || $$', '$$ || :'today' || $$', public.my_profile_id()) $$, 'a leftover cannot be recorded in another home');
+select tests.refused($$ update public.leftovers set dish_id = (select id from public.dishes where household_id is null limit 1) where id = '$$ || :'lo1' || $$' $$, 'the dish of a leftover cannot be changed');
+select tests.refused($$ update public.leftovers set household_id = '$$ || :'hh_c' || $$' where id = '$$ || :'lo1' || $$' $$, 'a leftover cannot move to another home');
+-- another home sees and changes nothing
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.leftovers) = 0, 'another home cannot see the leftovers');
+select tests.refused($$ update public.leftovers set status = 'gone' where id = '$$ || :'lo1' || $$' $$, 'another home cannot change a leftover');
+select tests.refused($$ delete from public.leftovers where id = '$$ || :'lo1' || $$' $$, 'another home cannot delete a leftover');
+select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_today' || $$') $$, 'another home cannot use a leftover');
+-- Appa is an ordinary member: he cannot write sides, but he can use a leftover through the function
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.leftovers) = 1, 'a member sees the home''s leftovers');
+select tests.refused($$ insert into public.meal_slot_sides (slot_id, position, dish_id) values ('$$ || :'slot_today' || $$', 1, '$$ || :'pongal' || $$') $$, 'a member cannot write a side directly');
+select public.use_leftover(:'lo1', :'slot_today');
+select tests.ok((select status = 'used' and used_slot_id = :'slot_today'::uuid from public.leftovers where id = :'lo1'), 'using a leftover marks it used for that meal');
+select tests.ok((select is_leftover and leftover_id = :'lo1'::uuid and position = 1 from public.meal_slot_sides where slot_id = :'slot_today'), 'it becomes a side marked leftover');
+select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_today' || $$') $$, 'a used leftover cannot be used again');
+-- Amma puts it back and tries the places it must not go
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.leftovers set status = 'active', used_slot_id = null where id = :'lo1';
+delete from public.meal_slot_sides where slot_id = :'slot_today';
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_old', :'hh_a', '2020-01-09', 'lunch', :'pongal') returning id as slot_past \gset
+select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_past' || $$') $$, 'a leftover cannot go into a meal in the past');
+insert into public.meal_slots (week_plan_id, household_id, date, meal, main_dish_id) values (:'wk_new', :'hh_a', (:'today'::date + 5), 'dinner', :'pongal') returning id as slot_far \gset
+select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_far' || $$') $$, 'a leftover cannot go into a meal past its use-by');
+insert into public.meal_slots (week_plan_id, household_id, date, meal, source, place_name) values (:'wk_new', :'hh_a', :'today', 'lunch', 'dine_out', 'Udupi') returning id as slot_out \gset
+select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_out' || $$') $$, 'a leftover goes only into a meal cooked at home');
+insert into public.meal_slot_sides (slot_id, position, dish_id) values (:'slot_today', 1, :'pongal'), (:'slot_today', 2, :'pongal'), (:'slot_today', 3, :'pongal');
+select tests.refused($$ select public.use_leftover('$$ || :'lo1' || $$', '$$ || :'slot_today' || $$') $$, 'a meal with three sides has no room for a leftover');
+delete from public.meal_slot_sides where slot_id = :'slot_today';
+select tests.refused($$ insert into public.meal_slot_sides (slot_id, position, dish_id, is_leftover, leftover_id) values ('$$ || :'slot_today' || $$', 1, '$$ || :'pongal' || $$', true, gen_random_uuid()) $$, 'a side cannot point at a leftover that does not exist');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+insert into public.leftovers (household_id, dish_id, amount, kept_in, cooked_on, use_by, created_by)
+  select :'hh_c'::uuid, id, 'little', 'out', :'today'::date, :'today'::date, public.my_profile_id() from public.dishes where household_id is null limit 1 returning id as lo_c \gset
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.refused($$ insert into public.meal_slot_sides (slot_id, position, dish_id, is_leftover, leftover_id) values ('$$ || :'slot_today' || $$', 1, '$$ || :'pongal' || $$', true, '$$ || :'lo_c' || $$') $$, 'a side cannot use another home''s leftover');
+reset role;
+select tests.ok(not exists (select 1 from information_schema.routine_privileges where routine_name = 'use_leftover' and grantee in ('anon', 'PUBLIC')), 'signed-out visitors cannot use leftovers');
+set role authenticated;
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+update public.leftovers set status = 'gone' where id = :'lo1';
+select tests.ok((select status = 'gone' from public.leftovers where id = :'lo1'), 'any member can mark a leftover gone');
+delete from public.leftovers where id = :'lo1';
+select tests.ok((select count(*) from public.leftovers) = 0, 'and remove it');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

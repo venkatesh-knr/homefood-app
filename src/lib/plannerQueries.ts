@@ -24,14 +24,15 @@ export function useWeekPlan(householdId: string | undefined, weekStart: string |
 export type SlotDish = { id: string; name: string; diet: DietType; allergens: string[]; photo_path: string | null; cuisine_id: string | null; dish_names: DishNameRow[]; tags?: string[] }
 export type SlotWithDetails = MealSlot & {
   main_dish: SlotDish | null
-  meal_slot_sides: { position: number; dish: SlotDish }[]
+  /** `is_leftover` / `leftover_id` exist once migration 0038 is run (the select asks for every column, so nothing breaks before). */
+  meal_slot_sides: { position: number; dish: SlotDish; is_leftover?: boolean; leftover_id?: string | null }[]
   meal_slot_cooks: { profile_id: string }[]
   meal_slot_eaters: { profile_id: string }[]
 }
 
 const SLOT_SELECT = `*,
   main_dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name)),
-  meal_slot_sides(position, dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name))),
+  meal_slot_sides(*, dish:dishes(id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name))),
   meal_slot_cooks(profile_id),
   meal_slot_eaters(profile_id)`
 

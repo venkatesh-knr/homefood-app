@@ -25,6 +25,7 @@ const REL: Record<string, Rel> = {
   'recipes.recipe_ingredients': { kind: 'many', fk: 'recipe_id' },
   'recipes.recipe_steps': { kind: 'many', fk: 'recipe_id' },
   'recipe_prep.recipes': { kind: 'one', fk: 'recipe_id' },
+  'leftovers.dishes': { kind: 'one', fk: 'dish_id' },
 }
 
 const PK: Record<string, string[]> = {
@@ -59,13 +60,14 @@ const UNIQUE: Record<string, string[][]> = {
 const CASCADE: Record<string, [string, string][]> = {
   meal_slots: [['meal_slot_sides', 'slot_id'], ['meal_slot_cooks', 'slot_id'], ['meal_slot_eaters', 'slot_id'], ['meal_slot_votes', 'slot_id'], ['meal_slot_comments', 'slot_id'], ['meal_slot_suggestions', 'slot_id'], ['meal_attendance', 'slot_id'], ['prep_done', 'slot_id'], ['notifications', 'slot_id']],
   week_plans: [['meal_slots', 'week_plan_id']],
-  dishes: [['dish_names', 'dish_id'], ['meal_slot_sides', 'dish_id'], ['dish_photo_overrides', 'dish_id'], ['recipes', 'dish_id'], ['dish_nutrition', 'dish_id'], ['dish_favourites', 'dish_id'], ['meal_slot_suggestions', 'dish_id']],
+  dishes: [['dish_names', 'dish_id'], ['meal_slot_sides', 'dish_id'], ['leftovers', 'dish_id'], ['dish_photo_overrides', 'dish_id'], ['recipes', 'dish_id'], ['dish_nutrition', 'dish_id'], ['dish_favourites', 'dish_id'], ['meal_slot_suggestions', 'dish_id']],
   profiles: [['profile_allergies', 'profile_id'], ['meal_slot_cooks', 'profile_id'], ['meal_slot_eaters', 'profile_id'], ['meal_slot_votes', 'profile_id'], ['meal_slot_comments', 'profile_id'], ['meal_slot_suggestions', 'profile_id'], ['meal_attendance', 'profile_id'], ['planner_turns', 'profile_id'], ['notifications', 'profile_id']],
   recipes: [['recipe_ingredients', 'recipe_id'], ['recipe_steps', 'recipe_id'], ['recipe_prep', 'recipe_id']],
   recipe_prep: [['prep_done', 'prep_id'], ['household_prep_off', 'prep_id']],
 }
 const SET_NULL: Record<string, [string, string][]> = {
   dishes: [['meal_slots', 'main_dish_id']],
+  meal_slots: [['leftovers', 'from_slot_id'], ['leftovers', 'used_slot_id']],
   cuisines: [['dishes', 'cuisine_id']],
 }
 
@@ -97,10 +99,11 @@ const DEFAULTS: Record<string, () => Row> = {
   recipe_prep: () => ({ recipe_id: null, household_id: null, hours: null, text_ta: null, position: 1, created_at: nowIso() }),
   household_prep_off: () => ({ created_at: nowIso() }),
   household_shop_items: () => ({ name_ta: null, aliases: [], section: 'other', browse_tab: 'other', usual_amount: 1, usual_unit: 'pcs', perishable: false, staple: false, pack_sizes: null, g_per_cup: null, g_per_piece: null, created_at: nowIso() }),
+  leftovers: () => ({ status: 'active', from_slot_id: null, used_slot_id: null, created_at: nowIso() }),
   shopping_items: () => ({ name_ta: null, section: 'other', amount: null, unit: null, note: null, source: 'manual', source_dishes: [], is_regular: false, bought_at: null, bought_by: null, created_at: nowIso() }),
 }
 
-const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items', 'common_shop_items', 'household_shop_items', 'recipe_prep'])
+const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items', 'common_shop_items', 'household_shop_items', 'recipe_prep', 'leftovers'])
 
 /** Tables whose rows are private to one person (migration 0029): their own login, or the Admin for family members with no login. */
 const PERSONAL_TABLES = new Set(['personal_intake', 'personal_usuals', 'personal_goals'])
@@ -446,12 +449,33 @@ function clearShoppingList(db: Db): Result {
   return { data: removed, error: null, count: null }
 }
 
+/** The demo's version of `use_leftover`: any member puts an active leftover into an existing home meal that has a main dish and a free side spot. */
+function applyLeftover(db: Db, args: Row): Result {
+  const viewer = viewerProfile(db)
+  if (!viewer) return fail('Not signed in to a home', 'P0001')
+  const l = (db.leftovers ?? []).find((r) => r.id === args.p_leftover && r.household_id === viewer.household_id)
+  if (!l) return fail('No such leftover', 'P0001')
+  if (l.status !== 'active') return fail('This leftover is already used or gone', 'P0001')
+  const s = (db.meal_slots ?? []).find((r) => r.id === args.p_slot && r.household_id === viewer.household_id)
+  if (!s) return fail('No such meal', 'P0001')
+  if (s.source !== 'home' || !s.main_dish_id) return fail('A leftover goes into a meal cooked at home', 'P0001')
+  const today = new Date().toISOString().slice(0, 10)
+  if (s.date < today) return fail('That meal is in the past', 'P0001')
+  if (s.date > l.use_by) return fail('This leftover will be past its use-by by then', 'P0001')
+  const taken = (db.meal_slot_sides ?? []).filter((x) => x.slot_id === s.id).map((x) => x.position)
+  const position = [1, 2, 3].find((p) => !taken.includes(p))
+  if (!position) return fail('This meal already has three sides', 'P0001')
+  ;(db.meal_slot_sides ??= []).push({ slot_id: s.id, position, dish_id: l.dish_id, is_leftover: true, leftover_id: l.id })
+  Object.assign(l, { status: 'used', used_slot_id: s.id })
+  return { data: null, error: null, count: null }
+}
+
 /** A Supabase-shaped client over one in-memory database. */
 export function createDemoClient(db: Db): SupabaseClient {
   const client = {
     from: (table: string) => new Query(db, table),
     rpc: async (name: string, args: Row = {}): Promise<Result> =>
-      name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : name === 'family_extras_totals' ? familyExtrasTotals(db, args) : name === 'clear_shopping_list' ? clearShoppingList(db) : fail(NOT_IN_DEMO),
+      name === 'save_household_recipe' ? saveHouseholdRecipe(db, args) : name === 'family_extras_totals' ? familyExtrasTotals(db, args) : name === 'clear_shopping_list' ? clearShoppingList(db) : name === 'use_leftover' ? applyLeftover(db, args) : fail(NOT_IN_DEMO),
     storage: {
       from: () => ({
         createSignedUrl: async (path: string) => ({ data: { signedUrl: path }, error: null }),
