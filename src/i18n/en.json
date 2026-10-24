@@ -596,6 +596,15 @@
       "caloriesLow": "Calories are only {{percent}}% of the target. Check that every meal is planned, or add a snack.",
       "sugarHigh": "Sugar is about {{percent}}% of the limit. Sweets and sweet drinks add up."
     },
+    "fastingDayNote": "Fasting day · left out of the average",
+    "fastingDaysNote_one": "{{count}} fasting day is shown below but left out of the average and the tips.",
+    "fastingDaysNote_other": "{{count}} fasting days are shown below but left out of the average and the tips.",
+    "onlyFasting": "Only fasting days in this period, so there is no average to show.",
+    "planTitle": "Your diet plan",
+    "planFocus": "{{plan}} · focus on {{focus}}",
+    "proteinAim": "Protein: aim for about {{n}} g a day",
+    "planNote": "A gentle guide, never a limit. General guidance, not medical advice.",
+    "planFamily": "Follows {{plans}}",
     "byDay": "By day",
     "unknownMeals": "{{count}} meals had no estimate (dine-out, order-in, or a dish without numbers), so they are left out.",
     "disclaimer": "Nutrition figures are estimates for planning at home, based on typical recipes and portions and rounded reference values. They are general guidance, not medical advice."

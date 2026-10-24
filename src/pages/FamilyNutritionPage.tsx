@@ -6,6 +6,8 @@ import { useHistorySlots } from '../lib/plannerQueries'
 import { useAllNutrition, useNutritionTargets } from '../lib/nutritionQueries'
 import { useAttendance } from '../lib/attendanceQueries'
 import { dayTotalsFor, summarisePeriod, targetFor } from '../lib/nutrition'
+import { usePlanFollows } from '../lib/planQueries'
+import { plansOf, proteinAim } from '../lib/dietPlans'
 import { ageBand, avatarColor } from '../lib/people'
 import { toISODate } from '../lib/planner'
 import { useCanPlanDate } from '../lib/useCanPlan'
@@ -24,6 +26,7 @@ export default function FamilyNutritionPage() {
   const allowed = useCanPlanDate(toISODate(new Date()))
   const period = usePeriod('week')
   const { data: members } = useMembers(household.id)
+  const { data: follows } = usePlanFollows(household.id)
   const { data: slots, isLoading } = useHistorySlots(household.id, period.bounds.from, period.to)
   const { data: byDish } = useAllNutrition()
   const { data: targets } = useNutritionTargets()
@@ -59,7 +62,10 @@ export default function FamilyNutritionPage() {
       {isLoading ? (
         <p className="py-6 text-center text-muted">{t('common.loading')}</p>
       ) : (
-        rows.map(({ p, i, resolved, summary }) => (
+        rows.map(({ p, i, resolved, summary }) => {
+          const plans = plansOf(follows ?? [], p.id)
+          const aim = resolved ? proteinAim(plans, resolved.target.protein_g) : null
+          return (
           <section key={p.id} className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-4">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-full text-[15px] font-semibold text-white" style={{ background: avatarColor(i, p.kind) }}>
@@ -76,13 +82,20 @@ export default function FamilyNutritionPage() {
                 </span>
               )}
             </div>
+            {plans.length > 0 && (
+              <p className="break-words text-[12.5px] text-ink-soft">
+                {t('nutrition.planFamily', { plans: plans.map((k) => t(`plans.name.${k}`)).join(', ') })}
+                {aim !== null && ` · ${t('nutrition.proteinAim', { n: aim })}`}
+              </p>
+            )}
             {!resolved ? (
               <p className="text-[13px] text-muted">{t('nutrition.unavailable')}</p>
             ) : !summary || summary.dayCount === 0 ? (
-              <p className="text-[13px] text-muted">{t('nutrition.emptyPerson')}</p>
+              <p className="text-[13px] text-muted">{summary && summary.fastingDays > 0 ? t('nutrition.onlyFasting') : t('nutrition.emptyPerson')}</p>
             ) : (
               <>
                 <TargetBars average={summary.average} target={resolved.target} percent={summary.percentOfTarget} compact />
+                {summary.fastingDays > 0 && <p className="text-[12.5px] text-muted">{t('nutrition.fastingDaysNote', { count: summary.fastingDays })}</p>}
                 {summary.tips.map((tip) => (
                   <p key={tip.key} className="text-[13px] text-ink-soft">
                     {t(`nutrition.tip.${tip.key}`, tip.params)}
@@ -91,7 +104,8 @@ export default function FamilyNutritionPage() {
               </>
             )}
           </section>
-        ))
+          )
+        })
       )}
       {(extras ?? []).length > 0 && <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">{t('extras.familyNote')}</p>}
       <NutritionDisclaimer />

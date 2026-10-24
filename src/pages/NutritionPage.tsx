@@ -10,6 +10,7 @@ import { BackHeader } from '../components/BackHeader'
 import { PeriodControls, usePeriod } from '../components/PeriodControls'
 import { TargetBars } from '../components/TargetBars'
 import { ProteinCard } from '../components/ProteinCard'
+import { PlanFocus } from '../components/PlanFocus'
 import { useIntake } from '../lib/intakeQueries'
 import { extrasByDay, mergeMealsAndExtras } from '../lib/intake'
 
@@ -61,13 +62,17 @@ export default function NutritionPage() {
               </span>
             )}
           </Card>
+          <PlanFocus profileId={profile.id} usualProteinG={resolved.target.protein_g} />
 
           {isLoading ? (
             <p className="py-6 text-center text-muted">{t('common.loading')}</p>
-          ) : !summary || summary.dayCount === 0 ? (
+          ) : !summary || (summary.dayCount === 0 && summary.fastingDays === 0) ? (
             <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('nutrition.empty')}</p>
           ) : (
             <>
+              {summary.dayCount === 0 ? (
+                <p className="rounded-2xl bg-sand px-4 py-3.5 text-center text-[14px] text-ink-soft">{t('nutrition.onlyFasting')}</p>
+              ) : (
               <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-baseline justify-between">
                   <span className="font-display text-[26px] font-bold">{Math.round(summary.average.kcal)}</span>
@@ -75,7 +80,9 @@ export default function NutritionPage() {
                 </div>
                 <TargetBars average={summary.average} target={resolved.target} percent={summary.percentOfTarget} />
                 <span className="text-[12px] text-muted">{t('nutrition.basedOnDays', { count: summary.dayCount })}</span>
+                {summary.fastingDays > 0 && <span className="text-[12px] text-muted">{t('nutrition.fastingDaysNote', { count: summary.fastingDays })}</span>}
               </Card>
+              )}
 
               {summary.tips.length > 0 && (
                 <section className="flex flex-col gap-1.5">
@@ -91,10 +98,11 @@ export default function NutritionPage() {
               <section className="flex flex-col gap-1.5">
                 <h2 className="pt-1 text-[12px] font-semibold uppercase tracking-wide text-muted">{t('nutrition.byDay')}</h2>
                 {[...days].reverse().map((d) => (
-                  <div key={d.date} className="flex items-center justify-between rounded-2xl border border-line bg-surface px-3.5 py-2.5 text-[14px]">
+                  <div key={d.date} className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-3.5 py-2.5 text-[14px] ta:flex-col ta:items-start">
                     <span className="font-semibold">{dayFmt.format(new Date(`${d.date}T00:00:00`))}</span>
-                    <span className="text-ink-soft">
-                      {Math.round(d.totals.kcal)} kcal · {Math.round(d.totals.protein_g)} g {t('nutrition.n.protein_g').toLowerCase()}
+                    <span className="text-right text-ink-soft ta:text-left">
+                      {(d.fastedMeals ?? 0) > 0 && <span className="mb-0.5 block text-[12.5px] font-semibold text-saffron-ink">{t('nutrition.fastingDayNote')}</span>}
+                      {d.meals > 0 && <>{Math.round(d.totals.kcal)} kcal · {Math.round(d.totals.protein_g)} g {t('nutrition.n.protein_g').toLowerCase()}</>}
                       {(merged.parts.get(d.date)?.extraItems ?? 0) > 0 && (
                         <span className="block text-[12px] text-muted">
                           {t('extras.partsLine', { meals: Math.round(merged.parts.get(d.date)!.meals.kcal), extras: Math.round(merged.parts.get(d.date)!.extras.kcal) })}

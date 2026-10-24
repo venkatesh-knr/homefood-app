@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { eligibility, fitsAll, groupByPlan, planFits, plansOf, type Follow } from './dietPlans'
+import { eligibility, fitsAll, groupByPlan, planFits, plansOf, proteinAim, type Follow } from './dietPlans'
 
 describe('which dishes fit a plan', () => {
   it('low-carb keeps out grains, sugar, root vegetables and sweets', () => {
@@ -65,5 +65,18 @@ describe('followers', () => {
   it('lists the plans of one person', () => {
     expect(plansOf(list, 'amma')).toEqual(['low_carb'])
     expect(plansOf(list, 'kavi')).toEqual([])
+  })
+})
+
+describe('the protein aim', () => {
+  it('is a quarter above the usual value for the protein-leaning plans, to the nearest 5 g', () => {
+    expect(proteinAim(['high_protein'], 60)).toBe(75)
+    expect(proteinAim(['low_carb'], 64)).toBe(80)
+    expect(proteinAim(['mediterranean', 'high_protein'], 50)).toBe(65)
+  })
+  it('is nothing for other plans or no plan', () => {
+    expect(proteinAim(['vegan', 'senior'], 60)).toBeNull()
+    expect(proteinAim([], 60)).toBeNull()
+    expect(proteinAim(['high_protein'], 0)).toBeNull()
   })
 })

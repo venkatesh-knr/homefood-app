@@ -139,11 +139,14 @@ export type PeriodSummary = {
   average: Totals
   percentOfTarget: Totals
   tips: Tip[]
+  /** Days with a meal left out for fasting: shown as fasting days, never counted in the average or the tips. */
+  fastingDays: number
 }
 
 /** Average of the days that have any estimate, against the target, plus a few gentle tips. Never blocks or scolds. */
 export function summarisePeriod(days: DayTotals[], target: Totals): PeriodSummary {
-  const counted = days.filter((d) => d.meals > d.unknownMeals)
+  const fasting = days.filter((d) => (d.fastedMeals ?? 0) > 0)
+  const counted = days.filter((d) => d.meals > d.unknownMeals && !(d.fastedMeals ?? 0))
   const n = counted.length
   const sum = counted.reduce((acc, d) => addTotals(acc, d.totals), emptyTotals())
   const average = emptyTotals()
@@ -163,7 +166,7 @@ export function summarisePeriod(days: DayTotals[], target: Totals): PeriodSummar
     else if (pct.kcal < 70) tips.push({ key: 'caloriesLow', params: { percent: pct.kcal } })
     if (pct.sugar_g > 100) tips.push({ key: 'sugarHigh', params: { percent: pct.sugar_g } })
   }
-  return { dayCount: n, average, percentOfTarget: pct, tips }
+  return { dayCount: n, average, percentOfTarget: pct, tips, fastingDays: fasting.length }
 }
 
 export type FamilyNote = { kind: 'good' | 'care' | 'info'; key: 'softChew' | 'spicyKids' | 'friedCare' | 'caffeineKids' | 'sweetInfo' | 'gheeRich'; names: string[] }

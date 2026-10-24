@@ -153,10 +153,10 @@ export function mergeMealsAndExtras(days: DayTotals[], extras: Map<string, Extra
   const dates = [...new Set([...days.map((d) => d.date), ...extras.keys()])].sort()
   const parts = new Map<string, DayPart>()
   const merged = dates.map((date): DayTotals => {
-    const base = days.find((d) => d.date === date) ?? { date, totals: emptyTotals(), meals: 0, unknownMeals: 0 }
+    const base: DayTotals = days.find((d) => d.date === date) ?? { date, totals: emptyTotals(), meals: 0, unknownMeals: 0 }
     const e = extras.get(date)
     parts.set(date, { meals: base.totals, extras: e?.totals ?? emptyTotals(), extraItems: e ? e.items - e.unknownItems : 0 })
-    return { date, totals: addTotals(base.totals, e?.totals ?? emptyTotals()), meals: base.meals + (e ? e.items - e.unknownItems : 0), unknownMeals: base.unknownMeals }
+    return { date, totals: addTotals(base.totals, e?.totals ?? emptyTotals()), meals: base.meals + (e ? e.items - e.unknownItems : 0), unknownMeals: base.unknownMeals, fastedMeals: base.fastedMeals }
   })
   return { days: merged, parts }
 }

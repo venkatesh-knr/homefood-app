@@ -56,3 +56,13 @@ export function groupByPlan(follows: Follow[]): { plan: PlanKey; follows: Follow
 
 /** The plans one person follows. */
 export const plansOf = (follows: Follow[], profileId: string): PlanKey[] => follows.filter((f) => f.profile_id === profileId).map((f) => f.plan)
+
+/** Plans that ask for more protein than the usual daily value. */
+const PROTEIN_PLANS: PlanKey[] = ['high_protein', 'low_carb']
+
+/** "Aim for about N g protein a day" for someone on a protein-leaning plan: their usual target plus a quarter, to the nearest 5 g. Null for other plans.
+ * A gentle aim, never a limit and never a score. */
+export function proteinAim(plans: PlanKey[], usualProteinG: number): number | null {
+  if (!plans.some((p) => PROTEIN_PLANS.includes(p)) || !(usualProteinG > 0)) return null
+  return Math.round((usualProteinG * 1.25) / 5) * 5
+}

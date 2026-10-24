@@ -37,6 +37,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [x] Step 6g · Diet plans (migration 0041) — built, see CLAUDE.md
 - [x] Step 6h · Diet plate (migration 0042) — built, see CLAUDE.md
 - [x] Step 6i · Fasting days (migration 0043) — built, see CLAUDE.md
+- [x] Step 6j · Nutrition: fasting days and diet-plan focus (no migration) — built, see CLAUDE.md
 - [ ] Step 7 · Family trial (2 weeks) — checklist in `docs/family-trial.md`
 
 ## One-time setup

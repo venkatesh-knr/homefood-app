@@ -172,6 +172,10 @@ describe('mergeMealsAndExtras', () => {
     expect(days[0]!.meals).toBe(1)
     expect(days[0]!.totals.kcal).toBe(90)
   })
+  it('keeps the count of fasted meals on a day', () => {
+    const { days } = mergeMealsAndExtras([{ ...day('2026-10-11', 600), fastedMeals: 1 }], new Map())
+    expect(days[0]!.fastedMeals).toBe(1)
+  })
   it('leaves extras with no calories out of the total', () => {
     const extras = extrasByDay([row({ kcal: null, protein_g: null }), row({ id: 'r2', kcal: 50 })])
     const { days } = mergeMealsAndExtras([day('2026-10-11', 1000)], extras)

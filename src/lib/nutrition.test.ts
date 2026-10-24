@@ -143,6 +143,15 @@ describe('summarisePeriod', () => {
     expect(s.average.kcal).toBe(2000)
     expect(s.percentOfTarget.kcal).toBe(100)
   })
+  it('a fasting day is shown as one, and never counted in the average or called low', () => {
+    const fasting = { ...day('c', 300, 5, 200), fastedMeals: 1 }
+    const s = summarisePeriod([day('a', 2000, 60, 1500), day('b', 2000, 60, 1500), fasting], target)
+    expect(s.dayCount).toBe(2)
+    expect(s.fastingDays).toBe(1)
+    expect(s.average.kcal).toBe(2000)
+    expect(s.tips.map((x) => x.key)).not.toContain('proteinLow')
+    expect(s.tips.map((x) => x.key)).not.toContain('caloriesLow')
+  })
   it('suggests gently: low protein / high salt on several days, never from one day', () => {
     const many = summarisePeriod([day('a', 2000, 30, 2600), day('b', 2000, 35, 2700), day('c', 2000, 70, 1000)], target)
     expect(many.tips.map((x) => x.key)).toEqual(['proteinLow', 'sodiumHigh'])

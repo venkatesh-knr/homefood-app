@@ -73,6 +73,8 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 
 **Fasting days** (24 Oct, spec 3a; migration 0043): per person, skip meals / fasting foods / fruits and milk / one meal a day on chosen weekdays and dates; people who skip a meal are left out of its amounts, shopping, cook's sheet, notes and nutrition; fasting foods get a diet plate and a cook's sheet line. **Beyond the spec:** not for people whose birth year is unknown either; "Download my data" now includes preferences, plans and fasting. **Trimmed:** fruit and milk are not added to the shopping list.
 
+**Nutrition and diet plans** (24 Oct, spec 3a; no migration): fasting days are marked and left out of My / Family nutrition's average and tips; a person's diet plan shows its focus and, for high-protein and low-carb, a protein aim (usual value + 25%, nearest 5 g). **Trimmed:** no per-plan calorie or carb targets (the app has no body weight, so it would be guessing); no scores, no "off plan" messages.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
