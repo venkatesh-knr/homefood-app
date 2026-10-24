@@ -52,7 +52,7 @@ export function prepByDish(rows: PrepRow[], householdId: string, off: Set<string
 }
 
 type DishLike = { id: string; name: string; dish_names: { language: string; name: string }[] }
-export type PrepSlot = { id: string; date: string; meal: string; source: string; main_dish: DishLike | null; meal_slot_sides: { position: number; is_leftover?: boolean; dish: DishLike }[] }
+export type PrepSlot = { id: string; date: string; meal: string; source: string; main_dish: DishLike | null; plates?: { main_dish: DishLike | null; sides: { dish: DishLike }[] }[]; meal_slot_sides: { position: number; is_leftover?: boolean; dish: DishLike }[] }
 
 export type PrepTask = {
   key: string
@@ -72,7 +72,7 @@ export const taskKey = (slotId: string, prepId: string) => `${slotId}:${prepId}`
 
 function tasksOf(slot: PrepSlot, prep: Map<string, PrepRow[]>, lead: PrepLead): PrepTask[] {
   if (slot.source !== 'home') return []
-  const dishes = [slot.main_dish, ...[...slot.meal_slot_sides].filter((s) => !s.is_leftover).sort((a, b) => a.position - b.position).map((s) => s.dish)].filter((d): d is DishLike => d !== null)
+  const dishes = [slot.main_dish, ...[...slot.meal_slot_sides].filter((s) => !s.is_leftover).sort((a, b) => a.position - b.position).map((s) => s.dish), ...(slot.plates ?? []).flatMap((p) => [p.main_dish, ...p.sides.map((s) => s.dish)])].filter((d): d is DishLike => d !== null)
   const seen = new Set<string>()
   const out: PrepTask[] = []
   for (const d of dishes) {

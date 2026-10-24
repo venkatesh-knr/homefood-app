@@ -23,6 +23,9 @@ import { useDietPreferences } from '../lib/dietQueries'
 import { mealClashes } from '../lib/diets'
 import { useDishTagCorrections } from '../lib/dishTagQueries'
 import { effectiveTags } from '../lib/dishTags'
+import { DietPlateEditor, type PlateDraft } from '../components/DietPlateEditor'
+import { usePlanFollows } from '../lib/planQueries'
+import { plansOf as plansOfPerson, type PlanKey } from '../lib/dietPlans'
 import { leftoverName, leftoversForDate, withLeftoverTag } from '../lib/leftovers'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
@@ -48,6 +51,7 @@ export default function SlotEditorPage() {
   const { data: leftoverList } = useLeftovers(household.id)
   const { data: dietPrefs } = useDietPreferences(household.id)
   const { data: tagFixes } = useDishTagCorrections(household.id)
+  const { data: planFollows } = usePlanFollows(household.id)
 
   // Wait for the meals and the members before filling the form, or the "new slot" default fires on empty data and
   // locks in permanently once initialised flips true.
@@ -69,6 +73,7 @@ export default function SlotEditorPage() {
   const [mainDish, setMainDish] = useState<DishWithNames | null>(null)
   const [sideDishes, setSideDishes] = useState<DishWithNames[]>([])
   const [picking, setPicking] = useState<'main' | 'side' | null>(null)
+  const [plates, setPlates] = useState<PlateDraft[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [initialised, setInitialised] = useState(false)
@@ -88,6 +93,7 @@ export default function SlotEditorPage() {
         outside_size: existing.outside_meal_size ?? '',
       })
       if (existing.main_dish) setMainDish(existing.main_dish as unknown as DishWithNames)
+      setPlates((existing.plates ?? []).map((p) => ({ key: p.id, person_ids: p.eater_ids, main: p.main_dish as unknown as DishWithNames | null, sides: [...p.sides].sort((a, b) => a.position - b.position).map((s) => s.dish) as unknown as DishWithNames[], shared: p.shared_sides })))
       setSideDishes(existing.meal_slot_sides.sort((a, b) => a.position - b.position).map((s) => s.dish) as unknown as DishWithNames[])
       setInitialised(true)
     } else if (!isLoading) {
@@ -110,8 +116,10 @@ export default function SlotEditorPage() {
   const dateLabel = new Intl.DateTimeFormat(lang === 'ta' ? 'ta-IN' : 'en-IN', { day: 'numeric', month: 'short' }).format(new Date(`${date}T00:00:00`))
   const mealLabel = t(`meal.${meal}`)
 
+  const onPlateIds = new Set(plates.flatMap((p) => p.person_ids))
+  const plansFor = (id: string): PlanKey[] => plansOfPerson(planFollows ?? [], id)
   const eaterAllergyInfo = familyMembers
-    .filter((m) => values.eater_profile_ids.includes(m.id))
+    .filter((m) => values.eater_profile_ids.includes(m.id) && !onPlateIds.has(m.id))
     .map((m) => ({ id: m.id, name: m.display_name, allergens: (allergyRows ?? []).filter((a) => a.profile_id === m.id).map((a) => a.allergen) }))
   const mealAllergens = [...(mainDish?.allergens ?? []), ...sideDishes.flatMap((d) => d.allergens)]
   const conflict = mealAllergyConflicts(mealAllergens, eaterAllergyInfo)
@@ -130,7 +138,12 @@ export default function SlotEditorPage() {
     setError(null)
     try {
       const id = weekPlan?.id ?? (await getOrCreateWeekPlan(household.id, weekStart))
-      await saveSlot(id, household.id, date!, meal!, values)
+      await saveSlot(id, household.id, date!, meal!, {
+        ...values,
+        plates: plates
+          .map((p) => ({ ...p, person_ids: p.person_ids.filter((x) => values.eater_profile_ids.includes(x)) }))
+          .map((p) => ({ person_ids: p.person_ids, main_dish_id: p.main?.id ?? null, side_dish_ids: p.sides.map((d) => d.id), shared_sides: p.shared, plans: [...new Set(p.person_ids.flatMap(plansFor))] })),
+      })
       navigate('/week', { replace: true })
     } catch (err) {
       setError(describeError(err, t))
@@ -158,6 +171,7 @@ export default function SlotEditorPage() {
     setValues((v) => ({ ...v, cook_profile_ids: v.cook_profile_ids.includes(id) ? v.cook_profile_ids.filter((x) => x !== id) : [...v.cook_profile_ids, id] }))
   }
   function toggleEater(id: string) {
+    if (values.eater_profile_ids.includes(id)) setPlates((ps) => ps.map((p) => ({ ...p, person_ids: p.person_ids.filter((x) => x !== id) })))
     setValues((v) => ({ ...v, eater_profile_ids: v.eater_profile_ids.includes(id) ? v.eater_profile_ids.filter((x) => x !== id) : [...v.eater_profile_ids, id] }))
   }
 
@@ -374,6 +388,18 @@ export default function SlotEditorPage() {
             {' · '}
             {t('planner.eatingSummary', { count: values.eater_profile_ids.length })}
           </p>
+
+          <DietPlateEditor
+            householdId={household.id}
+            meal={meal}
+            eaters={familyMembers.map((m, i) => ({ id: m.id, name: m.display_name, allergens: (allergyRows ?? []).filter((a) => a.profile_id === m.id).map((a) => a.allergen), kind: m.kind, index: (members ?? []).indexOf(m) >= 0 ? (members ?? []).indexOf(m) : i })).filter((e) => values.eater_profile_ids.includes(e.id))}
+            familyMain={mainDish}
+            familySides={sideDishes}
+            plates={plates}
+            onChange={setPlates}
+            plansOf={plansFor}
+            familyCount={familyMembers.length}
+          />
 
           <SectionLabel htmlFor="note">{t('planner.noteLabel')}</SectionLabel>
           <div className="px-4">

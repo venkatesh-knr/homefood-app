@@ -46,7 +46,11 @@ export type SlotInput = {
   note: string
   /** Dine-out / order-in only; empty for "not sure". */
   outside_size?: OutsideMealSize | ''
+  /** Diet plates (migration 0042): up to two, each with its people, dishes and the family sides it shares. */
+  plates?: PlateInput[]
 }
+
+export type PlateInput = { person_ids: string[]; main_dish_id: string | null; side_dish_ids: string[]; shared_sides: number[]; plans: string[] }
 
 /** Leftovers used in a meal are marked used for it; one that is taken out of the meal (or the meal is cleared) is good to use again. Quiet when
  * migration 0038 has not been run: there is nothing to keep in step then. */
@@ -116,8 +120,29 @@ export async function saveSlot(
     if (eatersError) throw eatersError
   }
 
+  await savePlates(slotId, input.source === 'home' ? (input.plates ?? []) : [])
+
   await invalidateWeek(weekPlanId, householdId)
   return slotId
+}
+
+/** Replaces the meal's diet plates with exactly this list. Quiet when migration 0042 has not been run and there is nothing to save. */
+async function savePlates(slotId: string, plates: PlateInput[]): Promise<void> {
+  const removed = await client().from('meal_slot_plates').delete().eq('slot_id', slotId)
+  if (removed.error) {
+    if (plates.length > 0) throw removed.error
+    return
+  }
+  for (const [i, p] of plates.filter((x) => x.person_ids.length > 0).entries()) {
+    const { data: plate, error } = await client().from('meal_slot_plates').insert({ slot_id: slotId, position: i + 1, main_dish_id: p.main_dish_id, plans: p.plans, shared_sides: p.shared_sides }).select('id').single()
+    if (error || !plate) throw error ?? new Error('The diet plate was not saved')
+    if (p.side_dish_ids.length > 0) {
+      const { error: sideError } = await client().from('meal_slot_plate_sides').insert(p.side_dish_ids.slice(0, 2).map((dish_id, k) => ({ plate_id: plate.id, position: k + 1, dish_id })))
+      if (sideError) throw sideError
+    }
+    const { error: eaterError } = await client().from('meal_slot_plate_eaters').insert(p.person_ids.map((profile_id) => ({ plate_id: plate.id, slot_id: slotId, profile_id })))
+    if (eaterError) throw eaterError
+  }
 }
 
 /** "Cook this again": puts a dish (and optionally the sides it had) into a meal that is still free. Looks again first, so a meal planned in

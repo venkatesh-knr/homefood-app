@@ -26,6 +26,10 @@ const REL: Record<string, Rel> = {
   'recipes.recipe_steps': { kind: 'many', fk: 'recipe_id' },
   'recipe_prep.recipes': { kind: 'one', fk: 'recipe_id' },
   'leftovers.dishes': { kind: 'one', fk: 'dish_id' },
+  'meal_slot_plates.dishes': { kind: 'one', fk: 'main_dish_id' },
+  'meal_slot_plates.meal_slot_plate_sides': { kind: 'many', fk: 'plate_id' },
+  'meal_slot_plates.meal_slot_plate_eaters': { kind: 'many', fk: 'plate_id' },
+  'meal_slot_plate_sides.dishes': { kind: 'one', fk: 'dish_id' },
 }
 
 const PK: Record<string, string[]> = {
@@ -48,6 +52,8 @@ const PK: Record<string, string[]> = {
   profile_preferences: ['profile_id'],
   household_dish_tags: ['household_id', 'dish_id', 'tag'],
   diet_plan_follows: ['profile_id', 'plan'],
+  meal_slot_plate_sides: ['plate_id', 'position'],
+  meal_slot_plate_eaters: ['plate_id', 'profile_id'],
 }
 
 /** Other uniqueness rules the real database enforces. */
@@ -61,10 +67,11 @@ const UNIQUE: Record<string, string[][]> = {
 
 /** What the database does to other tables when a row goes. */
 const CASCADE: Record<string, [string, string][]> = {
-  meal_slots: [['meal_slot_sides', 'slot_id'], ['meal_slot_cooks', 'slot_id'], ['meal_slot_eaters', 'slot_id'], ['meal_slot_votes', 'slot_id'], ['meal_slot_comments', 'slot_id'], ['meal_slot_suggestions', 'slot_id'], ['meal_attendance', 'slot_id'], ['prep_done', 'slot_id'], ['notifications', 'slot_id']],
+  meal_slots: [['meal_slot_plates', 'slot_id'], ['meal_slot_sides', 'slot_id'], ['meal_slot_cooks', 'slot_id'], ['meal_slot_eaters', 'slot_id'], ['meal_slot_votes', 'slot_id'], ['meal_slot_comments', 'slot_id'], ['meal_slot_suggestions', 'slot_id'], ['meal_attendance', 'slot_id'], ['prep_done', 'slot_id'], ['notifications', 'slot_id']],
   week_plans: [['meal_slots', 'week_plan_id']],
   dishes: [['dish_names', 'dish_id'], ['meal_slot_sides', 'dish_id'], ['leftovers', 'dish_id'], ['dish_photo_overrides', 'dish_id'], ['recipes', 'dish_id'], ['dish_nutrition', 'dish_id'], ['dish_favourites', 'dish_id'], ['meal_slot_suggestions', 'dish_id']],
   profiles: [['profile_allergies', 'profile_id'], ['meal_slot_cooks', 'profile_id'], ['meal_slot_eaters', 'profile_id'], ['meal_slot_votes', 'profile_id'], ['meal_slot_comments', 'profile_id'], ['meal_slot_suggestions', 'profile_id'], ['meal_attendance', 'profile_id'], ['planner_turns', 'profile_id'], ['notifications', 'profile_id']],
+  meal_slot_plates: [['meal_slot_plate_sides', 'plate_id'], ['meal_slot_plate_eaters', 'plate_id']],
   recipes: [['recipe_ingredients', 'recipe_id'], ['recipe_steps', 'recipe_id'], ['recipe_prep', 'recipe_id']],
   recipe_prep: [['prep_done', 'prep_id'], ['household_prep_off', 'prep_id']],
 }
@@ -102,11 +109,12 @@ const DEFAULTS: Record<string, () => Row> = {
   recipe_prep: () => ({ recipe_id: null, household_id: null, hours: null, text_ta: null, position: 1, created_at: nowIso() }),
   household_prep_off: () => ({ created_at: nowIso() }),
   household_shop_items: () => ({ name_ta: null, aliases: [], section: 'other', browse_tab: 'other', usual_amount: 1, usual_unit: 'pcs', perishable: false, staple: false, pack_sizes: null, g_per_cup: null, g_per_piece: null, created_at: nowIso() }),
+  meal_slot_plates: () => ({ main_dish_id: null, plans: [], shared_sides: [] }),
   leftovers: () => ({ status: 'active', from_slot_id: null, used_slot_id: null, created_at: nowIso() }),
   shopping_items: () => ({ name_ta: null, section: 'other', amount: null, unit: null, note: null, source: 'manual', source_dishes: [], is_regular: false, bought_at: null, bought_by: null, created_at: nowIso() }),
 }
 
-const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items', 'common_shop_items', 'household_shop_items', 'recipe_prep', 'leftovers'])
+const HAS_ID = new Set(['personal_intake', 'personal_usuals', 'custom_foods', 'common_foods', 'households', 'profiles', 'invites', 'cuisines', 'dishes', 'week_plans', 'meal_slots', 'planner_turns', 'meal_slot_comments', 'meal_slot_suggestions', 'recipes', 'notifications', 'shopping_items', 'common_shop_items', 'household_shop_items', 'recipe_prep', 'leftovers', 'meal_slot_plates'])
 
 /** Tables whose rows are private to one person (migration 0029): their own login, or the Admin for family members with no login. */
 const PERSONAL_TABLES = new Set(['personal_intake', 'personal_usuals', 'personal_goals'])

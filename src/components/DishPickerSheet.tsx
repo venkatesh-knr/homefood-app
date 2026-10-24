@@ -20,6 +20,7 @@ import { Dialog } from './Dialog'
 import { TagFilterChips } from './TagFilterChips'
 import { useDietPreferences } from '../lib/dietQueries'
 import { dishClashes, type Preferences } from '../lib/diets'
+import { fitsAll, type PlanKey } from '../lib/dietPlans'
 
 type Eater = { id?: string; name: string; allergens: string[] }
 
@@ -34,6 +35,7 @@ export function DishPickerSheet({
   meal,
   eaters,
   excludeIds = [],
+  fitPlans,
   onPick,
   onClose,
 }: {
@@ -43,6 +45,8 @@ export function DishPickerSheet({
   meal: MealType
   eaters: Eater[]
   excludeIds?: string[]
+  /** Only dishes that fit every one of these diet plans (the diet plate's picker). */
+  fitPlans?: PlanKey[]
   onPick: (dish: DishWithNames) => void
   onClose: () => void
 }) {
@@ -66,6 +70,7 @@ export function DishPickerSheet({
   const visible = useMemo(() => {
     const matching = (dishes ?? [])
       .filter((d) => !excludeIds.includes(d.id))
+      .filter((d) => !fitPlans || fitPlans.length === 0 || fitsAll(fitPlans, d))
       .filter((d) => !favouritesOnly || favourites?.has(d.id))
       .filter((d) => passesFilters(d, filters, householdId, eaterAllergens, eaterPrefs))
       .filter((d) => {
@@ -74,7 +79,7 @@ export function DishPickerSheet({
         return matchesQuery(name, nameTa, filters.query)
       })
     return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
-  }, [dishes, excludeIds, filters, householdId, eaterAllergens, eaterPrefs, lang, favouritesOnly, favourites, usage])
+  }, [dishes, excludeIds, fitPlans, filters, householdId, eaterAllergens, eaterPrefs, lang, favouritesOnly, favourites, usage])
 
   const selectClass = 'h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]'
 

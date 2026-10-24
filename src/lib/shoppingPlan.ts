@@ -26,12 +26,15 @@ export type PlanDish = { id: string; name_en: string; name_ta: string | null }
 /** One main or side dish of one home meal, with how many people eat that meal. */
 export type PlanMeal = { slotId: string; dish: PlanDish; people: number }
 
+type DishRef = { id: string; name: string; dish_names: { language: string; name: string }[] }
 type SlotLike = {
   id: string
   source: string
-  main_dish: { id: string; name: string; dish_names: { language: string; name: string }[] } | null
-  meal_slot_sides: { position: number; is_leftover?: boolean; dish: { id: string; name: string; dish_names: { language: string; name: string }[] } }[]
+  main_dish: DishRef | null
+  meal_slot_sides: { position: number; is_leftover?: boolean; dish: DishRef }[]
   meal_slot_eaters: { profile_id: string }[]
+  /** Diet plates: their own dishes are cooked for the people on them, and the family meal for the others. */
+  plates?: { main_dish: DishRef | null; sides: { position: number; dish: DishRef }[]; shared_sides: number[]; eater_ids: string[] }[]
 }
 
 const dishOf = (d: { id: string; name: string; dish_names: { language: string; name: string }[] }): PlanDish => ({
@@ -44,11 +47,24 @@ export function mealsFromSlots(slots: SlotLike[], familyCount: number): PlanMeal
   const out: PlanMeal[] = []
   for (const s of slots) {
     if (s.source !== 'home') continue
-    const people = s.meal_slot_eaters.length || familyCount
-    if (people <= 0) continue
-    if (s.main_dish) out.push({ slotId: s.id, dish: dishOf(s.main_dish), people })
+    const total = s.meal_slot_eaters.length || familyCount
+    if (total <= 0) continue
+    // the people on a diet plate eat the plate: the family meal is cooked for the rest, and a shared side for everyone
+    const plates = s.plates ?? []
+    const onPlate = new Set(plates.flatMap((p) => p.eater_ids))
+    const people = Math.max(0, total - onPlate.size)
+    const shared = new Set(plates.flatMap((p) => p.shared_sides))
+    if (s.main_dish && people > 0) out.push({ slotId: s.id, dish: dishOf(s.main_dish), people })
     // a leftover is not cooked again, so it needs nothing from the shop
-    for (const side of [...s.meal_slot_sides].filter((x) => !x.is_leftover).sort((a, b) => a.position - b.position)) out.push({ slotId: s.id, dish: dishOf(side.dish), people })
+    for (const side of [...s.meal_slot_sides].filter((x) => !x.is_leftover).sort((a, b) => a.position - b.position)) {
+      const n = shared.has(side.position) ? total : people
+      if (n > 0) out.push({ slotId: s.id, dish: dishOf(side.dish), people: n })
+    }
+    for (const p of plates) {
+      if (p.eater_ids.length === 0) continue
+      if (p.main_dish) out.push({ slotId: s.id, dish: dishOf(p.main_dish), people: p.eater_ids.length })
+      for (const side of [...p.sides].sort((a, b) => a.position - b.position)) out.push({ slotId: s.id, dish: dishOf(side.dish), people: p.eater_ids.length })
+    }
   }
   return out
 }

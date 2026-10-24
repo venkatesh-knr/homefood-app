@@ -5,6 +5,7 @@
 import { ageBand, type AgeBand } from './people'
 import { attendanceFor, attendanceMap, portionFactor, type AttendanceRow } from './attendance'
 import type { OutsideMealSize } from './planner'
+import { mealFor, type SlotPlate } from './plates'
 
 export type NutrientKey = 'kcal' | 'protein_g' | 'carbs_g' | 'fat_g' | 'fibre_g' | 'sugar_g' | 'sodium_mg'
 export type Totals = Record<NutrientKey, number>
@@ -55,6 +56,8 @@ type MealLike = {
   outside_meal_size?: OutsideMealSize | null
   main_dish_id: string | null
   meal_slot_sides: { dish: { id: string } }[]
+  /** Diet plates: a person on one eats the plate (migration 0042). */
+  plates?: SlotPlate[]
 }
 
 /** One serving of the main dish plus one of each side for a home-cooked meal; a meal out has an estimate only if someone said how big it was. */
@@ -94,7 +97,7 @@ export function dayTotalsFor(
     const factor = s.id ? portionFactor(attendanceFor(eaten, s.id, profileId)) : 1
     if (factor === 0) continue
     const day = days.get(s.date) ?? { date: s.date, totals: emptyTotals(), meals: 0, unknownMeals: 0 }
-    const m = mealTotals(s, byDish)
+    const m = mealTotals(mealFor(s, profileId), byDish)
     day.meals += 1
     if (m.known) day.totals = addTotals(day.totals, scaleTotals(m.totals, factor))
     else day.unknownMeals += 1

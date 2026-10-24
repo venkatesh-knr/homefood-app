@@ -3,6 +3,8 @@ import { supabase } from './supabase'
 import type { MealSlot, PlannerTurn, WeekPlan } from './planner'
 import type { DishNameRow, DietType } from './dishes'
 import { addDays } from './planner'
+import type { SlotPlate } from './plates'
+import type { PlanKey } from './dietPlans'
 
 export function useWeekPlan(householdId: string | undefined, weekStart: string | undefined) {
   return useQuery({
@@ -28,6 +30,30 @@ export type SlotWithDetails = MealSlot & {
   meal_slot_sides: { position: number; dish: SlotDish; is_leftover?: boolean; leftover_id?: string | null }[]
   meal_slot_cooks: { profile_id: string }[]
   meal_slot_eaters: { profile_id: string }[]
+  /** Diet plates (migration 0042), added by `attachPlates`; missing before that migration is run. */
+  plates?: SlotPlate[]
+}
+
+const DISH_FIELDS = 'id, name, diet, allergens, photo_path, cuisine_id, tags, dish_names(language, name)'
+
+/** Adds each meal's diet plates (a separate read, so a missing table never breaks the planner). Quiet: no plates before migration 0042. */
+export async function attachPlates(slots: SlotWithDetails[]): Promise<SlotWithDetails[]> {
+  if (slots.length === 0) return slots
+  const bySlot = new Map<string, SlotPlate[]>()
+  for (let i = 0; i < slots.length; i += 100) {
+    const ids = slots.slice(i, i + 100).map((s) => s.id)
+    const { data, error } = await supabase!
+      .from('meal_slot_plates')
+      .select(`id, slot_id, position, plans, shared_sides, main_dish:dishes(${DISH_FIELDS}), meal_slot_plate_sides(position, dish:dishes(${DISH_FIELDS})), meal_slot_plate_eaters(profile_id)`)
+      .in('slot_id', ids)
+    if (error) return slots
+    for (const r of data as unknown as (Omit<SlotPlate, 'sides' | 'eater_ids' | 'plans'> & { slot_id: string; plans: string[]; meal_slot_plate_sides: SlotPlate['sides']; meal_slot_plate_eaters: { profile_id: string }[] })[]) {
+      const plate: SlotPlate = { id: r.id, position: r.position, plans: r.plans as PlanKey[], shared_sides: r.shared_sides ?? [], main_dish: r.main_dish, sides: r.meal_slot_plate_sides ?? [], eater_ids: (r.meal_slot_plate_eaters ?? []).map((e) => e.profile_id) }
+      bySlot.set(r.slot_id, [...(bySlot.get(r.slot_id) ?? []), plate].sort((a, b) => a.position - b.position))
+    }
+  }
+  if (bySlot.size === 0) return slots
+  return slots.map((s) => (bySlot.has(s.id) ? { ...s, plates: bySlot.get(s.id) } : s))
 }
 
 const SLOT_SELECT = `*,
@@ -50,7 +76,7 @@ export function useWeekSlots(householdId: string | undefined, weekStart: string 
         .gte('date', weekStart)
         .lte('date', addDays(weekStart!, 6))
       if (error) throw error
-      return data as unknown as SlotWithDetails[]
+      return attachPlates(data as unknown as SlotWithDetails[])
     },
   })
 }
@@ -69,7 +95,7 @@ export function useHistorySlots(householdId: string | undefined, from: string, t
         .lte('date', to)
         .order('date', { ascending: false })
       if (error) throw error
-      return data as unknown as SlotWithDetails[]
+      return attachPlates(data as unknown as SlotWithDetails[])
     },
   })
 }

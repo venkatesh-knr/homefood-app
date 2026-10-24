@@ -801,6 +801,38 @@ select tests.ok((select count(*) from public.diet_plan_follows) = 0, 'another ho
 select tests.refused($$ insert into public.diet_plan_follows (profile_id, plan) values ('$$ || :'paati' || $$', 'vegan') $$, 'another home cannot set one');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── The diet plate (migration 0042) ──
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.meal_slot_plates (slot_id, position, main_dish_id, plans, shared_sides) values (:'slot_today', 1, :'prep_idli', '{low_carb}', '{1}') returning id as plate1 \gset
+insert into public.meal_slot_plate_sides (plate_id, position, dish_id) values (:'plate1', 1, :'pongal');
+insert into public.meal_slot_plate_eaters (plate_id, slot_id, profile_id) values (:'plate1', :'slot_today', :'paati');
+select tests.ok((select count(*) from public.meal_slot_plate_eaters where slot_id = :'slot_today') = 1 and (select shared_sides = '{1}' from public.meal_slot_plates where id = :'plate1'), 'the Planner adds a diet plate with its people, a side and a shared side');
+insert into public.meal_slot_plates (slot_id, position, main_dish_id, plans) values (:'slot_today', 2, :'pongal', '{vegan}') returning id as plate2 \gset
+select tests.refused($$ insert into public.meal_slot_plates (slot_id, position) values ('$$ || :'slot_today' || $$', 3) $$, 'a meal has at most two plates');
+select tests.refused($$ insert into public.meal_slot_plates (slot_id, position) values ('$$ || :'slot_today' || $$', 2) $$, 'and one plate per position');
+select tests.refused($$ insert into public.meal_slot_plate_eaters (plate_id, slot_id, profile_id) values ('$$ || :'plate2' || $$', '$$ || :'slot_today' || $$', '$$ || :'paati' || $$') $$, 'a person is on one plate of a meal only');
+select tests.refused($$ insert into public.meal_slot_plate_eaters (plate_id, slot_id, profile_id) values ('$$ || :'plate2' || $$', '$$ || :'slot_today' || $$', '$$ || :'helper' || $$') $$, 'the helper is never on a plate');
+select tests.refused($$ insert into public.meal_slot_plate_eaters (plate_id, slot_id, profile_id) values ('$$ || :'plate2' || $$', '$$ || :'slot_far' || $$', '$$ || :'amma_pf' || $$') $$, 'a plate''s people belong to its own meal');
+insert into public.meal_slot_plate_eaters (plate_id, slot_id, profile_id) values (:'plate2', :'slot_today', :'amma_pf');
+select tests.refused($$ insert into public.meal_slot_plate_sides (plate_id, position, dish_id) values ('$$ || :'plate1' || $$', 3, '$$ || :'pongal' || $$') $$, 'a plate has at most two sides of its own');
+-- a dish of another home cannot be used
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+insert into public.dishes (household_id, name, created_by, meal_types) values (:'hh_c', 'Ravi special', public.my_profile_id(), '{lunch}') returning id as dish_c \gset
+select tests.ok((select count(*) from public.meal_slot_plates) = 0 and (select count(*) from public.meal_slot_plate_eaters) = 0, 'another home cannot see the plates');
+select tests.refused($$ insert into public.meal_slot_plates (slot_id, position) values ('$$ || :'slot_today' || $$', 1) $$, 'another home cannot add a plate');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+select tests.refused($$ update public.meal_slot_plates set main_dish_id = '$$ || :'dish_c' || $$' where id = '$$ || :'plate2' || $$' $$, 'a plate cannot use another home''s dish');
+-- Appa has no turn today: he reads but cannot write
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.meal_slot_plates where slot_id = :'slot_today') = 2, 'everyone in the home sees the plates');
+select tests.refused($$ delete from public.meal_slot_plates where id = '$$ || :'plate1' || $$' $$, 'a member who is not the Planner cannot remove a plate');
+select tests.refused($$ insert into public.meal_slot_plate_sides (plate_id, position, dish_id) values ('$$ || :'plate2' || $$', 1, '$$ || :'pongal' || $$') $$, 'nor add to one');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.meal_slot_plates where id = :'plate2';
+select tests.ok(not exists (select 1 from public.meal_slot_plate_eaters where plate_id = :'plate2'), 'removing a plate removes its people');
+delete from public.meal_slots where id = :'slot_today';
+select tests.ok(not exists (select 1 from public.meal_slot_plates where slot_id = :'slot_today') and not exists (select 1 from public.meal_slot_plate_sides where plate_id = :'plate1'), 'and removing the meal removes its plates and their sides');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

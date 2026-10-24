@@ -236,6 +236,11 @@ export function buildDemoDb(cat: Catalogue, text: DemoText, now: Date = new Date
   pref(DEMO_IDS.kavi, 'non_veg')
   pref(DEMO_IDS.arun, 'egg')
 
+  // ── a diet plate: tonight's dinner is cooked for Paati, Kavi and Arun, with a low-carb plate for Amma and Appa ──
+  put('meal_slot_plates', { id: 'plate-tonight', slot_id: slotId(today, 'dinner'), position: 1, main_dish_id: dishId('Chicken curry'), plans: ['low_carb'], shared_sides: [] })
+  put('meal_slot_plate_sides', { plate_id: 'plate-tonight', position: 1, dish_id: dishId('Kachumber salad') })
+  put('meal_slot_plate_eaters', { plate_id: 'plate-tonight', slot_id: slotId(today, 'dinner'), profile_id: DEMO_IDS.amma }, { plate_id: 'plate-tonight', slot_id: slotId(today, 'dinner'), profile_id: DEMO_IDS.appa })
+
   // ── diet plans (as in the mockup: Amma and Appa low-carb, Paati senior-friendly, set by Amma) ──
   const follow = (who: string, plan: string, since: string, by: string) => put('diet_plan_follows', { profile_id: who, plan, since, set_by: by })
   follow(DEMO_IDS.amma, 'low_carb', addDays(today, -12), DEMO_IDS.amma)

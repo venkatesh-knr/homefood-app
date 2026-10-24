@@ -19,6 +19,8 @@ import type { AttendanceRow } from '../lib/attendance'
 import { FirstVisitTip } from '../components/FirstVisitTip'
 import { PrepCards } from '../components/PrepCards'
 import { LeftoverPrompt, LeftoversCard } from '../components/LeftoverCards'
+import { PlateLines } from '../components/PlateLines'
+import { familyHeadcount } from '../lib/plates'
 import { useMembers } from '../lib/queries'
 import { EVENING_FROM, zonedParts } from '../lib/prep'
 import { useShoppingItems } from '../lib/shoppingQueries'
@@ -54,7 +56,8 @@ export default function TodayPage() {
     .flatMap((d) => (d ? [d.name, ...d.dish_names.map((n) => n.name)] : []))
   const neededTomorrow = neededFor(shopItems ?? [], tomorrowDishes)
   const attendance = attendanceData ?? []
-  const eatingCount = (slot: SlotWithDetails | undefined) => slot?.meal_slot_eaters.length || undefined
+  // the recipe of the main dish is cooked for the family meal: the people on a diet plate are not in it
+  const eatingCount = (slot: SlotWithDetails | undefined) => (slot ? familyHeadcount(slot, 0) || undefined : undefined)
   const open = (meal: MealType, slot: SlotWithDetails | undefined) =>
     navigate(slot || !canPlanToday ? `/week/${today}/${meal}/discuss` : `/week/${today}/${meal}`)
 
@@ -197,6 +200,7 @@ function NextUpCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss, 
         <span className="text-[15px] text-muted">{t('today.nothingNextUp')}</span>
       )}
       </button>
+      {slot && <PlateLines slot={slot} />}
       {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="full" onDiscuss={onDiscuss} onRecipe={onRecipe} />}
       {slot && <AttendanceControl slot={slot} rows={attendance} />}
       {slot && <LeftoverPrompt slot={slot} />}
@@ -232,6 +236,7 @@ function RestCard({ meal, slot, lang, attendance, counts, onClick, onDiscuss }: 
         )}
       </span>
     </button>
+    {slot && <PlateLines slot={slot} />}
     {slot && counts && <VoteRow slotId={slot.id} counts={counts} variant="compact" onDiscuss={onDiscuss} />}
     {slot && <AttendanceControl slot={slot} rows={attendance} />}
     {slot && <LeftoverPrompt slot={slot} />}

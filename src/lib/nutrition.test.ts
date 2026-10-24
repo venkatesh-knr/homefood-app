@@ -79,6 +79,22 @@ describe('dayTotalsFor', () => {
   })
 })
 
+describe('a diet plate in the day totals', () => {
+  const byDish = new Map<string, Totals>([['rice', t(400, 8)], ['poriyal', t(100, 3)], ['paneer', t(300, 20)], ['salad', t(50, 1)]])
+  const dish = (id: string) => ({ id, name: id, diet: 'veg' as const, allergens: [], photo_path: null, cuisine_id: null, dish_names: [] })
+  const slot = {
+    id: 's1', date: '2026-10-01', source: 'home', main_dish_id: 'rice', meal_slot_sides: [{ position: 1, dish: dish('poriyal') }],
+    meal_slot_eaters: [{ profile_id: 'amma' }, { profile_id: 'kavi' }],
+    plates: [{ id: 'p', position: 1, plans: [], shared_sides: [1], main_dish: dish('paneer'), sides: [{ position: 1, dish: dish('salad') }], eater_ids: ['amma'] }],
+  }
+  it('a person on the plate counts the plate and the shared side, not the family main dish', () => {
+    expect(dayTotalsFor([slot], 'amma', byDish, '2026-10-02')[0]!.totals.kcal).toBe(450)
+  })
+  it('everyone else counts the family meal', () => {
+    expect(dayTotalsFor([slot], 'kavi', byDish, '2026-10-02')[0]!.totals.kcal).toBe(500)
+  })
+})
+
 describe('targetFor', () => {
   const rows: TargetRow[] = [
     { age_band: 'adult', sex: 'female', activity: 'moderate', ...t(2230, 46, 2000, 30, 56) },

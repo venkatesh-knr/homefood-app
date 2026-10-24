@@ -69,6 +69,8 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 
 **Diet plans** (24 Oct, spec 3a; migration 0041): the eight plans as people following them (one row per person), started by the person or by the Admin for someone who has not logged in; low-carb and paleo blocked under 18 or without a birth year. **Beyond the spec:** the "group" is a set of individual follows, so each person's own consent is respected.
 
+**Diet plate** (24 Oct, spec 3a; migration 0042): up to two plates per meal for the people whose plan the family meal does not suit, with shared sides; the family meal's recipe amounts, shopping, cook's sheet and allergy check follow who is on which plate, and nutrition follows the plate. **Beyond the spec:** the editor suggests dishes that fit the plate people's plans.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
@@ -78,7 +80,7 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 - **Dark mode** with an Appearance setting (System / Light / Dark); the Week at a glance poster always saves in light.
 - **Scroll and focus**: every new screen opens at the top with focus on the page; forms that open lower down scroll into view.
 - **Tamil review kit** (`docs/tamil-review.html`, regenerated 23 Oct): about 4,900 lines: screen texts, dish names, recipes, everyday foods, the 150 shopping items, prep wording and the Tamil words that live in code.
-- **Database tests in CI**: every push runs the rule tests (388 checks) on a throwaway Postgres; 306 unit tests.
+- **Database tests in CI**: every push runs the rule tests (403 checks) on a throwaway Postgres; 306 unit tests.
 
 ## D. Still not built (parked on purpose)
 
@@ -154,6 +156,7 @@ Applied in the live project: 0001–0040 (0036–0037 run 23 Oct 2026, 0038–00
 | 0039 | Everyday food preferences per person |
 | 0040 | Diet tags on the shared dishes, and a home's own corrections |
 | 0041 | Diet plans (who follows which) |
+| 0042 | The diet plate (plates, their sides and people) |
 
 ## G. Where to read more
 

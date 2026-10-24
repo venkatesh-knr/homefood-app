@@ -15,13 +15,15 @@ export type SheetSlot = {
   meal_slot_sides: { position: number; dish: DishLike; is_leftover?: boolean }[]
   meal_slot_cooks: { profile_id: string }[]
   meal_slot_eaters: { profile_id: string }[]
+  /** Diet plates: the family meal is for the others, each plate is cooked for its own people. */
+  plates?: { main_dish: DishLike | null; sides: { position: number; dish: DishLike }[]; shared_sides: number[]; eater_ids: string[] }[]
 }
 /** A night-before task to mention at the end ("Tonight: …"). */
 export type SheetPrep = { text: { en: string; ta: string | null }; dish: { en: string; ta: string | null } }
 
 const WORDS = {
-  en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, helper: null as string | null, leftover: (dish: string) => `use leftover ${dish}` },
-  ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, helper: 'உதவியாளர்', leftover: (dish: string) => `மீதமுள்ள ${dish} (பயன்படுத்தவும்)` },
+  en: { eating: 'Eating out', ordering: 'Ordering in', note: 'Note', tonight: 'Tonight', people: (n: number) => `${n}`, plate: (n: number) => `Diet plate (${n}): `, helper: null as string | null, leftover: (dish: string) => `use leftover ${dish}` },
+  ta: { eating: 'வெளியில் சாப்பிடுகிறோம்', ordering: 'ஆர்டர் செய்கிறோம்', note: 'கவனிக்க', tonight: 'இன்றிரவு', people: (n: number) => `${n} பேர்`, plate: (n: number) => `உணவு முறைத் தட்டு (${n} பேர்): `, helper: 'உதவியாளர்', leftover: (dish: string) => `மீதமுள்ள ${dish} (பயன்படுத்தவும்)` },
 }
 
 /** What each cooking preference says on the sheet ("less salt for 1 person"). */
@@ -48,15 +50,23 @@ export function allergyNotes(slots: SheetSlot[], members: SheetMember[], allergi
   const byAllergen = new Map<string, string[]>()
   for (const s of slots) {
     if (s.source !== 'home') continue
-    const dishes = [s.main_dish, ...s.meal_slot_sides.map((x) => x.dish)].filter((d): d is DishLike => d !== null)
-    const contains = new Set(dishes.flatMap((d) => d.allergens ?? []))
-    if (contains.size === 0) continue
-    const eaters = s.meal_slot_eaters.length > 0 ? family.filter((m) => s.meal_slot_eaters.some((e) => e.profile_id === m.id)) : family
-    for (const m of eaters) {
-      for (const a of allergies.get(m.id) ?? []) {
-        if (!contains.has(a)) continue
-        const names = byAllergen.get(a) ?? []
-        if (!names.includes(m.name)) byAllergen.set(a, [...names, m.name])
+    // the family meal is checked against the people eating it, and each diet plate against the people on that plate
+    const plates = s.plates ?? []
+    const onPlate = new Set(plates.flatMap((p) => p.eater_ids))
+    const everyone = s.meal_slot_eaters.length > 0 ? family.filter((m) => s.meal_slot_eaters.some((e) => e.profile_id === m.id)) : family
+    const groups = [
+      { dishes: [s.main_dish, ...s.meal_slot_sides.map((x) => x.dish)], eaters: everyone.filter((m) => !onPlate.has(m.id)) },
+      ...plates.map((p) => ({ dishes: [p.main_dish, ...p.sides.map((x) => x.dish), ...s.meal_slot_sides.filter((x) => p.shared_sides.includes(x.position)).map((x) => x.dish)], eaters: family.filter((m) => p.eater_ids.includes(m.id)) })),
+    ]
+    for (const g of groups) {
+      const contains = new Set(g.dishes.filter((d): d is DishLike => d !== null).flatMap((d) => d.allergens ?? []))
+      if (contains.size === 0) continue
+      for (const m of g.eaters) {
+        for (const a of allergies.get(m.id) ?? []) {
+          if (!contains.has(a)) continue
+          const names = byAllergen.get(a) ?? []
+          if (!names.includes(m.name)) byAllergen.set(a, [...names, m.name])
+        }
       }
     }
   }
@@ -120,7 +130,8 @@ export function buildCookSheet(opts: {
   for (const meal of opts.meals) {
     const s = opts.slots.find((x) => x.meal === meal)
     if (!s) continue
-    const people = w.people(s.meal_slot_eaters.length || family.length)
+    const onPlate = new Set((s.plates ?? []).flatMap((p) => p.eater_ids))
+    const people = w.people(Math.max(0, (s.meal_slot_eaters.length || family.length) - onPlate.size))
     const head = `${mealName(meal, lang)} (${people}): `
     if (s.source === 'dine_out') meals.push(head + w.eating)
     else if (s.source === 'order_in') meals.push(head + w.ordering)
@@ -129,7 +140,15 @@ export function buildCookSheet(opts: {
       const food = s.main_dish ? dishName(s.main_dish, lang) + (sides.length > 0 ? ` + ${sides.join(', ')}` : '') : sides.join(', ')
       if (!food) continue
       const cooks = s.meal_slot_cooks.map((c) => nameOf(c.profile_id)).filter(Boolean)
-      meals.push(head + food + (cooks.length > 0 ? ` · ${cooks.join(' + ')}` : ''))
+      const cookText = cooks.length > 0 ? ` · ${cooks.join(' + ')}` : ''
+      meals.push(head + food + cookText)
+      // one line per diet plate: its own dishes, then the family sides it shares
+      for (const p of s.plates ?? []) {
+        const own = [...(p.main_dish ? [p.main_dish] : []), ...[...p.sides].sort((a, b) => a.position - b.position).map((x) => x.dish), ...[...s.meal_slot_sides].sort((a, b) => a.position - b.position).filter((x) => p.shared_sides.includes(x.position)).map((x) => x.dish)]
+        if (own.length === 0 || p.eater_ids.length === 0) continue
+        const [first, ...rest] = own.map((d) => dishName(d, lang))
+        meals.push(w.plate(p.eater_ids.length) + first + (rest.length > 0 ? ` + ${rest.join(', ')}` : '') + cookText)
+      }
     }
   }
   if (meals.length === 0) return { text: '', empty: true }

@@ -58,6 +58,27 @@ describe('the cook\'s sheet', () => {
     expect(build({ prefs, slots }).text).not.toContain('less salt')
   })
 
+  it('writes the family meal for the others and one line for each diet plate', () => {
+    const lunch: SheetSlot = {
+      meal: 'lunch', source: 'home', main_dish: dish('Sambar rice', 'சாம்பார் சாதம்'),
+      meal_slot_sides: [{ position: 1, dish: dish('Beans poriyal', 'பீன்ஸ் பொரியல்') }, { position: 2, dish: dish('Appalam', 'அப்பளம்') }],
+      meal_slot_cooks: [{ profile_id: 'helper' }], meal_slot_eaters: eaters('amma', 'appa', 'paati', 'kavi', 'arun'),
+      plates: [{ main_dish: dish('Paneer tikka', 'பனீர் டிக்கா'), sides: [{ position: 1, dish: dish('Cucumber salad', 'வெள்ளரி சாலட்') }], shared_sides: [1], eater_ids: ['amma', 'appa'] }],
+    }
+    const text = build({ slots: [lunch], meals: ['lunch'] }).text
+    expect(text).toContain('Lunch (3): Sambar rice + Beans poriyal, Appalam · Helper')
+    expect(text).toContain('Diet plate (2): Paneer tikka + Cucumber salad, Beans poriyal · Helper')
+    expect(build({ slots: [lunch], meals: ['lunch'], lang: 'ta' }).text).toContain('உணவு முறைத் தட்டு (2 பேர்): பனீர் டிக்கா + வெள்ளரி சாலட், பீன்ஸ் பொரியல்')
+  })
+
+  it('checks the allergy of the people on a plate against the plate, not the family meal', () => {
+    const slot: SheetSlot = {
+      meal: 'dinner', source: 'home', main_dish: dish('Soy curry', 'சோயா கறி', ['soy']), meal_slot_sides: [], meal_slot_cooks: [], meal_slot_eaters: eaters('amma', 'paati'),
+      plates: [{ main_dish: dish('Egg curry', 'முட்டை கறி'), sides: [], shared_sides: [], eater_ids: ['paati'] }],
+    }
+    expect([...allergyNotes([slot], members, allergies).keys()]).toEqual([])
+  })
+
   it('can name who has the allergy', () => {
     expect(build({ namesOn: true }).text).toContain('Note: no soy for Paati')
     expect(build({ namesOn: true }).text).not.toContain('1 person')
