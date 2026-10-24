@@ -30,6 +30,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [ ] Step 6 · Polish: demo home, first-visit tips, weekly balance banner, "Cook this again", recipe editing, My extras (a private food log), your data and account controls, accessibility pass, Tamil review kit
       welcome tour built too — see CLAUDE.md
 - [x] Step 6b · Shopping list (common and own items, from this week's meals), prep reminders (with your own and switch-offs, a 7 pm reminder to the cooks) and the cook's sheet — built, see CLAUDE.md
+- [x] Step 6c · Shopping layout v3 (two tabs: To buy, Add items; tidy amounts) — built, see CLAUDE.md
 - [ ] Step 7 · Family trial (2 weeks) — checklist in `docs/family-trial.md`
 
 ## One-time setup

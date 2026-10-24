@@ -143,8 +143,8 @@ button[aria-label]:not([role="switch"]),
   letter-spacing: normal;
 }
 
-/* Tamil: its words are long and its letters wide, so a short label that wraps should wrap evenly (not leave one word alone) and headings get a little more line room. */
-:lang(ta) :is(button, [role="button"], h1, h2, h3, label) {
+/* Tamil: its words are long and its letters wide, so a short label that wraps should wrap evenly (not leave one word alone; text-wrap is a shorthand that would also undo whitespace-nowrap, hence the :not) and headings get a little more line room. */
+:lang(ta) :is(button, [role="button"], h1, h2, h3, label):not(.whitespace-nowrap) {
   text-wrap: balance;
 }
 :lang(ta) :is(h1, h2, h3) {

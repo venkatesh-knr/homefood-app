@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { changeUnit, findExisting, formatAmount, groupBySection, itemName, nudge, parseTyped, secondName, shareText, sleepingRegulars, splitList, whatsappLink, type ShopItem } from './shopping'
+import { atMinimum, changeChip, changeUnit, findExisting, formatAmount, groupBySection, itemName, nudge, parseTyped, regularsToAdd, secondName, shareText, sleepingRegulars, splitList, tidy, whatsappLink, type ShopItem } from './shopping'
 
 const NOW = new Date('2026-10-23T12:00:00Z').getTime()
 const ago = (hours: number) => new Date(NOW - hours * 3600e3).toISOString()
@@ -45,7 +45,7 @@ describe('amounts', () => {
     expect(formatAmount(1, 'pcs')).toBe('1 pc')
     expect(formatAmount(4, 'pcs')).toBe('4 pcs')
     expect(formatAmount(2, 'bunch')).toBe('2 bunches')
-    expect(formatAmount(0.5, 'L')).toBe('0.5 L')
+    expect(formatAmount(0.5, 'L')).toBe('500 ml')
     expect(formatAmount(1, 'kg', 'ta')).toBe('1 கிலோ')
     expect(formatAmount(null, null)).toBe('')
   })
@@ -55,7 +55,7 @@ describe('amounts', () => {
     expect(nudge(4, 'pcs', 1)).toEqual({ amount: 5, unit: 'pcs' })
   })
   it('never goes below one step', () => {
-    expect(nudge(0.5, 'kg', -1)).toEqual({ amount: 0.5, unit: 'kg' })
+    expect(nudge(0.5, 'kg', -1)).toEqual({ amount: 400, unit: 'g' }) // 0.5 kg is 500 g
     expect(nudge(100, 'g', -1)).toEqual({ amount: 100, unit: 'g' })
     expect(nudge(1, 'pcs', -1)).toEqual({ amount: 1, unit: 'pcs' })
   })
@@ -133,5 +133,74 @@ describe('share text', () => {
   })
   it('builds a WhatsApp link', () => {
     expect(whatsappLink('a b\nc')).toBe('https://wa.me/?text=a%20b%0Ac')
+  })
+})
+
+describe('amount tidying', () => {
+  it('turns 1000 g or more into kg and 1000 ml or more into L', () => {
+    expect(tidy(1000, 'g')).toEqual({ amount: 1, unit: 'kg' })
+    expect(tidy(1500, 'g')).toEqual({ amount: 1.5, unit: 'kg' })
+    expect(tidy(2250, 'ml')).toEqual({ amount: 2.25, unit: 'L' })
+    expect(tidy(999, 'g')).toEqual({ amount: 999, unit: 'g' })
+  })
+  it('turns less than 1 kg or 1 L back into g or ml', () => {
+    expect(tidy(0.5, 'kg')).toEqual({ amount: 500, unit: 'g' })
+    expect(tidy(0.25, 'L')).toEqual({ amount: 250, unit: 'ml' })
+    expect(tidy(1, 'kg')).toEqual({ amount: 1, unit: 'kg' })
+  })
+  it('leaves pieces, bunches and packs alone', () => {
+    expect(tidy(1200, 'pcs')).toEqual({ amount: 1200, unit: 'pcs' })
+    expect(tidy(0.5, 'pack')).toEqual({ amount: 0.5, unit: 'pack' })
+  })
+  it('is used when an amount is written, typed, stepped and shared', () => {
+    expect(formatAmount(1000, 'g')).toBe('1 kg')
+    expect(formatAmount(1500, 'g')).toBe('1.5 kg')
+    expect(formatAmount(1000, 'ml')).toBe('1 L')
+    expect(formatAmount(0.5, 'kg')).toBe('500 g')
+    expect(formatAmount(1500, 'g', 'ta')).toBe('1.5 கிலோ')
+    expect(parseTyped('rice 1500 g')).toEqual({ name: 'rice', amount: 1.5, unit: 'kg' })
+    expect(parseTyped('milk 0.5 l')).toEqual({ name: 'milk', amount: 500, unit: 'ml' })
+    expect(nudge(900, 'g', 1)).toEqual({ amount: 1, unit: 'kg' })
+    expect(nudge(1, 'kg', -1)).toEqual({ amount: 500, unit: 'g' })
+    expect(nudge(500, 'ml', 1)).toEqual({ amount: 600, unit: 'ml' })
+    const text = shareText([item({ name: 'Rice', section: 'grocery', amount: 1500, unit: 'g' })], 'en', { title: 'T', section: { veg_fruit: 'V', grocery: 'G', dairy_eggs: 'D', other: 'O' } })
+    expect(text).toContain('• Rice · 1.5 kg')
+  })
+  it('knows when one more − would take an amount to nothing', () => {
+    expect(atMinimum(1, 'pcs')).toBe(true)
+    expect(atMinimum(2, 'pcs')).toBe(false)
+    expect(atMinimum(100, 'g')).toBe(true)
+    expect(atMinimum(500, 'g')).toBe(false)
+    expect(atMinimum(0.5, 'kg')).toBe(false) // 0.5 kg is 500 g
+    expect(atMinimum(null, null)).toBe(true)
+  })
+})
+
+describe('unit chips', () => {
+  it('keeps the number between weight and volume and picks g / kg / ml / L itself', () => {
+    expect(changeChip(1, 'kg', 'volume')).toEqual({ amount: 1, unit: 'L' })
+    expect(changeChip(500, 'g', 'volume')).toEqual({ amount: 500, unit: 'ml' })
+    expect(changeChip(500, 'g', 'weight')).toEqual({ amount: 500, unit: 'g' })
+  })
+  it('keeps the number between pieces, bunches and packs', () => {
+    expect(changeChip(4, 'pcs', 'bunch')).toEqual({ amount: 4, unit: 'bunch' })
+  })
+  it('resets to something sensible when moving to or from a count', () => {
+    expect(changeChip(4, 'pcs', 'weight')).toEqual({ amount: 500, unit: 'g' })
+    expect(changeChip(2, 'pcs', 'volume')).toEqual({ amount: 500, unit: 'ml' })
+    expect(changeChip(500, 'g', 'pcs')).toEqual({ amount: 1, unit: 'pcs' })
+    expect(changeChip(null, null, 'pack')).toEqual({ amount: 1, unit: 'pack' })
+  })
+})
+
+describe('regularsToAdd', () => {
+  it('lists starred items that are asleep or ticked, never the ones still to buy or the ones that are not starred', () => {
+    const items = [
+      item({ name: 'Milk', is_regular: true }),
+      item({ name: 'Bread', is_regular: true, bought_at: ago(30) }),
+      item({ name: 'Banana', is_regular: true, bought_at: ago(2) }),
+      item({ name: 'Salt', bought_at: ago(30) }),
+    ]
+    expect(regularsToAdd(items).map((i) => i.name)).toEqual(['Bread', 'Banana'])
   })
 })

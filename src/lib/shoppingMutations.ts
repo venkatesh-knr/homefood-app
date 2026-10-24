@@ -2,7 +2,7 @@ import { supabase } from './supabase'
 import { queryClient } from './queryClient'
 import { shoppingKey } from './shoppingQueries'
 import { mergePlanIntoList, type PlanPick } from './shoppingPlan'
-import { TAB_OF_SECTION, findExisting, isPerishableSection, isTamil, sleepingRegulars, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
+import { TAB_OF_SECTION, findExisting, isPerishableSection, isTamil, regularsToAdd, tidyOrNull, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
 
 function client() {
   if (!supabase) throw new Error('Supabase is not configured')
@@ -25,19 +25,20 @@ export async function addShoppingItem(args: { householdId: string; profileId: st
   if (existing) {
     if (existing.bought_at === null) return { kind: 'opened', id: existing.id }
     const patch: Record<string, unknown> = { bought_at: null, bought_by: null, source: 'manual' }
-    if (item.amount != null && item.unit && !item.amountIsDefault) Object.assign(patch, { amount: item.amount, unit: item.unit })
+    if (item.amount != null && item.unit && !item.amountIsDefault) Object.assign(patch, tidyOrNull(item.amount, item.unit))
     const { error } = await client().from('shopping_items').update(patch).eq('id', existing.id)
     if (error) throw error
     await refresh(householdId)
     return { kind: 'restored', id: existing.id }
   }
+  const tidied = tidyOrNull(item.amount ?? null, item.amount != null ? (item.unit ?? 'pcs') : null)
   const row = {
     household_id: householdId,
     name,
     name_ta: item.name_ta ?? (isTamil(name) ? name : null),
     section: item.section ?? 'other',
-    amount: item.amount ?? null,
-    unit: item.amount != null ? (item.unit ?? 'pcs') : null,
+    amount: tidied.amount,
+    unit: tidied.unit,
     added_by: profileId,
   }
   const { data, error } = await client().from('shopping_items').insert(row).select('id').single()
@@ -85,9 +86,9 @@ export async function removeShoppingItem(householdId: string, id: string): Promi
   await refresh(householdId)
 }
 
-/** The Regulars button: wakes every sleeping regular. Returns how many came back. */
+/** "Add regulars": puts every starred item that is not on the to-buy list back on it (asleep ones, and ones ticked today). Returns how many came back. */
 export async function addRegulars(householdId: string, items: ShopItem[]): Promise<number> {
-  const asleep = sleepingRegulars(items)
+  const asleep = regularsToAdd(items)
   if (asleep.length === 0) return 0
   const { error } = await client()
     .from('shopping_items')

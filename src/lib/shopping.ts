@@ -54,18 +54,68 @@ export function cleanNumber(n: number): number {
   return Math.round(n * 100) / 100
 }
 
+/** The tidy way to write an amount: 1000 g or more is kg (1500 g = 1.5 kg), 1000 ml or more is L, and below 1 kg / 1 L it is g / ml again
+ * (0.5 kg = 500 g). Pieces, bunches and packs are left alone. Used for everything the person sees, stores or sends. */
+export function tidy(amount: number, unit: ShopUnit): { amount: number; unit: ShopUnit } {
+  const a = cleanNumber(amount)
+  if (unit === 'g' && a >= 1000) return { amount: cleanNumber(a / 1000), unit: 'kg' }
+  if (unit === 'ml' && a >= 1000) return { amount: cleanNumber(a / 1000), unit: 'L' }
+  if (unit === 'kg' && a < 1) return { amount: cleanNumber(a * 1000), unit: 'g' }
+  if (unit === 'L' && a < 1) return { amount: cleanNumber(a * 1000), unit: 'ml' }
+  return { amount: a, unit }
+}
+
+/** `tidy` for an amount that may be missing. */
+export function tidyOrNull<U extends ShopUnit | null>(amount: number | null, unit: U): { amount: number | null; unit: U | ShopUnit } {
+  if (amount === null || unit === null) return { amount, unit }
+  return tidy(amount, unit)
+}
+
 /** "1 kg", "500 g", "1 pc", "4 pcs", "1 bunch"; an item with no amount shows nothing. */
 export function formatAmount(amount: number | null, unit: ShopUnit | null, lang: 'en' | 'ta' = 'en'): string {
   if (amount === null || unit === null) return ''
-  return `${cleanNumber(amount)} ${unitLabel(unit, lang, amount)}`
+  const t = tidy(amount, unit)
+  return `${t.amount} ${unitLabel(t.unit, lang, t.amount)}`
 }
 
 /** One tap of − or +. Never goes below one step; starting from "no amount" a + gives one usual step. */
 export function nudge(amount: number | null, unit: ShopUnit | null, direction: 1 | -1): { amount: number | null; unit: ShopUnit } {
-  const u = unit ?? 'pcs'
+  const start = amount === null ? { amount, unit: unit ?? 'pcs' } : tidy(amount, unit ?? 'pcs')
+  const u = start.unit
   const step = STEP[u]
-  if (amount === null) return direction === 1 ? { amount: step === 100 ? 250 : 1, unit: u } : { amount: null, unit: u }
-  return { amount: Math.max(step, cleanNumber(amount + direction * step)), unit: u }
+  if (start.amount === null) return direction === 1 ? { amount: step === 100 ? 250 : 1, unit: u } : { amount: null, unit: u }
+  return tidy(Math.max(step, cleanNumber(start.amount + direction * step)), u)
+}
+
+/** Whether one more − would take the amount to nothing (in the Add items list that removes the item). */
+export function atMinimum(amount: number | null, unit: ShopUnit | null): boolean {
+  if (amount === null || unit === null) return true
+  const t = tidy(amount, unit)
+  return t.amount <= STEP[t.unit]
+}
+
+/** The unit chips of the amount sheet: weight (g or kg) and volume (ml or L) pick g / kg / ml / L from the amount by themselves. */
+export const UNIT_CHIPS = ['weight', 'volume', 'pcs', 'bunch', 'pack'] as const
+export type UnitChip = (typeof UNIT_CHIPS)[number]
+export function chipOf(unit: ShopUnit | null): UnitChip | null {
+  if (unit === 'g' || unit === 'kg') return 'weight'
+  if (unit === 'ml' || unit === 'L') return 'volume'
+  return unit
+}
+
+/** Picking a unit chip: weight and volume keep the number (1 kg becomes 1 L, 500 g becomes 500 ml); moving between pieces, bunches and packs
+ * keeps it too; going to or from a count resets it to something sensible (500 g or ml, or 1). */
+export function changeChip(amount: number | null, from: ShopUnit | null, to: UnitChip): { amount: number; unit: ShopUnit } {
+  const was = chipOf(from)
+  const base = amount === null || from === null ? null : tidy(amount, from)
+  if (was === to && base) return base
+  if (base && (was === 'weight' || was === 'volume') && (to === 'weight' || to === 'volume')) {
+    return tidy(base.amount, to === 'weight' ? (base.unit === 'kg' || base.unit === 'L' ? 'kg' : 'g') : base.unit === 'kg' || base.unit === 'L' ? 'L' : 'ml')
+  }
+  if (base && (was === 'pcs' || was === 'bunch' || was === 'pack') && (to === 'pcs' || to === 'bunch' || to === 'pack')) return { amount: base.amount, unit: to }
+  if (to === 'weight') return { amount: 500, unit: 'g' }
+  if (to === 'volume') return { amount: 500, unit: 'ml' }
+  return { amount: 1, unit: to }
 }
 
 /** Picking another unit chip: g↔kg and ml↔L convert, and an amount that would look silly in the new unit is reset. */
@@ -113,13 +163,13 @@ export function parseTyped(text: string): TypedItem {
   if (after) {
     const [, name, num, word] = after
     const unit = word ? UNIT_WORDS[word.toLowerCase().replace(/\.$/, '')] : undefined
-    if (!word || unit) return { name: name!.trim(), amount: Number(num), unit: unit ?? null }
+    if (!word || unit) return { name: name!.trim(), ...tidyOrNull(Number(num), unit ?? null) }
   }
   const before = BEFORE.exec(t)
   if (before) {
     const [, num, word, name] = before
     const unit = word ? UNIT_WORDS[word.toLowerCase().replace(/\.$/, '')] : undefined
-    if (unit) return { name: name!.trim(), amount: Number(num), unit }
+    if (unit) return { name: name!.trim(), ...tidy(Number(num), unit) }
   }
   return { name: t, amount: null, unit: null }
 }
@@ -146,6 +196,11 @@ export function splitList(items: ShopItem[], now = Date.now()): { toBuy: ShopIte
 /** Sleeping regulars: starred items that are no longer on the list or under "Bought". */
 export function sleepingRegulars(items: ShopItem[], now = Date.now()): ShopItem[] {
   return items.filter((i) => i.is_regular && i.bought_at !== null && now - new Date(i.bought_at).getTime() >= DAY_MS)
+}
+
+/** Starred items that are not on the to-buy list right now (asleep, or ticked today): what "Add regulars" puts back. */
+export function regularsToAdd(items: ShopItem[]): ShopItem[] {
+  return items.filter((i) => i.is_regular && i.bought_at !== null)
 }
 
 /** The items of each section, in the order they were added; empty sections are left out. */
@@ -261,6 +316,16 @@ export function suggestItems(items: CatalogItem[], query: string, limit = 4): Ca
     if (score < Infinity) scored.push({ c, score })
   }
   return scored.sort((a, b) => a.score - b.score || a.c.name_en.length - b.c.name_en.length || a.c.name_en.localeCompare(b.c.name_en)).slice(0, limit).map((s) => s.c)
+}
+
+/** The tabs of the Add items screen: the regulars first, the browse tabs, then the home's own items. */
+export type AddTab = 'regulars' | ShopTab | 'ours'
+export const ADD_TABS: AddTab[] = ['regulars', ...TABS, 'ours']
+
+/** The catalogue rows of one Add items tab (the regulars tab lists list items, not catalogue rows, so it is not handled here). */
+export function itemsOfAddTab(items: CatalogItem[], tab: Exclude<AddTab, 'regulars'>): CatalogItem[] {
+  if (tab === 'ours') return items.filter((c) => c.source === 'ours').sort((a, b) => a.name_en.localeCompare(b.name_en))
+  return itemsOfTab(items, tab)
 }
 
 /** The items of one browse tab, the home's own after the common ones. */

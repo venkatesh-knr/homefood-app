@@ -7,7 +7,7 @@
 //     packs: oil is 1 L or 5 L). Something that cannot be converted counts as one smallest pack.
 //   * Staples (salt, oil, spices, curry leaves...) are kept apart, unticked, under "Usually at home".
 import { addDays, toISODate, weekStartOf } from './planner'
-import { canon, catalogIndex, findExisting, type CatalogItem, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
+import { canon, catalogIndex, findExisting, tidy, tidyOrNull, type CatalogItem, type ShopItem, type ShopSection, type ShopUnit } from './shopping'
 import { SECTIONS } from './shopping'
 import type { RecipeUnit } from './recipes'
 
@@ -253,16 +253,16 @@ export function mergePlanIntoList(existing: ShopItem[], picks: PlanPick[], house
   for (const p of picks) {
     const ex = findExisting(existing, p.name)
     if (!ex) {
-      inserts.push({ household_id: householdId, name: p.name, name_ta: p.name_ta, section: p.section, amount: p.amount, unit: p.unit, source: 'plan', source_dishes: p.dishes, added_by: profileId })
+      inserts.push({ household_id: householdId, name: p.name, name_ta: p.name_ta, section: p.section, ...tidyOrNull(p.amount, p.unit), source: 'plan', source_dishes: p.dishes, added_by: profileId })
       continue
     }
     const dishes = [...new Set([...(ex.bought_at === null ? ex.source_dishes : []), ...p.dishes])]
     if (ex.bought_at !== null) {
-      updates.push({ id: ex.id, patch: { amount: p.amount, unit: p.unit, source: 'plan', source_dishes: dishes, bought_at: null, bought_by: null } })
+      updates.push({ id: ex.id, patch: { ...tidyOrNull(p.amount, p.unit), source: 'plan', source_dishes: dishes, bought_at: null, bought_by: null } })
       continue
     }
     const sum = p.amount === null || p.unit === null ? null : addAmounts(ex, { amount: p.amount, unit: p.unit })
-    updates.push({ id: ex.id, patch: { ...(sum ? { amount: sum.amount, unit: sum.unit } : {}), source: 'plan', source_dishes: dishes } })
+    updates.push({ id: ex.id, patch: { ...(sum ? tidy(sum.amount, sum.unit) : {}), source: 'plan', source_dishes: dishes } })
   }
   return { inserts, updates }
 }
