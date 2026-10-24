@@ -17,6 +17,7 @@ import { useDishUsage, useFavourites } from '../lib/favouriteQueries'
 import { orderDishes } from '../lib/favourites'
 import { HeartIcon } from './icons'
 import { Dialog } from './Dialog'
+import { TagFilterChips } from './TagFilterChips'
 import { useDietPreferences } from '../lib/dietQueries'
 import { dishClashes, type Preferences } from '../lib/diets'
 
@@ -129,6 +130,7 @@ export function DishPickerSheet({
             )
           })}
         </div>
+        <TagFilterChips value={filters.tags} onChange={(tags) => setFilters((f) => ({ ...f, tags }))} />
         <div className="flex flex-wrap gap-2">
           <select
             aria-label={t('dishes.filters.dietAny')}

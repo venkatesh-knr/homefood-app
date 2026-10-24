@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from './supabase'
 import type { Cuisine, Dish, DishNameRow } from './dishes'
+import { effectiveTags } from './dishTags'
+import { fetchCorrections } from './dishTagQueries'
 
 export function useCuisines() {
   return useQuery({
@@ -28,7 +30,9 @@ export function useDishes(householdId: string | undefined) {
         .or(`household_id.is.null,household_id.eq.${householdId}`)
         .order('name')
       if (error) throw error
-      return data as DishWithNames[]
+      // a home's own corrections of the diet tags are folded in, so every screen sees the same tags
+      const corrections = await fetchCorrections(householdId!)
+      return (data as DishWithNames[]).map((d) => (corrections.has(d.id) ? { ...d, tags: effectiveTags(d.tags, corrections.get(d.id)) } : d))
     },
   })
 }

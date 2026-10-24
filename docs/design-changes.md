@@ -65,6 +65,8 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 
 **Everyday preferences** (24 Oct, spec 3a; migration 0039): per person veg / egg / non-veg, no onion or garlic, low oil, low salt, low sugar, under Home › Our home › Diets and fasting; used by "Suits everyone eating" (which replaces the old allergy-only "safe for everyone eating"), a gentle note in the meal editor and the picker, and the cook's sheet. **Beyond the spec:** the Admin can set them only for people who have not logged in yet; once someone has joined, only they can.
 
+**Diet tags** (24 Oct, spec 3a; migration 0040): 18 tags on all 298 shared dishes worked out from ingredients and nutrition (the seven filter chips plus flags and avoid groups for the plans), filter chips in Dishes and the picker, and a home's own corrections on Dish detail. **Beyond the spec:** the Admin or the Planner of the day corrects tags; the catalogue itself stays read-only.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
@@ -74,7 +76,7 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 - **Dark mode** with an Appearance setting (System / Light / Dark); the Week at a glance poster always saves in light.
 - **Scroll and focus**: every new screen opens at the top with focus on the page; forms that open lower down scroll into view.
 - **Tamil review kit** (`docs/tamil-review.html`, regenerated 23 Oct): about 4,900 lines: screen texts, dish names, recipes, everyday foods, the 150 shopping items, prep wording and the Tamil words that live in code.
-- **Database tests in CI**: every push runs the rule tests (356 checks) on a throwaway Postgres; 306 unit tests.
+- **Database tests in CI**: every push runs the rule tests (370 checks) on a throwaway Postgres; 306 unit tests.
 
 ## D. Still not built (parked on purpose)
 
@@ -107,7 +109,7 @@ When the live Claude Doc is next updated, these lines should change:
 
 ## F. Database changes, in order (migration number: what it does)
 
-Applied in the live project: 0001–0037 (last two run 23 Oct 2026). 0038 and later are written but run by Venkatesh after CI passes.
+Applied in the live project: 0001–0040 (0036–0037 run 23 Oct 2026, 0038–0040 run 24 Oct 2026). 0041 and later are written but run by Venkatesh after CI passes.
 
 | No. | What |
 | --- | --- |
@@ -148,6 +150,7 @@ Applied in the live project: 0001–0037 (last two run 23 Oct 2026). 0038 and la
 | 0037 | A credit for photos chosen from the web |
 | 0038 | Leftovers (table, leftover sides, `use_leftover`) |
 | 0039 | Everyday food preferences per person |
+| 0040 | Diet tags on the shared dishes, and a home's own corrections |
 
 ## G. Where to read more
 

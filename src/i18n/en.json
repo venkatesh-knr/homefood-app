@@ -1003,6 +1003,35 @@
     },
     "clashTitle": "Worth a look"
   },
+  "dishTags": {
+    "title": "Diet tags",
+    "correct": "Correct for our home",
+    "changed": "changed by our home",
+    "none": "No diet tags worked out for this dish.",
+    "hint": "Worked out from the recipe's ingredients and nutrition: guidance, not a verdict. * marks a tag your home changed.",
+    "editHint": "Switch a tag on or off for our home. The catalogue is not changed; only your home sees the correction.",
+    "filterLabel": "Diet filters",
+    "tag": {
+      "low_carb": "Low-carb",
+      "high_protein": "High protein",
+      "light": "Light",
+      "low_oil": "Low oil",
+      "millet": "Millet",
+      "low_sugar": "Low sugar",
+      "fasting_food": "Fasting food",
+      "onion_garlic": "Has onion or garlic",
+      "salty": "Salty",
+      "oily": "Oily",
+      "sweet": "Sweet",
+      "grain": "Grains",
+      "pulse": "Dals and pulses",
+      "dairy": "Dairy",
+      "added_sugar": "Added sugar",
+      "meat": "Meat or fish",
+      "egg": "Egg",
+      "root_veg": "Root vegetables"
+    }
+  },
   "shopping": {
     "title": "Shopping",
     "summary": "{{toBuy}} to buy · {{bought}} bought",

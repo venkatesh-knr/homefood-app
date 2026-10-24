@@ -81,6 +81,8 @@ export type DishFilters = {
   diet: DietType | 'any'
   mealType: MealType | 'any'
   safeOnly: boolean
+  /** Diet tags a dish must all have (low_carb, high_protein...). */
+  tags: string[]
 }
 
 export const DEFAULT_DISH_FILTERS: DishFilters = {
@@ -90,6 +92,7 @@ export const DEFAULT_DISH_FILTERS: DishFilters = {
   diet: 'any',
   mealType: 'any',
   safeOnly: false,
+  tags: [],
 }
 
 /** Matches the search box against both languages so "தோசை" and "dosa" both find it. */
@@ -112,6 +115,7 @@ export function passesFilters(
   if (filters.course !== 'any' && dish.course !== 'both' && dish.course !== filters.course) return false
   if (filters.diet !== 'any' && dish.diet !== filters.diet) return false
   if (filters.mealType !== 'any' && !dish.meal_types.includes(filters.mealType)) return false
+  if (filters.tags.length > 0 && !filters.tags.every((x) => (dish.tags ?? []).includes(x))) return false
   if (filters.safeOnly && (dishConflictsWith(dish, householdAllergens) || clashesHard(dish, prefs))) return false
   return true
 }

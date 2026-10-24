@@ -48,6 +48,14 @@ vegetable = {l.strip() for l in (root / 'scripts/vegetable-dishes.txt').read_tex
 for name in vegetable:
     if name in catalogue and 'vegetable' not in catalogue[name]['tags']:
         catalogue[name]['tags'].append('vegetable')
+# diet tags (migration 0040), worked out by the same rules as the migration
+import diet_tag_rules  # noqa: E402
+_rule_dishes = diet_tag_rules.load()
+for name, c in catalogue.items():
+    if name in _rule_dishes:
+        for tag in diet_tag_rules.rule_tags(_rule_dishes[name])[0]:
+            if tag not in c['tags']:
+                c['tags'].append(tag)
 missing = [p for p in picks if p not in catalogue]
 assert not missing, 'not in the catalogue: %s' % missing
 

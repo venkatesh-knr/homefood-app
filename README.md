@@ -33,6 +33,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [x] Step 6c · Shopping layout v3 (two tabs: To buy, Add items; tidy amounts) — built, see CLAUDE.md
 - [x] Step 6d · Leftovers (migration 0038) — built, see CLAUDE.md
 - [x] Step 6e · Everyday preferences (migration 0039) — built, see CLAUDE.md; diet tags, plans, fasting and guests follow
+- [x] Step 6f · Diet tags and filters (migration 0040) — built, see CLAUDE.md
 - [ ] Step 7 · Family trial (2 weeks) — checklist in `docs/family-trial.md`
 
 ## One-time setup

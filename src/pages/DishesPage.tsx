@@ -21,6 +21,7 @@ import { HeartIcon } from '../components/icons'
 import { AddCuisine } from '../components/AddCuisine'
 import { MyCuisines } from '../components/MyCuisines'
 import { useDietPreferences } from '../lib/dietQueries'
+import { TagFilterChips } from '../components/TagFilterChips'
 
 export default function DishesPage() {
   const { t, i18n } = useTranslation()
@@ -147,6 +148,8 @@ export default function DishesPage() {
           <MyCuisines householdId={household.id} />
         </div>
       )}
+
+      <TagFilterChips value={filters.tags} onChange={(tags) => setFilters((f) => ({ ...f, tags }))} />
 
       <div className="flex flex-wrap gap-2">
         <select

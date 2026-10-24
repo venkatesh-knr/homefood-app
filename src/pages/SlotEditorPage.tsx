@@ -21,6 +21,8 @@ import { FirstVisitTip } from '../components/FirstVisitTip'
 import { useLeftovers } from '../lib/leftoverQueries'
 import { useDietPreferences } from '../lib/dietQueries'
 import { mealClashes } from '../lib/diets'
+import { useDishTagCorrections } from '../lib/dishTagQueries'
+import { effectiveTags } from '../lib/dishTags'
 import { leftoverName, leftoversForDate, withLeftoverTag } from '../lib/leftovers'
 
 const SOURCES: MealSource[] = ['home', 'dine_out', 'order_in']
@@ -45,6 +47,7 @@ export default function SlotEditorPage() {
   const { data: allergyRows } = useAllergies(memberIds)
   const { data: leftoverList } = useLeftovers(household.id)
   const { data: dietPrefs } = useDietPreferences(household.id)
+  const { data: tagFixes } = useDishTagCorrections(household.id)
 
   // Wait for the meals and the members before filling the form, or the "new slot" default fires on empty data and
   // locks in permanently once initialised flips true.
@@ -113,7 +116,7 @@ export default function SlotEditorPage() {
   const mealAllergens = [...(mainDish?.allergens ?? []), ...sideDishes.flatMap((d) => d.allergens)]
   const conflict = mealAllergyConflicts(mealAllergens, eaterAllergyInfo)
   const prefClashes = mealClashes(
-    [...(mainDish ? [mainDish] : []), ...sideDishes].map((d) => ({ id: d.id, diet: d.diet, tags: d.tags, name: dishDisplayName(d, d.dish_names, lang) })),
+    [...(mainDish ? [mainDish] : []), ...sideDishes].map((d) => ({ id: d.id, diet: d.diet, tags: effectiveTags(d.tags, tagFixes?.get(d.id)), name: dishDisplayName(d, d.dish_names, lang) })),
     eaterAllergyInfo.map((e) => ({ id: e.id, name: e.name })),
     dietPrefs ?? new Map(),
   )

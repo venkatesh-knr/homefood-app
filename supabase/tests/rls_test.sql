@@ -740,6 +740,29 @@ delete from public.profile_preferences where profile_id = :'appa';
 select tests.ok((select count(*) from public.profile_preferences) = 2, 'a person can clear their own');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── Diet tags (migration 0040) ──
+select tests.ok((select count(*) from public.dishes where household_id is null and 'low_carb' = any (tags)) >= 100, 'the shared dishes carry diet tags');
+select tests.ok((select tags @> array['grain', 'pulse'] and not tags @> array['meat'] from public.dishes where household_id is null and name = 'Idli'), 'Idli is tagged grain and pulse, not meat');
+select tests.ok((select tags @> array['meat', 'high_protein', 'oily'] from public.dishes where household_id is null and name = 'Butter chicken'), 'Butter chicken is tagged meat, high protein and oily');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null and tags @> array['meat'] and tags @> array['fasting_food']), 'no meat dish is a fasting food');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null and tags @> array['millet'] and not (name ~* '(ragi|kambu|thinai|samai|varagu|kuthiraivali|bajra|jowar|cholam|millet|koozh|mudde)')), 'millet is only on millet dishes');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+insert into public.household_dish_tags (household_id, dish_id, tag, present) values (:'hh_a', :'prep_idli', 'oily', true);
+insert into public.household_dish_tags (household_id, dish_id, tag, present) values (:'hh_a', :'prep_idli', 'pulse', false);
+select tests.ok((select count(*) from public.household_dish_tags where household_id = :'hh_a') = 2, 'the Admin corrects tags for the home');
+select tests.refused($$ insert into public.household_dish_tags (household_id, dish_id, tag, present) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'vegan', true) $$, 'only the known diet tags can be corrected');
+select tests.refused($$ insert into public.household_dish_tags (household_id, dish_id, tag, present) values ('$$ || :'hh_c' || $$', '$$ || :'prep_idli' || $$', 'oily', true) $$, 'a correction cannot be written for another home');
+select set_config('request.jwt.claim.sub', 'bbbbbbbb-0000-4000-8000-000000000002', false);
+select tests.ok((select count(*) from public.household_dish_tags) = 2, 'a member sees the home''s corrections');
+select tests.refused($$ insert into public.household_dish_tags (household_id, dish_id, tag, present) values ('$$ || :'hh_a' || $$', '$$ || :'prep_idli' || $$', 'sweet', true) $$, 'a member who is not the Planner today cannot correct tags');
+select tests.refused($$ delete from public.household_dish_tags where household_id = '$$ || :'hh_a' || $$' $$, 'nor remove a correction');
+select set_config('request.jwt.claim.sub', 'cccccccc-0000-4000-8000-000000000003', false);
+select tests.ok((select count(*) from public.household_dish_tags) = 0, 'another home cannot see them');
+select tests.refused($$ insert into public.household_dish_tags (household_id, dish_id, tag, present) values ('$$ || :'hh_c' || $$', '$$ || :'pongal' || $$', 'oily', true) $$, 'another home''s own dish cannot be corrected here');
+select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
+delete from public.household_dish_tags where household_id = :'hh_a';
+select tests.ok((select count(*) from public.household_dish_tags) = 0, 'the Admin can take corrections away');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;
