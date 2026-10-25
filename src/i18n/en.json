@@ -406,6 +406,7 @@
         "fibre_g": "Fibre (g)",
         "sugar_g": "Sugar (g)",
         "sodium_mg": "Salt, as sodium (mg)",
+        "copyMissing": "No estimate yet",
         "copyButton": "Copy from a similar dish",
         "copyTitle": "Copy the nutrition of…",
         "copied": "Copied from {{dish}}. Change the numbers to match your dish.",
@@ -763,6 +764,7 @@
   },
   "recipeEdit": {
     "title": "Edit our version",
+    "copyMissing": "No recipe yet",
     "copyButton": "Start from a similar dish's recipe",
     "copyTitle": "Start from the recipe of…",
     "copied": "Started from the recipe of {{dish}}. Change what is different, then Save.",

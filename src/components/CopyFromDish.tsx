@@ -6,11 +6,15 @@ import { DishPickerSheet } from './DishPickerSheet'
 
 /** A button that opens the dish picker so someone can start from what an existing dish already has (its nutrition estimate, its recipe). The picked
  * dish is handed back; what to copy is the caller's business. Dishes in `excludeIds` (those with nothing to copy) are not listed. */
-export function CopyFromDish({ label, title, meal = 'breakfast', excludeIds, onPicked, className = '' }: {
+export function CopyFromDish({ label, title, meal = 'breakfast', excludeIds = [], missingIds, missingText, onPicked, className = '' }: {
   label: string
   title: string
   meal?: MealType
-  excludeIds: string[]
+  /** Dishes left out of the list altogether (for example the dish being written). */
+  excludeIds?: string[]
+  /** Dishes with nothing to copy: still listed, so a new dish is never "missing", with `missingText` under them. */
+  missingIds?: Set<string>
+  missingText?: string
   onPicked: (dish: DishWithNames) => void
   className?: string
 }) {
@@ -29,6 +33,7 @@ export function CopyFromDish({ label, title, meal = 'breakfast', excludeIds, onP
           meal={meal}
           eaters={[]}
           excludeIds={excludeIds}
+          extraNote={(d) => (missingIds?.has(d.id) ? (missingText ?? null) : null)}
           onPick={(d) => {
             setOpen(false)
             onPicked(d)

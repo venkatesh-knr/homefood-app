@@ -108,9 +108,9 @@ which uses the **real** shared catalogue (`src/lib/fixtures/allDishes.json`, 331
 | --- | --- | --- | --- | --- |
 | F1 | Add "Bread toast" (breakfast, main or side, with nutrition) | Saved; opens its detail page; found by "toast" in the Dishes tab | Demo | Pass |
 | F2 | A dish with no photo | Detail shows the coloured initial and the words "No photo yet" | Demo | Pass (was wrongly "Photo: stock image") |
-| F3 | Add dish → "Copy from a similar dish" → pick Omelette | The serving text and numbers are filled in (still editable), with "Copied from Omelette. Change the numbers to match your dish."; only dishes that have an estimate are listed | Demo | Pass |
+| F3 | Add dish → "Copy from a similar dish" → pick Omelette | The serving text and numbers are filled in (still editable), with "Copied from Omelette. Change the numbers to match your dish."; every dish is listed, the ones without an estimate say "No estimate yet" and picking one explains there is nothing to copy | Demo | Pass |
 | F4 | A new dish has no recipe: open its detail as the Admin | A "Write our recipe" button is there (before, only dishes that already had a recipe showed a recipe button, so there was no way in) | Demo | Pass (was a gap) |
-| F5 | Write our recipe → "Start from a similar dish's recipe" → pick Omelette | Servings, times, ingredients and steps are filled in as a draft; nothing is saved until "Save our version"; only dishes that have a recipe are listed | Demo | Pass |
+| F5 | Write our recipe → "Start from a similar dish's recipe" → pick Omelette | Servings, times, ingredients and steps are filled in as a draft; nothing is saved until "Save our version"; every dish is listed, the ones without a recipe say "No recipe yet" and picking one explains there is nothing to copy | Demo | Pass |
 
 ## G · Every screen opens (crawl)
 

@@ -37,6 +37,7 @@ export function DishPickerSheet({
   eaters,
   excludeIds = [],
   fitPlans,
+  extraNote,
   onPick,
   onClose,
 }: {
@@ -48,6 +49,8 @@ export function DishPickerSheet({
   excludeIds?: string[]
   /** Only dishes that fit every one of these diet plans (the diet plate's picker). */
   fitPlans?: FitKey[]
+  /** A short note under a dish (used when it has no allergy or preference note and fits the picker), for example "No recipe yet". */
+  extraNote?: (dish: DishWithNames) => string | null
   onPick: (dish: DishWithNames) => void
   onClose: () => void
 }) {
@@ -219,7 +222,9 @@ export function DishPickerSheet({
                   ? { text: t(`diets.clash.${prefClash.kind === 'diet' ? (prefClash.diet === 'veg' ? 'diet_veg' : 'diet_egg') : prefClash.kind}`, { person: prefClash.person, dish: dishDisplayName(d, d.dish_names, lang) }), kind: 'info' as const }
                   : usually
                     ? { text: usually, kind: 'info' as const }
-                    : undefined
+                    : extraNote?.(d)
+                      ? { text: extraNote(d)!, kind: 'info' as const }
+                      : undefined
             return (
               <DishRow
                 key={d.id}

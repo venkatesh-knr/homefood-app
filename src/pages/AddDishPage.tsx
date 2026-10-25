@@ -39,8 +39,8 @@ export default function AddDishPage() {
   const [copyNote, setCopyNote] = useState<string | null>(null)
   const { data: allDishes } = useDishes(household.id)
   const { data: allNutrition } = useAllNutrition()
-  // only dishes that have an estimate can be copied from
-  const noEstimate = (allDishes ?? []).filter((d) => !allNutrition?.has(d.id)).map((d) => d.id)
+  // every dish is listed; the ones with no estimate say so (and picking one explains there is nothing to copy)
+  const noEstimate = new Set((allDishes ?? []).filter((d) => !allNutrition?.has(d.id)).map((d) => d.id))
   async function copyNutritionFrom(d: { id: string; name: string; dish_names: { language: 'en' | 'ta'; name: string }[] }) {
     const row = await fetchDishNutrition(d.id)
     const label = dishDisplayName(d, d.dish_names, lang)
@@ -278,7 +278,7 @@ export default function AddDishPage() {
       <fieldset className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-3.5">
         <legend className="px-1 text-[13px] font-semibold">{t('dishes.form.nutritionTitle')}</legend>
         <p className="text-[12.5px] text-muted">{t('dishes.form.nutritionHint')}</p>
-        <CopyFromDish label={t('dishes.form.nutrition.copyButton')} title={t('dishes.form.nutrition.copyTitle')} meal={values.meal_types[0] ?? 'breakfast'} excludeIds={noEstimate} onPicked={copyNutritionFrom} />
+        <CopyFromDish label={t('dishes.form.nutrition.copyButton')} title={t('dishes.form.nutrition.copyTitle')} meal={values.meal_types[0] ?? 'breakfast'} missingIds={noEstimate} missingText={t('dishes.form.nutrition.copyMissing')} onPicked={copyNutritionFrom} />
         {copyNote && <p role="status" className="rounded-xl bg-saffron-tint px-3 py-2 text-[13px] text-saffron-ink">{copyNote}</p>}
         <div className="flex flex-col gap-1">
           <label htmlFor="nut-serving" className="text-[12.5px] font-semibold text-ink-soft">

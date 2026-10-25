@@ -74,8 +74,8 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
   const [copyNote, setCopyNote] = useState<string | null>(null)
   const { data: allDishes } = useDishes(household.id)
   const { data: recipeIds } = useRecipeDishIds()
-  // only dishes that have a recipe can be copied from
-  const noRecipe = (allDishes ?? []).filter((d) => !recipeIds?.has(d.id)).map((d) => d.id)
+  // every dish is listed; the ones with no recipe say so (and picking one explains there is nothing to copy)
+  const noRecipe = new Set((allDishes ?? []).filter((d) => !recipeIds?.has(d.id)).map((d) => d.id))
   async function copyRecipeFrom(d: { id: string; name: string; dish_names: { language: 'en' | 'ta'; name: string }[] }) {
     const label = dishDisplayName(d, d.dish_names, lang)
     try {
@@ -128,7 +128,7 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
       <p className="rounded-2xl bg-sand px-3.5 py-3 text-[13px] leading-relaxed text-ink-soft">{own ? t('recipeEdit.introOwn') : t('recipeEdit.intro')}</p>
       {!recipe && (
         <>
-          <CopyFromDish label={t('recipeEdit.copyButton')} title={t('recipeEdit.copyTitle')} excludeIds={noRecipe.concat(dishId)} onPicked={copyRecipeFrom} />
+          <CopyFromDish label={t('recipeEdit.copyButton')} title={t('recipeEdit.copyTitle')} excludeIds={[dishId]} missingIds={noRecipe} missingText={t('recipeEdit.copyMissing')} onPicked={copyRecipeFrom} />
           {copyNote && <p role="status" className="rounded-xl bg-saffron-tint px-3 py-2 text-[13px] text-saffron-ink">{copyNote}</p>}
         </>
       )}
