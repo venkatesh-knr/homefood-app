@@ -39,6 +39,7 @@ Web app first (installable on phones), later wrapped for Android and iOS with Ca
 - [x] Step 6i · Fasting days (migration 0043) — built, see CLAUDE.md
 - [x] Step 6j · Nutrition: fasting days and diet-plan focus (no migration) — built, see CLAUDE.md
 - [x] Step 6k · Guests at a meal (migration 0044) — built, see CLAUDE.md
+- [x] Step 6l · Retest pass: forgiving dish search, picker fixes, 33 everyday dishes (migrations 0045, 0046), test cases in `docs/test-cases.md`
 - [ ] Step 7 · Family trial (2 weeks) — checklist in `docs/family-trial.md`
 
 ## One-time setup

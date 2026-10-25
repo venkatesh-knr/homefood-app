@@ -899,6 +899,13 @@ select tests.ok((select course = 'both' from public.dishes where household_id is
 select tests.ok(not exists (select 1 from public.dishes where household_id is null and name = 'Onigiri' and 'meat' = any (tags)), 'Onigiri is not tagged meat');
 select tests.ok(exists (select 1 from public.dishes where household_id is null and name = 'Yakisoba' and 'egg' = any (tags)), 'Yakisoba is tagged egg');
 select tests.ok(not exists (select 1 from public.dishes where household_id is null and diet = 'veg' and ('meat' = any (tags) or 'egg' = any (tags))), 'no shared vegetarian dish is tagged meat or egg');
+-- ── Everyday dishes (migration 0046) ──
+select tests.ok((select count(*) from public.dishes where household_id is null and name in ('Bread toast', 'Bread omelette', 'Oats porridge', 'Scrambled eggs', 'Half-boiled egg', 'Fruit bowl', 'Banana', 'Milk', 'Veg noodles', 'Tomato soup')) = 10, 'the everyday dishes are in the shared catalogue');
+select tests.ok((select count(*) from public.dishes d join public.dish_names n on n.dish_id = d.id and n.language = 'ta' where d.household_id is null and d.name in ('Bread toast', 'Bread omelette', 'Oats porridge', 'Scrambled eggs')) = 4, 'each has a Tamil name');
+select tests.ok(exists (select 1 from public.dishes d join public.dish_nutrition n on n.dish_id = d.id where d.household_id is null and d.name = 'Bread omelette' and n.kcal = 340), 'and a nutrition estimate');
+select tests.ok((select diet = 'egg' and 'egg' = any (tags) and 'egg' = any (allergens) from public.dishes where household_id is null and name = 'Bread omelette'), 'an egg dish carries the egg diet, tag and allergen');
+select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and not exists (select 1 from public.dish_nutrition n where n.dish_id = d.id)), 'every shared dish has a nutrition estimate');
+select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and not exists (select 1 from public.dish_names n where n.dish_id = d.id and n.language = 'ta')), 'and a Tamil name');
 select tests.ok(not exists (select 1 from public.dishes where household_id is null and diet = 'egg' and not ('egg' = any (tags))), 'every shared egg dish is tagged egg');
 
 -- ── Not signed in ──

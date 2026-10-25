@@ -77,6 +77,8 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 
 **Guests at a meal** (24 Oct, spec 4; migration 0044): adults and children (a child is half a serving) and a note for the cooks on a home meal, "Staying longer" to repeat them on other planned home meals; they change recipe amounts, shopping and the cook's sheet, never nutrition, attendance or History. **Trimmed:** "Staying longer" only reaches meals already planned (an unplanned meal has no row to hold guests); no guest profiles (as designed).
 
+**Finding a dish by typing** (25 Oct, no spec change; migrations 0045 and 0046; full list in `docs/test-cases.md`): one forgiving search for every dish list; typing lifts the main / side and meal limits of the dish pickers; snack mains are not limited by dish type; 33 everyday dishes added (bread, oats, cereal, more egg dishes, fruit, noodles, fried rice, rolls, soups); Boiled egg is a main and a side. **Trimmed:** the new dishes have no photos or recipes yet.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
@@ -86,7 +88,7 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 - **Dark mode** with an Appearance setting (System / Light / Dark); the Week at a glance poster always saves in light.
 - **Scroll and focus**: every new screen opens at the top with focus on the page; forms that open lower down scroll into view.
 - **Tamil review kit** (`docs/tamil-review.html`, regenerated 23 Oct): about 4,900 lines: screen texts, dish names, recipes, everyday foods, the 150 shopping items, prep wording and the Tamil words that live in code.
-- **Database tests in CI**: every push runs the rule tests (433 checks) on a throwaway Postgres; 306 unit tests.
+- **Database tests in CI**: every push runs the rule tests (444 checks) on a throwaway Postgres; 306 unit tests.
 
 ## D. Still not built (parked on purpose)
 
@@ -119,7 +121,7 @@ When the live Claude Doc is next updated, these lines should change:
 
 ## F. Database changes, in order (migration number: what it does)
 
-Applied in the live project: 0001–0044 (0036–0037 run 23 Oct 2026, 0038–0044 run 24 Oct 2026).
+Applied in the live project: 0001–0044 (0036–0037 run 23 Oct 2026, 0038–0044 run 24 Oct 2026). 0045 and 0046 are written, run after CI passes.
 
 | No. | What |
 | --- | --- |
@@ -165,6 +167,8 @@ Applied in the live project: 0001–0044 (0036–0037 run 23 Oct 2026, 0038–00
 | 0042 | The diet plate (plates, their sides and people) |
 | 0043 | Fasting days (and the data export gains the diet part) |
 | 0044 | Guests at a meal (three columns on meal_slots) |
+| 0045 | Catalogue fixes: Boiled egg is a main and a side, Onigiri not tagged meat, Yakisoba tagged egg |
+| 0046 | 33 everyday dishes (bread, oats, eggs, fruit, noodles, fried rice, rolls, soups) |
 
 ## G. Where to read more
 

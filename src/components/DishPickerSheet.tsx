@@ -57,7 +57,8 @@ export function DishPickerSheet({
   const { data: dishes } = useDishes(householdId)
   const { data: overrides } = useDishPhotoOverrides(householdId)
   const [filters, setFilters] = useState<DishFilters>({ ...DEFAULT_DISH_FILTERS, course: pickerStartCourse(course, meal), mealType: meal })
-  const [widenCourse, setWidenCourse] = useState(false)
+  // the diet plate's picker only lists dishes that fit a plan, and few plans have many main dishes (fasting foods have none): start with sides too
+  const [widenCourse, setWidenCourse] = useState(Boolean(fitPlans && fitPlans.length > 0))
   const [favouritesOnly, setFavouritesOnly] = useState(false)
   const { data: favourites } = useFavourites(householdId)
   const { data: usage } = useDishUsage(householdId)

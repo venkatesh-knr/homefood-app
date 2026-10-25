@@ -5,7 +5,7 @@ import { useDishes } from './dishQueries'
 import { useAllNutrition } from './nutritionQueries'
 import { dishDisplayName } from './dishes'
 import type { FoodCategory, FoodOption, FoodSource, FoodUnit, Goals, IntakeRow, PerUnit } from './intake'
-import { foodKey } from './intake'
+import { foodKey, withoutSameNamed } from './intake'
 
 const num = (v: unknown): number | null => (v === null || v === undefined ? null : Number(v))
 
@@ -69,7 +69,7 @@ export function useFoodOptions(householdId: string | undefined, lang: 'en' | 'ta
           category: null, unit: 'serving' as const, usual: 1, per: { ...t },
         }
       })
-    const all = [...own, ...(common ?? []), ...dishOptions]
+    const all = [...own, ...(common ?? []), ...withoutSameNamed(dishOptions, [...own, ...(common ?? [])])]
     const byKey = new Map(all.map((o) => [o.key, o]))
     return { options: all, byKey, label: (o: FoodOption) => (lang === 'ta' && o.name_ta ? o.name_ta : o.name_en), dishName: (d: Parameters<typeof dishDisplayName>[0], names: Parameters<typeof dishDisplayName>[1]) => dishDisplayName(d, names, lang) }
   }, [common, custom, dishes, nutrition, lang])

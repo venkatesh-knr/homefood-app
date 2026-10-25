@@ -205,6 +205,13 @@ export function recentSources(rows: IntakeRow[], limit = 8): FoodSource[] {
 // ── search ──
 const norm = (s: string) => s.toLowerCase().normalize('NFC').trim()
 
+/** Dishes that are not already an everyday food or one of the home's own foods with the same name ("Boiled egg", "Curd" are both): the food
+ * (counted in pieces, glasses, bowls) is what someone means, and listing the dish beside it only makes the list longer. */
+export function withoutSameNamed(dishes: FoodOption[], foods: FoodOption[]): FoodOption[] {
+  const taken = new Set(foods.map((f) => norm(f.name_en)))
+  return dishes.filter((d) => !taken.has(norm(d.name_en)))
+}
+
 /** Foods whose English or Tamil name has the words typed (any order, plurals and the usual spellings are forgiven); names that start with them come first. */
 export function searchFoods(options: FoodOption[], query: string): FoodOption[] {
   const q = norm(query)

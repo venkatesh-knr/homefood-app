@@ -1,3 +1,4 @@
+import { matchesWords } from '../lib/search'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { withLeftoverTag } from '../lib/leftovers'
@@ -85,12 +86,12 @@ export default function HistoryPage() {
   }
 
   const shown = useMemo(() => {
-    const q = query.trim().toLowerCase()
+    const q = query.trim()
     const sorted = [...slots].sort((a, b) => (a.date === b.date ? MEAL_TYPES.indexOf(a.meal) - MEAL_TYPES.indexOf(b.meal) : a.date < b.date ? 1 : -1))
     if (!q) return sorted
     return sorted.filter((s) => {
       const names = [...(s.main_dish ? dishNames(s.main_dish, lang).all : []), ...s.meal_slot_sides.flatMap((x) => dishNames(x.dish, lang).all), s.place_name ?? '']
-      return names.some((n) => n.toLowerCase().includes(q))
+      return matchesWords(names, query)
     })
   }, [slots, query, lang])
 

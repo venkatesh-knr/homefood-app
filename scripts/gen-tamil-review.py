@@ -60,6 +60,9 @@ for f in ('0005_seed_dishes.sql', '0009_more_indian_dishes.sql'):
             dishes[name.replace("''", "'")] = (CUISINES.get(cu[-1], 'Other'), ta_name)
 for r in south_rows():
     dishes[r['name']] = ('South Indian', r['name_ta'])
+import everyday_dishes_data  # noqa: E402
+for r in everyday_dishes_data.rows():  # migration 0046
+    dishes[r['name']] = ({'SI': 'South Indian', 'NI': 'North Indian', 'EU': 'European'}[r['cuisine_key']], r['ta'])
 
 # ── recipes ──
 recipes = {}

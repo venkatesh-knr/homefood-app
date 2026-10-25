@@ -226,17 +226,19 @@ export default function ShoppingPage() {
   const catalogRow = (c: CatalogItem, first: boolean) => {
     const n = catalogNames(c, lang)
     const on = onListOf(c)
+    // an amount typed with the name ("2 kg onion") goes to the item the name matches exactly, whether Enter or its Add button is used
+    const typedHere = searching && typed.amount != null && matchCatalog(index, typed.name)?.key === c.key ? typed : undefined
     return (
       <div key={c.key} className={first ? '' : 'border-t border-line'}>
         <AddRow
           title={n.main}
           other={n.other}
           ours={c.source === 'ours'}
-          caption={t('shopping.usually', { amount: formatAmount(c.usual_amount, c.usual_unit, lang) })}
+          caption={typedHere ? t('shopping.typedAmount', { amount: formatAmount(typedHere.amount!, typedHere.unit ?? c.usual_unit, lang) }) : t('shopping.usually', { amount: formatAmount(c.usual_amount, c.usual_unit, lang) })}
           onList={on ? { amount: on.amount, unit: on.unit } : null}
           lang={lang}
           busy={busy}
-          onAdd={() => addFromCatalog(c, undefined, true)}
+          onAdd={() => addFromCatalog(c, typedHere, true)}
           onLess={() => on && stepItem(on, -1, true)}
           onMore={() => on && stepItem(on, 1, false)}
         />

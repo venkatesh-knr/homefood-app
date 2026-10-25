@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   extrasDaysFromTotals,
   mergeMealsAndExtras,
+  withoutSameNamed,
   clampQuantity, extrasByDay, foodKey, goalFor, gramsOf100g, mergeDay, nutritionFor, parseGoal, progressOf, quantityStep, recentSources, sameAsYesterday, searchFoods,
   snapshotFor, stepQuantity, sumIntake, type FoodOption, type IntakeRow, type PerUnit,
 } from './intake'
@@ -111,6 +112,17 @@ describe('recentSources', () => {
     ]
     expect(recentSources(rows).map(foodKey)).toEqual(['custom:laddu', 'common:banana', 'common:egg'])
     expect(recentSources(rows, 2)).toHaveLength(2)
+  })
+})
+
+describe('withoutSameNamed', () => {
+  it('leaves a dish out when an everyday food has the same name, whatever the capitals', () => {
+    const foods = [food('egg', 'Boiled egg', 'வேகவைத்த முட்டை')]
+    const dishes = [{ ...food('d1', 'boiled EGG', null), key: 'dish:d1' }, food('d2', 'Egg curry', null)]
+    expect(withoutSameNamed(dishes, foods).map((d) => d.name_en)).toEqual(['Egg curry'])
+  })
+  it('keeps every dish when no food shares its name', () => {
+    expect(withoutSameNamed([food('d2', 'Egg curry', null)], [food('egg', 'Boiled egg', null)])).toHaveLength(1)
   })
 })
 

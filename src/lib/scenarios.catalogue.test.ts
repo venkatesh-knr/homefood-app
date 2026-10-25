@@ -1,4 +1,4 @@
-// Scenario tests that walk the REAL shared data: all 298 dishes (src/lib/fixtures/allDishes.json, written by scripts/gen-demo-catalogue.py),
+// Scenario tests that walk the REAL shared data: all 331 dishes (src/lib/fixtures/allDishes.json, written by scripts/gen-demo-catalogue.py),
 // the 150 shop items and the 82 everyday foods. They answer "can a person find this by typing it?" for every item, in every picker context.
 // The matching test-case list is docs/test-cases.md (section A and B).
 import { describe, expect, it } from 'vitest'
@@ -9,6 +9,7 @@ import { DEFAULT_DISH_FILTERS, dishMatchesQuery, pickerFit, pickerMatches, picke
 import { searchFoods, type FoodOption } from './intake'
 import { suggestItems, type CatalogItem } from './shopping'
 import { matchesWords, plainWords } from './search'
+import { PLAN_KEYS, planFits, type FitKey } from './dietPlans'
 
 type Row = { name: string; ta: string; meal_types: MealType[]; course: DishCourse; diet: DietType; tags: string[]; allergens: string[] }
 const rows = all as unknown as Row[]
@@ -35,7 +36,7 @@ function picker(course: 'main' | 'side', meal: MealType, query: string, over: Pa
 
 describe('the shared catalogue itself', () => {
   it('has every dish with a meal, a valid course and diet, and a Tamil name', () => {
-    expect(rows.length).toBeGreaterThanOrEqual(298)
+    expect(rows.length).toBeGreaterThanOrEqual(331)
     for (const r of rows) {
       expect(r.meal_types.length, r.name).toBeGreaterThan(0)
       expect(['main', 'side', 'both'], r.name).toContain(r.course)
@@ -104,7 +105,7 @@ describe('A3 · the usual other spellings', () => {
     ['idly', 'Idli'], ['idlis', 'Idli'], ['dosai', 'Dosa'], ['dhosa', 'Dosa'], ['biriyani', 'Chicken biryani'], ['briyani', 'Egg biryani'],
     ['chappathi', 'Chapati'], ['chapathi', 'Chapati'], ['parota', 'Parotta'], ['porotta', 'Parotta'], ['omlet', 'Omelette'], ['omelet', 'Omelette'],
     ['sambhar', 'Sambar'], ['yogurt', 'Curd'], ['curd', 'Curd rice'], ['puri', 'Poori'], ['uppuma', 'Upma'], ['kari', 'Chicken curry'], ['muttai', 'Boiled egg'],
-    ['egg boil', 'Boiled egg'], ['eggs boiled', 'Boiled egg'], ['boiled eggs', 'Boiled egg'], ['anda', 'Egg bhurji'], ['chatni', 'Coconut chutney'], ['tea', 'Masala chai'],
+    ['egg boil', 'Boiled egg'], ['toast', 'Bread toast'], ['bread omlet', 'Bread omelette'], ['oats', 'Oats porridge'], ['scrambled egg', 'Scrambled eggs'], ['half boil', 'Half-boiled egg'], ['half boiled', 'Half-boiled egg'], ['fruits', 'Fruit bowl'], ['sandwich', 'Veg sandwich'], ['noodles', 'Veg noodles'], ['fried rice', 'Egg fried rice'], ['milk', 'Milk'], ['juice', 'Fresh fruit juice'], ['sprouts', 'Sprouts salad'], ['soup', 'Tomato soup'], ['kanji', 'Rice kanji'], ['sevai', 'Lemon sevai'], ['cornflakes', 'Cornflakes with milk'], ['eggs boiled', 'Boiled egg'], ['boiled eggs', 'Boiled egg'], ['anda', 'Egg bhurji'], ['chatni', 'Coconut chutney'], ['tea', 'Masala chai'],
   ]
   for (const [typed, expected] of cases) {
     it(`"${typed}" finds ${expected}`, () => {
@@ -242,6 +243,40 @@ describe('A6 · filters', () => {
     for (const meal of MEALS) {
       const names = all3({ mealType: meal })
       expect(names.length).toBe(rows.filter((r) => r.meal_types.includes(meal)).length)
+    }
+  })
+})
+
+describe('A6b · filters from what people need, over every dish', () => {
+  const base = { low_oil: false, low_salt: false, low_sugar: false, no_onion_garlic: false, diet: null as DietType | null, profile_id: 'p1' }
+  const safe = (prefs: object[], allergens: string[] = []) =>
+    pickerMatches(dishes, { ...DEFAULT_DISH_FILTERS, safeOnly: true }, { widenCourse: true, householdId: HOME, allergens, prefs: prefs as never })
+  it('"no onion or garlic" removes every dish tagged onion_garlic and nothing else', () => {
+    const names = safe([{ ...base, no_onion_garlic: true }]).map((d) => d.name)
+    for (const r of rows) expect(names.includes(r.name), r.name).toBe(!r.tags.includes('onion_garlic'))
+  })
+  it('each allergen in the catalogue takes out exactly the dishes that carry it', () => {
+    const allergens = [...new Set(rows.flatMap((r) => r.allergens))]
+    expect(allergens.length).toBeGreaterThan(3)
+    for (const a of allergens) {
+      const names = safe([], [a]).map((d) => d.name)
+      for (const r of rows) expect(names.includes(r.name), `${r.name} / ${a}`).toBe(!r.allergens.includes(a))
+    }
+  })
+  it('everyone eating together: the strictest person decides (veg + egg allergy leaves only egg-free vegetarian dishes)', () => {
+    const names = safe([{ ...base, diet: 'veg' }, { ...base, diet: 'egg' }], ['egg']).map((d) => d.name)
+    for (const n of names) {
+      const r = rows.find((x) => x.name === n)!
+      expect(r.diet).toBe('veg')
+      expect(r.allergens).not.toContain('egg')
+    }
+  })
+  it('every diet plan has at least one dish for every meal (a diet plate is never left with nothing to offer)', () => {
+    for (const plan of [...PLAN_KEYS, 'fasting_food'] as FitKey[]) {
+      for (const meal of MEALS) {
+        const n = rows.filter((r) => r.meal_types.includes(meal) && planFits(plan, r)).length
+        expect(n, `${plan} / ${meal}`).toBeGreaterThan(0)
+      }
     }
   })
 })

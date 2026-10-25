@@ -363,7 +363,7 @@
       "safeOnly": "Suits everyone eating"
     },
     "detail": {
-      "stockPhoto": "Photo: stock image",
+      "stockPhoto": "No photo yet",
       "photoCredit": "Photo: {{credit}}",
       "tapEnlarge": "Tap to enlarge",
       "replacePhoto": "Replace photo",
@@ -1215,6 +1215,7 @@
     "addNamed": "Add {{name}}",
     "addAll": "Add all {{count}}",
     "usually": "Usually {{amount}}",
+    "typedAmount": "Adds the {{amount}} you typed",
     "notHere": "Add an item that isn't here",
     "regularsTabEmpty": "No regulars yet. Open an item on the list and switch on “Regular” to find it here.",
     "noMatch": "Nothing matches. Add it as a new item below.",

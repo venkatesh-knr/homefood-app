@@ -61,11 +61,12 @@ export function DietPlateEditor({ householdId, meal, eaters, familyMain, familyS
             const planNames = plans.map((x) => t(`plans.name.${x}`)).join(' + ')
             const free = eaters.filter((e) => !onPlate.has(e.id) || p.person_ids.includes(e.id))
             const peopleAllergens = people.flatMap((e) => e.allergens)
+            // main dishes first; a plan with few main dishes (fasting foods are nearly all catalogued as sides) is filled up with side dishes
             const suggestions = (dishes ?? [])
-              .filter((d) => (d.course === 'main' || d.course === 'both') && d.meal_types.includes(meal) && d.id !== familyMain?.id)
+              .filter((d) => d.meal_types.includes(meal) && d.id !== familyMain?.id)
               .filter((d) => plans.length === 0 || fitsAll(plans, d))
               .filter((d) => !d.allergens.some((a) => peopleAllergens.includes(a)))
-              .sort((a, b) => name(a).localeCompare(name(b)))
+              .sort((a, b) => Number(sideOnly(a)) - Number(sideOnly(b)) || name(a).localeCompare(name(b)))
               .slice(0, 6)
             const sharedDishes = familySides.filter((_, k) => p.shared.includes(k + 1))
             const allergy = mealAllergyConflicts([...(p.main?.allergens ?? []), ...p.sides.flatMap((d) => d.allergens), ...sharedDishes.flatMap((d) => d.allergens)], people.map((e) => ({ name: e.name, allergens: e.allergens })))
@@ -189,3 +190,4 @@ export function DietPlateEditor({ householdId, meal, eaters, familyMain, familyS
   )
 }
 
+const sideOnly = (d: { course: string }) => d.course === 'side'
