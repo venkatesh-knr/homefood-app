@@ -79,6 +79,8 @@ The spec put these in **phase 2 or 3**; they were built in phase 1 and are live:
 
 **Finding a dish by typing** (25 Oct, no spec change; migrations 0045 and 0046; full list in `docs/test-cases.md`): one forgiving search for every dish list; typing lifts the main / side and meal limits of the dish pickers; snack mains are not limited by dish type; 33 everyday dishes added (bread, oats, cereal, more egg dishes, fruit, noodles, fried rice, rolls, soups); Boiled egg is a main and a side. **Trimmed:** the new dishes have no photos or recipes yet.
 
+**Adding a dish: nutrition and recipe** (25 Oct, no migration): "Copy from a similar dish" for the nutrition boxes; "Write our recipe" on Dish detail for the Admin and "Start from a similar dish's recipe" in the recipe editor. **Not built:** looking nutrition or a recipe up on the internet (unreliable and licence problems, see CLAUDE.md); an "Estimate from the ingredients" is the suggested next step.
+
 **Account and privacy**
 - **Your data and account**: download my data (JSON), sign out on all devices, delete my account (the profile stays as "Former member"), delete the household (Admin, type the name).
 - **Demo home**: "Explore a demo home" runs entirely on the device with made-up data (Admin / Planner / Member views); no server calls.
@@ -121,7 +123,7 @@ When the live Claude Doc is next updated, these lines should change:
 
 ## F. Database changes, in order (migration number: what it does)
 
-Applied in the live project: 0001–0044 (0036–0037 run 23 Oct 2026, 0038–0044 run 24 Oct 2026). 0045 and 0046 are written, run after CI passes.
+Applied in the live project: 0001–0046 (0036–0037 run 23 Oct 2026, 0038–0044 run 24 Oct 2026, 0045–0046 run 25 Oct 2026).
 
 | No. | What |
 | --- | --- |

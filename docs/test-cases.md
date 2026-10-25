@@ -108,6 +108,9 @@ which uses the **real** shared catalogue (`src/lib/fixtures/allDishes.json`, 331
 | --- | --- | --- | --- | --- |
 | F1 | Add "Bread toast" (breakfast, main or side, with nutrition) | Saved; opens its detail page; found by "toast" in the Dishes tab | Demo | Pass |
 | F2 | A dish with no photo | Detail shows the coloured initial and the words "No photo yet" | Demo | Pass (was wrongly "Photo: stock image") |
+| F3 | Add dish → "Copy from a similar dish" → pick Omelette | The serving text and numbers are filled in (still editable), with "Copied from Omelette. Change the numbers to match your dish."; only dishes that have an estimate are listed | Demo | Pass |
+| F4 | A new dish has no recipe: open its detail as the Admin | A "Write our recipe" button is there (before, only dishes that already had a recipe showed a recipe button, so there was no way in) | Demo | Pass (was a gap) |
+| F5 | Write our recipe → "Start from a similar dish's recipe" → pick Omelette | Servings, times, ingredients and steps are filled in as a draft; nothing is saved until "Save our version"; only dishes that have a recipe are listed | Demo | Pass |
 
 ## G · Every screen opens (crawl)
 
@@ -129,7 +132,7 @@ catalogue consistency (0045, 0046: every shared dish has a Tamil name and a nutr
 | ID | What | Why not here |
 | --- | --- | --- |
 | L1 | Sign-in by email code, joining by invite link on a second phone | Needs real email and two people |
-| L2 | Migrations 0045 and 0046 against the real database (Boiled egg both, 33 new dishes) | Run in Supabase after CI is green |
+| L2 | Migrations 0045 and 0046 against the real database (Boiled egg both, 33 new dishes) | Run on 25 Oct 2026; Boiled egg confirmed live by Venkatesh |
 | L3 | Photos from camera, "Find a free photo online", installing the app, Share / Save as image | Needs a phone |
 | L4 | Notifications for another person's actions, the 7 pm prep reminder (pg_cron) | Needs a second person and the clock |
 | L5 | Tamil alignment on every screen | Separate pass (asked for later) |

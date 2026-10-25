@@ -3,6 +3,13 @@ import { supabase } from './supabase'
 import { totalsOf, type NutritionRow, type TargetRow, type Totals } from './nutrition'
 
 /** One dish's estimate, or null when there is none (or the table isn't there yet) — the panel simply stays hidden. */
+/** One dish's estimate (with its serving text), for copying it to another dish. Null when there is none. */
+export async function fetchDishNutrition(dishId: string): Promise<NutritionRow | null> {
+  const { data, error } = await supabase!.from('dish_nutrition').select('*').eq('dish_id', dishId).maybeSingle()
+  if (error || !data) return null
+  return { ...data, ...totalsOf(data) } as NutritionRow
+}
+
 export function useDishNutrition(dishId: string | undefined) {
   return useQuery({
     queryKey: ['dish-nutrition', dishId],

@@ -3,23 +3,26 @@ import type { PlanRecipe } from './shoppingPlan'
 import { supabase } from './supabase'
 import type { RecipeRow } from './recipes'
 
+/** The recipe of a dish: this home's own version if it has one, else the standard one. Null when the dish has no recipe. */
+export async function fetchRecipe(dishId: string): Promise<RecipeRow | null> {
+  const { data, error } = await supabase!.from('recipes').select('*, recipe_ingredients(*), recipe_steps(*)').eq('dish_id', dishId)
+  if (error) throw error
+  const rows = data as unknown as RecipeRow[]
+  const row = rows.find((r) => r.household_id !== null) ?? rows[0]
+  if (!row) return null
+  return {
+    ...row,
+    recipe_ingredients: [...row.recipe_ingredients].sort((a, b) => a.position - b.position),
+    recipe_steps: [...row.recipe_steps].sort((a, b) => a.position - b.position),
+  }
+}
+
 /** The recipe to show for a dish: this home's own version if it has one, else the standard one. */
 export function useRecipe(dishId: string | undefined) {
   return useQuery({
     queryKey: ['recipe', dishId],
     enabled: Boolean(supabase && dishId),
-    queryFn: async (): Promise<RecipeRow | null> => {
-      const { data, error } = await supabase!.from('recipes').select('*, recipe_ingredients(*), recipe_steps(*)').eq('dish_id', dishId)
-      if (error) throw error
-      const rows = data as unknown as RecipeRow[]
-      const row = rows.find((r) => r.household_id !== null) ?? rows[0]
-      if (!row) return null
-      return {
-        ...row,
-        recipe_ingredients: [...row.recipe_ingredients].sort((a, b) => a.position - b.position),
-        recipe_steps: [...row.recipe_steps].sort((a, b) => a.position - b.position),
-      }
-    },
+    queryFn: () => fetchRecipe(dishId!),
   })
 }
 

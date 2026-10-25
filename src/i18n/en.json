@@ -406,6 +406,10 @@
         "fibre_g": "Fibre (g)",
         "sugar_g": "Sugar (g)",
         "sodium_mg": "Salt, as sodium (mg)",
+        "copyButton": "Copy from a similar dish",
+        "copyTitle": "Copy the nutrition of…",
+        "copied": "Copied from {{dish}}. Change the numbers to match your dish.",
+        "copyNone": "{{dish}} has no estimate to copy.",
         "optional": "optional",
         "problem": "Calories, protein, carbs and fat are needed, as plain numbers (for example 450 or 12.5)."
       },
@@ -759,6 +763,10 @@
   },
   "recipeEdit": {
     "title": "Edit our version",
+    "copyButton": "Start from a similar dish's recipe",
+    "copyTitle": "Start from the recipe of…",
+    "copied": "Started from the recipe of {{dish}}. Change what is different, then Save.",
+    "copyNone": "{{dish}} has no recipe to copy.",
     "titleNew": "Write our recipe",
     "openEdit": "Edit our version",
     "openWrite": "Write our recipe",

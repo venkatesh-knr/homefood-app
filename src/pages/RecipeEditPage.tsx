@@ -4,7 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useMembers } from '../lib/queries'
 import { useDish } from '../lib/dishQueries'
-import { useRecipe } from '../lib/recipeQueries'
+import { fetchRecipe, useRecipe, useRecipeDishIds } from '../lib/recipeQueries'
+import { useDishes } from '../lib/dishQueries'
+import { CopyFromDish } from '../components/CopyFromDish'
 import { dishDisplayName } from '../lib/dishes'
 import { clampServings, MAX_SERVINGS } from '../lib/recipes'
 import { draftFromRecipe, emptyIngredient, emptyStep, moveItem, RECIPE_UNITS, UNMEASURED, validateDraft, type RecipeDraft } from '../lib/recipeEdit'
@@ -69,6 +71,23 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [copyNote, setCopyNote] = useState<string | null>(null)
+  const { data: allDishes } = useDishes(household.id)
+  const { data: recipeIds } = useRecipeDishIds()
+  // only dishes that have a recipe can be copied from
+  const noRecipe = (allDishes ?? []).filter((d) => !recipeIds?.has(d.id)).map((d) => d.id)
+  async function copyRecipeFrom(d: { id: string; name: string; dish_names: { language: 'en' | 'ta'; name: string }[] }) {
+    const label = dishDisplayName(d, d.dish_names, lang)
+    try {
+      const r = await fetchRecipe(d.id)
+      if (!r) return setCopyNote(t('recipeEdit.copyNone', { dish: label }))
+      setDraft(draftFromRecipe(r, familyCount || 4))
+      setTried(false)
+      setCopyNote(t('recipeEdit.copied', { dish: label }))
+    } catch (err) {
+      setError(describeError(err, t))
+    }
+  }
   const problems = validateDraft(draft)
   const name = lang === 'ta' ? dishNameTa : dishName
 
@@ -107,6 +126,12 @@ function Editor({ dishId, dishName, dishNameTa, recipe }: { dishId: string; dish
     <main className="mx-auto flex max-w-md flex-col gap-3 px-5 pb-6">
       <BackHeader title={recipe ? t('recipeEdit.title') : t('recipeEdit.titleNew')} subtitle={name} to={`/dishes/${dishId}/recipe`} />
       <p className="rounded-2xl bg-sand px-3.5 py-3 text-[13px] leading-relaxed text-ink-soft">{own ? t('recipeEdit.introOwn') : t('recipeEdit.intro')}</p>
+      {!recipe && (
+        <>
+          <CopyFromDish label={t('recipeEdit.copyButton')} title={t('recipeEdit.copyTitle')} excludeIds={noRecipe.concat(dishId)} onPicked={copyRecipeFrom} />
+          {copyNote && <p role="status" className="rounded-xl bg-saffron-tint px-3 py-2 text-[13px] text-saffron-ink">{copyNote}</p>}
+        </>
+      )}
 
       <section className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-3.5">
         <div className="flex items-center justify-between gap-3">

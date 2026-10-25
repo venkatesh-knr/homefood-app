@@ -150,6 +150,12 @@ export default function DishDetailPage() {
         </div>
 
         <div className="flex gap-2.5">
+          {!hasRecipe && isAdmin && (
+            <button type="button" onClick={() => navigate(`/dishes/${dishId}/recipe/edit`)} className="flex min-h-14 flex-[2] items-center justify-center gap-2 rounded-2xl bg-ink px-3 text-center text-[14.5px] font-semibold text-cream">
+              <RecipeIcon size={22} />
+              {t('recipeEdit.openWrite')}
+            </button>
+          )}
           {hasRecipe && (
             <button
               type="button"

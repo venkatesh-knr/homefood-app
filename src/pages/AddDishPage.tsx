@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
-import { useCuisines, useDish } from '../lib/dishQueries'
+import { useCuisines, useDish, useDishes } from '../lib/dishQueries'
+import { CopyFromDish } from '../components/CopyFromDish'
 import { addDish, saveDishNutrition, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
 import { WebPhotoSheet } from '../components/WebPhotoSheet'
-import { useDishNutrition } from '../lib/nutritionQueries'
+import { fetchDishNutrition, useAllNutrition, useDishNutrition } from '../lib/nutritionQueries'
 import { blankNutrition, formFromRow, NUTRITION_NUMBER_FIELDS, parseNutrition, REQUIRED_NUTRITION_FIELDS, type NutritionField, type NutritionForm } from '../lib/dishNutrition'
 import { describeError } from '../lib/errors'
 import { assignableCuisines, cuisineLabel, dishDisplayName, type DishCourse, type DietType, type MealType } from '../lib/dishes'
@@ -35,6 +36,18 @@ export default function AddDishPage() {
   const [photoCredit, setPhotoCredit] = useState<string | null>(null)
   const [webPhoto, setWebPhoto] = useState(false)
   const [nutrition, setNutrition] = useState<NutritionForm>(blankNutrition())
+  const [copyNote, setCopyNote] = useState<string | null>(null)
+  const { data: allDishes } = useDishes(household.id)
+  const { data: allNutrition } = useAllNutrition()
+  // only dishes that have an estimate can be copied from
+  const noEstimate = (allDishes ?? []).filter((d) => !allNutrition?.has(d.id)).map((d) => d.id)
+  async function copyNutritionFrom(d: { id: string; name: string; dish_names: { language: 'en' | 'ta'; name: string }[] }) {
+    const row = await fetchDishNutrition(d.id)
+    const label = dishDisplayName(d, d.dish_names, lang)
+    if (!row) return setCopyNote(t('dishes.form.nutrition.copyNone', { dish: label }))
+    setNutrition(formFromRow(row))
+    setCopyNote(t('dishes.form.nutrition.copied', { dish: label }))
+  }
   const [createdId, setCreatedId] = useState<string | null>(null)
   const [showErrors, setShowErrors] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -265,6 +278,8 @@ export default function AddDishPage() {
       <fieldset className="flex flex-col gap-2.5 rounded-2xl border border-line bg-surface p-3.5">
         <legend className="px-1 text-[13px] font-semibold">{t('dishes.form.nutritionTitle')}</legend>
         <p className="text-[12.5px] text-muted">{t('dishes.form.nutritionHint')}</p>
+        <CopyFromDish label={t('dishes.form.nutrition.copyButton')} title={t('dishes.form.nutrition.copyTitle')} meal={values.meal_types[0] ?? 'breakfast'} excludeIds={noEstimate} onPicked={copyNutritionFrom} />
+        {copyNote && <p role="status" className="rounded-xl bg-saffron-tint px-3 py-2 text-[13px] text-saffron-ink">{copyNote}</p>}
         <div className="flex flex-col gap-1">
           <label htmlFor="nut-serving" className="text-[12.5px] font-semibold text-ink-soft">
             {t('dishes.form.nutrition.serving')}
