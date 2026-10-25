@@ -91,14 +91,16 @@ export function ListRow({ item, first, lang, note, onTick, onPatch, onOpen }: { 
 }
 
 /** A row of the Add items tab (a common or own item): its usual amount and an Add button, which becomes a green stepper once it is on the list. */
-export function AddRow({ title, other, ours, caption, onList, lang, busy, onAdd, onLess, onMore }: {
+export function AddRow({ title, other, ours, caption, onList, lang, busy, onAdd, onLess, onMore, regular, onToggleRegular }: {
   title: string; other: string | null; ours: boolean; caption: string
   onList: { amount: number | null; unit: ShopUnit | null } | null; lang: 'en' | 'ta'; busy: boolean
   onAdd: () => void; onLess: () => void; onMore: () => void
+  /** The star: this item is kept as a regular. Left out when the row has no star. */
+  regular?: boolean; onToggleRegular?: () => void
 }) {
   const { t } = useTranslation()
   return (
-    <div className="flex items-center gap-2 px-3 py-1.5">
+    <div className="flex items-center gap-1 px-3 py-1.5">
       <span className="flex min-w-0 flex-1 flex-col gap-px py-1">
         <span className="break-words text-[15px] font-medium leading-snug ta:text-[14px]">
           {title}
@@ -107,6 +109,18 @@ export function AddRow({ title, other, ours, caption, onList, lang, busy, onAdd,
         </span>
         <span className="text-[12px] text-muted">{caption}</span>
       </span>
+      {onToggleRegular && (
+        <button
+          type="button"
+          aria-pressed={Boolean(regular)}
+          aria-label={regular ? t('shopping.stopRegular', { name: title }) : t('shopping.makeRegular', { name: title })}
+          title={regular ? t('shopping.stopRegular', { name: title }) : t('shopping.makeRegular', { name: title })}
+          onClick={onToggleRegular}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${regular ? 'text-saffron-ink' : 'text-muted'}`}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill={regular ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8z" /></svg>
+        </button>
+      )}
       {onList ? (
         <AmountStepper name={title} amount={onList.amount} unit={onList.unit} lang={lang} tone="green" onLess={onLess} onMore={onMore} />
       ) : (

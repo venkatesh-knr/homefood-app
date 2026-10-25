@@ -86,6 +86,28 @@ export async function removeShoppingItem(householdId: string, id: string): Promi
   await refresh(householdId)
 }
 
+/** The star next to an item in Add items: keep it as a regular, or stop. An item already in the home's list just has its star switched. A catalogue
+ * item that is not in the list at all becomes a SLEEPING regular (a starred row that was last ticked two days ago): it shows under Regulars and
+ * comes onto the list with "Add regulars", with its usual amount. Stopping leaves the row alone otherwise: the tidy-up removes it once it is old. */
+export async function setRegularByName(args: { householdId: string; profileId: string; items: ShopItem[]; name: string; name_ta: string | null; section: ShopSection; amount: number | null; unit: ShopUnit | null; regular: boolean }): Promise<void> {
+  const { householdId, profileId, items, regular } = args
+  const existing = findExisting(items, args.name) ?? (args.name_ta ? findExisting(items, args.name_ta) : undefined)
+  if (existing) {
+    if (existing.is_regular === regular) return
+    await updateShoppingItem(householdId, existing.id, { is_regular: regular })
+    return
+  }
+  if (!regular) return
+  const tidied = tidyOrNull(args.amount, args.amount != null ? (args.unit ?? 'pcs') : null)
+  const asleep = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  const { error } = await client().from('shopping_items').insert({
+    household_id: householdId, name: args.name, name_ta: args.name_ta, section: args.section, amount: tidied.amount, unit: tidied.unit,
+    is_regular: true, bought_at: asleep, source: 'regular', added_by: profileId,
+  })
+  if (error) throw error
+  await refresh(householdId)
+}
+
 /** "Add regulars": puts every starred item that is not on the to-buy list back on it (asleep ones, and ones ticked today). Returns how many came back. */
 export async function addRegulars(householdId: string, items: ShopItem[]): Promise<number> {
   const asleep = regularsToAdd(items)

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useMembers } from '../lib/queries'
 import { useShopCatalogue, useShoppingItems } from '../lib/shoppingQueries'
-import { addRegulars, addShoppingItem, clearShoppingList, pruneBought, removeShoppingItem, saveOurItem, setBought, updateShoppingItem, type NewItem } from '../lib/shoppingMutations'
+import { addRegulars, addShoppingItem, clearShoppingList, pruneBought, removeShoppingItem, saveOurItem, setBought, setRegularByName, updateShoppingItem, type NewItem } from '../lib/shoppingMutations'
 import {
   ADD_TABS, SECTION_COLOR, atMinimum, canon, findExisting, formatAmount, groupBySection, isTamil, itemName, itemsOfAddTab, matchCatalog, nudge, parseTyped, regularsToAdd, secondName, shareText, splitList, suggestItems, whatsappLink,
   type AddTab, type CatalogItem, type ShopItem, type TypedItem,
@@ -226,6 +226,8 @@ export default function ShoppingPage() {
   const catalogRow = (c: CatalogItem, first: boolean) => {
     const n = catalogNames(c, lang)
     const on = onListOf(c)
+    const mine = findExisting(items ?? [], c.name_en) ?? (c.name_ta ? findExisting(items ?? [], c.name_ta) : undefined)
+    const isRegular = Boolean(mine?.is_regular)
     // an amount typed with the name ("2 kg onion") goes to the item the name matches exactly, whether Enter or its Add button is used
     const typedHere = searching && typed.amount != null && matchCatalog(index, typed.name)?.key === c.key ? typed : undefined
     return (
@@ -239,6 +241,10 @@ export default function ShoppingPage() {
           lang={lang}
           busy={busy}
           onAdd={() => addFromCatalog(c, typedHere, true)}
+          regular={isRegular}
+          onToggleRegular={() =>
+            void setRegularByName({ householdId: household.id, profileId: profile.id, items: items ?? [], name: c.name_en, name_ta: c.name_ta, section: c.section, amount: c.usual_amount, unit: c.usual_unit, regular: !isRegular }).catch(fail)
+          }
           onLess={() => on && stepItem(on, -1, true)}
           onMore={() => on && stepItem(on, 1, false)}
         />
@@ -410,6 +416,8 @@ export default function ShoppingPage() {
                 </div>
               )}
 
+              {!searching && activeAddTab !== 'regulars' && <p className="px-1 text-[12.5px] text-muted">{t('shopping.regularHint')}</p>}
+
               {searching ? (
                 results.length > 0 ? (
                   <div className="overflow-hidden rounded-2xl border border-line bg-surface">{results.map((c, i) => catalogRow(c, i === 0))}</div>
@@ -440,6 +448,8 @@ export default function ShoppingPage() {
                               lang={lang}
                               busy={busy}
                               onAdd={() => void setBought(household.id, r.id, null).catch(fail)}
+                              regular
+                              onToggleRegular={() => void updateShoppingItem(household.id, r.id, { is_regular: false }).catch(fail)}
                               onLess={() => stepItem(r, -1, true)}
                               onMore={() => stepItem(r, 1, false)}
                             />

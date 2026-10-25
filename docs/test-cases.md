@@ -64,6 +64,7 @@ which uses the **real** shared catalogue (`src/lib/fixtures/allDishes.json`, 331
 | B2.2 | "tomatoes", "தக்காளி", "egg" (also finds Brinjal by its alias "eggplant"), "zzzq" | Tomato / Tomato / Eggs / "Nothing matches. Add it as a new item below." | Demo | Pass |
 | B2.3 | Tick an item | Moves to Bought, counts update (10 to buy · 2 bought → 9 · 3) | Demo | Pass |
 | B2.4 | Amount sheet: + and − | 100 g steps to 1 kg, then 0.5 kg; 1000 g becomes 1 kg; back down below 1 kg returns to g | Demo + Auto (`shopping.test.ts`) | Pass |
+| B2.5 | Add items: tap the star next to an item that is not on the list (Carrot, Rice, Eggs) | The star fills, the item appears under ★ Regulars (asleep) and "Add regulars" goes 1 → 2; tap the star again to stop; the same star is on the rows of the Regulars tab and on items already on the list | Demo | Pass (was a gap: the only way was to open an item already on the list and find the switch in its amount sheet) |
 | B3 | Parse "tomato 1 kg", "2 kg onion", Tamil names and units; tidy amounts; regulars; share text | | Auto (`shopping.test.ts`, 60+ cases) | Pass |
 | B4 | From this week's meals: rounding (380 g toor dal → 500 g, 1.3 kg rice → 2 kg, 300 ml oil → 1 L ...), perishables, staples, merging, guests, leftovers, plates, fasting | | Auto (`shoppingPlan.test.ts`) | Pass |
 
