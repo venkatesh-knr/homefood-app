@@ -151,3 +151,22 @@ def rule_tags(d):
         if has[k]:
             add(tag, 'ingredient')
     return out, why
+
+
+# Corrections to the shared catalogue found by the scenario tests (src/lib/scenarios.catalogue.test.ts), written to migration 0045.
+# 0040 is applied and is never regenerated, so these are kept apart from the rules above.
+CATALOGUE_FIXES = {
+    # a breakfast of boiled eggs is a meal on its own (like Omelette, which is already "both"), so it must show in the main-dish list too
+    'Boiled egg': {'course': 'both'},
+    # a vegetarian dish is never tagged meat (the filling is "tuna, pickled plum or vegetables": the vegetable filling is the veg dish)
+    'Onigiri': {'tags_remove': ['meat']},
+    # egg noodles: the dish is an egg dish and carries the egg allergen, so it also needs the egg tag the vegan plan reads
+    'Yakisoba': {'tags_add': ['egg']},
+}
+
+
+def apply_fixes(name, course, tags):
+    """The course and tags of a shared dish after the corrections above."""
+    fix = CATALOGUE_FIXES.get(name, {})
+    tags = [t for t in tags if t not in fix.get('tags_remove', [])] + [t for t in fix.get('tags_add', []) if t not in tags]
+    return fix.get('course', course), tags

@@ -6,8 +6,9 @@ import {
   assignableCuisines,
   cuisineLabel as cuisineLabelOf,
   dishDisplayName,
-  matchesQuery,
-  passesFilters,
+  pickerFit,
+  pickerMatches,
+  pickerStartCourse,
   type DishFilters,
 } from '../lib/dishes'
 import { mealAllergyConflicts, type MealType } from '../lib/planner'
@@ -55,7 +56,8 @@ export function DishPickerSheet({
   const { data: cuisines } = useCuisines()
   const { data: dishes } = useDishes(householdId)
   const { data: overrides } = useDishPhotoOverrides(householdId)
-  const [filters, setFilters] = useState<DishFilters>({ ...DEFAULT_DISH_FILTERS, course, mealType: meal })
+  const [filters, setFilters] = useState<DishFilters>({ ...DEFAULT_DISH_FILTERS, course: pickerStartCourse(course, meal), mealType: meal })
+  const [widenCourse, setWidenCourse] = useState(false)
   const [favouritesOnly, setFavouritesOnly] = useState(false)
   const { data: favourites } = useFavourites(householdId)
   const { data: usage } = useDishUsage(householdId)
@@ -67,19 +69,22 @@ export function DishPickerSheet({
   const overrideByDish = useMemo(() => new Map((overrides ?? []).map((o) => [o.dish_id, o.photo_path])), [overrides])
   const eaterAllergens = useMemo(() => [...new Set(eaters.flatMap((e) => e.allergens))], [eaters])
 
+  const searching = filters.query.trim() !== ''
   const visible = useMemo(() => {
-    const matching = (dishes ?? [])
+    // typing in the search box lifts the dish-type and meal limits, so a dish catalogued as a side (boiled egg) still shows when a main is wanted
+    const candidates = (dishes ?? [])
       .filter((d) => !excludeIds.includes(d.id))
       .filter((d) => !fitPlans || fitPlans.length === 0 || fitsAll(fitPlans, d))
       .filter((d) => !favouritesOnly || favourites?.has(d.id))
-      .filter((d) => passesFilters(d, filters, householdId, eaterAllergens, eaterPrefs))
-      .filter((d) => {
-        const name = dishDisplayName(d, d.dish_names, lang)
-        const nameTa = d.dish_names.find((n) => n.language === 'ta')?.name
-        return matchesQuery(name, nameTa, filters.query)
-      })
-    return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
-  }, [dishes, excludeIds, fitPlans, filters, householdId, eaterAllergens, eaterPrefs, lang, favouritesOnly, favourites, usage])
+    const matching = pickerMatches(candidates, filters, { widenCourse, householdId, allergens: eaterAllergens, prefs: eaterPrefs })
+    const ordered = orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
+    const fits = (d: (typeof ordered)[number]) => {
+      const f = pickerFit(d, course, meal)
+      return f.course && f.meal
+    }
+    // what the picker was opened for first, then the rest (the sort is stable, so each group keeps its own order)
+    return [...ordered.filter(fits), ...ordered.filter((d) => !fits(d))]
+  }, [dishes, excludeIds, fitPlans, filters, widenCourse, course, meal, householdId, eaterAllergens, eaterPrefs, lang, favouritesOnly, favourites, usage])
 
   const selectClass = 'h-8 rounded-[10px] border border-line bg-surface px-2.5 text-[13px]'
 
@@ -169,9 +174,20 @@ export function DishPickerSheet({
             {t('dishes.filters.safeOnly')}
           </button>
         </div>
+        {!searching && filters.course !== 'any' && (
+          <button
+            type="button"
+            aria-pressed={widenCourse}
+            onClick={() => setWidenCourse((v) => !v)}
+            className={`h-8 self-start rounded-full px-3 text-[13px] font-semibold ${widenCourse ? 'border-[1.5px] border-ink bg-ink text-cream' : 'border border-line-strong bg-surface'}`}
+          >
+            {t(course === 'main' ? 'dishes.includeSides' : 'dishes.includeMains')}
+          </button>
+        )}
         <span className="font-display text-[15px] font-semibold">
           {t(visible.length === 1 ? 'dishes.countOne' : 'dishes.countOther', { count: visible.length })}
         </span>
+        {searching && <span className="-mt-2 text-[12px] text-muted">{t('dishes.searchingAll')}</span>}
       </div>
 
       <div className="flex flex-1 flex-col gap-2 overflow-y-auto px-4 py-3">
@@ -189,12 +205,20 @@ export function DishPickerSheet({
             const cuisine = cuisineById.get(d.cuisine_id ?? '')
             const conflict = mealAllergyConflicts(d.allergens, eaters)
             const prefClash = firstPrefClash(d, eaters, prefsById)
+            const fit = pickerFit(d, course, meal)
+            const usually = !fit.course
+              ? t(course === 'main' ? 'dishes.usuallySide' : 'dishes.usuallyMain')
+              : !fit.meal
+                ? t('dishes.usuallyMeals', { meals: d.meal_types.map((m) => t(`meal.${m}`)).join(', ') })
+                : null
             const note =
               conflict.names.length > 0
                 ? { text: t('planner.allergy.headline', { list: conflict.allergens.join(', '), names: conflict.names.join(', ') }), kind: 'allergy' as const }
                 : prefClash
                   ? { text: t(`diets.clash.${prefClash.kind === 'diet' ? (prefClash.diet === 'veg' ? 'diet_veg' : 'diet_egg') : prefClash.kind}`, { person: prefClash.person, dish: dishDisplayName(d, d.dish_names, lang) }), kind: 'info' as const }
-                  : undefined
+                  : usually
+                    ? { text: usually, kind: 'info' as const }
+                    : undefined
             return (
               <DishRow
                 key={d.id}

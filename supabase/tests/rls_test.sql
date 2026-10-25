@@ -894,6 +894,13 @@ select tests.ok(not exists (select 1 from public.meal_slots where guest_adults >
 select tests.refused($$ update public.meal_slots set guest_adults = 0 where id = '$$ || :'slot_far' || $$' $$, 'nor change them');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-0000-4000-8000-000000000001', false);
 
+-- ── Catalogue fixes (migration 0045) ──
+select tests.ok((select course = 'both' from public.dishes where household_id is null and name = 'Boiled egg'), 'Boiled egg is a main and a side dish');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null and name = 'Onigiri' and 'meat' = any (tags)), 'Onigiri is not tagged meat');
+select tests.ok(exists (select 1 from public.dishes where household_id is null and name = 'Yakisoba' and 'egg' = any (tags)), 'Yakisoba is tagged egg');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null and diet = 'veg' and ('meat' = any (tags) or 'egg' = any (tags))), 'no shared vegetarian dish is tagged meat or egg');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null and diet = 'egg' and not ('egg' = any (tags))), 'every shared egg dish is tagged egg');
+
 -- ── Not signed in ──
 select set_config('request.jwt.claim.sub', '', false);
 set role anon;

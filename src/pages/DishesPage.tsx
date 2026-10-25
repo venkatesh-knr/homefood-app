@@ -10,7 +10,7 @@ import {
   assignableCuisines,
   cuisineLabel as cuisineLabelOf,
   dishDisplayName,
-  matchesQuery,
+  dishMatchesQuery,
   passesFilters,
   type DishFilters,
 } from '../lib/dishes'
@@ -53,11 +53,7 @@ export default function DishesPage() {
     const matching = (dishes ?? [])
       .filter((d) => !favouritesOnly || favourites?.has(d.id))
       .filter((d) => passesFilters(d, filters, household.id, householdAllergens, homePrefs))
-      .filter((d) => {
-        const name = dishDisplayName(d, d.dish_names, lang)
-        const nameTa = d.dish_names.find((n) => n.language === 'ta')?.name
-        return matchesQuery(name, nameTa, filters.query)
-      })
+      .filter((d) => dishMatchesQuery(d, d.dish_names, filters.query))
     return orderDishes(matching, favourites ?? new Set(), usage ?? new Map(), (d) => dishDisplayName(d, d.dish_names, lang))
   }, [dishes, filters, household.id, householdAllergens, homePrefs, lang, favouritesOnly, favourites, usage])
 

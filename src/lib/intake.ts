@@ -1,6 +1,7 @@
 // "My extras": the pure logic for a personal food log: units and amounts, the nutrition of an amount, what a day adds up to, copying
 // yesterday, search, and which goal applies. Framework-free, so every part is unit-tested without a database.
 // Everything here is an ESTIMATE for planning at home, not medical advice.
+import { matchesWords } from './search'
 import { addTotals, emptyTotals, NUTRIENTS, scaleTotals, type DayTotals, type NutrientKey, type Totals } from './nutrition'
 
 export type FoodUnit = 'piece' | 'glass' | 'cup' | 'bowl' | 'tbsp' | 'scoop' | 'handful' | '100g' | 'serving'
@@ -204,16 +205,16 @@ export function recentSources(rows: IntakeRow[], limit = 8): FoodSource[] {
 // ── search ──
 const norm = (s: string) => s.toLowerCase().normalize('NFC').trim()
 
-/** Foods whose English or Tamil name contains the words typed; names that start with them come first. */
+/** Foods whose English or Tamil name has the words typed (any order, plurals and the usual spellings are forgiven); names that start with them come first. */
 export function searchFoods(options: FoodOption[], query: string): FoodOption[] {
   const q = norm(query)
   if (!q) return options
   const words = q.split(/\s+/)
   const scored: { o: FoodOption; score: number }[] = []
   for (const o of options) {
+    if (!matchesWords([o.name_en, o.name_ta], query)) continue
     const en = norm(o.name_en)
     const ta = norm(o.name_ta ?? '')
-    if (!words.every((w) => en.includes(w) || ta.includes(w))) continue
     const starts = en.startsWith(q) || ta.startsWith(q) ? 0 : en.split(/\s+/).some((w) => w.startsWith(words[0]!)) ? 1 : 2
     scored.push({ o, score: starts })
   }

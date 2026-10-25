@@ -19,7 +19,7 @@ SI = '00000000-0000-4000-8000-000000000002'
 
 PICKS = """
 Idli, Dosa, Ven Pongal, Upma, Masala dosa, Uttapam, Puttu, Appam, Poori, Pesarattu, Rava dosa, Poha, Aloo paratha, Idiyappam with stew,
-Kuzhi paniyaram, Adai, Egg dosa, Rava idli, Sambar vada, Medu vada,
+Kuzhi paniyaram, Adai, Egg dosa, Rava idli, Sambar vada, Medu vada, Boiled egg, Omelette, Egg bhurji,
 Curd rice, Lemon rice, Tomato rice, Sambar rice, Tamarind rice, Coconut rice, Bisi bele bath, Vegetable biryani, Chicken biryani, Chicken curry,
 Fish curry, Egg curry, Dal tadka, Rajma masala, Khichdi, Kara kuzhambu, Vatha kuzhambu, Mor kuzhambu, Chapati, Parotta, Kothu parotta, Phulka,
 Paneer butter masala, Palak paneer, Chole, Butter chicken, Pav bhaji, Veg kurma, Dhokla, Vegetable pulao,
@@ -56,6 +56,8 @@ for name, c in catalogue.items():
         for tag in diet_tag_rules.rule_tags(_rule_dishes[name])[0]:
             if tag not in c['tags']:
                 c['tags'].append(tag)
+for name, c in catalogue.items():
+    c['course'], c['tags'] = diet_tag_rules.apply_fixes(name, c['course'], c['tags'])
 missing = [p for p in picks if p not in catalogue]
 assert not missing, 'not in the catalogue: %s' % missing
 
@@ -143,3 +145,9 @@ dest = root / 'src/demo/catalogue.json'
 dest.parent.mkdir(parents=True, exist_ok=True)
 dest.write_text(json.dumps(dict(cuisines=cuisines, dishes=out_dishes, nutrition=out_nutrition, recipes=out_recipes, targets=targets, commonFoods=common_foods), ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 print('%d dishes (%d with photos), %d recipes, %d bytes' % (len(out_dishes), sum(1 for d in out_dishes if d['photo']), len(out_recipes), dest.stat().st_size))
+
+# every shared dish (names, meals, course, diet, tags), for the unit tests that walk the whole catalogue: src/lib/fixtures/allDishes.json
+fixture = root / 'src/lib/fixtures/allDishes.json'
+fixture.parent.mkdir(parents=True, exist_ok=True)
+fixture.write_text(json.dumps([dict(name=c['name'], ta=c['ta'], meal_types=c['meal_types'], course=c['course'], diet=c['diet'], tags=c['tags'], allergens=c['allergens']) for c in catalogue.values()], ensure_ascii=False, indent=0), encoding='utf-8')
+print('%d dishes written for the tests' % len(catalogue))

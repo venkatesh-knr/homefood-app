@@ -1,6 +1,7 @@
 // Shared types and small pure helpers for the dish catalogue. Framework-free,
 // same pattern as lib/people.ts, so the filtering/display logic is unit-testable.
 import { clashesHard, type Preferences } from './diets'
+import { matchesWords } from './search'
 
 export type MealType = 'breakfast' | 'lunch' | 'snacks' | 'dinner'
 export type DishCourse = 'main' | 'side' | 'both'
@@ -97,9 +98,42 @@ export const DEFAULT_DISH_FILTERS: DishFilters = {
 
 /** Matches the search box against both languages so "தோசை" and "dosa" both find it. */
 export function matchesQuery(name: string, nameTa: string | undefined, query: string): boolean {
-  const q = query.trim().toLowerCase()
-  if (!q) return true
-  return name.toLowerCase().includes(q) || Boolean(nameTa?.toLowerCase().includes(q))
+  return matchesWords([name, nameTa], query)
+}
+
+/** The search box against a dish: its English name, its Tamil name and the name it was saved under, whatever language the screen is in. */
+export function dishMatchesQuery(dish: Pick<Dish, 'name'>, names: DishNameRow[], query: string): boolean {
+  return matchesWords([dish.name, ...names.map((n) => n.name)], query)
+}
+
+/** In the dish picker a main dish and a side dish are different lists, and the list also starts on the meal being planned. Snacks are the
+ * exception for the main dish: a snack is usually one item (samosa, murukku, sundal) and nearly all of those are catalogued as sides. */
+export function pickerStartCourse(course: 'main' | 'side', meal: MealType): DishCourse | 'any' {
+  return course === 'main' && meal === 'snacks' ? 'any' : course
+}
+
+/** The filters the picker really applies. Typing in the search box lifts the dish-type and meal limits (someone who types "boiled egg"
+ * wants boiled egg, even though it is catalogued as a side dish), and "include sides / mains" lifts the dish-type limit by hand. */
+export function pickerFilters(filters: DishFilters, opts: { widenCourse: boolean }): DishFilters {
+  const searching = filters.query.trim() !== ''
+  return { ...filters, course: opts.widenCourse || searching ? 'any' : filters.course, mealType: searching ? 'any' : filters.mealType }
+}
+
+type Pickable = Pick<Dish, 'name' | 'household_id' | 'cuisine_id' | 'course' | 'diet' | 'meal_types' | 'allergens'> & { tags?: string[]; dish_names: DishNameRow[] }
+
+/** The dishes the picker lists for these filters: the limits of passesFilters (with the search box lifting the dish-type and meal limits) and the words typed. */
+export function pickerMatches<D extends Pickable>(
+  dishes: D[],
+  filters: DishFilters,
+  opts: { widenCourse: boolean; householdId: string; allergens: string[]; prefs: Preferences[] },
+): D[] {
+  const applied = pickerFilters(filters, { widenCourse: opts.widenCourse })
+  return dishes.filter((d) => passesFilters(d, applied, opts.householdId, opts.allergens, opts.prefs) && dishMatchesQuery(d, d.dish_names, filters.query))
+}
+
+/** Whether a dish is what the picker was opened for: the right kind of dish (a "both" dish is either) and one cooked at this meal. */
+export function pickerFit(dish: Pick<Dish, 'course' | 'meal_types'>, course: 'main' | 'side', meal: MealType): { course: boolean; meal: boolean } {
+  return { course: dish.course === 'both' || dish.course === course || (course === 'main' && meal === 'snacks'), meal: dish.meal_types.includes(meal) }
 }
 
 export function passesFilters(

@@ -1,0 +1,5568 @@
+[
+{
+"name": "Idli",
+"ta": "இட்லி",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"low_sugar",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Dosa",
+"ta": "தோசை",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"low_sugar",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Ven Pongal",
+"ta": "வெண் பொங்கல்",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"ghee",
+"low_sugar",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Sambar",
+"ta": "சாம்பார்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"salty",
+"pulse",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Rasam",
+"ta": "ரசம்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Curd rice",
+"ta": "தயிர் சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Idiyappam with stew",
+"ta": "இடியாப்பம் ஸ்டூ",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Medu vada",
+"ta": "மெதுவடை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Chapati",
+"ta": "சப்பாத்தி",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Paneer butter masala",
+"ta": "பன்னீர் பட்டர் மசாலா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_carb",
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"dairy"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Chole",
+"ta": "சோலே",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"onion_garlic",
+"salty",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Aloo paratha",
+"ta": "ஆலு பராத்தா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Butter chicken",
+"ta": "பட்டர் சிக்கன்",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"low_carb",
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"dairy",
+"meat"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Jeera rice",
+"ta": "சீரக சாதம்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Samosa",
+"ta": "சமோசா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Aloo tikki",
+"ta": "ஆலு டிக்கி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Pasta aglio e olio",
+"ta": "பாஸ்தா அஜ்லியோ ஒலியோ",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"oily"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Margherita pizza",
+"ta": "மார்கரிட்டா பீட்சா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"high_protein",
+"salty",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Grilled cheese sandwich",
+"ta": "கிரில்டு சீஸ் சாண்ட்விச்",
+"meal_types": [
+"snacks"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"high_protein",
+"salty",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Vegetable soup",
+"ta": "காய்கறி சூப்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"onion_garlic",
+"salty",
+"dairy",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Roast chicken",
+"ta": "வறுத்த கோழி",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"dairy",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "French fries",
+"ta": "பிரெஞ்ச் ஃப்ரைஸ்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Chicken teriyaki",
+"ta": "சிக்கன் தெரியாகி",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"sweet",
+"pulse",
+"meat"
+],
+"allergens": [
+"soy",
+"wheat"
+]
+},
+{
+"name": "Katsu curry",
+"ta": "கட்சு கறி",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"fried",
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"sweet",
+"grain",
+"meat",
+"egg",
+"root_veg"
+],
+"allergens": [
+"egg",
+"wheat"
+]
+},
+{
+"name": "Miso soup",
+"ta": "மிசோ சூப்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"salty",
+"pulse"
+],
+"allergens": [
+"soy"
+]
+},
+{
+"name": "Vegetable tempura",
+"ta": "காய்கறி டெம்புரா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Onigiri",
+"ta": "ஒனிகிரி",
+"meal_types": [
+"snacks"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Yakisoba",
+"ta": "யாகிசோபா",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"pulse",
+"root_veg",
+"egg"
+],
+"allergens": [
+"egg",
+"wheat",
+"soy"
+]
+},
+{
+"name": "Upma",
+"ta": "உப்புமா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Pesarattu",
+"ta": "பெசரட்டு",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Uttapam",
+"ta": "ஊத்தப்பம்",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Masala dosa",
+"ta": "மசாலா தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"pulse",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Rava dosa",
+"ta": "ரவா தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Appam",
+"ta": "ஆப்பம்",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Puttu",
+"ta": "புட்டு",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Parotta",
+"ta": "பரோட்டா",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Kothu parotta",
+"ta": "கொத்து பரோட்டா",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"fried",
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"egg"
+],
+"allergens": [
+"wheat",
+"egg"
+]
+},
+{
+"name": "Lemon rice",
+"ta": "எலுமிச்சை சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Tamarind rice",
+"ta": "புளியோதரை",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Coconut rice",
+"ta": "தேங்காய் சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"oily",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Tomato rice",
+"ta": "தக்காளி சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Sambar rice",
+"ta": "சாம்பார் சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"salty",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Bisi bele bath",
+"ta": "பிசிபேளா பாத்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"salty",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Vegetable biryani",
+"ta": "காய்கறி பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Chicken biryani",
+"ta": "சிக்கன் பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"meat"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Mutton biryani",
+"ta": "மட்டன் பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"meat"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Egg biryani",
+"ta": "முட்டை பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"spicy",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"egg"
+],
+"allergens": [
+"egg",
+"milk"
+]
+},
+{
+"name": "Chicken chettinad",
+"ta": "செட்டிநாடு சிக்கன்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Chicken curry",
+"ta": "கோழிக் குழம்பு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Fish curry",
+"ta": "மீன் குழம்பு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"meat"
+],
+"allergens": [
+"fish"
+]
+},
+{
+"name": "Egg curry",
+"ta": "முட்டைக் குழம்பு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"low_carb",
+"onion_garlic",
+"oily",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Vatha kuzhambu",
+"ta": "வத்தக் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "both",
+"diet": "veg",
+"tags": [
+"spicy",
+"light",
+"low_oil",
+"onion_garlic",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Mor kuzhambu",
+"ta": "மோர்க் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "both",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Coconut chutney",
+"ta": "தேங்காய் சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Tomato chutney",
+"ta": "தக்காளி சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Mint chutney",
+"ta": "புதினா சட்னி",
+"meal_types": [
+"breakfast",
+"snacks",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Onion chutney",
+"ta": "வெங்காய சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Peanut chutney",
+"ta": "வேர்க்கடலை சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Idli podi",
+"ta": "இட்லி பொடி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse"
+],
+"allergens": [
+"sesame"
+]
+},
+{
+"name": "Veg kurma",
+"ta": "வெஜ் குருமா",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"onion_garlic",
+"root_veg"
+],
+"allergens": [
+"cashew"
+]
+},
+{
+"name": "Beans poriyal",
+"ta": "பீன்ஸ் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Cabbage poriyal",
+"ta": "முட்டைக்கோஸ் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Carrot poriyal",
+"ta": "கேரட் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Beetroot poriyal",
+"ta": "பீட்ரூட் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Potato roast",
+"ta": "உருளைக்கிழங்கு வறுவல்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"vegetable",
+"light",
+"low_sugar",
+"onion_garlic",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Vendakkai fry",
+"ta": "வெண்டைக்காய் வறுவல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Raw banana fry",
+"ta": "வாழைக்காய் வறுவல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"vegetable",
+"light",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Keerai masiyal",
+"ta": "கீரை மசியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Cabbage kootu",
+"ta": "முட்டைக்கோஸ் கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Pumpkin kootu",
+"ta": "பூசணிக்காய் கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Avial",
+"ta": "அவியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"fasting_food",
+"dairy",
+"root_veg"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Cucumber pachadi",
+"ta": "வெள்ளரிக்காய் பச்சடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Appalam",
+"ta": "அப்பளம்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar"
+],
+"allergens": []
+},
+{
+"name": "Mango pickle",
+"ta": "மாங்காய் ஊறுகாய்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food",
+"salty"
+],
+"allergens": [
+"mustard"
+]
+},
+{
+"name": "Lemon pickle",
+"ta": "எலுமிச்சை ஊறுகாய்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food",
+"salty"
+],
+"allergens": [
+"mustard"
+]
+},
+{
+"name": "Curd",
+"ta": "தயிர்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Buttermilk",
+"ta": "நீர் மோர்",
+"meal_types": [
+"lunch",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Paruppu vadai",
+"ta": "பருப்பு வடை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Murukku",
+"ta": "முறுக்கு",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"light",
+"low_sugar",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Mirchi bajji",
+"ta": "மிளகாய் பஜ்ஜி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"spicy",
+"low_sugar",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Sundal",
+"ta": "சுண்டல்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Kozhukattai",
+"ta": "கொழுக்கட்டை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"steamed",
+"sweet",
+"low_oil",
+"grain",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Semiya payasam",
+"ta": "சேமியா பாயசம்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"wheat",
+"cashew"
+]
+},
+{
+"name": "Rava kesari",
+"ta": "ரவா கேசரி",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"ghee",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"wheat",
+"cashew"
+]
+},
+{
+"name": "Filter coffee",
+"ta": "ஃபில்டர் காபி",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"caffeine",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Egg podimas",
+"ta": "முட்டை பொடிமாஸ்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "egg",
+"tags": [
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Omelette",
+"ta": "ஆம்லெட்",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "both",
+"diet": "egg",
+"tags": [
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"dairy",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Boiled egg",
+"ta": "வேகவைத்த முட்டை",
+"meal_types": [
+"breakfast",
+"lunch",
+"dinner"
+],
+"course": "both",
+"diet": "egg",
+"tags": [
+"low_carb",
+"light",
+"low_sugar",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Chicken 65",
+"ta": "சிக்கன் 65",
+"meal_types": [
+"snacks",
+"dinner"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"fried",
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"meat",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Chicken fry",
+"ta": "கோழி வறுவல்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"fried",
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Fish fry",
+"ta": "மீன் வறுவல்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"fried",
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"meat"
+],
+"allergens": [
+"fish"
+]
+},
+{
+"name": "Prawn masala",
+"ta": "இறால் மசாலா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"meat"
+],
+"allergens": [
+"shellfish"
+]
+},
+{
+"name": "Mutton chukka",
+"ta": "மட்டன் சுக்கா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Dal tadka",
+"ta": "தால் தட்கா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "both",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Dal makhani",
+"ta": "தால் மக்கனி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"pulse",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Rajma masala",
+"ta": "ராஜ்மா மசாலா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Palak paneer",
+"ta": "பாலக் பனீர்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"low_sugar",
+"onion_garlic",
+"oily",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Kadai paneer",
+"ta": "கடாய் பனீர்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"onion_garlic",
+"salty",
+"oily",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Matar paneer",
+"ta": "மட்டர் பனீர்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"onion_garlic",
+"oily",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Aloo gobi",
+"ta": "ஆலு கோபி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "both",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_sugar",
+"onion_garlic",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Baingan bharta",
+"ta": "பைங்கன் பர்த்தா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "both",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Bhindi masala",
+"ta": "பிண்டி மசாலா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "both",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Mixed vegetable curry",
+"ta": "கலவை காய்கறிக் கறி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"vegetable",
+"light",
+"onion_garlic",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Pav bhaji",
+"ta": "பாவ் பாஜி",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"root_veg"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Poori bhaji",
+"ta": "பூரி பாஜி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Chole bhature",
+"ta": "சோலே பதூரா",
+"meal_types": [
+"breakfast",
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"fried",
+"high_protein",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Poha",
+"ta": "போஹா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"root_veg"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Besan chilla",
+"ta": "பேசன் சில்லா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Methi thepla",
+"ta": "மேத்தி தெப்லா",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Dhokla",
+"ta": "தோக்ளா",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Khichdi",
+"ta": "கிச்சடி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Vegetable pulao",
+"ta": "காய்கறி புலாவ்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"dairy",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Kadhi pakora",
+"ta": "கடி பகோடா",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"onion_garlic",
+"oily",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Egg bhurji",
+"ta": "முட்டை புர்ஜி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"low_carb",
+"low_sugar",
+"onion_garlic",
+"oily",
+"dairy",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Dhaba chicken curry",
+"ta": "தாபா சிக்கன் கறி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"dairy",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Tandoori chicken",
+"ta": "தந்தூரி சிக்கன்",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"dairy",
+"meat"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Chicken tikka",
+"ta": "சிக்கன் டிக்கா",
+"meal_types": [
+"snacks",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"dairy",
+"meat"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Mutton rogan josh",
+"ta": "மட்டன் ரோகன் ஜோஷ்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"dairy",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Mutton keema",
+"ta": "மட்டன் கீமா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Butter naan",
+"ta": "பட்டர் நான்",
+"meal_types": [
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Tandoori roti",
+"ta": "தந்தூரி ரொட்டி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Phulka",
+"ta": "புல்கா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Boondi raita",
+"ta": "பூந்தி ரைத்தா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Cucumber raita",
+"ta": "வெள்ளரி ரைத்தா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Kachumber salad",
+"ta": "கச்சும்பர் சாலட்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Jeera aloo",
+"ta": "ஜீரா ஆலு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Paneer tikka",
+"ta": "பனீர் டிக்கா",
+"meal_types": [
+"snacks",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Mixed veg pakora",
+"ta": "கலவை காய்கறி பகோடா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"grain",
+"pulse",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Kachori",
+"ta": "கச்சோரி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"grain",
+"pulse"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Bhel puri",
+"ta": "பேல் பூரி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_oil",
+"onion_garlic",
+"grain",
+"root_veg"
+],
+"allergens": [
+"peanut",
+"wheat"
+]
+},
+{
+"name": "Pani puri",
+"ta": "பானி பூரி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"pulse",
+"added_sugar",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Vada pav",
+"ta": "வடா பாவ்",
+"meal_types": [
+"snacks"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"grain",
+"pulse",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Masala chai",
+"ta": "மசாலா சாய்",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"caffeine",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Sweet lassi",
+"ta": "ஸ்வீட் லஸ்ஸி",
+"meal_types": [
+"lunch",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"low_oil",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Gulab jamun",
+"ta": "குலாப் ஜாமூன்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"wheat"
+]
+},
+{
+"name": "Kheer",
+"ta": "கீர்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Gajar halwa",
+"ta": "கேரட் ஹல்வா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"oily",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Jalebi",
+"ta": "ஜிலேபி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Rava idli",
+"ta": "ரவா இட்லி",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat",
+"milk",
+"cashew"
+]
+},
+{
+"name": "Podi idli",
+"ta": "பொடி இட்லி",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_sugar"
+],
+"allergens": [
+"sesame"
+]
+},
+{
+"name": "Mini idli sambar",
+"ta": "மினி இட்லி சாம்பார்",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"salty",
+"pulse",
+"dairy",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Set dosa",
+"ta": "செட் தோசை",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Neer dosa",
+"ta": "நீர் தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Adai",
+"ta": "அடை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Ragi dosa",
+"ta": "ராகி தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"millet",
+"onion_garlic",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Wheat dosa",
+"ta": "கோதுமை தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Kal dosai",
+"ta": "கல் தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Paper roast",
+"ta": "பேப்பர் ரோஸ்ட்",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Egg dosa",
+"ta": "முட்டை தோசை",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"low_sugar",
+"grain",
+"pulse",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Khara bath",
+"ta": "காரா பாத்",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat",
+"cashew"
+]
+},
+{
+"name": "Semiya upma",
+"ta": "சேமியா உப்புமா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain"
+],
+"allergens": [
+"wheat",
+"cashew"
+]
+},
+{
+"name": "Godhumai rava upma",
+"ta": "கோதுமை ரவா உப்புமா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Arisi upma",
+"ta": "அரிசி உப்புமா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Samai upma",
+"ta": "சாமை உப்புமா",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"millet",
+"onion_garlic",
+"grain",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Kuzhi paniyaram",
+"ta": "குழிப்பணியாரம்",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Idiyappam",
+"ta": "இடியாப்பம்",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Poori",
+"ta": "பூரி",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Sambar vada",
+"ta": "சாம்பார் வடை",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Thayir vada",
+"ta": "தயிர் வடை",
+"meal_types": [
+"snacks",
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"oily",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Pazhaya sadam",
+"ta": "பழைய சாதம்",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Mor kali",
+"ta": "மோர்க்களி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Thinai pongal",
+"ta": "தினை பொங்கல்",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"millet",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Ragi roti",
+"ta": "ராகி ரொட்டி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"millet",
+"onion_garlic",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Akki roti",
+"ta": "அக்கி ரொட்டி",
+"meal_types": [
+"breakfast"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Vangi bath",
+"ta": "வாங்கி பாத்",
+"meal_types": [
+"breakfast",
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Veechu parotta",
+"ta": "வீச்சு பரோட்டா",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Chilli parotta",
+"ta": "சில்லி பரோட்டா",
+"meal_types": [
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty",
+"oily",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Ragi koozh",
+"ta": "ராகி கூழ்",
+"meal_types": [
+"breakfast"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"low_sugar",
+"millet",
+"onion_garlic",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Kambu koozh",
+"ta": "கம்பு கூழ்",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"low_sugar",
+"millet",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Ragi mudde",
+"ta": "ராகி களி",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"millet",
+"grain",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Ulundu kali",
+"ta": "உளுந்தங்களி",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"pulse",
+"added_sugar"
+],
+"allergens": [
+"sesame"
+]
+},
+{
+"name": "Sakkarai pongal",
+"ta": "சர்க்கரைப் பொங்கல்",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"grain",
+"pulse",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Sukku malli coffee",
+"ta": "சுக்கு மல்லி காபி",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Badam milk",
+"ta": "பாதாம் பால்",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"almond"
+]
+},
+{
+"name": "Pidi kozhukattai",
+"ta": "பிடி கொழுக்கட்டை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"steamed",
+"low_oil",
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Paal kozhukattai",
+"ta": "பால் கொழுக்கட்டை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"low_oil",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Aloo bonda",
+"ta": "உருளைக்கிழங்கு போண்டா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"grain",
+"pulse",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Masala vadai",
+"ta": "மசாலா வடை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Keerai vadai",
+"ta": "கீரை வடை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Vazhaipoo vadai",
+"ta": "வாழைப்பூ வடை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Onion pakoda",
+"ta": "வெங்காய பக்கோடா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Banana bajji",
+"ta": "வாழைக்காய் பஜ்ஜி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"oily",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Potato bajji",
+"ta": "உருளை பஜ்ஜி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain",
+"pulse",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Vegetable cutlet",
+"ta": "காய்கறி கட்லெட்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"onion_garlic",
+"oily",
+"grain",
+"root_veg"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Thattai",
+"ta": "தட்டை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Seedai",
+"ta": "சீடை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Ribbon pakoda",
+"ta": "ரிப்பன் பக்கோடா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Mixture",
+"ta": "மிக்சர்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Kara sev",
+"ta": "காரசேவு",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily",
+"grain",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Verkadalai sundal",
+"ta": "வேர்க்கடலை சுண்டல்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"low_sugar",
+"oily"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Corn sundal",
+"ta": "சோள சுண்டல்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Banana chips",
+"ta": "வாழைக்காய் சிப்ஸ்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_sugar",
+"oily"
+],
+"allergens": []
+},
+{
+"name": "Chicken lollipop",
+"ta": "சிக்கன் லாலிபாப்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"fried",
+"spicy",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"meat",
+"egg"
+],
+"allergens": [
+"wheat",
+"egg"
+]
+},
+{
+"name": "Mutton kola urundai",
+"ta": "மட்டன் கோலா உருண்டை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"fried",
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"pulse",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Mangalore buns",
+"ta": "மங்களூர் பன்",
+"meal_types": [
+"breakfast",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"sweet",
+"oily",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Adhirasam",
+"ta": "அதிரசம்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Ellu urundai",
+"ta": "எள்ளு உருண்டை",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"sesame"
+]
+},
+{
+"name": "Kadalai mittai",
+"ta": "கடலை மிட்டாய்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Sweet paniyaram",
+"ta": "இனிப்பு பணியாரம்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Pazham pori",
+"ta": "பழம்பொரி",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Unniyappam",
+"ta": "உன்னியப்பம்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Poli",
+"ta": "போளி",
+"meal_types": [
+"lunch",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"grain",
+"pulse",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"wheat"
+]
+},
+{
+"name": "Mysore pak",
+"ta": "மைசூர் பாக்",
+"meal_types": [
+"lunch",
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"oily",
+"grain",
+"pulse",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Rava laddu",
+"ta": "ரவா லட்டு",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"wheat",
+"milk",
+"cashew"
+]
+},
+{
+"name": "Boondi laddu",
+"ta": "பூந்தி லட்டு",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain",
+"pulse",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"cashew"
+]
+},
+{
+"name": "Badusha",
+"ta": "பாதுஷா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fried",
+"oily",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"wheat",
+"milk"
+]
+},
+{
+"name": "Paal payasam",
+"ta": "பால் பாயசம்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"grain",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Javvarisi payasam",
+"ta": "ஜவ்வரிசி பாயசம்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Jigarthanda",
+"ta": "ஜிகர்தண்டா",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Panakam",
+"ta": "பானகம்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"light",
+"low_oil",
+"fasting_food",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Nannari sarbath",
+"ta": "நன்னாரி சர்பத்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"light",
+"low_oil",
+"fasting_food",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Elaneer",
+"ta": "இளநீர்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Rose milk",
+"ta": "ரோஸ் மில்க்",
+"meal_types": [
+"snacks"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"fasting_food",
+"dairy",
+"added_sugar"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Curry leaf rice",
+"ta": "கறிவேப்பிலை சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Pudina rice",
+"ta": "புதினா சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain"
+],
+"allergens": []
+},
+{
+"name": "Ellu sadam",
+"ta": "எள் சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": [
+"sesame"
+]
+},
+{
+"name": "Mango rice",
+"ta": "மாங்காய் சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"grain"
+],
+"allergens": [
+"peanut"
+]
+},
+{
+"name": "Nei sorru",
+"ta": "நெய் சோறு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk",
+"cashew"
+]
+},
+{
+"name": "Paruppu sadam",
+"ta": "பருப்பு சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_sugar",
+"onion_garlic",
+"grain",
+"pulse",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Rasam sadam",
+"ta": "ரசம் சாதம்",
+"meal_types": [
+"lunch"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"salty",
+"grain",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Dindigul biryani",
+"ta": "திண்டுக்கல் பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"meat"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Prawn biryani",
+"ta": "இறால் பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy",
+"meat"
+],
+"allergens": [
+"shellfish",
+"milk"
+]
+},
+{
+"name": "Mushroom biryani",
+"ta": "காளான் பிரியாணி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"grain",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Arachuvitta sambar",
+"ta": "அரைத்துவிட்ட சாம்பார்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"salty",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Murungakkai sambar",
+"ta": "முருங்கைக்காய் சாம்பார்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"light",
+"low_oil",
+"onion_garlic",
+"salty",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Kara kuzhambu",
+"ta": "காரக் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Puli kuzhambu",
+"ta": "புளிக் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Milagu kuzhambu",
+"ta": "மிளகு குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_sugar",
+"fasting_food",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Poondu kuzhambu",
+"ta": "பூண்டுக் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Kathirikai kuzhambu",
+"ta": "கத்தரிக்காய் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Paruppu urundai kuzhambu",
+"ta": "பருப்பு உருண்டைக் குழம்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Paagarkai pitlai",
+"ta": "பாகற்காய் பிட்லை",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Paruppu",
+"ta": "பருப்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Tomato pappu",
+"ta": "தக்காளி பருப்பு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Thakkali kothsu",
+"ta": "தக்காளி கொத்சு",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Kathirikai kothsu",
+"ta": "கத்தரிக்காய் கொத்சு",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Salna",
+"ta": "சால்னா",
+"meal_types": [
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"onion_garlic",
+"salty"
+],
+"allergens": []
+},
+{
+"name": "Kadala curry",
+"ta": "கடலைக் கறி",
+"meal_types": [
+"breakfast"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Veg stew",
+"ta": "காய்கறி ஸ்டூ",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"onion_garlic",
+"oily",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Lemon rasam",
+"ta": "எலுமிச்சை ரசம்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Tomato rasam",
+"ta": "தக்காளி ரசம்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"onion_garlic",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Pepper rasam",
+"ta": "மிளகு ரசம்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Poondu rasam",
+"ta": "பூண்டு ரசம்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Paruppu rasam",
+"ta": "பருப்பு ரசம்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Olan",
+"ta": "ஓலன்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Erissery",
+"ta": "எரிசேரி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Pulissery",
+"ta": "புளிசேரி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Cabbage thoran",
+"ta": "முட்டைக்கோஸ் தோரன்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Chow chow kootu",
+"ta": "சௌசௌ கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Avarakkai kootu",
+"ta": "அவரைக்காய் கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Poricha kootu",
+"ta": "பொரிச்ச கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Peerkangai kootu",
+"ta": "பீர்க்கங்காய் கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Pudalangai kootu",
+"ta": "புடலங்காய் கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Suraikkai kootu",
+"ta": "சுரைக்காய் கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Keerai kootu",
+"ta": "கீரை கூட்டு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Beans usili",
+"ta": "பீன்ஸ் உசிலி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Cluster beans poriyal",
+"ta": "கொத்தவரங்காய் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Kovakkai fry",
+"ta": "கோவக்காய் வறுவல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"oily"
+],
+"allergens": []
+},
+{
+"name": "Senaikizhangu fry",
+"ta": "சேனைக்கிழங்கு வறுவல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"vegetable",
+"low_sugar",
+"oily",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Chepankizhangu roast",
+"ta": "சேப்பங்கிழங்கு வறுவல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"vegetable",
+"low_sugar",
+"oily",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Kathirikai poriyal",
+"ta": "கத்தரிக்காய் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Vazhaipoo poriyal",
+"ta": "வாழைப்பூ பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Vazhaithandu poriyal",
+"ta": "வாழைத்தண்டு பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Vazhakkai podimas",
+"ta": "வாழைக்காய் பொடிமாஸ்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"light",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Murungai keerai poriyal",
+"ta": "முருங்கைக்கீரை பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Pudalangai poriyal",
+"ta": "புடலங்காய் பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Mochai poriyal",
+"ta": "மொச்சை பொரியல்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Gutti vankaya",
+"ta": "குட்டி வங்காயா",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"vegetable",
+"low_carb",
+"oily"
+],
+"allergens": [
+"peanut",
+"sesame"
+]
+},
+{
+"name": "Mor milagai",
+"ta": "மோர் மிளகாய்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_carb",
+"light",
+"low_sugar",
+"oily",
+"dairy"
+],
+"allergens": []
+},
+{
+"name": "Vadam",
+"ta": "வடாம்",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"fried",
+"low_carb",
+"light",
+"low_sugar",
+"oily"
+],
+"allergens": []
+},
+{
+"name": "Pottukadalai chutney",
+"ta": "பொட்டுக்கடலை சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Coriander chutney",
+"ta": "கொத்தமல்லி சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Curry leaf chutney",
+"ta": "கறிவேப்பிலை சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Ginger chutney",
+"ta": "இஞ்சி சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Kara chutney",
+"ta": "காரச் சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Brinjal chutney",
+"ta": "கத்தரிக்காய் சட்னி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": []
+},
+{
+"name": "Tomato thokku",
+"ta": "தக்காளி தொக்கு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food"
+],
+"allergens": []
+},
+{
+"name": "Fish thokku",
+"ta": "மீன் தொக்கு",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"meat"
+],
+"allergens": [
+"fish"
+]
+},
+{
+"name": "Garlic pickle",
+"ta": "பூண்டு ஊறுகாய்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": [
+"mustard"
+]
+},
+{
+"name": "Gongura pickle",
+"ta": "கோங்குரா ஊறுகாய்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"onion_garlic"
+],
+"allergens": [
+"mustard"
+]
+},
+{
+"name": "Avakaya",
+"ta": "ஆவக்காய் ஊறுகாய்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food"
+],
+"allergens": [
+"mustard"
+]
+},
+{
+"name": "Narthangai pickle",
+"ta": "நார்த்தங்காய் ஊறுகாய்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"fasting_food"
+],
+"allergens": [
+"mustard"
+]
+},
+{
+"name": "Milagai podi",
+"ta": "மிளகாய்ப் பொடி",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse"
+],
+"allergens": [
+"sesame"
+]
+},
+{
+"name": "Paruppu podi",
+"ta": "பருப்புப் பொடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Karuveppilai podi",
+"ta": "கறிவேப்பிலைப் பொடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"spicy",
+"low_carb",
+"light",
+"low_oil",
+"low_sugar",
+"pulse"
+],
+"allergens": []
+},
+{
+"name": "Beetroot pachadi",
+"ta": "பீட்ரூட் பச்சடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"vegetable",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy",
+"root_veg"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Pineapple pachadi",
+"ta": "அன்னாசி பச்சடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"low_carb",
+"light",
+"low_oil",
+"fasting_food",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Mango pachadi",
+"ta": "மாங்காய் பச்சடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"sweet",
+"light",
+"low_oil",
+"fasting_food",
+"added_sugar"
+],
+"allergens": []
+},
+{
+"name": "Onion pachadi",
+"ta": "வெங்காய பச்சடி",
+"meal_types": [
+"lunch"
+],
+"course": "side",
+"diet": "veg",
+"tags": [
+"low_carb",
+"light",
+"low_oil",
+"onion_garlic",
+"dairy"
+],
+"allergens": [
+"milk"
+]
+},
+{
+"name": "Nattu kozhi kuzhambu",
+"ta": "நாட்டுக்கோழிக் குழம்பு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Pepper chicken",
+"ta": "மிளகு சிக்கன்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Chicken stew",
+"ta": "சிக்கன் ஸ்டூ",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"low_carb",
+"high_protein",
+"onion_garlic",
+"oily",
+"meat",
+"root_veg"
+],
+"allergens": []
+},
+{
+"name": "Mutton kuzhambu",
+"ta": "மட்டன் குழம்பு",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": []
+},
+{
+"name": "Egg masala",
+"ta": "முட்டை மசாலா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"spicy",
+"low_carb",
+"low_sugar",
+"onion_garlic",
+"oily",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Kerala egg roast",
+"ta": "கேரளா முட்டை ரோஸ்ட்",
+"meal_types": [
+"breakfast",
+"dinner"
+],
+"course": "main",
+"diet": "egg",
+"tags": [
+"spicy",
+"low_carb",
+"onion_garlic",
+"oily",
+"egg"
+],
+"allergens": [
+"egg"
+]
+},
+{
+"name": "Nethili fry",
+"ta": "நெத்திலி மீன் வறுவல்",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "side",
+"diet": "non_veg",
+"tags": [
+"fried",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"meat"
+],
+"allergens": [
+"fish"
+]
+},
+{
+"name": "Fish moilee",
+"ta": "மீன் மொய்லி",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"oily",
+"meat"
+],
+"allergens": [
+"fish"
+]
+},
+{
+"name": "Crab masala",
+"ta": "நண்டு மசாலா",
+"meal_types": [
+"lunch",
+"dinner"
+],
+"course": "main",
+"diet": "non_veg",
+"tags": [
+"spicy",
+"low_carb",
+"high_protein",
+"low_sugar",
+"onion_garlic",
+"salty",
+"oily",
+"meat"
+],
+"allergens": [
+"shellfish"
+]
+}
+]
