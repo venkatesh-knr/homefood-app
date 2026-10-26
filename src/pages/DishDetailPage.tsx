@@ -8,6 +8,7 @@ import { useHome } from '../lib/homeContext'
 import { useAllergies, useMembers } from '../lib/queries'
 import { useCuisines, useDish, useDishPhotoOverrides, useSignedPhotoUrl } from '../lib/dishQueries'
 import { removeDish, uploadDishPhoto } from '../lib/dishMutations'
+import { PhotoCropSheet } from '../components/PhotoCropSheet'
 import { WebPhotoSheet } from '../components/WebPhotoSheet'
 import { describeError } from '../lib/errors'
 import { cuisineLabel, dishDisplayName, dishTone } from '../lib/dishes'
@@ -48,6 +49,7 @@ export default function DishDetailPage() {
   const photoInput = useRef<HTMLInputElement>(null)
   const [zoom, setZoom] = useState(false)
   const [webPhoto, setWebPhoto] = useState(false)
+  const [cropFile, setCropFile] = useState<File | null>(null)
   const [cookAgain, setCookAgain] = useState(false)
   const [removing, setRemoving] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -230,7 +232,8 @@ export default function DishDetailPage() {
           >
             {t('dishes.detail.replacePhoto')}
           </button>
-          <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={(e) => onReplacePhoto(e.target.files?.[0])} />
+          <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) setCropFile(f); e.target.value = '' }} />
+          {cropFile && <PhotoCropSheet file={cropFile} onCancel={() => setCropFile(null)} onDone={(trimmed) => { setCropFile(null); void onReplacePhoto(trimmed) }} />}
         </div>
         <button type="button" disabled={busy} onClick={() => setWebPhoto(true)} className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface text-[14px] font-medium">
           {t('webPhoto.open')}

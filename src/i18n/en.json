@@ -1165,6 +1165,24 @@
     "line_one": "{{count}} guest",
     "line_other": "{{count}} guests"
   },
+  "photoCrop": {
+    "title": "Adjust the photo",
+    "opening": "Opening the photo…",
+    "failed": "This photo could not be opened. Try another one.",
+    "canvasLabel": "The photo as it will be saved. Drag it to move it.",
+    "hint": "Drag the photo to move it, and use the slider to zoom.",
+    "shape": "Shape",
+    "aspect": {
+      "square": "Square",
+      "wide": "Wide",
+      "banner": "Banner",
+      "whole": "Whole photo"
+    },
+    "rotate": "Rotate",
+    "zoom": "Zoom",
+    "adjust": "Adjust photo",
+    "use": "Use this photo"
+  },
   "fasting": {
     "title": "Fasting days",
     "subtitle": "Each person sets their own · the Admin sets them for people who have not logged in yet",

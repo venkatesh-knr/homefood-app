@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useHome } from '../lib/homeContext'
 import { useCuisines, useDish, useDishes } from '../lib/dishQueries'
 import { CopyFromDish } from '../components/CopyFromDish'
+import { PhotoCropSheet } from '../components/PhotoCropSheet'
 import { addDish, saveDishNutrition, updateDish, uploadDishPhoto, type DishInput } from '../lib/dishMutations'
 import { WebPhotoSheet } from '../components/WebPhotoSheet'
 import { fetchDishNutrition, useAllNutrition, useDishNutrition } from '../lib/nutritionQueries'
@@ -32,7 +33,9 @@ export default function AddDishPage() {
   const initialPhoto = (location.state as { initialPhoto?: File } | null)?.initialPhoto
 
   const [values, setValues] = useState<DishInput>(blank())
-  const [photo, setPhoto] = useState<File | undefined>(initialPhoto)
+  const [photo, setPhoto] = useState<File | undefined>()
+  // a photo that was just taken or chosen is trimmed first; "Adjust photo" trims the one already chosen again
+  const [cropFile, setCropFile] = useState<File | null>(initialPhoto ?? null)
   const [photoCredit, setPhotoCredit] = useState<string | null>(null)
   const [webPhoto, setWebPhoto] = useState(false)
   const [nutrition, setNutrition] = useState<NutritionForm>(blankNutrition())
@@ -126,18 +129,33 @@ export default function AddDishPage() {
       <h1 className="font-display text-[22px] font-bold">{dishId ? t('dishes.form.titleEdit') : t('dishes.form.titleAdd')}</h1>
 
       {photoPreview ? (
-        <img src={photoPreview} alt="" className="h-40 w-full rounded-2xl object-cover" />
+        <>
+          <img src={photoPreview} alt="" className="h-40 w-full rounded-2xl object-cover" />
+          <button type="button" onClick={() => setCropFile(photo ?? null)} className="min-h-11 self-start rounded-xl border border-line-strong bg-surface px-3.5 text-[14px] font-semibold">{t('photoCrop.adjust')}</button>
+        </>
       ) : existing ? (
         <p className="text-[13px] text-muted">{dishDisplayName(existing, existing.dish_names, lang)}</p>
       ) : null}
       <label className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border-[1.5px] border-dashed border-saffron-ink/60 text-[14px] font-semibold text-saffron-ink">
         {t('dishes.form.addPhoto')}
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => { setPhoto(e.target.files?.[0]); setPhotoCredit(null) }} />
+        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) setCropFile(f); e.target.value = '' }} />
       </label>
       <button type="button" onClick={() => setWebPhoto(true)} className="flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border-[1.5px] border-line-strong bg-surface px-4 text-[14px] font-semibold">
         {t('webPhoto.open')}
       </button>
       {photoCredit && <p className="text-[12.5px] text-muted">{t('webPhoto.chosen', { credit: photoCredit })}</p>}
+      {cropFile && (
+        <PhotoCropSheet
+          file={cropFile}
+          onCancel={() => setCropFile(null)}
+          onDone={(trimmed) => {
+            // trimming the photo already chosen keeps its credit; a new photo has none
+            if (cropFile !== photo) setPhotoCredit(null)
+            setPhoto(trimmed)
+            setCropFile(null)
+          }}
+        />
+      )}
       {webPhoto && (
         <WebPhotoSheet
           initialQuery={values.name_en}
