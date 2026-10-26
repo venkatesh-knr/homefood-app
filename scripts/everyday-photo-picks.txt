@@ -1,0 +1,33 @@
+# One line per dish: dish name (as in the shared catalogue) | Wikimedia Commons file title. Used by scripts/build-photos.py (migration 0048).
+# Free licences only (CC BY, CC BY-SA, CC0, public domain). Lemon sevai and Coconut sevai have no good free photo yet and keep the coloured initial.
+Bread toast | Butter Toast.jpg
+Peanut butter toast | Peanut butter on cinnamon raisin toast - Massachusetts.jpg
+Jam bread | Homemade White Bread with Strawberry Jam.jpg
+Bread omelette | Bread omelette 4.jpg
+Veg sandwich | Vegetable Sandwich 2.jpg
+Egg sandwich | Egg Sandwich 001.jpg
+Bread upma | Multigrain Bread Upma.jpg
+Oats porridge | Cooked oatmeal in bowl.jpg
+Savoury oats | Homemade masala oats India.jpg
+Cornflakes with milk | Liat Portal for Foodie Disorder - Cornflakes with Milk.jpg
+Scrambled eggs | Scrambled eggs with basil.jpg
+Half-boiled egg | Half-boiled Egg.jpg
+Egg roll | Egg roll.jpg
+Egg fried rice | Egg Fried Rice.jpg
+Fruit bowl | Fruit Salad Or Fruit Bowl.jpg
+Banana | Cavendish banana from Maracaibo.jpg
+Milk | Glass of Milk (33657535532).jpg
+Fresh fruit juice | A glass of orange juice (2014-12-23).JPG
+Lemon juice | Nimbu paani.jpg
+Rice kanji | Rice gruel.jpg
+Vegetable fried rice | Vegetable Fried Rice - Kolkata 2011-03-02 1841.JPG
+Chicken fried rice | Fried rice with chicken (17234644521).jpg
+Veg noodles | Veg Chowmein.jpg
+Instant noodles | Instant noodles with cabbage egg and carrot.jpg
+Veg roll | Paneer kathi roll homemade.jpg
+Sprouts salad | Sprouted Moong Salad.JPG
+Boiled corn | Boiled corn cob in Araku Valley, Andhra Pradesh 02.jpg
+Roasted peanuts | Roasted Peanuts (2019).jpg
+Tomato soup | TomatoSoup HomeMade Mumbai.jpg
+Sweet corn soup | Corn cream soup.jpg
+Chicken soup | Chicken Noodle Soup.jpg

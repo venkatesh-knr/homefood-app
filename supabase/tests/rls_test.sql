@@ -906,6 +906,12 @@ select tests.ok(exists (select 1 from public.dishes d join public.dish_nutrition
 select tests.ok((select diet = 'egg' and 'egg' = any (tags) and 'egg' = any (allergens) from public.dishes where household_id is null and name = 'Bread omelette'), 'an egg dish carries the egg diet, tag and allergen');
 select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and not exists (select 1 from public.dish_nutrition n where n.dish_id = d.id)), 'every shared dish has a nutrition estimate');
 select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and not exists (select 1 from public.dish_names n where n.dish_id = d.id and n.language = 'ta')), 'and a Tamil name');
+-- ── Recipes and photos for the everyday dishes (migrations 0047, 0048) ──
+select tests.ok(not exists (select 1 from public.dishes d where d.household_id is null and d.name <> 'Banana' and not exists (select 1 from public.recipes r where r.dish_id = d.id and r.household_id is null)), 'every shared dish except Banana has a standard recipe');
+select tests.ok((select count(*) from public.recipe_ingredients i join public.recipes r on r.id = i.recipe_id join public.dishes d on d.id = r.dish_id where d.household_id is null and d.name = 'Bread omelette') = 7 and (select count(*) from public.recipe_steps s join public.recipes r on r.id = s.recipe_id join public.dishes d on d.id = r.dish_id where d.household_id is null and d.name = 'Bread omelette') = 3, 'a new recipe has its ingredients and steps (Bread omelette: 7 and 3)');
+select tests.ok((select count(*) from public.recipe_ingredients i join public.recipes r on r.id = i.recipe_id where i.name_ta is null or i.name_ta = '') = 0 and (select count(*) from public.recipe_steps where body_ta is null or body_ta = '') = 0, 'every recipe line has its Tamil');
+select tests.ok((select count(*) from public.dishes where household_id is null and photo_path like 'static/%' and name in ('Bread toast', 'Bread omelette', 'Oats porridge', 'Scrambled eggs', 'Half-boiled egg', 'Fruit bowl', 'Banana', 'Milk', 'Veg noodles', 'Tomato soup')) = 10, 'the everyday dishes have bundled photos');
+select tests.ok(not exists (select 1 from public.dishes where household_id is null and photo_path like 'static/%' and photo_credit is null), 'every bundled photo has its credit');
 select tests.ok(not exists (select 1 from public.dishes where household_id is null and diet = 'egg' and not ('egg' = any (tags))), 'every shared egg dish is tagged egg');
 
 -- ── Not signed in ──

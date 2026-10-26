@@ -69,7 +69,7 @@ recipes = {}
 for r in RECIPES_0011:
     note = r.get('note') or (None, None)
     recipes[r['dish']] = dict(servings=r['servings'], prep=r['prep'], cook=r['cook'], note=note[0], note_ta=note[1], ingredients=[dict(n=i[0], t=i[1], q=i[2], u=i[3]) for i in r['ingredients']], steps=[dict(e=s[0], t=s[1]) for s in r['steps']])
-for part in ['recipes_south_a', 'recipes_south_b', 'recipes_south_c', 'recipes_south_d', 'recipes_more_a', 'recipes_more_b']:
+for part in ['recipes_south_a', 'recipes_south_b', 'recipes_south_c', 'recipes_south_d', 'recipes_more_a', 'recipes_more_b', 'recipes_everyday']:
     cur = None
     for line in (root / 'scripts' / (part + '.txt')).read_text(encoding='utf-8').splitlines():
         if not line.strip() or line.startswith('#'):

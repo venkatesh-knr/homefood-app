@@ -1,0 +1,374 @@
+# Standard recipes for the everyday dishes added in migration 0046 (migration 0047). Format as in recipes_south_a.txt.
+# Banana has no recipe (there is nothing to cook). Drafts: the family should check ingredients and seasoning.
+
+@ Bread toast | 2 | 2 | 5
+note: Butter the bread while it is still hot so it melts in. | ரொட்டி சூடாக இருக்கும்போதே வெண்ணெய் தடவினால் நன்கு உருகி ஒட்டும்.
+i: Bread | ரொட்டி | 4 | slice
+i: Butter | வெண்ணெய் | 2 | tsp
+s: Heat a tawa or toaster and toast the bread slices until golden on both sides. | தோசைக்கல் அல்லது டோஸ்டரைச் சூடாக்கி ரொட்டித் துண்டுகளை இருபுறமும் பொன்னிறமாக வாட்டவும்.
+s: Spread butter on the hot toast and serve at once. | சூடான டோஸ்ட்டில் வெண்ணெய் தடவி உடனே பரிமாறவும்.
+
+@ Peanut butter toast | 2 | 2 | 5
+note: Choose a peanut butter without added sugar if you can. | முடிந்தால் சர்க்கரை சேர்க்காத வேர்க்கடலை வெண்ணெயைத் தேர்ந்தெடுக்கவும்.
+i: Bread | ரொட்டி | 4 | slice
+i: Peanut butter | வேர்க்கடலை வெண்ணெய் | 3 | tbsp
+s: Toast the bread slices until golden and crisp. | ரொட்டித் துண்டுகளைப் பொன்னிறமாக மொறுமொறுப்பாக வாட்டவும்.
+s: Spread the peanut butter on the toast and serve. | டோஸ்ட்டில் வேர்க்கடலை வெண்ணெய் தடவிப் பரிமாறவும்.
+
+@ Jam bread | 2 | 2 | 0
+note: A thin layer of jam is enough; add a few banana slices for more filling. | ஜாம் மெல்லியதாகத் தடவினால் போதும்; வயிறு நிறைய வாழைப்பழத் துண்டுகளும் சேர்க்கலாம்.
+i: Bread | ரொட்டி | 4 | slice
+i: Fruit jam | பழ ஜாம் | 4 | tsp
+s: Spread the jam evenly on two slices of bread. | இரண்டு ரொட்டித் துண்டுகளில் ஜாமை சமமாகத் தடவவும்.
+s: Cover with the other slices, press lightly and cut in half. | மற்ற துண்டுகளால் மூடி லேசாக அழுத்தி இரண்டாக வெட்டவும்.
+
+@ Bread omelette | 2 | 10 | 10
+note: Press the bread into the egg so it soaks up the mixture before you flip it. | ரொட்டியை முட்டைக் கலவையில் அழுத்தினால் கலவையை நன்கு உறிஞ்சும்; பிறகு திருப்பிப் போடவும்.
+i: Eggs | முட்டை | 4 | piece
+i: Bread | ரொட்டி | 4 | slice
+i: Onion, finely chopped | வெங்காயம் | 1 | piece
+i: Green chilli, chopped | பச்சை மிளகாய் | 1 | piece
+i: Coriander leaves, chopped | கொத்தமல்லி இலை | 1 | tbsp
+i: Oil or butter | எண்ணெய் அல்லது வெண்ணெய் | 2 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Beat the eggs with the onion, chilli, coriander and salt. | முட்டையுடன் வெங்காயம், மிளகாய், கொத்தமல்லி, உப்பு சேர்த்து அடிக்கவும்.
+s: Heat the oil on a tawa and pour half of the egg mixture. Place two bread slices on it and press. | தோசைக்கல்லில் எண்ணெய் சூடாக்கி பாதி முட்டைக் கலவையை ஊற்றவும். அதன் மேல் இரண்டு ரொட்டித் துண்டுகளை வைத்து அழுத்தவும்.
+s: Flip when the egg is set, cook the other side for a minute and cut in half. Repeat with the rest. | முட்டை வெந்ததும் திருப்பிப் போட்டு மறுபுறம் ஒரு நிமிடம் வேகவிட்டு இரண்டாக வெட்டவும். மீதியையும் இதேபோல் செய்யவும்.
+
+@ Veg sandwich | 2 | 10 | 0
+note: Pat the cucumber and tomato dry so the bread stays crisp. | வெள்ளரி, தக்காளியைத் துடைத்து ஈரம் போக்கினால் ரொட்டி நனையாது.
+i: Bread | ரொட்டி | 4 | slice
+i: Butter | வெண்ணெய் | 2 | tsp
+i: Cucumber, sliced | வெள்ளரிக்காய் | 0.5 | piece
+i: Tomato, sliced | தக்காளி | 1 | piece
+i: Onion, thinly sliced | வெங்காயம் | 0.5 | piece
+i: Green chutney or tomato sauce | பச்சை சட்னி அல்லது தக்காளி சாஸ் | 2 | tbsp
+i: Salt and pepper | உப்பு, மிளகு | - | to_taste
+s: Butter the bread and spread the chutney on two slices. | ரொட்டிக்கு வெண்ணெய் தடவி இரண்டு துண்டுகளில் சட்னி தடவவும்.
+s: Arrange the cucumber, tomato and onion, sprinkle salt and pepper. | வெள்ளரி, தக்காளி, வெங்காயத்தை அடுக்கி உப்பு, மிளகு தூவவும்.
+s: Cover with the other slices, press and cut into halves. Toast if you like. | மற்ற துண்டுகளால் மூடி அழுத்தி இரண்டாக வெட்டவும். விரும்பினால் டோஸ்ட் செய்யலாம்.
+
+@ Egg sandwich | 2 | 10 | 10
+note: Do not overcook the eggs: a firm but moist yolk keeps the filling soft. | முட்டையை அதிகம் வேகவிடாதீர்கள்; மஞ்சள் கரு மென்மையாக இருந்தால் பூரணம் மிருதுவாக இருக்கும்.
+i: Eggs, boiled | வேகவைத்த முட்டை | 3 | piece
+i: Bread | ரொட்டி | 4 | slice
+i: Butter | வெண்ணெய் | 2 | tsp
+i: Onion, finely chopped | வெங்காயம் | 2 | tbsp
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Peel and mash the boiled eggs with the onion, pepper and salt. | வேகவைத்த முட்டைகளை உரித்து வெங்காயம், மிளகு, உப்புடன் மசிக்கவும்.
+s: Butter the bread, spread the egg filling on two slices and cover with the rest. | ரொட்டிக்கு வெண்ணெய் தடவி இரண்டு துண்டுகளில் முட்டைப் பூரணம் பரப்பி மற்றவற்றால் மூடவும்.
+s: Cut in half and serve, plain or toasted. | இரண்டாக வெட்டி அப்படியே அல்லது டோஸ்ட் செய்து பரிமாறவும்.
+
+@ Bread upma | 2 | 10 | 10
+note: Use day-old bread; fresh bread turns mushy. | முந்தைய நாள் ரொட்டியைப் பயன்படுத்தவும்; புதிய ரொட்டி குழைந்துவிடும்.
+i: Bread | ரொட்டி | 6 | slice
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Green chilli, chopped | பச்சை மிளகாய் | 1 | piece
+i: Tomato, chopped | தக்காளி | 1 | piece
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Tear the bread into small pieces. | ரொட்டியைச் சிறு துண்டுகளாகக் கிள்ளிக் கொள்ளவும்.
+s: Heat the oil, splutter the mustard, then fry the curry leaves, onion and chilli until soft. | எண்ணெயைச் சூடாக்கி கடுகு பொரிந்ததும் கறிவேப்பிலை, வெங்காயம், மிளகாயை மென்மையாகும்வரை வதக்கவும்.
+s: Add the tomato, turmeric and salt and cook until the tomato softens. | தக்காளி, மஞ்சள் தூள், உப்பு சேர்த்து தக்காளி குழையும்வரை வதக்கவும்.
+s: Add the bread, sprinkle a little water, toss for 2 minutes and serve hot. | ரொட்டியைச் சேர்த்து சிறிது தண்ணீர் தெளித்து 2 நிமிடம் கிளறி சூடாகப் பரிமாறவும்.
+
+@ Oats porridge | 2 | 2 | 8
+note: Add a few nuts or fruit pieces for more flavour; sweeten with a little jaggery if needed. | சுவைக்காக சில கொட்டைகள் அல்லது பழத் துண்டுகள் சேர்க்கலாம்; தேவைப்பட்டால் சிறிது வெல்லம் சேர்க்கவும்.
+i: Rolled oats | ஓட்ஸ் | 1 | cup
+i: Milk | பால் | 2 | cup
+i: Salt | உப்பு | - | to_taste
+s: Bring the milk to a boil in a pan. | ஒரு பாத்திரத்தில் பாலைக் கொதிக்கவிடவும்.
+s: Add the oats and a pinch of salt and cook on low heat for 5 minutes, stirring, until thick. | ஓட்ஸ், சிறிது உப்பு சேர்த்து குறைந்த தீயில் கிளறிக்கொண்டே 5 நிமிடம் கெட்டியாகும்வரை வேகவிடவும்.
+s: Serve warm. | சூடாகப் பரிமாறவும்.
+
+@ Savoury oats | 2 | 10 | 10
+note: Add a spoon of curd at the end for a tangy taste. | கடைசியில் ஒரு ஸ்பூன் தயிர் சேர்த்தால் புளிப்புச் சுவை கிடைக்கும்.
+i: Rolled oats | ஓட்ஸ் | 1 | cup
+i: Oil | எண்ணெய் | 1 | tsp
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Carrot, grated | கேரட் | 1 | piece
+i: Green chilli, chopped | பச்சை மிளகாய் | 1 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Water | தண்ணீர் | 2 | cup
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil, splutter the mustard and fry the curry leaves, onion and chilli. | எண்ணெயைச் சூடாக்கி கடுகு பொரிந்ததும் கறிவேப்பிலை, வெங்காயம், மிளகாயை வதக்கவும்.
+s: Add the carrot and cook for 2 minutes, then add the oats and fry for 1 minute. | கேரட் சேர்த்து 2 நிமிடம் வதக்கி, ஓட்ஸ் சேர்த்து 1 நிமிடம் வறுக்கவும்.
+s: Pour in the water and salt and cook, stirring, until soft and thick. Serve hot. | தண்ணீர், உப்பு சேர்த்து கிளறிக்கொண்டே மென்மையாகவும் கெட்டியாகவும் ஆகும்வரை வேகவிட்டு சூடாகப் பரிமாறவும்.
+
+@ Cornflakes with milk | 1 | 2 | 0
+note: Add the milk just before eating so the flakes stay crisp. | சாப்பிடும் முன்பே பால் சேர்த்தால் கார்ன்ஃப்ளேக்ஸ் மொறுமொறுப்பாக இருக்கும்.
+i: Cornflakes | கார்ன்ஃப்ளேக்ஸ் | 1 | cup
+i: Cold milk | குளிர்ந்த பால் | 1 | cup
+s: Put the cornflakes in a bowl. | கார்ன்ஃப்ளேக்ஸை ஒரு கிண்ணத்தில் போடவும்.
+s: Pour the cold milk over it and eat at once. | குளிர்ந்த பாலை ஊற்றி உடனே சாப்பிடவும்.
+
+@ Scrambled eggs | 2 | 3 | 5
+note: Take the pan off the heat while the eggs still look slightly wet; they finish cooking in the heat. | முட்டை இன்னும் சற்று ஈரமாக இருக்கும்போதே அடுப்பிலிருந்து இறக்கவும்; சூட்டிலேயே வெந்துவிடும்.
+i: Eggs | முட்டை | 4 | piece
+i: Milk | பால் | 2 | tbsp
+i: Butter | வெண்ணெய் | 2 | tsp
+i: Salt and pepper | உப்பு, மிளகு | - | to_taste
+s: Beat the eggs with the milk, salt and pepper. | முட்டையுடன் பால், உப்பு, மிளகு சேர்த்து அடிக்கவும்.
+s: Melt the butter in a pan on low heat and pour in the eggs. | ஒரு பாத்திரத்தில் குறைந்த தீயில் வெண்ணெயை உருக்கி முட்டைக் கலவையை ஊற்றவும்.
+s: Stir gently with a spoon until soft curds form. Serve at once. | கரண்டியால் மெதுவாகக் கிளறி மென்மையான கட்டிகள் உருவானதும் உடனே பரிமாறவும்.
+
+@ Half-boiled egg | 2 | 1 | 6
+note: Timing is for a medium egg taken straight from the fridge. | நேரம் குளிர்சாதனப் பெட்டியிலிருந்து எடுத்த நடுத்தர அளவு முட்டைக்கானது.
+i: Eggs | முட்டை | 2 | piece
+i: Salt and pepper | உப்பு, மிளகு | - | to_taste
+s: Lower the eggs gently into boiling water. | முட்டைகளைக் கொதிக்கும் நீரில் மெதுவாக இறக்கவும்.
+s: Boil for 5 to 6 minutes for a soft, runny yolk. | மென்மையான, ஓடும் மஞ்சள் கருவுக்கு 5 முதல் 6 நிமிடம் கொதிக்கவிடவும்.
+s: Cool in cold water for a minute, peel or crack the top, and sprinkle salt and pepper. | குளிர்ந்த நீரில் ஒரு நிமிடம் வைத்து, தோலை உரித்து அல்லது மேல்பகுதியை உடைத்து உப்பு, மிளகு தூவவும்.
+
+@ Egg roll | 2 | 15 | 15
+note: Roll while the chapati is warm so it does not crack. | சப்பாத்தி சூடாக இருக்கும்போதே சுருட்டினால் வெடிக்காது.
+i: Chapati | சப்பாத்தி | 2 | piece
+i: Eggs | முட்டை | 2 | piece
+i: Onion, thinly sliced | வெங்காயம் | 1 | piece
+i: Green chilli, chopped | பச்சை மிளகாய் | 1 | piece
+i: Oil | எண்ணெய் | 2 | tsp
+i: Tomato sauce or green chutney | தக்காளி சாஸ் அல்லது பச்சை சட்னி | 2 | tbsp
+i: Salt and pepper | உப்பு, மிளகு | - | to_taste
+s: Beat the eggs with salt and pepper. Mix half of the onion and the chilli into it. | முட்டையுடன் உப்பு, மிளகு சேர்த்து அடித்து பாதி வெங்காயம், மிளகாயைக் கலக்கவும்.
+s: Heat a little oil, pour half the egg on the pan and place a chapati on top; cook until set, then flip. | சிறிது எண்ணெய் சூடாக்கி பாதி முட்டையை ஊற்றி அதன் மேல் சப்பாத்தி வைத்து வெந்ததும் திருப்பவும்.
+s: Spread the sauce, add the remaining raw onion, roll tightly and cut in half. Repeat for the second roll. | சாஸ் தடவி மீதி பச்சை வெங்காயம் வைத்து இறுக்கமாகச் சுருட்டி இரண்டாக வெட்டவும். இரண்டாவது ரோலையும் இதேபோல் செய்யவும்.
+
+@ Egg fried rice | 2 | 10 | 15
+note: Use cold, day-old rice so the grains stay separate. | குளிர்ந்த, முந்தைய நாள் சாதத்தைப் பயன்படுத்தினால் உதிரியாக இருக்கும்.
+i: Cooked rice, cold | வேகவைத்த சாதம் | 3 | cup
+i: Eggs | முட்டை | 3 | piece
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Garlic, chopped | பூண்டு | 3 | clove
+i: Spring onion, chopped | வெங்காயத்தாள் | 4 | tbsp
+i: Carrot and beans, finely chopped | கேரட், பீன்ஸ் | 0.5 | cup
+i: Soy sauce | சோயா சாஸ் | 2 | tsp
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Heat 1 tbsp oil, scramble the eggs with a pinch of salt and set aside. | 1 மேசைக்கரண்டி எண்ணெயைச் சூடாக்கி முட்டையை சிறிது உப்புடன் உதிர்த்துப் பொரித்து தனியே வைக்கவும்.
+s: In the same pan heat the rest of the oil and fry the garlic, then the carrot and beans on high heat for 2 minutes. | அதே கடாயில் மீதி எண்ணெயைச் சூடாக்கி பூண்டையும் பிறகு கேரட், பீன்ஸையும் அதிக தீயில் 2 நிமிடம் வதக்கவும்.
+s: Add the rice, soy sauce, pepper and salt and toss for 3 minutes. | சாதம், சோயா சாஸ், மிளகு, உப்பு சேர்த்து 3 நிமிடம் கிளறவும்.
+s: Fold in the eggs and spring onion and serve hot. | முட்டை, வெங்காயத்தாள் சேர்த்துக் கலந்து சூடாகப் பரிமாறவும்.
+
+@ Fruit bowl | 2 | 10 | 0
+note: Add a squeeze of lemon to stop apple and banana from turning brown. | ஆப்பிள், வாழைப்பழம் கருக்காமல் இருக்க சிறிது எலுமிச்சைச் சாறு பிழியவும்.
+i: Papaya, cubed | பப்பாளி | 1 | cup
+i: Apple, cubed | ஆப்பிள் | 1 | piece
+i: Banana, sliced | வாழைப்பழம் | 1 | piece
+i: Pomegranate or grapes | மாதுளை அல்லது திராட்சை | 0.5 | cup
+i: Lemon juice | எலுமிச்சைச் சாறு | 1 | tsp
+s: Wash and cut all the fruit into bite-size pieces. | எல்லாப் பழங்களையும் கழுவி சிறு துண்டுகளாக நறுக்கவும்.
+s: Mix with the lemon juice in a bowl and serve fresh. | எலுமிச்சைச் சாறுடன் ஒரு கிண்ணத்தில் கலந்து புதிதாகப் பரிமாறவும்.
+
+@ Milk | 2 | 1 | 5
+note: Stir while heating so a skin does not form and the milk does not stick. | சூடாக்கும்போது கிளறினால் ஆடை படியாது; பால் அடிப்பிடிக்காது.
+i: Milk | பால் | 2 | cup
+i: Sugar or jaggery | சர்க்கரை அல்லது வெல்லம் | 2 | tsp
+s: Heat the milk on medium heat, stirring, until it just comes to a boil. | பாலை நடுத்தர தீயில் கிளறிக்கொண்டே பொங்கும் நிலைவரை சூடாக்கவும்.
+s: Pour into glasses, add sugar if you like and serve warm. | டம்ளர்களில் ஊற்றி விரும்பினால் சர்க்கரை சேர்த்து சூடாகப் பரிமாறவும்.
+
+@ Fresh fruit juice | 2 | 10 | 0
+note: Drink soon after making it; it loses its taste and colour when kept. | செய்தவுடன் குடிக்கவும்; வைத்திருந்தால் சுவையும் நிறமும் குறையும்.
+i: Orange or sweet lime | ஆரஞ்சு அல்லது சாத்துக்குடி | 4 | piece
+i: Sugar | சர்க்கரை | 2 | tsp
+i: Salt | உப்பு | 1 | pinch
+i: Ice cubes | ஐஸ் துண்டுகள் | 4 | piece
+s: Cut the fruit in half and squeeze out the juice; strain out the seeds. | பழங்களை இரண்டாக வெட்டி சாற்றைப் பிழிந்து விதைகளை வடிகட்டவும்.
+s: Stir in the sugar and a pinch of salt until dissolved. | சர்க்கரை, சிறிது உப்பு சேர்த்துக் கரையும்வரை கலக்கவும்.
+s: Pour over ice in glasses and serve. | ஐஸ் துண்டுகள் போட்ட டம்ளர்களில் ஊற்றிப் பரிமாறவும்.
+
+@ Lemon juice | 2 | 5 | 0
+note: Add the sugar and salt to taste; chilled water makes it more refreshing. | சர்க்கரை, உப்பை சுவைக்கேற்ப சேர்க்கவும்; குளிர்ந்த நீர் அதிக புத்துணர்ச்சி தரும்.
+i: Lemon | எலுமிச்சை | 2 | piece
+i: Sugar | சர்க்கரை | 4 | tsp
+i: Salt | உப்பு | 1 | pinch
+i: Cold water | குளிர்ந்த நீர் | 2 | cup
+s: Squeeze the lemons into a jug and remove the seeds. | எலுமிச்சைகளைப் பிழிந்து ஜக்கில் விட்டு விதைகளை நீக்கவும்.
+s: Add the sugar, salt and cold water and stir until dissolved. Serve cold. | சர்க்கரை, உப்பு, குளிர்ந்த நீர் சேர்த்துக் கரையும்வரை கலந்து குளிர்ச்சியாகப் பரிமாறவும்.
+
+@ Rice kanji | 2 | 5 | 25
+note: Add a little buttermilk and salt when serving for a cooling meal. | பரிமாறும்போது சிறிது மோர், உப்பு சேர்த்தால் குளிர்ச்சியான உணவாகும்.
+i: Rice | அரிசி | 0.5 | cup
+i: Water | தண்ணீர் | 4 | cup
+i: Salt | உப்பு | - | to_taste
+s: Wash the rice and boil it with the water in a covered pan. | அரிசியைக் கழுவி தண்ணீருடன் மூடி வைத்து கொதிக்கவிடவும்.
+s: Cook on low heat for 20 to 25 minutes until the rice is very soft and the water turns thick. | குறைந்த தீயில் 20 முதல் 25 நிமிடம் அரிசி நன்கு குழைந்து தண்ணீர் கெட்டியாகும்வரை வேகவிடவும்.
+s: Add salt, mash lightly and serve warm. | உப்பு சேர்த்து லேசாக மசித்து சூடாகப் பரிமாறவும்.
+
+@ Lemon sevai | 2 | 10 | 10
+note: Mix the lemon juice in after turning off the heat so it stays fresh. | அடுப்பை அணைத்த பிறகு எலுமிச்சைச் சாறைக் கலந்தால் புதிய சுவை நிற்கும்.
+i: Rice sevai (rice noodles) | அரிசி சேவை | 200 | g
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Urad dal and chana dal | உளுத்தம் பருப்பு, கடலைப் பருப்பு | 1 | tsp
+i: Peanuts | வேர்க்கடலை | 2 | tbsp
+i: Green chilli | பச்சை மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Turmeric powder | மஞ்சள் தூள் | 0.25 | tsp
+i: Lemon juice | எலுமிச்சைச் சாறு | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Soak the sevai in hot water for a few minutes if it is dry, drain and keep loose. | சேவை காய்ந்ததாக இருந்தால் சில நிமிடம் வெந்நீரில் ஊறவைத்து வடிகட்டி உதிரியாக வைக்கவும்.
+s: Heat the oil, splutter the mustard, fry the dals and peanuts until golden, then the chilli and curry leaves. | எண்ணெயைச் சூடாக்கி கடுகு பொரிந்ததும் பருப்புகள், வேர்க்கடலையைப் பொன்னிறமாக வறுத்து மிளகாய், கறிவேப்பிலையைச் சேர்க்கவும்.
+s: Add the turmeric, salt and sevai and toss gently for 2 minutes. | மஞ்சள் தூள், உப்பு, சேவை சேர்த்து மெதுவாக 2 நிமிடம் கிளறவும்.
+s: Switch off, mix in the lemon juice and serve. | அடுப்பை அணைத்து எலுமிச்சைச் சாறு கலந்து பரிமாறவும்.
+
+@ Coconut sevai | 2 | 10 | 10
+note: Use freshly grated coconut for the best taste. | புதிதாகத் துருவிய தேங்காயைப் பயன்படுத்தினால் சுவை சிறப்பாக இருக்கும்.
+i: Rice sevai (rice noodles) | அரிசி சேவை | 200 | g
+i: Grated coconut | துருவிய தேங்காய் | 0.5 | cup
+i: Coconut oil or oil | தேங்காய் எண்ணெய் அல்லது எண்ணெய் | 1 | tbsp
+i: Mustard seeds | கடுகு | 0.5 | tsp
+i: Urad dal and chana dal | உளுத்தம் பருப்பு, கடலைப் பருப்பு | 1 | tsp
+i: Dry red chilli | வற்றல் மிளகாய் | 2 | piece
+i: Curry leaves | கறிவேப்பிலை | 1 | sprig
+i: Cashew nuts | முந்திரி | 6 | piece
+i: Salt | உப்பு | - | to_taste
+s: Soak the sevai in hot water for a few minutes if it is dry, drain and keep loose. | சேவை காய்ந்ததாக இருந்தால் சில நிமிடம் வெந்நீரில் ஊறவைத்து வடிகட்டி உதிரியாக வைக்கவும்.
+s: Heat the oil, splutter the mustard, fry the dals, cashews, chilli and curry leaves until golden. | எண்ணெயைச் சூடாக்கி கடுகு பொரிந்ததும் பருப்புகள், முந்திரி, மிளகாய், கறிவேப்பிலையைப் பொன்னிறமாக வறுக்கவும்.
+s: Add the coconut and fry for 1 minute, then add the sevai and salt and toss gently. Serve warm. | தேங்காய் சேர்த்து 1 நிமிடம் வறுத்து சேவை, உப்பு சேர்த்து மெதுவாகக் கிளறி சூடாகப் பரிமாறவும்.
+
+@ Vegetable fried rice | 2 | 15 | 15
+note: Keep the heat high and do not crowd the pan so the vegetables stay crunchy. | தீயை அதிகமாக வைத்து கடாயில் நெரிசல் இல்லாமல் செய்தால் காய்கறிகள் மொறுமொறுப்பாக இருக்கும்.
+i: Cooked rice, cold | வேகவைத்த சாதம் | 3 | cup
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Garlic, chopped | பூண்டு | 3 | clove
+i: Carrot, beans and cabbage, finely chopped | கேரட், பீன்ஸ், முட்டைக்கோஸ் | 1 | cup
+i: Spring onion, chopped | வெங்காயத்தாள் | 4 | tbsp
+i: Soy sauce | சோயா சாஸ் | 2 | tsp
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil on high heat and fry the garlic for a few seconds. | எண்ணெயை அதிக தீயில் சூடாக்கி பூண்டை சில வினாடிகள் வதக்கவும்.
+s: Add the vegetables and stir-fry for 3 minutes until just tender. | காய்கறிகளைச் சேர்த்து 3 நிமிடம் லேசாக வேகும்வரை வதக்கவும்.
+s: Add the rice, soy sauce, pepper and salt and toss well for 3 minutes. | சாதம், சோயா சாஸ், மிளகு, உப்பு சேர்த்து 3 நிமிடம் நன்கு கிளறவும்.
+s: Sprinkle the spring onion and serve hot. | வெங்காயத்தாள் தூவி சூடாகப் பரிமாறவும்.
+
+@ Chicken fried rice | 2 | 20 | 20
+note: Cut the chicken small so it cooks through quickly. | கோழியைச் சிறிய துண்டுகளாக வெட்டினால் விரைவாக வெந்துவிடும்.
+i: Cooked rice, cold | வேகவைத்த சாதம் | 3 | cup
+i: Boneless chicken, small pieces | எலும்பில்லாத கோழி | 200 | g
+i: Oil | எண்ணெய் | 3 | tbsp
+i: Garlic, chopped | பூண்டு | 3 | clove
+i: Carrot and beans, finely chopped | கேரட், பீன்ஸ் | 0.5 | cup
+i: Spring onion, chopped | வெங்காயத்தாள் | 4 | tbsp
+i: Soy sauce | சோயா சாஸ் | 2 | tsp
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Season the chicken with salt and pepper and stir-fry in 1 tbsp oil until cooked through; set aside. | கோழிக்கு உப்பு, மிளகு சேர்த்து 1 மேசைக்கரண்டி எண்ணெயில் வேகும்வரை வதக்கி தனியே வைக்கவும்.
+s: Heat the rest of the oil, fry the garlic, then the carrot and beans for 2 minutes. | மீதி எண்ணெயைச் சூடாக்கி பூண்டையும் பிறகு கேரட், பீன்ஸையும் 2 நிமிடம் வதக்கவும்.
+s: Add the rice, soy sauce and salt and toss on high heat for 3 minutes. | சாதம், சோயா சாஸ், உப்பு சேர்த்து அதிக தீயில் 3 நிமிடம் கிளறவும்.
+s: Mix in the chicken and spring onion and serve hot. | கோழி, வெங்காயத்தாளைக் கலந்து சூடாகப் பரிமாறவும்.
+
+@ Veg noodles | 2 | 15 | 15
+note: Rinse the boiled noodles in cold water so they do not stick together. | வேகவைத்த நூடுல்ஸை குளிர்ந்த நீரில் அலசினால் ஒட்டாமல் இருக்கும்.
+i: Noodles | நூடுல்ஸ் | 200 | g
+i: Oil | எண்ணெய் | 2 | tbsp
+i: Garlic, chopped | பூண்டு | 3 | clove
+i: Carrot, cabbage and capsicum, thinly sliced | கேரட், முட்டைக்கோஸ், குடைமிளகாய் | 1 | cup
+i: Spring onion, chopped | வெங்காயத்தாள் | 4 | tbsp
+i: Soy sauce | சோயா சாஸ் | 2 | tsp
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Boil the noodles in salted water until just cooked, drain and rinse in cold water. | நூடுல்ஸை உப்பு நீரில் வேகவைத்து வடிகட்டி குளிர்ந்த நீரில் அலசவும்.
+s: Heat the oil on high heat, fry the garlic and vegetables for 3 minutes. | எண்ணெயை அதிக தீயில் சூடாக்கி பூண்டு, காய்கறிகளை 3 நிமிடம் வதக்கவும்.
+s: Add the noodles, soy sauce, pepper and salt and toss for 2 minutes. Garnish with spring onion. | நூடுல்ஸ், சோயா சாஸ், மிளகு, உப்பு சேர்த்து 2 நிமிடம் கிளறி வெங்காயத்தாள் தூவவும்.
+
+@ Instant noodles | 1 | 2 | 5
+note: Add an egg or some vegetables while it boils to make it a fuller meal. | கொதிக்கும்போது ஒரு முட்டை அல்லது காய்கறிகள் சேர்த்தால் முழு உணவாகும்.
+i: Instant noodles with seasoning sachet | இன்ஸ்டன்ட் நூடுல்ஸ் | 1 | piece
+i: Water | தண்ணீர் | 1.5 | cup
+s: Boil the water in a pan. | ஒரு பாத்திரத்தில் தண்ணீரைக் கொதிக்கவிடவும்.
+s: Add the noodles and cook for 2 to 3 minutes, stirring. | நூடுல்ஸைச் சேர்த்து கிளறிக்கொண்டே 2 முதல் 3 நிமிடம் வேகவிடவும்.
+s: Stir in the seasoning, cook for a minute and serve hot. | மசாலாவைச் சேர்த்து ஒரு நிமிடம் கொதிக்கவிட்டு சூடாகப் பரிமாறவும்.
+
+@ Veg roll | 2 | 15 | 15
+note: Roll while the chapati is warm; wrap the bottom in paper to eat on the go. | சப்பாத்தி சூடாக இருக்கும்போதே சுருட்டவும்; எடுத்துச் செல்ல கீழ்ப்பகுதியைக் காகிதத்தில் சுற்றவும்.
+i: Chapati | சப்பாத்தி | 2 | piece
+i: Oil | எண்ணெய் | 1 | tbsp
+i: Onion, sliced | வெங்காயம் | 1 | piece
+i: Cabbage and carrot, shredded | முட்டைக்கோஸ், கேரட் | 1 | cup
+i: Capsicum, sliced | குடைமிளகாய் | 0.5 | piece
+i: Garam masala | கரம் மசாலா | 0.5 | tsp
+i: Tomato sauce or green chutney | தக்காளி சாஸ் அல்லது பச்சை சட்னி | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Heat the oil and stir-fry the onion and vegetables on high heat for 3 minutes. | எண்ணெயைச் சூடாக்கி வெங்காயம், காய்கறிகளை அதிக தீயில் 3 நிமிடம் வதக்கவும்.
+s: Add the garam masala and salt and mix. | கரம் மசாலா, உப்பு சேர்த்துக் கலக்கவும்.
+s: Spread the sauce on each warm chapati, put the filling in the middle and roll tightly. | ஒவ்வொரு சூடான சப்பாத்தியிலும் சாஸ் தடவி நடுவில் பூரணம் வைத்து இறுக்கமாகச் சுருட்டவும்.
+
+@ Sprouts salad | 2 | 10 | 5
+note: Steam the sprouts for 5 minutes if you prefer them softer. | மென்மையாக விரும்பினால் முளைகட்டிய பயறை 5 நிமிடம் ஆவியில் வேகவைக்கவும்.
+i: Green gram sprouts | முளைகட்டிய பச்சைப் பயறு | 1.5 | cup
+i: Cucumber, chopped | வெள்ளரிக்காய் | 0.5 | cup
+i: Tomato, chopped | தக்காளி | 1 | piece
+i: Onion, chopped | வெங்காயம் | 0.5 | piece
+i: Coriander leaves | கொத்தமல்லி இலை | 2 | tbsp
+i: Lemon juice | எலுமிச்சைச் சாறு | 1 | tbsp
+i: Chaat masala or pepper | சாட் மசாலா அல்லது மிளகு | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Mix the sprouts, cucumber, tomato, onion and coriander in a bowl. | முளைகட்டிய பயறு, வெள்ளரி, தக்காளி, வெங்காயம், கொத்தமல்லியை ஒரு கிண்ணத்தில் கலக்கவும்.
+s: Add the lemon juice, chaat masala and salt, toss and serve at once. | எலுமிச்சைச் சாறு, சாட் மசாலா, உப்பு சேர்த்துக் கலந்து உடனே பரிமாறவும்.
+
+@ Boiled corn | 2 | 5 | 20
+note: Rub with a little lemon, salt and chilli powder for a street-style snack. | சிறிது எலுமிச்சை, உப்பு, மிளகாய்த் தூள் தடவினால் தெருக்கடை சுவை கிடைக்கும்.
+i: Corn on the cob | சோளக் கதிர் | 2 | piece
+i: Salt | உப்பு | 1 | tsp
+i: Lemon | எலுமிச்சை | 0.5 | piece
+i: Chilli powder | மிளகாய்த் தூள் | 0.25 | tsp
+s: Remove the husk and silk and boil the corn in salted water for 15 to 20 minutes until tender. | மேல் தோலையும் நார்களையும் நீக்கி சோளத்தை உப்பு நீரில் 15 முதல் 20 நிமிடம் மென்மையாகும்வரை வேகவிடவும்.
+s: Drain and rub with lemon, salt and chilli powder. Serve hot. | வடிகட்டி எலுமிச்சை, உப்பு, மிளகாய்த் தூள் தடவி சூடாகப் பரிமாறவும்.
+
+@ Roasted peanuts | 4 | 2 | 10
+note: Keep stirring; peanuts darken quickly once they start to smell roasted. | கிளறிக்கொண்டே இருக்கவும்; வறுத்த வாசனை வந்ததும் வேர்க்கடலை விரைவாகக் கருகும்.
+i: Raw peanuts | பச்சை வேர்க்கடலை | 1 | cup
+i: Salt | உப்பு | 0.5 | tsp
+s: Dry-roast the peanuts in a heavy pan on medium-low heat, stirring, for 8 to 10 minutes until the skins crack and they smell roasted. | கனமான கடாயில் வேர்க்கடலையை நடுத்தர குறைந்த தீயில் கிளறிக்கொண்டே 8 முதல் 10 நிமிடம் தோல் வெடித்து வறுத்த வாசனை வரும்வரை வறுக்கவும்.
+s: Sprinkle salt, cool and serve. | உப்பு தூவி ஆறவிட்டுப் பரிமாறவும்.
+
+@ Tomato soup | 4 | 10 | 25
+note: Blend it smooth and strain for a restaurant-style soup. | மென்மையாக அரைத்து வடிகட்டினால் உணவகச் சூப் போல் இருக்கும்.
+i: Tomatoes, chopped | தக்காளி | 6 | piece
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Garlic | பூண்டு | 3 | clove
+i: Butter | வெண்ணெய் | 1 | tbsp
+i: Water | தண்ணீர் | 3 | cup
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Sugar | சர்க்கரை | 1 | pinch
+i: Salt | உப்பு | - | to_taste
+s: Melt the butter and fry the onion and garlic until soft. | வெண்ணெயை உருக்கி வெங்காயம், பூண்டை மென்மையாகும்வரை வதக்கவும்.
+s: Add the tomatoes and water and simmer for 15 minutes until very soft. | தக்காளி, தண்ணீர் சேர்த்து 15 நிமிடம் நன்கு குழையும்வரை கொதிக்கவிடவும்.
+s: Cool slightly, blend smooth and strain. | சற்று ஆறவிட்டு மென்மையாக அரைத்து வடிகட்டவும்.
+s: Return to the pan, add salt, pepper and sugar, simmer for 3 minutes and serve hot. | மீண்டும் பாத்திரத்தில் ஊற்றி உப்பு, மிளகு, சர்க்கரை சேர்த்து 3 நிமிடம் கொதிக்கவிட்டு சூடாகப் பரிமாறவும்.
+
+@ Sweet corn soup | 4 | 10 | 20
+note: Add the cornflour paste slowly while stirring so there are no lumps. | சோள மாவுக் கலவையைக் கிளறிக்கொண்டே மெதுவாக ஊற்றினால் கட்டி விழாது.
+i: Sweet corn kernels | ஸ்வீட் கார்ன் | 1 | cup
+i: Carrot and beans, finely chopped | கேரட், பீன்ஸ் | 0.5 | cup
+i: Garlic, chopped | பூண்டு | 2 | clove
+i: Oil | எண்ணெய் | 1 | tsp
+i: Water | தண்ணீர் | 4 | cup
+i: Cornflour | சோள மாவு | 2 | tbsp
+i: Black pepper | மிளகுத் தூள் | 0.5 | tsp
+i: Salt | உப்பு | - | to_taste
+s: Coarsely crush half of the corn. Fry the garlic in the oil for a few seconds. | பாதி சோளத்தைக் கரகரப்பாக அரைக்கவும். எண்ணெயில் பூண்டை சில வினாடிகள் வதக்கவும்.
+s: Add the corn, carrot, beans and water and boil for 10 minutes. | சோளம், கேரட், பீன்ஸ், தண்ணீர் சேர்த்து 10 நிமிடம் கொதிக்கவிடவும்.
+s: Mix the cornflour with a little cold water and pour in slowly, stirring, until the soup thickens. | சோள மாவை சிறிது குளிர்ந்த நீரில் கரைத்து கிளறிக்கொண்டே மெதுவாக ஊற்றி சூப் கெட்டியாகும்வரை கொதிக்கவிடவும்.
+s: Add salt and pepper and serve hot. | உப்பு, மிளகு சேர்த்து சூடாகப் பரிமாறவும்.
+
+@ Chicken soup | 4 | 15 | 40
+note: Skim off the foam while it simmers for a clear soup. | கொதிக்கும்போது நுரையை நீக்கினால் தெளிவான சூப் கிடைக்கும்.
+i: Chicken with bones | எலும்புடன் கோழி | 300 | g
+i: Onion, chopped | வெங்காயம் | 1 | piece
+i: Garlic | பூண்டு | 4 | clove
+i: Ginger | இஞ்சி | 1 | inch
+i: Carrot, chopped | கேரட் | 1 | piece
+i: Black pepper | மிளகுத் தூள் | 1 | tsp
+i: Water | தண்ணீர் | 5 | cup
+i: Coriander leaves | கொத்தமல்லி இலை | 2 | tbsp
+i: Salt | உப்பு | - | to_taste
+s: Put the chicken, onion, garlic, ginger, carrot and water in a pot and bring to a boil, skimming the foam. | கோழி, வெங்காயம், பூண்டு, இஞ்சி, கேரட், தண்ணீரை ஒரு பாத்திரத்தில் போட்டு கொதிக்கவிட்டு நுரையை நீக்கவும்.
+s: Simmer on low heat for 30 minutes until the chicken is tender. | குறைந்த தீயில் 30 நிமிடம் கோழி வேகும்வரை கொதிக்கவிடவும்.
+s: Take out the bones, shred the meat back into the soup, and add salt and pepper. | எலும்புகளை எடுத்து இறைச்சியைப் பிய்த்து சூப்பில் சேர்த்து உப்பு, மிளகு சேர்க்கவும்.
+s: Garnish with coriander and serve hot. | கொத்தமல்லி தூவி சூடாகப் பரிமாறவும்.
