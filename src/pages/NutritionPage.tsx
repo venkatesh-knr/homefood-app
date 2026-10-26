@@ -4,7 +4,8 @@ import { useHome } from '../lib/homeContext'
 import { useHistorySlots } from '../lib/plannerQueries'
 import { useAllNutrition, useNutritionTargets } from '../lib/nutritionQueries'
 import { useAttendance } from '../lib/attendanceQueries'
-import { dayTotalsFor, summarisePeriod, targetFor } from '../lib/nutrition'
+import { dayTotalsFor, dishesWithoutEstimate, summarisePeriod, targetFor } from '../lib/nutrition'
+import { MissingEstimates } from '../components/MissingEstimates'
 import { Card } from '../components/ui'
 import { BackHeader } from '../components/BackHeader'
 import { PeriodControls, usePeriod } from '../components/PeriodControls'
@@ -41,6 +42,7 @@ export default function NutritionPage() {
   const resolved = targets && targets.length > 0 ? targetFor(profile, targets) : null
   const summary = resolved ? summarisePeriod(days, resolved.target) : null
   const unknown = mealDays.reduce((n, d) => n + d.unknownMeals, 0)
+  const missing = useMemo(() => dishesWithoutEstimate(slots ?? [], profile.id, byDish ?? new Map(), period.today, attendance ?? []), [slots, profile.id, byDish, period.today, attendance])
   const dayFmt = new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short' })
 
   return (
@@ -115,6 +117,7 @@ export default function NutritionPage() {
             </>
           )}
           {unknown > 0 && <p className="text-[12.5px] text-muted">{t('nutrition.unknownMeals', { count: unknown })}</p>}
+          {byDish && <MissingEstimates dishes={missing} />}
         </>
       )}
       <NutritionDisclaimer />

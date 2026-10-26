@@ -5,7 +5,8 @@ import { useMembers } from '../lib/queries'
 import { useHistorySlots } from '../lib/plannerQueries'
 import { useAllNutrition, useNutritionTargets } from '../lib/nutritionQueries'
 import { useAttendance } from '../lib/attendanceQueries'
-import { dayTotalsFor, summarisePeriod, targetFor } from '../lib/nutrition'
+import { dayTotalsFor, dishesWithoutEstimate, summarisePeriod, targetFor } from '../lib/nutrition'
+import { MissingEstimates } from '../components/MissingEstimates'
 import { usePlanFollows } from '../lib/planQueries'
 import { plansOf, proteinAim } from '../lib/dietPlans'
 import { ageBand, avatarColor } from '../lib/people'
@@ -45,6 +46,8 @@ export default function FamilyNutritionPage() {
       }),
     [people, slots, byDish, targets, period.today, attendance, extras],
   )
+
+  const missing = useMemo(() => dishesWithoutEstimate(slots ?? [], null, byDish ?? new Map(), period.today, attendance ?? []), [slots, byDish, period.today, attendance])
 
   if (!allowed) {
     return (
@@ -107,6 +110,7 @@ export default function FamilyNutritionPage() {
           )
         })
       )}
+      {byDish && <MissingEstimates dishes={missing} />}
       {(extras ?? []).length > 0 && <p className="rounded-2xl bg-sand px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-soft">{t('extras.familyNote')}</p>}
       <NutritionDisclaimer />
     </main>

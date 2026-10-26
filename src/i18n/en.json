@@ -617,6 +617,12 @@
     "planNote": "A gentle guide, never a limit. General guidance, not medical advice.",
     "planFamily": "Follows {{plans}}",
     "byDay": "By day",
+    "missingTitle": "Not counted",
+    "missingHint": "These dishes have no nutrition numbers, so they are left out of the totals above. Open one and add its numbers (you can copy them from a similar dish).",
+    "missingMeals_one": "in {{count}} meal",
+    "missingMeals_other": "in {{count}} meals",
+    "missingAdd": "Add numbers",
+    "missingOpen": "Open",
     "unknownMeals": "{{count}} meals had no estimate (dine-out, order-in, or a dish without numbers), so they are left out.",
     "disclaimer": "Nutrition figures are estimates for planning at home, based on typical recipes and portions and rounded reference values. They are general guidance, not medical advice."
   },

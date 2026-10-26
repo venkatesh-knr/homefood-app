@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addTotals, dayTotalsFor, emptyTotals, familyNotes, mealTotals, OUTSIDE_MEAL_ESTIMATES, percentOf, summarisePeriod, targetFor, type TargetRow, type Totals } from './nutrition'
+import { addTotals, dayTotalsFor, dishesWithoutEstimate, emptyTotals, familyNotes, mealTotals, OUTSIDE_MEAL_ESTIMATES, percentOf, summarisePeriod, targetFor, type TargetRow, type Totals } from './nutrition'
 
 const t = (kcal: number, protein_g = 0, sodium_mg = 0, fibre_g = 0, sugar_g = 0): Totals => ({ ...emptyTotals(), kcal, protein_g, sodium_mg, fibre_g, sugar_g })
 
@@ -174,5 +174,35 @@ describe('familyNotes', () => {
   })
   it('says nothing when no one in the home is affected', () => {
     expect(familyNotes(['spicy', 'fried'], [{ name: 'Amma', band: 'adult' }])).toEqual([])
+  })
+})
+
+describe('dishesWithoutEstimate (the "Not counted" list)', () => {
+  const dish = (id: string, name: string) => ({ id, name, dish_names: [] })
+  const byDish = new Map<string, Totals>([['dosa', t(150, 3.5)]])
+  const slot = (id: string, date: string, main: string, sides: string[], eaters: string[], over: Record<string, unknown> = {}) => ({
+    id, date, source: 'home', main_dish_id: main, main_dish: dish(main, main), meal_slot_sides: sides.map((s) => ({ dish: dish(s, s) })), meal_slot_eaters: eaters.map((profile_id) => ({ profile_id })), ...over,
+  })
+  it('names the dishes with no estimate, the most-eaten first, even beside a dish that has one', () => {
+    const slots = [slot('a', '2026-10-01', 'dosa', ['chutney'], ['me']), slot('b', '2026-10-02', 'chutney', [], ['me']), slot('c', '2026-10-03', 'dosa', ['jam'], ['me'])]
+    expect(dishesWithoutEstimate(slots, 'me', byDish, '2026-10-05').map((d) => [d.name, d.meals])).toEqual([['chutney', 2], ['jam', 1]])
+  })
+  it('leaves out days still to come, meals out, meals the person does not eat, skipped meals and fasted meals', () => {
+    const slots = [
+      slot('a', '2026-10-09', 'jam', [], ['me']),
+      slot('b', '2026-10-01', 'jam', [], ['other']),
+      slot('c', '2026-10-01', 'jam', [], ['me'], { source: 'dine_out' }),
+      slot('d', '2026-10-02', 'jam', [], ['me']),
+      slot('e', '2026-10-03', 'jam', [], ['me'], { fasting: { skip: ['me'] } }),
+    ]
+    const skipped = [{ slot_id: 'd', profile_id: 'me', status: 'skipped', portion: 'normal' }] as never
+    expect(dishesWithoutEstimate(slots, 'me', byDish, '2026-10-05', skipped)).toEqual([])
+  })
+  it('for the whole family (no person), counts every meal that has anyone eating', () => {
+    const slots = [slot('a', '2026-10-01', 'jam', [], ['x', 'y'])]
+    expect(dishesWithoutEstimate(slots, null, byDish, '2026-10-05').map((d) => d.name)).toEqual(['jam'])
+  })
+  it('is empty when every dish has an estimate', () => {
+    expect(dishesWithoutEstimate([slot('a', '2026-10-01', 'dosa', [], ['me'])], 'me', byDish, '2026-10-05')).toEqual([])
   })
 })

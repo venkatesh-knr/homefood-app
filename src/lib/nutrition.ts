@@ -111,6 +111,41 @@ export function dayTotalsFor(
   return [...days.values()].sort((a, b) => (a.date < b.date ? -1 : 1))
 }
 
+export type MissingDish = { id: string; name: string; dish_names: { language: string; name: string }[]; meals: number }
+
+/** The home-cooked dishes that people ate (up to `today`) which have no nutrition estimate, with how many meals each was in. They are the reason a week's
+ * totals can come out low: a meal with no estimate at all is left out, and a dish with no estimate beside one that has is simply not counted.
+ * `profileId` null = everyone's meals (Family nutrition); otherwise only meals that person eats (their plate, if they are on one). */
+export function dishesWithoutEstimate(
+  slots: (MealLike & { id?: string; date: string; meal_slot_eaters: { profile_id: string }[]; main_dish?: { id: string; name: string; dish_names: { language: string; name: string }[] } | null; meal_slot_sides: { dish: { id: string; name: string; dish_names: { language: string; name: string }[] } }[]; fasting?: { skip: string[] } })[],
+  profileId: string | null,
+  byDish: Map<string, Totals>,
+  today: string,
+  attendance: AttendanceRow[] = [],
+): MissingDish[] {
+  const eaten = attendanceMap(attendance)
+  const found = new Map<string, MissingDish>()
+  const note = (d: { id: string; name: string; dish_names: { language: string; name: string }[] }) => {
+    if (byDish.has(d.id)) return
+    const have = found.get(d.id)
+    if (have) have.meals += 1
+    else found.set(d.id, { id: d.id, name: d.name, dish_names: d.dish_names, meals: 1 })
+  }
+  for (const s of slots) {
+    if (s.date > today || s.source !== 'home') continue
+    const eaters = profileId ? s.meal_slot_eaters.filter((e) => e.profile_id === profileId) : s.meal_slot_eaters
+    if (eaters.length === 0) continue
+    if (profileId) {
+      if (s.fasting?.skip.includes(profileId)) continue
+      if (s.id && portionFactor(attendanceFor(eaten, s.id, profileId)) === 0) continue
+    }
+    const meal = profileId ? mealFor(s, profileId) : s
+    if (meal.main_dish) note(meal.main_dish)
+    for (const side of meal.meal_slot_sides) note(side.dish)
+  }
+  return [...found.values()].sort((a, b) => b.meals - a.meals || a.name.localeCompare(b.name))
+}
+
 export type PersonForTarget = { birth_year: number | null; sex: 'female' | 'male' | 'other' | null; activity: 'light' | 'moderate' | 'active' | null }
 
 /** The daily target for a person. Missing details are filled in sensibly and reported, so the screen can say what it assumed:
