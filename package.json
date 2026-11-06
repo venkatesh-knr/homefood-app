@@ -10,7 +10,12 @@
     "contrast": "node scripts/check-contrast.mjs",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:db": "bash scripts/test-db.sh"
+    "test:db": "bash scripts/test-db.sh",
+    "test:db:local": "bash scripts/test-db-local.sh",
+    "db:start": "npx supabase start",
+    "db:stop": "npx supabase stop",
+    "db:status": "npx supabase status",
+    "db:reset": "npx supabase db reset"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

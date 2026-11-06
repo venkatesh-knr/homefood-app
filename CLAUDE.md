@@ -480,6 +480,14 @@ Deferred, flagged rather than attempted half-done:
   `h1`; fields and chips have names; the shared `Dialog` (focus trap, Escape, focus return) is used for all modals; errors are `role=alert`; Tamil text inside English screens has `lang="ta"`; no horizontal scroll at 320 px.
   `scripts/a11y-audit.js` re-checks names/targets/headings on any screen. Still open: real screen-reader testing by a person and a full keyboard walkthrough of every control.
 
+## Branches and releases (from 6 Nov 2026; details and commands in `docs/releases.md`)
+
+- **`main` = the live family app, Home v1** (tag `v1.0.0`, migrations 0001-0048, database `homefood-prod`). Bug fixes only, tagged `v1.0.x`. **Fix on `main` first, then merge `main` into `phase2/kitchen-types`.** Only `main` deploys the site (the deploy workflow is main-only).
+- **`phase2/kitchen-types` = phase 2** (kitchen types: PG / hostel, flatmates / co-living, old-age home). Uses a **local Supabase in Docker** (`npm run db:start`, `npm run db:reset`, `npm run test:db:local`; the app reads `.env.development.local`; sign-in emails appear in Mailpit at http://127.0.0.1:54324). There is no cloud dev project (the free plan is used up). **New migrations (0049 onwards) are tested locally only** and go to `homefood-prod` only when phase 2 is merged to `main`, after a backup (`docs/releases.md`). Never write `homefood-prod` keys, the service_role key or the database password anywhere in the repo.
+- When phase 2 is tested: merge into `main`, run the new migrations on `homefood-prod`, tag `v2.0.0`. If v1 still needs fixes after that, create `release/1.x` from the `v1.0.0` tag.
+- **Families must never see PG / business features.** The home's kitchen type decides which features are on; the family kitchen type shows exactly what Home v1 shows, and a test must prove it for every phase 2 feature.
+- CI (build, test, lint, database rule tests) runs on `main`, `phase2/**`, `release/**` and pull requests.
+
 ## Working agreements
 
 - Plain-language explanations; one clear next action for Venkatesh at a time.
