@@ -4,6 +4,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# The migrations are UTF-8 (Tamil text). On Windows psql otherwise assumes WIN1252 and fails.
+export PGCLIENTENCODING=UTF8
+
 DB="homefood_test_$$"
 createdb "$DB"
 trap 'dropdb --if-exists "$DB"' EXIT
